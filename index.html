@@ -279,6 +279,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <div id="toast"></div>
 
+<div id="loading-overlay" style="position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000">
+  <div style="text-align:center;color:var(--text2)">
+    <div style="font-size:1.4rem;margin-bottom:8px">◌</div>
+    <div style="font-size:.88rem">Loading your dashboard…</div>
+  </div>
+</div>
+
 <!-- SETTINGS PANEL -->
 <div id="settings-overlay"></div>
 <div id="settings-panel">
@@ -370,7 +377,40 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
-<script>
+<script type="module">
+// ════════════════════════════════════════════════════════
+//  FIREBASE
+// ════════════════════════════════════════════════════════
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { initializeFirestore, persistentLocalCache, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCPKwgdPoH0b6_8lKFBFkPZP3pO3IN45VQ",
+  authDomain: "wealth-vishalparwani.firebaseapp.com",
+  projectId: "wealth-vishalparwani",
+  storageBucket: "wealth-vishalparwani.firebasestorage.app",
+  messagingSenderId: "900472326085",
+  appId: "1:900472326085:web:9610f00561728cc53f6dac"
+};
+const _fbApp = initializeApp(firebaseConfig);
+const db = initializeFirestore(_fbApp, { localCache: persistentLocalCache() });
+let DASH_REF = null;
+
+function getOrCreateKey(){
+  let key = window.location.hash.slice(1);
+  if(key && key.length > 8){
+    localStorage.setItem('wealth_key', key);
+  } else {
+    key = localStorage.getItem('wealth_key');
+    if(!key){
+      key = crypto.randomUUID ? crypto.randomUUID()
+        : 'k'+Date.now().toString(36)+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2);
+      localStorage.setItem('wealth_key', key);
+    }
+    history.replaceState(null, '', '#' + key);
+  }
+  return key;
+}
 // ════════════════════════════════════════════════════════
 //  COLUMN DEFINITIONS
 // ════════════════════════════════════════════════════════
@@ -391,7 +431,7 @@ const ALL_COLS = [
 // ════════════════════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════════════════════
-const STORAGE_KEY = 'mfd_v6';
+const NAV_KEY = 'mfd_nav';
 const CAT_COLORS  = ['#c8a882','#82a882','#8295a8','#a882a0','#9082a8','#a8a264','#82a8a5','#b08060'];
 
 let S = {
@@ -402,29 +442,50 @@ let S = {
 let _uid = Date.now();
 function uid(){ return 'c'+(++_uid)+'_'+Math.random().toString(36).slice(2,5); }
 
-function loadState(){
+async function loadState(){
+  // navCache from localStorage (device-local API cache)
+  try{ const r=localStorage.getItem(NAV_KEY); if(r) S.navCache=JSON.parse(r); }catch(e){}
+  // User state from Firestore
   try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw){ initCols(); return; }
-    const p = JSON.parse(raw);
-    S.categories  = (p.categories||[]).map(c=>({
-      id:c.id,name:c.name,collapsed:!!c.collapsed,
-      sortCol:c.sortCol||null,sortDir:c.sortDir||1,
-      funds:(c.funds||[]).map(f=>({
-        schemeCode:String(f.schemeCode),name:f.name,
-        opinion:f.opinion||'',diversification:f.diversification||''
-      }))
-    }));
-    S.navCache    = p.navCache||{};
-    S.lastRefresh = p.lastRefresh||null;
-    S.colVisible  = p.colVisible||{};
-    S.globalSort  = p.globalSort||{col:null,dir:1};
-    S.returnMode  = p.returnMode||'cagr';
-    ALL_COLS.forEach(c=>{ if(S.colVisible[c.id]===undefined) S.colVisible[c.id]=c.defaultOn; });
-  } catch(e){ console.warn('Load failed',e); initCols(); }
+    const snap = await getDoc(DASH_REF);
+    if(snap.exists()){
+      const p = snap.data();
+      S.categories = (p.categories||[]).map(c=>({
+        id:c.id,name:c.name,collapsed:!!c.collapsed,
+        sortCol:c.sortCol||null,sortDir:c.sortDir||1,
+        funds:(c.funds||[]).map(f=>({
+          schemeCode:String(f.schemeCode),name:f.name,
+          opinion:f.opinion||'',diversification:f.diversification||''
+        }))
+      }));
+      S.colVisible  = p.colVisible||{};
+      S.globalSort  = p.globalSort||{col:null,dir:1};
+      S.returnMode  = p.returnMode||'cagr';
+      S.lastRefresh = p.lastRefresh||null;
+    } else {
+      setTimeout(()=>toast('Welcome! Bookmark this page URL — it\'s your key to access your data from any device.',6000),1000);
+    }
+  } catch(e){ console.warn('Firestore load failed',e); }
+  ALL_COLS.forEach(c=>{ if(S.colVisible[c.id]===undefined) S.colVisible[c.id]=c.defaultOn; });
 }
 function initCols(){ ALL_COLS.forEach(c=>{ S.colVisible[c.id]=c.defaultOn; }); }
-function save(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){} }
+
+let _saveTimer;
+function save(){
+  // navCache to localStorage immediately (large, device-local)
+  try{ localStorage.setItem(NAV_KEY,JSON.stringify(S.navCache)); }catch(e){}
+  // User state to Firestore (debounced 1.2s)
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async ()=>{
+    if(!DASH_REF) return;
+    try{
+      await setDoc(DASH_REF,{
+        categories:S.categories, colVisible:S.colVisible,
+        globalSort:S.globalSort, returnMode:S.returnMode, lastRefresh:S.lastRefresh
+      });
+    } catch(e){ console.warn('Firestore save failed',e); }
+  }, 1200);
+}
 
 // ════════════════════════════════════════════════════════
 //  UTILS
@@ -1124,7 +1185,12 @@ document.addEventListener('keydown',e=>{
 //  INIT
 // ════════════════════════════════════════════════════════
 async function init(){
-  loadState(); updatePillUI(); renderAll(); updateRefreshLabel();
+  const key = getOrCreateKey();
+  DASH_REF = doc(db, 'dashboards', key);
+  document.getElementById('loading-overlay').style.display = 'flex';
+  await loadState();
+  document.getElementById('loading-overlay').style.display = 'none';
+  updatePillUI(); renderAll(); updateRefreshLabel();
   await loadFundList();
   await refreshNav(false);
 }
