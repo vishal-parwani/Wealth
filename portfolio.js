@@ -87,20 +87,20 @@ async function fetchMFNav(schemeCode) {
   } catch(e) { return null; }
 }
 
-let TWELVE_DATA_KEY = '6ba8ff9069be4f8d8bf18d5cddb8dfd3';
+const CF_PROXY = 'https://damp-bar-b442ok.r24rp9hgxh.workers.dev';
 
 async function fetchStockPrice(symbol, exchange) {
   const key = symbol + '.' + exchange;
   if (LIVE.stocks[key] != null) return LIVE.stocks[key];
   try {
-    const exch = exchange === 'BSE' ? 'BSE' : 'NSE';
-    const url = `https://api.twelvedata.com/price?symbol=${encodeURIComponent(symbol)}&exchange=${exch}&apikey=${TWELVE_DATA_KEY}`;
-    const r = await fetch(url);
+    const suffix = exchange === 'BSE' ? '.BO' : '.NS';
+    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1d&range=1d`;
+    const r = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`);
     if (!r.ok) return null;
     const d = await r.json();
-    const price = parseFloat(d.price);
-    if (price > 0) LIVE.stocks[key] = price;
-    return price > 0 ? price : null;
+    const price = d?.chart?.result?.[0]?.meta?.regularMarketPrice;
+    if (price) LIVE.stocks[key] = price;
+    return price || null;
   } catch(e) { return null; }
 }
 

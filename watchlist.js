@@ -698,39 +698,31 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
   });
 });
 
-// ── STOCK PRICE FETCHING (Twelve Data) ────────────────
+// ── STOCK PRICE FETCHING (Yahoo Finance via Cloudflare Worker proxy) ──
 async function fetchStockPrice(symbol, exchange) {
   try {
-    const exch = exchange === 'BSE' ? 'BSE' : 'NSE';
-    const apiKey = (typeof TWELVE_DATA_KEY !== 'undefined' ? TWELVE_DATA_KEY : '6ba8ff9069be4f8d8bf18d5cddb8dfd3');
-
-    // Fetch current quote + 52w high/low + 1d change
-    const quoteUrl = `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(symbol)}&exchange=${exch}&apikey=${apiKey}`;
-    const quoteR = await fetch(quoteUrl);
-    if (!quoteR.ok) return null;
-    const q = await quoteR.json();
-    if (q.status === 'error' || !q.close) return null;
-
-    const cmp = parseFloat(q.close);
-    const prev = parseFloat(q.previous_close);
+    const suffix = exchange === 'BSE' ? '.BO' : '.NS';
+    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1d&range=3y`;
+    const r = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`);
+    if (!r.ok) return null;
+    const d = await r.json();
+    const res = d.chart?.result?.[0];
+    if (!res) return null;
+    const meta = res.meta;
+    const cmp = meta.regularMarketPrice;
+    const prev = meta.chartPreviousClose || meta.previousClose;
     const ret1d = prev ? (cmp / prev - 1) * 100 : null;
-    const w52high = parseFloat(q.fifty_two_week?.high) || null;
-    const w52low  = parseFloat(q.fifty_two_week?.low)  || null;
-
-    // Fetch 3y daily series for period returns
-    const tsUrl = `https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(symbol)}&exchange=${exch}&interval=1day&outputsize=800&apikey=${apiKey}`;
-    const tsR = await fetch(tsUrl);
-    const ts = await tsR.json();
-    const values = ts.values || [];
-
+    const w52high = meta.fiftyTwoWeekHigh || null;
+    const w52low  = meta.fiftyTwoWeekLow  || null;
+    const closes = res.indicators?.quote?.[0]?.close || [];
+    const times  = res.timestamp || [];
     function retAtDays(days) {
-      const cutoff = Date.now() - days * 86400 * 1000;
-      const old = values.find(v => new Date(v.datetime).getTime() <= cutoff);
-      if (!old) return null;
-      const oldClose = parseFloat(old.close);
-      return oldClose > 0 ? (cmp / oldClose - 1) * 100 : null;
+      const cutoff = Date.now() / 1000 - days * 86400;
+      const idx = times.findLastIndex(t => t <= cutoff);
+      if (idx < 0) return null;
+      const old = closes[idx];
+      return old > 0 ? (cmp / old - 1) * 100 : null;
     }
-
     return {
       cmp, ret1d, w52high, w52low,
       ret1m: retAtDays(30), ret3m: retAtDays(91), ret6m: retAtDays(182),
