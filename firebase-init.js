@@ -28,15 +28,7 @@ let DASH_REF = null;
 let currentUser = null;
 let _appStarted = false;
 
-async function initAuth() {
-  // Process any pending redirect result BEFORE checking auth state
-  try {
-    const result = await firebase.auth().getRedirectResult();
-    if (result && result.user) console.log('Redirect sign-in complete:', result.user.email);
-  } catch(e) {
-    console.warn('Redirect result error:', e.code, e.message);
-  }
-
+function initAuth() {
   return new Promise(resolve => {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
@@ -78,10 +70,20 @@ async function initAuth() {
 
 function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithRedirect(provider).catch(e => {
-    console.warn('Sign-in failed', e);
-    toast('Sign-in failed. Please try again.');
-  });
+  // Use popup — redirect fails in Safari due to ITP blocking cross-site storage
+  firebase.auth().signInWithPopup(provider)
+    .then(result => {
+      // Popup succeeded — onAuthStateChanged will fire and handle the rest
+      console.log('Signed in:', result.user.email);
+    })
+    .catch(e => {
+      console.warn('Sign-in failed', e);
+      if (e.code === 'auth/popup-blocked') {
+        toast('Popup was blocked. Please allow popups for this site and try again.');
+      } else if (e.code !== 'auth/popup-closed-by-user') {
+        toast('Sign-in failed: ' + e.message);
+      }
+    });
 }
 
 function signOut() {
