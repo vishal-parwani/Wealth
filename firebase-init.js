@@ -64,11 +64,16 @@ function initAuth() {
 
 function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider).catch(e => {
+  firebase.auth().signInWithRedirect(provider).catch(e => {
     console.warn('Sign-in failed', e);
     toast('Sign-in failed. Please try again.');
   });
 }
+
+// Handle redirect result on page load
+firebase.auth().getRedirectResult().catch(e => {
+  if (e.code !== 'auth/no-current-user') console.warn('Redirect result error', e);
+});
 
 function signOut() {
   firebase.auth().signOut();
