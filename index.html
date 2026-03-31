@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── LOGIN OVERLAY ── -->
+<div id="login-overlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;align-items:center;justify-content:center">
+  <div style="text-align:center;padding:40px;max-width:360px">
+    <div style="font-size:1.5rem;font-weight:700;margin-bottom:8px;color:var(--text)">Wealth Tracker</div>
+    <div style="font-size:.9rem;color:var(--text2);margin-bottom:32px">Sign in to access your dashboard</div>
+    <button onclick="signInWithGoogle()" style="display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg1);cursor:pointer;font-size:.95rem;font-weight:500;color:var(--text)">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+      Sign in with Google
+    </button>
+  </div>
+</div>
+
+<!-- ── LOADING OVERLAY ── -->
+<div id="loading-overlay">
+  <div style="text-align:center;color:var(--text2)">
+    <div style="font-size:1.4rem;margin-bottom:8px">◌</div>
+    <div style="font-size:.88rem">Loading your dashboard…</div>
+  </div>
+</div>
+
+<!-- ── TAB BAR ── -->
+<div id="tab-bar">
+  <div id="tab-bar-inner">
+    <div class="app-logo">Wealth <span>Tracker</span></div>
+    <button class="tab-btn active" data-tab="summary">Summary</button>
+    <button class="tab-btn" data-tab="watchlist">Watchlist</button>
+    <button class="tab-btn" data-tab="mf">MF Holdings</button>
+    <button class="tab-btn" data-tab="stocks">Stocks</button>
+    <button class="tab-btn" data-tab="gold">Gold</button>
+    <button class="tab-btn" data-tab="silver">Silver</button>
+    <button class="tab-btn" data-tab="realestate">Real Estate</button>
+    <button class="tab-btn" data-tab="epf">EPF</button>
+    <button class="tab-btn" data-tab="nps">NPS</button>
+    <button class="tab-btn gear-btn" id="btn-global-settings" title="Settings" style="margin-left:auto">⚙</button>
+    <button class="tab-btn" id="btn-signout" title="Sign out" style="margin-left:8px;font-size:.8rem" onclick="signOut()">Sign out</button>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div id="main">
+
+  <!-- ══════════════ SUMMARY TAB ══════════════ -->
+  <div class="tab-panel active" id="tab-summary">
+    <div id="summary-content">
+      <div style="padding:40px;text-align:center;color:var(--text3)">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ WATCHLIST TAB ══════════════ -->
+  <div class="tab-panel" id="tab-watchlist">
+    <!-- Subtab buttons -->
+    <div class="subtab-bar">
+      <button class="subtab-btn active" data-subtab="wl-mf">Mutual Funds</button>
+      <button class="subtab-btn" data-subtab="wl-stocks">Stocks</button>
+    </div>
+
+    <!-- MF subtab -->
+    <div class="subtab-panel active" id="wl-mf">
+      <div class="tab-toolbar">
+        <div id="search-wrap">
+          <input id="search-input" type="text" placeholder="Search mutual funds to add…" autocomplete="off" spellcheck="false">
+          <button id="search-clear">✕</button>
+          <div id="search-results"></div>
+        </div>
+        <div class="pill-wrap">
+          <span class="pill-label active" id="pill-lbl-cagr">CAGR</span>
+          <div class="pill-track" id="pill-toggle"><div class="pill-thumb"></div></div>
+          <span class="pill-label" id="pill-lbl-total">Total</span>
+        </div>
+        <span class="timestamp" id="refresh-ts"></span>
+        <button class="btn btn-sm" id="btn-refresh">↻ Refresh NAV</button>
+        <button class="btn btn-primary btn-sm" id="btn-new-cat">+ Category</button>
+        <button class="btn btn-sm btn-icon" id="btn-settings" title="Personalise columns">⚙ Personalise</button>
+      </div>
+      <div id="wl-no-cats" style="display:none">No categories yet — click <strong>+ Category</strong> to get started.</div>
+      <div class="mf-table-wrap" id="table-wrap" style="display:none">
+        <div class="mf-table-scroll">
+          <table class="mf-table" id="mf-table">
+            <thead><tr id="thead-row"></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stocks subtab -->
+    <div class="subtab-panel" id="wl-stocks">
+      <div class="tab-toolbar">
+        <div id="stock-search-wrap">
+          <input id="stock-search-input" type="text" placeholder="Search stocks to add… (e.g. Reliance, INFY)" autocomplete="off" spellcheck="false">
+          <button id="stock-search-clear">✕</button>
+          <div id="stock-search-results"></div>
+        </div>
+        <span class="timestamp" id="stock-refresh-ts"></span>
+        <button class="btn btn-sm" id="btn-refresh-wl-stocks">↻ Refresh Prices</button>
+      </div>
+      <div id="wl-stocks-no-items" style="display:none">No stocks yet — search and add stocks above.</div>
+      <div class="mf-table-wrap" id="stock-table-wrap" style="display:none">
+        <div class="mf-table-scroll">
+          <table class="mf-table" id="stock-wl-table">
+            <thead>
+              <tr>
+                <th class="left" style="min-width:200px">Company</th>
+                <th style="min-width:80px">CMP</th>
+                <th style="min-width:74px">1D</th>
+                <th style="min-width:74px">1M</th>
+                <th style="min-width:74px">3M</th>
+                <th style="min-width:74px">6M</th>
+                <th style="min-width:74px">1Y</th>
+                <th style="min-width:74px">3Y</th>
+                <th style="min-width:80px">52W H</th>
+                <th style="min-width:80px">52W L</th>
+                <th style="width:44px"></th>
+              </tr>
+            </thead>
+            <tbody id="stock-wl-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ MF HOLDINGS TAB ══════════════ -->
+  <div class="tab-panel" id="tab-mf">
+    <div class="tab-toolbar">
+      <span class="tab-title">MF Holdings</span>
+      <button class="btn btn-primary btn-sm" id="btn-add-mf">+ Add Fund</button>
+    </div>
+    <div id="mf-holdings-content">
+      <div class="empty-state">No mutual fund holdings yet.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ STOCKS TAB ══════════════ -->
+  <div class="tab-panel" id="tab-stocks">
+    <div class="tab-toolbar">
+      <span class="tab-title">Stocks</span>
+      <button class="btn btn-primary btn-sm" id="btn-add-stock">+ Add Stock</button>
+      <button class="btn btn-sm" id="btn-refresh-stocks">↻ Refresh Prices</button>
+    </div>
+    <div id="stocks-content">
+      <div class="empty-state">No stock holdings yet.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ GOLD TAB ══════════════ -->
+  <div class="tab-panel" id="tab-gold">
+    <div class="tab-toolbar">
+      <span class="tab-title">Gold</span>
+      <button class="btn btn-primary btn-sm" id="btn-add-gold">+ Add Gold</button>
+      <button class="btn btn-sm" id="btn-refresh-gold">↻ Refresh Rate</button>
+      <button class="btn btn-sm" id="btn-gold-api-key" title="Set GoldAPI.io key for live prices">⚙ API Key</button>
+    </div>
+    <div id="gold-content">
+      <div class="empty-state">No gold holdings yet.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SILVER TAB ══════════════ -->
+  <div class="tab-panel" id="tab-silver">
+    <div class="tab-toolbar">
+      <span class="tab-title">Silver</span>
+      <button class="btn btn-primary btn-sm" id="btn-add-silver">+ Add Silver</button>
+      <button class="btn btn-sm" id="btn-refresh-silver">↻ Refresh Rate</button>
+    </div>
+    <div id="silver-content">
+      <div class="empty-state">No silver holdings yet.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ REAL ESTATE TAB ══════════════ -->
+  <div class="tab-panel" id="tab-realestate">
+    <div class="tab-toolbar">
+      <span class="tab-title">Real Estate</span>
+      <button class="btn btn-primary btn-sm" id="btn-add-re">+ Add Property</button>
+    </div>
+    <div id="realestate-content">
+      <div class="empty-state">No properties yet.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ EPF TAB ══════════════ -->
+  <div class="tab-panel" id="tab-epf">
+    <div class="tab-toolbar">
+      <span class="tab-title">EPF</span>
+    </div>
+    <div id="epf-content">
+      <div class="empty-state">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ NPS TAB ══════════════ -->
+  <div class="tab-panel" id="tab-nps">
+    <div class="tab-toolbar">
+      <span class="tab-title">NPS</span>
+    </div>
+    <div id="nps-content">
+      <div class="empty-state">Loading…</div>
+    </div>
+  </div>
+
+</div><!-- /#main -->
+
+<!-- ── TOAST ── -->
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════════════════════════
+     WATCHLIST MODALS
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Add Fund Modal -->
+<div id="add-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3>Add Fund</h3>
+    <div class="modal-sub" id="add-modal-sub"></div>
+    <label>Assign to category</label>
+    <select id="add-cat-sel"></select>
+    <div class="new-cat-wrap" id="add-new-wrap">
+      <label>New category name</label>
+      <input type="text" id="add-new-name" placeholder="e.g. Mid Cap Funds">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="add-cancel">Cancel</button>
+      <button class="btn btn-primary" id="add-confirm">Add Fund</button>
+    </div>
+  </div>
+</div>
+
+<!-- Move Fund Modal -->
+<div id="move-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3>Move Fund</h3>
+    <div class="modal-sub" id="move-modal-sub"></div>
+    <label>Move to category</label>
+    <select id="move-cat-sel"></select>
+    <div class="new-cat-wrap" id="move-new-wrap">
+      <label>New category name</label>
+      <input type="text" id="move-new-name" placeholder="e.g. Large Cap Funds">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="move-cancel">Cancel</button>
+      <button class="btn btn-primary" id="move-confirm">Move Fund</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Watchlist Stock to Portfolio Modal -->
+<div id="wl-add-to-portfolio-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:420px">
+    <h3>Add to Portfolio</h3>
+    <div id="wl-atp-fund-name" style="font-size:.85rem;color:var(--text2);margin-bottom:16px"></div>
+    <div class="modal-grid">
+      <div class="full">
+        <label>Purchase Date</label>
+        <input type="date" id="wl-atp-date" style="width:100%;box-sizing:border-box">
+      </div>
+      <div>
+        <label>NAV / Price (₹)</label>
+        <input type="number" id="wl-atp-price" placeholder="auto" step="0.01" min="0">
+      </div>
+      <div>
+        <label>Amount Invested (₹)</label>
+        <input type="number" id="wl-atp-amount" placeholder="0" step="1" min="0">
+      </div>
+      <div id="wl-atp-units-row">
+        <label>Units <span id="wl-atp-units-note" style="font-size:.72rem;color:var(--text3)"></span></label>
+        <input type="number" id="wl-atp-units" placeholder="auto" step="0.001" min="0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="wl-atp-cancel">Cancel</button>
+      <button class="btn btn-primary" id="wl-atp-confirm">Add to Portfolio</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Category Modal -->
+<div id="del-cat-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3>Delete Category</h3>
+    <div class="modal-sub" id="del-cat-sub"></div>
+    <div class="del-radio-group" id="del-radio-group"></div>
+    <div class="modal-footer">
+      <button class="btn" id="del-cat-cancel">Cancel</button>
+      <button class="btn btn-danger" id="del-cat-confirm">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PORTFOLIO MODALS
+     ══════════════════════════════════════════════════════ -->
+
+<!-- MF Holding Modal -->
+<div id="mf-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:480px">
+    <h3 id="mf-modal-title">Add MF Holding</h3>
+
+    <!-- Step 1: Fund search (add mode only) -->
+    <div id="mf-search-section">
+      <label style="display:block;margin-bottom:4px;font-size:.8rem;font-weight:600">Search Fund</label>
+      <input type="text" id="mf-modal-search" placeholder="e.g. Parag Flexi Cap" autocomplete="off" spellcheck="false" style="width:100%;box-sizing:border-box">
+      <div id="mf-modal-results" style="display:none;background:var(--bg1);border:1px solid var(--border);border-radius:8px;max-height:220px;overflow-y:auto;margin-top:4px;box-shadow:0 4px 12px rgba(0,0,0,.1)"></div>
+    </div>
+
+    <!-- Selected fund display -->
+    <div id="mf-fund-display" style="display:none;margin-top:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border-radius:8px;padding:10px 12px;gap:8px">
+        <div style="min-width:0;flex:1">
+          <div id="mf-disp-name" style="font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+          <div id="mf-disp-code" style="font-size:.74rem;color:var(--text3);margin-top:2px"></div>
+        </div>
+        <button class="btn btn-sm" id="mf-change-fund" style="flex-shrink:0;font-size:.74rem">Change</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Date -->
+    <div id="mf-date-section" style="display:none;margin-top:12px">
+      <label style="display:block;margin-bottom:4px;font-size:.8rem;font-weight:600">Purchase Date</label>
+      <input type="date" id="mf-modal-date" style="width:100%;box-sizing:border-box">
+      <div id="mf-nav-info" style="display:none;margin-top:6px;font-size:.8rem;color:var(--accent)"></div>
+    </div>
+
+    <!-- Step 3: Amount & Units -->
+    <div id="mf-amounts-section" style="display:none;margin-top:12px">
+      <div class="modal-grid">
+        <div>
+          <label>Amount Invested (₹)</label>
+          <input type="number" id="mf-modal-invested" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div>
+          <label>Units <span id="mf-units-auto" style="font-size:.72rem;color:var(--text3)"></span></label>
+          <input type="number" id="mf-modal-units" placeholder="auto" step="0.001" min="0">
+        </div>
+      </div>
+      <div id="mf-calc-note" style="font-size:.75rem;color:var(--text3);margin-top:4px"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn" id="mf-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="mf-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Stock Modal -->
+<div id="stock-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="stock-modal-title">Add Stock</h3>
+    <div class="modal-grid">
+      <div class="full">
+        <label>Company Name</label>
+        <input type="text" id="stock-modal-name" placeholder="e.g. Reliance Industries">
+      </div>
+      <div>
+        <label>Ticker Symbol</label>
+        <input type="text" id="stock-modal-symbol" placeholder="e.g. RELIANCE">
+      </div>
+      <div>
+        <label>Exchange</label>
+        <select id="stock-modal-exchange">
+          <option value="NSE">NSE (.NS)</option>
+          <option value="BSE">BSE (.BO)</option>
+        </select>
+      </div>
+      <div>
+        <label>Quantity</label>
+        <input type="number" id="stock-modal-qty" placeholder="0" min="1">
+      </div>
+      <div>
+        <label>Avg Buy Price (₹)</label>
+        <input type="number" id="stock-modal-price" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <div class="full">
+        <label>Purchase Date</label>
+        <input type="date" id="stock-modal-date">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="stock-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="stock-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Gold Modal -->
+<div id="gold-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="gold-modal-title">Add Gold</h3>
+    <div class="modal-grid">
+      <div class="full">
+        <label>Description</label>
+        <input type="text" id="gold-modal-desc" placeholder="e.g. Gold Coins, Jewellery">
+      </div>
+      <div>
+        <label>Purity</label>
+        <select id="gold-modal-purity">
+          <option value="24K">24K (999)</option>
+          <option value="22K">22K (916)</option>
+          <option value="18K">18K (750)</option>
+        </select>
+      </div>
+      <div>
+        <label>Weight (grams)</label>
+        <input type="number" id="gold-modal-weight" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <div class="full">
+        <label>Purchase Price (₹ total paid)</label>
+        <input type="number" id="gold-modal-purchase" placeholder="0" min="0">
+      </div>
+      <div class="full">
+        <label>Purchase Date</label>
+        <input type="date" id="gold-modal-date">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="gold-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="gold-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Real Estate Modal -->
+<div id="re-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="re-modal-title">Add Property</h3>
+    <div class="modal-grid">
+      <div class="full">
+        <label>Property Name / Description</label>
+        <input type="text" id="re-modal-name" placeholder="e.g. 2BHK Flat">
+      </div>
+      <div class="full">
+        <label>Location</label>
+        <input type="text" id="re-modal-location" placeholder="e.g. Pune, Maharashtra">
+      </div>
+      <div>
+        <label>Purchase Price (₹)</label>
+        <input type="number" id="re-modal-purchase" placeholder="0" min="0">
+      </div>
+      <div>
+        <label>Current Value (₹)</label>
+        <input type="number" id="re-modal-current" placeholder="0" min="0">
+      </div>
+      <div class="full">
+        <label>Purchase Date</label>
+        <input type="date" id="re-modal-date">
+      </div>
+      <div class="full">
+        <label>Notes (optional)</label>
+        <input type="text" id="re-modal-notes" placeholder="Loan outstanding, rental income, etc.">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="re-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="re-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- EPF Balance Modal -->
+<div id="epf-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3>Update EPF Balance</h3>
+    <div class="modal-sub">Update your current balance as per EPFO passbook.</div>
+    <label>Current Balance (₹)</label>
+    <input type="number" id="epf-balance" placeholder="0" min="0">
+    <label>Interest Rate (%)</label>
+    <input type="number" id="epf-rate" placeholder="8.15" step="0.01" min="0">
+    <label>Last Updated Date</label>
+    <input type="date" id="epf-date">
+    <div class="modal-footer">
+      <button class="btn" id="epf-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="epf-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- EPF Transaction Modal -->
+<div id="epf-txn-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="epf-txn-title">Add EPF Transaction</h3>
+    <label>Date</label>
+    <input type="date" id="epf-txn-date">
+    <label>Type</label>
+    <select id="epf-txn-type">
+      <option value="contribution">Contribution</option>
+      <option value="interest">Interest Credit</option>
+    </select>
+    <div id="epf-txn-contribution-wrap">
+      <label>Employee Contribution (₹)</label>
+      <input type="number" id="epf-txn-emp" placeholder="0" min="0">
+      <label>Employer Contribution (₹)</label>
+      <input type="number" id="epf-txn-employer" placeholder="0" min="0">
+    </div>
+    <div id="epf-txn-interest-wrap" style="display:none">
+      <label>Interest Amount (₹)</label>
+      <input type="number" id="epf-txn-interest" placeholder="0" min="0">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="epf-txn-cancel">Cancel</button>
+      <button class="btn btn-primary" id="epf-txn-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- NPS Balance Modal -->
+<div id="nps-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3>Update NPS Balance</h3>
+    <div class="modal-sub">Update your current NPS corpus value.</div>
+    <label>Current Value (₹)</label>
+    <input type="number" id="nps-value" placeholder="0" min="0">
+    <label>Scheme</label>
+    <input type="text" id="nps-scheme" placeholder="e.g. Tier I - Moderate">
+    <label>Fund Manager</label>
+    <input type="text" id="nps-manager" placeholder="e.g. SBI Pension Funds">
+    <label>Last Updated Date</label>
+    <input type="date" id="nps-date">
+    <div class="modal-footer">
+      <button class="btn" id="nps-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="nps-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- NPS Transaction Modal -->
+<div id="nps-txn-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="nps-txn-title">Add NPS Transaction</h3>
+    <label>Date</label>
+    <input type="date" id="nps-txn-date">
+    <label>Amount (₹)</label>
+    <input type="number" id="nps-txn-amount" placeholder="0" min="0">
+    <div class="modal-footer">
+      <button class="btn" id="nps-txn-cancel">Cancel</button>
+      <button class="btn btn-primary" id="nps-txn-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SETTINGS PANEL (Watchlist column toggles)
+     ══════════════════════════════════════════════════════ -->
+<div id="settings-overlay"></div>
+<div id="settings-panel">
+  <div class="settings-header">
+    <h3>⚙ Personalise</h3>
+    <button class="settings-close" id="settings-close">✕</button>
+  </div>
+  <div class="settings-body">
+    <div class="mobile-only" style="margin-bottom:16px">
+      <button class="btn btn-primary" id="mobile-add-cat" style="width:100%">+ Add Category</button>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Return Periods</div>
+      <div id="col-toggles-returns"></div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Other Columns</div>
+      <div id="col-toggles-other"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MOBILE SEARCH OVERLAY (Watchlist)
+     ══════════════════════════════════════════════════════ -->
+<div id="mobile-search-overlay">
+  <div id="mobile-search-row">
+    <input id="mobile-search-input" type="text" placeholder="Search mutual funds…" autocomplete="off" spellcheck="false">
+    <button id="mobile-search-cancel">Cancel</button>
+  </div>
+  <div id="mobile-search-results"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MOBILE BOTTOM RIBBON
+     ══════════════════════════════════════════════════════ -->
+<div id="bottom-ribbon">
+  <button class="ribbon-btn" id="ribbon-search">
+    <span class="ribbon-icon">⌕</span>
+    <span class="ribbon-label">Search</span>
+  </button>
+  <button class="ribbon-btn" id="ribbon-refresh">
+    <span class="ribbon-icon">↻</span>
+    <span class="ribbon-label">Refresh</span>
+  </button>
+  <button class="ribbon-btn" id="ribbon-settings">
+    <span class="ribbon-icon">⚙</span>
+    <span class="ribbon-label">Settings</span>
+  </button>
+</div>
+
+<!-- Silver Modal -->
+<div id="silver-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="silver-modal-title">Add Silver</h3>
+    <div class="modal-grid">
+      <div class="full">
+        <label>Description</label>
+        <input type="text" id="silver-modal-desc" placeholder="e.g. Silver Coins, Bars">
+      </div>
+      <div>
+        <label>Purity</label>
+        <select id="silver-modal-purity">
+          <option value="999">999 (Fine Silver)</option>
+          <option value="925">925 (Sterling Silver)</option>
+          <option value="800">800 (Coin Silver)</option>
+        </select>
+      </div>
+      <div>
+        <label>Weight (grams)</label>
+        <input type="number" id="silver-modal-weight" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <div class="full">
+        <label>Purchase Price (₹ total paid)</label>
+        <input type="number" id="silver-modal-purchase" placeholder="0" min="0">
+      </div>
+      <div class="full">
+        <label>Purchase Date</label>
+        <input type="date" id="silver-modal-date">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="silver-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="silver-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SELL MODALS
+     ══════════════════════════════════════════════════════ -->
+
+<!-- MF Sell Modal -->
+<div id="mf-sell-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:420px">
+    <h3>Sell MF Holding</h3>
+    <div style="background:var(--bg2);border-radius:8px;padding:10px 12px;margin-bottom:12px">
+      <div id="mf-sell-fund-name" style="font-weight:600;font-size:.9rem"></div>
+      <div id="mf-sell-code" style="font-size:.74rem;color:var(--text3)"></div>
+      <div style="font-size:.74rem;color:var(--text3);margin-top:4px">Available: <strong id="mf-sell-max"></strong> units</div>
+    </div>
+    <label>Sale Date</label>
+    <input type="date" id="mf-sell-date" style="width:100%;box-sizing:border-box">
+    <div id="mf-sell-nav-info" style="font-size:.8rem;color:var(--accent);margin-top:4px;min-height:1.2em"></div>
+    <div class="modal-grid" style="margin-top:10px">
+      <div>
+        <label>Units to Sell</label>
+        <input type="number" id="mf-sell-units" placeholder="0.000" step="0.001" min="0">
+      </div>
+      <div>
+        <label>Sale Amount (₹) <span style="font-size:.72rem;color:var(--text3)">override if needed</span></label>
+        <input type="number" id="mf-sell-amount" placeholder="auto" step="0.01" min="0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="mf-sell-cancel">Cancel</button>
+      <button class="btn btn-primary" id="mf-sell-confirm">Record Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- Stock Sell Modal -->
+<div id="stock-sell-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:420px">
+    <h3>Sell Stock</h3>
+    <div style="background:var(--bg2);border-radius:8px;padding:10px 12px;margin-bottom:12px">
+      <div id="stock-sell-name" style="font-weight:600;font-size:.9rem"></div>
+      <div id="stock-sell-symbol" style="font-size:.74rem;color:var(--text3)"></div>
+      <div style="font-size:.74rem;color:var(--text3);margin-top:4px">Available: <strong id="stock-sell-max"></strong> shares</div>
+    </div>
+    <div class="modal-grid">
+      <div>
+        <label>Sale Date</label>
+        <input type="date" id="stock-sell-date" style="width:100%;box-sizing:border-box">
+      </div>
+      <div>
+        <label>Sale Price/Share (₹)</label>
+        <input type="number" id="stock-sell-price" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <div>
+        <label>Qty to Sell</label>
+        <input type="number" id="stock-sell-qty" placeholder="0" min="1">
+      </div>
+      <div>
+        <label>Sale Amount (₹) <span style="font-size:.72rem;color:var(--text3)">override if needed</span></label>
+        <input type="number" id="stock-sell-amount" placeholder="auto" step="0.01" min="0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="stock-sell-cancel">Cancel</button>
+      <button class="btn btn-primary" id="stock-sell-confirm">Record Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- Gold Sell Modal -->
+<div id="gold-sell-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:420px">
+    <h3>Sell Gold</h3>
+    <div style="background:var(--bg2);border-radius:8px;padding:10px 12px;margin-bottom:12px">
+      <div id="gold-sell-desc" style="font-weight:600;font-size:.9rem"></div>
+      <div id="gold-sell-purity" style="font-size:.74rem;color:var(--text3)"></div>
+      <div style="font-size:.74rem;color:var(--text3);margin-top:4px">Available: <strong id="gold-sell-max"></strong></div>
+    </div>
+    <div class="modal-grid">
+      <div>
+        <label>Sale Date</label>
+        <input type="date" id="gold-sell-date" style="width:100%;box-sizing:border-box">
+      </div>
+      <div>
+        <label>Rate/gram (₹) <span style="font-size:.72rem;color:var(--text3)">override if needed</span></label>
+        <input type="number" id="gold-sell-rate" placeholder="0" min="0">
+      </div>
+    </div>
+    <div id="gold-sell-rate-info" style="font-size:.78rem;color:var(--text3);margin-bottom:8px;min-height:1.2em"></div>
+    <div class="modal-grid">
+      <div>
+        <label>Weight to Sell (g)</label>
+        <input type="number" id="gold-sell-weight" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <div>
+        <label>Sale Amount (₹) <span style="font-size:.72rem;color:var(--text3)">override if needed</span></label>
+        <input type="number" id="gold-sell-amount" placeholder="auto" step="1" min="0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="gold-sell-cancel">Cancel</button>
+      <button class="btn btn-primary" id="gold-sell-confirm">Record Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- Silver Sell Modal -->
+<div id="silver-sell-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:420px">
+    <h3>Sell Silver</h3>
+    <div style="background:var(--bg2);border-radius:8px;padding:10px 12px;margin-bottom:12px">
+      <div id="silver-sell-desc" style="font-weight:600;font-size:.9rem"></div>
+      <div id="silver-sell-purity" style="font-size:.74rem;color:var(--text3)"></div>
+      <div style="font-size:.74rem;color:var(--text3);margin-top:4px">Available: <strong id="silver-sell-max"></strong></div>
+    </div>
+    <div class="modal-grid">
+      <div>
+        <label>Sale Date</label>
+        <input type="date" id="silver-sell-date" style="width:100%;box-sizing:border-box">
+      </div>
+      <div>
+        <label>Rate/gram (₹) <span style="font-size:.72rem;color:var(--text3)">override if needed</span></label>
+        <input type="number" id="silver-sell-rate" placeholder="0" min="0">
+      </div>
+    </div>
+    <div id="silver-sell-rate-info" style="font-size:.78rem;color:var(--text3);margin-bottom:8px;min-height:1.2em"></div>
+    <div class="modal-grid">
+      <div>
+        <label>Weight to Sell (g)</label>
+        <input type="number" id="silver-sell-weight" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <div>
+        <label>Sale Amount (₹) <span style="font-size:.72rem;color:var(--text3)">override if needed</span></label>
+        <input type="number" id="silver-sell-amount" placeholder="auto" step="1" min="0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="silver-sell-cancel">Cancel</button>
+      <button class="btn btn-primary" id="silver-sell-confirm">Record Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings / First-Run Modal -->
+<div id="settings-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:380px">
+    <h3 id="settings-modal-title">Settings</h3>
+    <p style="font-size:.83rem;color:var(--text2);margin:8px 0 16px">Choose which asset classes to track. Hidden tabs keep your data — just out of sight.</p>
+    <div class="settings-modules">
+      <label class="module-toggle"><input type="checkbox" id="mod-mf"> MF Holdings</label>
+      <label class="module-toggle"><input type="checkbox" id="mod-stocks"> Stocks</label>
+      <label class="module-toggle"><input type="checkbox" id="mod-gold"> Gold</label>
+      <label class="module-toggle"><input type="checkbox" id="mod-silver"> Silver</label>
+      <label class="module-toggle"><input type="checkbox" id="mod-realestate"> Real Estate</label>
+      <label class="module-toggle"><input type="checkbox" id="mod-epf"> EPF</label>
+      <label class="module-toggle"><input type="checkbox" id="mod-nps"> NPS</label>
+    </div>
+    <label class="module-toggle-watchlist">
+      <input type="checkbox" id="mod-watchlist">
+      Also create a Watchlist for MFs and Stocks
+    </label>
+    <div class="modal-footer">
+      <button class="btn" id="settings-cancel">Cancel</button>
+      <button class="btn btn-primary" id="settings-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Firebase compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+<!-- App scripts (order matters: firebase-init first, utils second, then modules) -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="firebase-init.js"></script>
+<script src="utils.js"></script>
+<script src="watchlist.js"></script>
+<script src="portfolio.js"></script>
+<script src="summary.js"></script>
+<script src="export.js"></script>
+
+<!-- ── BOOT ── -->
+<script>
+// ── Module definitions (order = display order) ──
+const ALL_MODULES = [
+  { key: 'watchlist',  label: 'Watchlist' },
+  { key: 'mf',         label: 'MF Holdings' },
+  { key: 'stocks',     label: 'Stocks' },
+  { key: 'gold',       label: 'Gold' },
+  { key: 'silver',     label: 'Silver' },
+  { key: 'realestate', label: 'Real Estate' },
+  { key: 'epf',        label: 'EPF' },
+  { key: 'nps',        label: 'NPS' },
+];
+
+function applyActiveModules(modules) {
+  ACTIVE_MODULES = modules;
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
+    if (btn.dataset.tab === 'summary') return; // Summary always visible
+    btn.style.display = modules.includes(btn.dataset.tab) ? '' : 'none';
+  });
+}
+
+function openSettingsModal(isFirstRun) {
+  const modal = document.getElementById('settings-modal');
+  document.getElementById('settings-modal-title').textContent =
+    isFirstRun ? 'What would you like to track?' : 'Settings';
+  document.getElementById('settings-confirm').textContent =
+    isFirstRun ? 'Get Started' : 'Save';
+  document.getElementById('settings-cancel').style.display = isFirstRun ? 'none' : '';
+  ALL_MODULES.forEach(m => {
+    const cb = document.getElementById('mod-' + m.key);
+    if (cb) cb.checked = !ACTIVE_MODULES || ACTIVE_MODULES.includes(m.key);
+  });
+  modal.style.display = 'flex';
+}
+
+(async function boot() {
+  // ── Tab switching ──
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  const TAB_RENDERERS = {
+    summary:    () => renderSummary(),
+    mf:         () => renderMFHoldings(),
+    stocks:     () => renderStocks(),
+    gold:       () => renderGold(),
+    silver:     () => renderSilver(),
+    realestate: () => renderRealEstate(),
+    epf:        () => renderEPF(),
+    nps:        () => renderNPS(),
+    watchlist:  () => {}
+  };
+
+  function switchTab(name) {
+    tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+    tabPanels.forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+    updateRibbon(name);
+    if (TAB_RENDERERS[name]) TAB_RENDERERS[name]();
+  }
+  tabBtns.forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+  // ── Mobile ribbon — context-aware per tab ──
+  function updateRibbon(tab) {
+    const searchBtn = document.getElementById('ribbon-search');
+    const refreshBtn = document.getElementById('ribbon-refresh');
+    if (searchBtn) searchBtn.style.display = tab === 'watchlist' ? '' : 'none';
+    if (refreshBtn) {
+      refreshBtn.style.display =
+        ['watchlist','stocks','gold'].includes(tab) ? '' : 'none';
+    }
+  }
+  updateRibbon('summary');
+
+  // ── Settings modal handlers (set up before auth so they're ready) ──
+  document.getElementById('btn-global-settings').addEventListener('click', () => openSettingsModal(false));
+
+  document.getElementById('settings-cancel').addEventListener('click', () => {
+    document.getElementById('settings-modal').style.display = 'none';
+  });
+
+  document.getElementById('settings-confirm').addEventListener('click', async () => {
+    const selected = ALL_MODULES.filter(m => document.getElementById('mod-' + m.key)?.checked).map(m => m.key);
+    if (!selected.length) { toast('Select at least one module'); return; }
+    applyActiveModules(selected);
+    saveSection('config', { activeModules: selected });
+    document.getElementById('settings-modal').style.display = 'none';
+    // If the currently active tab was just hidden, fall back to Summary
+    const activeBtn = document.querySelector('.tab-btn.active');
+    if (activeBtn && activeBtn.style.display === 'none') switchTab('summary');
+    toast('Settings saved ✓');
+  });
+
+  // ── Auth then load data ──
+  const authUser = await initAuth();
+  if (!authUser) return; // Waiting for sign-in; onAuthStateChanged will re-trigger
+
+  async function initPortfolio_boot() {
+    // ── Load all Firestore data once ──
+    let allData = {};
+    try { allData = await loadAllState(); } catch(e) { console.warn('Load failed', e); }
+
+    // ── Init modules ──
+    initWatchlist(allData);
+    initPortfolio(allData);
+    initSummary();
+
+    // ── Apply active modules (or show first-run prompt) ──
+    const savedModules = allData?.config?.activeModules;
+    if (savedModules && savedModules.length) {
+      applyActiveModules(savedModules);
+    } else {
+      applyActiveModules(ALL_MODULES.map(m => m.key)); // all on by default
+      openSettingsModal(true);
+    }
+
+    // ── Render starting tab ──
+    renderSummary();
+
+    // ── Hide loading overlay ──
+    const lo = document.getElementById('loading-overlay');
+    if (lo) lo.style.display = 'none';
+  }
+
+  await initPortfolio_boot();
+})();
+</script>
+
+</body>
+</html>
