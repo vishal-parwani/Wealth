@@ -26,8 +26,17 @@ db.enablePersistence().catch(e => {
 let DASH_KEY = null;
 let DASH_REF = null;
 let currentUser = null;
+let _appStarted = false;
 
-function initAuth() {
+async function initAuth() {
+  // Process any pending redirect result BEFORE checking auth state
+  try {
+    const result = await firebase.auth().getRedirectResult();
+    if (result && result.user) console.log('Redirect sign-in complete:', result.user.email);
+  } catch(e) {
+    console.warn('Redirect result error:', e.code, e.message);
+  }
+
   return new Promise(resolve => {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
@@ -50,13 +59,18 @@ function initAuth() {
           } catch(e) { console.warn('Migration failed', e); }
           localStorage.removeItem('wealth_key');
         }
-        // Remove hash from URL (no longer needed)
         if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-        resolve(user);
+        if (!_appStarted) {
+          _appStarted = true;
+          resolve(user);
+        } else {
+          // Auth state fired again after redirect — re-init portfolio
+          if (typeof initPortfolio === 'function') initPortfolio();
+        }
       } else {
         currentUser = null;
         document.getElementById('login-overlay').style.display = 'flex';
-        resolve(null);
+        if (!_appStarted) resolve(null);
       }
     });
   });
@@ -69,11 +83,6 @@ function signInWithGoogle() {
     toast('Sign-in failed. Please try again.');
   });
 }
-
-// Handle redirect result on page load
-firebase.auth().getRedirectResult().catch(e => {
-  if (e.code !== 'auth/no-current-user') console.warn('Redirect result error', e);
-});
 
 function signOut() {
   firebase.auth().signOut();
