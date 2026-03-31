@@ -288,9 +288,20 @@
 <!-- Delete Category Modal -->
 <div id="del-cat-modal" class="modal-overlay" style="display:none">
   <div class="modal">
-    <h3>Delete Category</h3>
+    <h3 id="del-cat-title">Delete Category</h3>
     <div class="modal-sub" id="del-cat-sub"></div>
-    <div class="del-radio-group" id="del-radio-group"></div>
+    <div class="del-radio-group">
+      <label><input type="radio" name="del-cat-action" value="move" checked> Move funds to another category</label>
+      <label><input type="radio" name="del-cat-action" value="delete"> Delete funds too</label>
+    </div>
+    <div id="del-move-target" style="margin-top:10px">
+      <label>Move to</label>
+      <select id="del-cat-move-sel"></select>
+      <div class="new-cat-wrap" id="del-new-wrap">
+        <label>New category name</label>
+        <input type="text" id="del-new-name" placeholder="e.g. Large Cap Funds">
+      </div>
+    </div>
     <div class="modal-footer">
       <button class="btn" id="del-cat-cancel">Cancel</button>
       <button class="btn btn-danger" id="del-cat-confirm">Delete</button>
