@@ -718,7 +718,8 @@ async function fetchStockPrice(symbol, exchange) {
     const times  = res.timestamp || [];
     function retAtDays(days) {
       const cutoff = Date.now() / 1000 - days * 86400;
-      const idx = times.findLastIndex(t => t <= cutoff);
+      let idx = -1;
+      for (let i = 0; i < times.length; i++) { if (times[i] <= cutoff) idx = i; }
       if (idx < 0) return null;
       const old = closes[idx];
       return old > 0 ? (cmp / old - 1) * 100 : null;
@@ -729,7 +730,7 @@ async function fetchStockPrice(symbol, exchange) {
       ret1y: retAtDays(365), ret3y: retAtDays(1095),
       date: new Date().toISOString()
     };
-  } catch(e) { return null; }
+  } catch(e) { console.warn('fetchStockPrice failed', symbol, e); return null; }
 }
 
 async function refreshStockWatchlist(forceAll) {
@@ -874,29 +875,30 @@ function renderStockWatchlist() {
     </tr>`;
   }).join('');
 
-  // Event delegation for the tbody
-  tbody.addEventListener('click', e => {
-    const btn = e.target.closest('[data-ev]');
-    if (!btn) return;
-    const ev = btn.dataset.ev;
-    const sym = btn.dataset.sym;
-    const exch = btn.dataset.exch;
-    const name = btn.dataset.name;
-    if (ev === 'stock-wl-menu') {
-      const dropdown = document.getElementById('swl-menu-' + sym);
-      document.querySelectorAll('.fund-menu-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
-      dropdown?.classList.toggle('open');
-      e.stopPropagation();
-    } else if (ev === 'stock-wl-remove') {
-      if (!confirm('Remove ' + sym + ' from watchlist?')) return;
-      WL.stocks = WL.stocks.filter(s => !(s.symbol === sym && s.exchange === exch));
-      delete WL.stockPrices[sym];
-      wlSave(); renderStockWatchlist(); toast('Removed');
-    } else if (ev === 'stock-wl-add-portfolio') {
-      openWlAddToPortfolio('stock', sym, exch, name, WL.stockPrices[sym]?.cmp);
-    }
-  });
 }
+
+// One-time event delegation for stock watchlist tbody (must not be inside renderStockWatchlist to avoid stacking)
+document.getElementById('stock-wl-tbody').addEventListener('click', e => {
+  const btn = e.target.closest('[data-ev]');
+  if (!btn) return;
+  const ev = btn.dataset.ev;
+  const sym = btn.dataset.sym;
+  const exch = btn.dataset.exch;
+  const name = btn.dataset.name;
+  if (ev === 'stock-wl-menu') {
+    const dropdown = document.getElementById('swl-menu-' + sym);
+    document.querySelectorAll('.fund-menu-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+    dropdown?.classList.toggle('open');
+    e.stopPropagation();
+  } else if (ev === 'stock-wl-remove') {
+    if (!confirm('Remove ' + sym + ' from watchlist?')) return;
+    WL.stocks = WL.stocks.filter(s => !(s.symbol === sym && s.exchange === exch));
+    delete WL.stockPrices[sym];
+    wlSave(); renderStockWatchlist(); toast('Removed');
+  } else if (ev === 'stock-wl-add-portfolio') {
+    openWlAddToPortfolio('stock', sym, exch, name, WL.stockPrices[sym]?.cmp);
+  }
+});
 
 // ── ADD TO PORTFOLIO MODAL ────────────────────────────
 let wlAtpPending = null;
