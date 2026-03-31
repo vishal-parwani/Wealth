@@ -702,7 +702,7 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
 async function fetchStockPrice(symbol, exchange) {
   try {
     const suffix = exchange === 'BSE' ? '.BO' : '.NS';
-    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1d&range=3y`;
+    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1wk&range=5y`;
     const r = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`);
     if (!r.ok) return null;
     const d = await r.json();
