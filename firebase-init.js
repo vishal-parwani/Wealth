@@ -62,7 +62,10 @@ function initAuth() {
       } else {
         currentUser = null;
         document.getElementById('login-overlay').style.display = 'flex';
-        if (!_appStarted) resolve(null);
+        if (!_appStarted) {
+          _appStarted = true;
+          resolve(null);
+        }
       }
     });
   });
