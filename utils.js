@@ -2,6 +2,9 @@
 //  UTILS — shared helpers
 // ════════════════════════════════════════════════════════
 
+// Cloudflare Worker CORS proxy for Yahoo Finance stock prices
+var CF_PROXY = 'https://damp-bar-b442ok.r24rp9hgxh.workers.dev';
+
 function formatINR(n, compact = true) {
   if (n == null || isNaN(n)) return '—';
   const abs = Math.abs(n);

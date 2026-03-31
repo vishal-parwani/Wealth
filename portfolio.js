@@ -87,8 +87,6 @@ async function fetchMFNav(schemeCode) {
   } catch(e) { return null; }
 }
 
-const CF_PROXY = 'https://damp-bar-b442ok.r24rp9hgxh.workers.dev';
-
 async function fetchStockPrice(symbol, exchange) {
   const key = symbol + '.' + exchange;
   if (LIVE.stocks[key] != null) return LIVE.stocks[key];
