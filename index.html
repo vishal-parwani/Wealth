@@ -98,7 +98,7 @@
     <div class="subtab-panel" id="wl-stocks">
       <div class="tab-toolbar">
         <div id="stock-search-wrap">
-          <input id="stock-search-input" type="text" placeholder="Enter NSE symbol to add (e.g. COALINDIA, RELIANCE, INFY)" autocomplete="off" spellcheck="false">
+          <input id="stock-search-input" type="text" placeholder="Search by name or symbol (e.g. Coal India, RELIANCE, INFY)" autocomplete="off" spellcheck="false">
           <button id="stock-search-clear">✕</button>
           <div id="stock-search-results"></div>
         </div>
@@ -831,6 +831,7 @@
 <!-- App scripts (order matters: firebase-init first, utils second, then modules) -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="firebase-init.js"></script>
+<script src="nse-stocks.js"></script>
 <script src="utils.js"></script>
 <script src="watchlist.js"></script>
 <script src="portfolio.js"></script>

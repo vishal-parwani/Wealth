@@ -698,32 +698,39 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
   });
 });
 
-// ── STOCK PRICE FETCHING ──────────────────────────────
+// ── STOCK PRICE FETCHING (Twelve Data) ────────────────
 async function fetchStockPrice(symbol, exchange) {
-  const ticker = symbol + (exchange === 'NSE' ? '.NS' : '.BO');
   try {
-    const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=3y`);
-    if (!r.ok) return null;
-    const d = await r.json();
-    const res = d.chart?.result?.[0];
-    if (!res) return null;
-    const meta = res.meta;
-    const cmp = meta.regularMarketPrice;
-    const prev = meta.chartPreviousClose || meta.previousClose;
+    const exch = exchange === 'BSE' ? 'BSE' : 'NSE';
+    const apiKey = (typeof TWELVE_DATA_KEY !== 'undefined' ? TWELVE_DATA_KEY : '6ba8ff9069be4f8d8bf18d5cddb8dfd3');
+
+    // Fetch current quote + 52w high/low + 1d change
+    const quoteUrl = `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(symbol)}&exchange=${exch}&apikey=${apiKey}`;
+    const quoteR = await fetch(quoteUrl);
+    if (!quoteR.ok) return null;
+    const q = await quoteR.json();
+    if (q.status === 'error' || !q.close) return null;
+
+    const cmp = parseFloat(q.close);
+    const prev = parseFloat(q.previous_close);
     const ret1d = prev ? (cmp / prev - 1) * 100 : null;
-    const w52high = meta.fiftyTwoWeekHigh;
-    const w52low = meta.fiftyTwoWeekLow;
-    // Historical prices for period returns
-    const closes = res.indicators?.quote?.[0]?.close || [];
-    const times = res.timestamp || [];
+    const w52high = parseFloat(q.fifty_two_week?.high) || null;
+    const w52low  = parseFloat(q.fifty_two_week?.low)  || null;
+
+    // Fetch 3y daily series for period returns
+    const tsUrl = `https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(symbol)}&exchange=${exch}&interval=1day&outputsize=800&apikey=${apiKey}`;
+    const tsR = await fetch(tsUrl);
+    const ts = await tsR.json();
+    const values = ts.values || [];
+
     function retAtDays(days) {
-      const cutoff = Date.now() / 1000 - days * 86400;
-      const idx = times.findLastIndex(t => t <= cutoff);
-      if (idx < 0) return null;
-      const old = closes[idx];
-      if (!old || old <= 0) return null;
-      return (cmp / old - 1) * 100;
+      const cutoff = Date.now() - days * 86400 * 1000;
+      const old = values.find(v => new Date(v.datetime).getTime() <= cutoff);
+      if (!old) return null;
+      const oldClose = parseFloat(old.close);
+      return oldClose > 0 ? (cmp / oldClose - 1) * 100 : null;
     }
+
     return {
       cmp, ret1d, w52high, w52low,
       ret1m: retAtDays(30), ret3m: retAtDays(91), ret6m: retAtDays(182),
@@ -760,7 +767,7 @@ elStockSearch.addEventListener('input', () => {
   elStockClear.style.display = q ? 'block' : 'none';
   clearTimeout(stockSearchTimer);
   if (!q) { elStockResults.classList.remove('open'); return; }
-  stockSearchTimer = setTimeout(() => doStockSearch(q), 300);
+  stockSearchTimer = setTimeout(() => doStockSearch(q), 200);
 });
 elStockClear.addEventListener('click', () => {
   elStockSearch.value = ''; elStockClear.style.display = 'none'; elStockResults.classList.remove('open');
@@ -769,44 +776,33 @@ document.addEventListener('click', e => {
   if (!document.getElementById('stock-search-wrap')?.contains(e.target)) elStockResults.classList.remove('open');
 });
 
-// Yahoo Finance search API is CORS-blocked in browsers.
-// Instead: user types the NSE symbol (e.g. COALINDIA) and we validate by fetching price.
-async function doStockSearch(q) {
-  const sym = q.toUpperCase().trim().replace(/[^A-Z0-9&-]/g, '');
-  if (!sym) { elStockResults.classList.remove('open'); return; }
+// Search using bundled NSE_STOCKS list (no API call needed)
+function doStockSearch(q) {
+  const query = q.toLowerCase().trim();
+  if (!query) { elStockResults.classList.remove('open'); return; }
 
-  elStockResults.innerHTML = '<div class="sr-no-result">Validating symbol…</div>';
-  elStockResults.classList.add('open');
+  const words = query.split(/\s+/).filter(Boolean);
+  const hits = (typeof NSE_STOCKS !== 'undefined' ? NSE_STOCKS : [])
+    .filter(s => {
+      const hay = (s.symbol + ' ' + s.name).toLowerCase();
+      return words.every(w => hay.includes(w));
+    })
+    .slice(0, 40);
 
-  // Try NSE first, then BSE
-  let found = null;
-  for (const [suffix, exch] of [['.NS','NSE'],['.BO','BSE']]) {
-    try {
-      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}${suffix}?interval=1d&range=1d`;
-      const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
-      if (r.ok) {
-        const d = await r.json();
-        const meta = d?.chart?.result?.[0]?.meta;
-        if (meta?.regularMarketPrice) {
-          found = { sym, exch, name: meta.longName || meta.shortName || sym, price: meta.regularMarketPrice };
-          break;
-        }
-      }
-    } catch(e) {}
-  }
-
-  if (!found) {
-    elStockResults.innerHTML = `<div class="sr-no-result">Symbol not found. Enter exact NSE ticker (e.g. COALINDIA, RELIANCE, INFY)</div>`;
+  if (!hits.length) {
+    elStockResults.innerHTML = '<div class="sr-no-result">No results. Try company name or NSE symbol (e.g. Coal, Reliance, INFY)</div>';
+    elStockResults.classList.add('open');
     return;
   }
 
-  elStockResults.innerHTML = `<div class="sr-item">
-    <div style="flex:1;min-width:0">
-      <div class="sr-name">${esc(found.name)}</div>
-      <div class="sr-code">${esc(found.sym)} · ${found.exch} · ₹ ${found.price.toLocaleString('en-IN',{maximumFractionDigits:2})}</div>
-    </div>
-    <button class="btn-add-sr" data-sym="${esc(found.sym)}" data-exch="${esc(found.exch)}" data-name="${esc(found.name)}">+ Add</button>
-  </div>`;
+  elStockResults.innerHTML = hits.map(s => `
+    <div class="sr-item">
+      <div style="flex:1;min-width:0">
+        <div class="sr-name">${esc(s.name)}</div>
+        <div class="sr-code">${esc(s.symbol)} · NSE · ${esc(s.sector)}</div>
+      </div>
+      <button class="btn-add-sr" data-sym="${esc(s.symbol)}" data-exch="NSE" data-name="${esc(s.name)}">+ Add</button>
+    </div>`).join('');
 
   elStockResults.querySelectorAll('.btn-add-sr').forEach(btn => {
     const doAdd = e => {
