@@ -168,7 +168,12 @@ elSearch.addEventListener('input',()=>{
 elClear.addEventListener('click',()=>{ elSearch.value=''; elClear.style.display='none'; elResults.classList.remove('open'); });
 document.addEventListener('click',e=>{ if(!document.getElementById('search-wrap').contains(e.target)) elResults.classList.remove('open'); });
 
-function doSearch(q) {
+async function doSearch(q) {
+  if (!allFunds.length) {
+    elResults.innerHTML='<div class="sr-no-result">Loading fund list…</div>';
+    elResults.classList.add('open');
+    await loadFundList();
+  }
   const words=q.toLowerCase().split(/\s+/).filter(Boolean);
   const hits=allFunds.filter(f=>{const n=f.schemeName.toLowerCase();return words.every(w=>n.includes(w));}).slice(0,40);
   if(!hits.length){
