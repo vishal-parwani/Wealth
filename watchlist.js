@@ -62,12 +62,13 @@ function wlLoadState(data) {
 }
 
 // ── MFAPI ──────────────────────────────────────────────
-let allFunds = [];
-async function loadFundList() {
+// Use search endpoint instead of loading all ~14k funds (too large for Safari fetch)
+async function searchFunds(query) {
   try {
-    const r = await fetch('https://api.mfapi.in/mf');
-    if (r.ok) allFunds = await r.json();
-  } catch(e) { console.warn('Fund list failed',e); }
+    const r = await fetch('https://api.mfapi.in/mf/search?q=' + encodeURIComponent(query));
+    if (r.ok) return await r.json();
+  } catch(e) { console.warn('Fund search failed', e); }
+  return [];
 }
 
 async function fetchNav(schemeCode) {
@@ -169,32 +170,24 @@ elClear.addEventListener('click',()=>{ elSearch.value=''; elClear.style.display=
 document.addEventListener('click',e=>{ if(!document.getElementById('search-wrap').contains(e.target)) elResults.classList.remove('open'); });
 
 async function doSearch(q) {
-  if (!allFunds.length) {
-    elResults.innerHTML='<div class="sr-no-result">Loading fund list…</div>';
-    elResults.classList.add('open');
-    await loadFundList();
-    if (!allFunds.length) {
-      elResults.innerHTML='<div class="sr-no-result">Could not load fund list — check your connection and try again.</div>';
-      return;
-    }
-  }
-  const words=q.toLowerCase().split(/\s+/).filter(Boolean);
-  const hits=allFunds.filter(f=>{const n=f.schemeName.toLowerCase();return words.every(w=>n.includes(w));}).slice(0,40);
-  if(!hits.length){
+  elResults.innerHTML='<div class="sr-no-result">Searching…</div>';
+  elResults.classList.add('open');
+  const hits = await searchFunds(q);
+  if (!hits.length) {
     elResults.innerHTML='<div class="sr-no-result">No results found</div>';
-  } else {
-    elResults.innerHTML=hits.map(f=>`
-      <div class="sr-item">
-        <div style="flex:1;min-width:0">
-          <div class="sr-name">${hlText(f.schemeName,q)}</div>
-          <div class="sr-code">${esc(f.schemeCode)}</div>
-        </div>
-        <button class="btn-add-sr" data-code="${esc(f.schemeCode)}" data-name="${esc(f.schemeName)}">+ Add</button>
-      </div>`).join('');
-    elResults.querySelectorAll('.btn-add-sr').forEach(btn=>
-      btn.addEventListener('click',e=>{ e.stopPropagation(); openAddModal(btn.dataset.code,btn.dataset.name); })
-    );
+    return;
   }
+  elResults.innerHTML=hits.map(f=>`
+    <div class="sr-item">
+      <div style="flex:1;min-width:0">
+        <div class="sr-name">${hlText(f.schemeName,q)}</div>
+        <div class="sr-code">${esc(f.schemeCode)}</div>
+      </div>
+      <button class="btn-add-sr" data-code="${esc(f.schemeCode)}" data-name="${esc(f.schemeName)}">+ Add</button>
+    </div>`).join('');
+  elResults.querySelectorAll('.btn-add-sr').forEach(btn=>
+    btn.addEventListener('click',e=>{ e.stopPropagation(); openAddModal(btn.dataset.code,btn.dataset.name); })
+  );
   elResults.classList.add('open');
 }
 
@@ -653,12 +646,15 @@ function closeMobileSearch(){
   document.getElementById('mobile-search-input').value='';
   document.getElementById('mobile-search-results').innerHTML='';
 }
+let _mobileSearchTimer = null;
 document.getElementById('mobile-search-input').addEventListener('input',function(){
   const q=this.value.trim();
   const res=document.getElementById('mobile-search-results');
   if(!q){ res.innerHTML=''; return; }
-  const words=q.toLowerCase().split(/\s+/).filter(Boolean);
-  const hits=allFunds.filter(f=>{const n=f.schemeName.toLowerCase();return words.every(w=>n.includes(w));}).slice(0,40);
+  clearTimeout(_mobileSearchTimer);
+  res.innerHTML='<div style="padding:24px;text-align:center;color:var(--text3);font-size:.85rem">Searching…</div>';
+  _mobileSearchTimer = setTimeout(async ()=>{
+  const hits = await searchFunds(q);
   if(!hits.length){
     res.innerHTML='<div style="padding:24px;text-align:center;color:var(--text3);font-size:.85rem">No results found</div>';
   } else {
@@ -676,6 +672,7 @@ document.getElementById('mobile-search-input').addEventListener('input',function
       btn.addEventListener('touchend', doAdd);
     });
   }
+  }, 300);
 });
 document.getElementById('mobile-add-cat').addEventListener('click',()=>{
   closeSettings();
@@ -689,7 +686,6 @@ async function initWatchlist(allData) {
   wlRenderAll();
   updateRefreshLabel();
   renderStockWatchlist();
-  await loadFundList();
   await refreshNav(false);
 }
 
