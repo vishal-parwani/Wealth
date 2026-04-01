@@ -934,7 +934,7 @@ function openSettingsModal(isFirstRun) {
   const authUser = await initAuth();
   if (!authUser) return; // Waiting for sign-in; onAuthStateChanged will re-trigger
 
-  async function initPortfolio_boot() {
+  window._bootPortfolio = async function initPortfolio_boot() {
     // ── Load all Firestore data once ──
     let allData = {};
     try { allData = await loadAllState(); } catch(e) { console.warn('Load failed', e); }
@@ -961,7 +961,7 @@ function openSettingsModal(isFirstRun) {
     if (lo) lo.style.display = 'none';
   }
 
-  await initPortfolio_boot();
+  await window._bootPortfolio();
 })();
 </script>
 

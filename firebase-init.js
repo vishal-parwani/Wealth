@@ -56,8 +56,8 @@ function initAuth() {
           _appStarted = true;
           resolve(user);
         } else {
-          // Auth state fired again after redirect — re-init portfolio
-          if (typeof initPortfolio === 'function') initPortfolio();
+          // Auth state fired again after popup sign-in — run full boot
+          if (typeof window._bootPortfolio === 'function') window._bootPortfolio();
         }
       } else {
         currentUser = null;
