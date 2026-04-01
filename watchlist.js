@@ -702,7 +702,8 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
 });
 
 // ── STOCK PRICE FETCHING (Yahoo Finance via Cloudflare Worker proxy) ──
-async function fetchStockPrice(symbol, exchange) {
+// Named fetchStockData (not fetchStockPrice) to avoid collision with portfolio.js's simpler version
+async function fetchStockData(symbol, exchange) {
   try {
     const suffix = exchange === 'BSE' ? '.BO' : '.NS';
     const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1wk&range=5y`;
@@ -737,7 +738,7 @@ async function fetchStockPrice(symbol, exchange) {
       ret1y: retAtDays(365), ret3y: retAtDays(1095),
       date: new Date().toISOString()
     };
-  } catch(e) { console.warn('fetchStockPrice failed', symbol, e); return null; }
+  } catch(e) { console.warn('fetchStockData failed', symbol, e); return null; }
 }
 
 async function refreshStockWatchlist(forceAll) {
@@ -748,7 +749,7 @@ async function refreshStockWatchlist(forceAll) {
   });
   renderStockWatchlist();
   await Promise.all(WL.stocks.map(async s => {
-    const d = await fetchStockPrice(s.symbol, s.exchange);
+    const d = await fetchStockData(s.symbol, s.exchange);
     WL.stockPrices[s.symbol] = d;
   }));
   WL.stockLastRefresh = new Date().toISOString();
@@ -823,7 +824,7 @@ function addStockToWatchlist(symbol, exchange, name) {
   }
   WL.stocks.push({ symbol, exchange, name });
   wlSave(); renderStockWatchlist(); toast('Stock added ✓');
-  fetchStockPrice(symbol, exchange).then(d => {
+  fetchStockData(symbol, exchange).then(d => {
     WL.stockPrices[symbol] = d;
     wlSave(); renderStockWatchlist();
   });
