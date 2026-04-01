@@ -856,6 +856,8 @@ function doStockSearch(q) {
   elStockResults.classList.add('open');
 }
 
+let _pendingStockAdd = null;
+
 function addStockToWatchlist(symbol, exchange, name) {
   if (allWlStocks().find(s => s.symbol === symbol && s.exchange === exchange)) {
     toast('Stock already in watchlist'); return;
@@ -864,24 +866,52 @@ function addStockToWatchlist(symbol, exchange, name) {
   if (!WL.stockCategories.length) {
     WL.stockCategories.push({ id: newId(), name: 'Stocks', collapsed: false, stocks: [] });
   }
-  // If multiple categories, ask which one
-  let targetCat;
   if (WL.stockCategories.length === 1) {
-    targetCat = WL.stockCategories[0];
+    _doAddStock(symbol, exchange, name, WL.stockCategories[0].id);
   } else {
-    const options = WL.stockCategories.map((c, i) => `${i + 1}. ${c.name}`).join('\n');
-    const choice = prompt(`Add "${name}" to which category?\n\n${options}\n\nEnter number:`);
-    const idx = parseInt(choice, 10) - 1;
-    if (idx < 0 || idx >= WL.stockCategories.length || isNaN(idx)) { toast('Cancelled'); return; }
-    targetCat = WL.stockCategories[idx];
+    // Show radio button picker modal
+    _pendingStockAdd = { symbol, exchange, name };
+    document.getElementById('cat-pick-stock-name').textContent = name;
+    const optEl = document.getElementById('cat-pick-options');
+    optEl.innerHTML = WL.stockCategories.map((c, i) => `
+      <label class="cat-pick-option${i === 0 ? ' selected' : ''}">
+        <input type="radio" name="cat-pick-radio" value="${esc(c.id)}"${i === 0 ? ' checked' : ''}>
+        <span>${esc(c.name)}</span>
+      </label>`).join('');
+    optEl.querySelectorAll('.cat-pick-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        optEl.querySelectorAll('.cat-pick-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        opt.querySelector('input[type=radio]').checked = true;
+      });
+    });
+    document.getElementById('stock-cat-pick-modal').classList.add('open');
   }
-  targetCat.stocks.push({ symbol, exchange, name });
+}
+
+function _doAddStock(symbol, exchange, name, catId) {
+  const cat = WL.stockCategories.find(c => c.id === catId);
+  if (!cat) return;
+  cat.stocks.push({ symbol, exchange, name });
   wlSave(); renderStockWatchlist(); toast('Stock added ✓');
   fetchStockData(symbol, exchange).then(d => {
     WL.stockPrices[symbol] = d;
     wlSave(); renderStockWatchlist();
   });
 }
+
+document.getElementById('cat-pick-confirm').addEventListener('click', () => {
+  if (!_pendingStockAdd) return;
+  const checked = document.querySelector('#cat-pick-options input[type=radio]:checked');
+  if (!checked) return;
+  document.getElementById('stock-cat-pick-modal').classList.remove('open');
+  _doAddStock(_pendingStockAdd.symbol, _pendingStockAdd.exchange, _pendingStockAdd.name, checked.value);
+  _pendingStockAdd = null;
+});
+document.getElementById('cat-pick-cancel').addEventListener('click', () => {
+  document.getElementById('stock-cat-pick-modal').classList.remove('open');
+  _pendingStockAdd = null;
+});
 
 function stockCatCreate(name) {
   WL.stockCategories.push({ id: newId(), name: name.trim(), collapsed: false, stocks: [] });
@@ -926,6 +956,7 @@ function renderStockWatchlist() {
   let html = '';
 
   WL.stockCategories.forEach((cat, idx) => {
+    if (idx > 0) html += `<tr class="stock-cat-spacer"><td colspan="${COLS}"></td></tr>`;
     const color = STOCK_CAT_COLORS[idx % STOCK_CAT_COLORS.length];
     const arrow = cat.collapsed ? '▶' : '▼';
     html += `<tr class="cat-row" data-ev="stock-cat-toggle" data-catid="${esc(cat.id)}" style="cursor:pointer">

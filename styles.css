@@ -144,7 +144,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 /* MF Table */
 #wl-no-cats{text-align:center;color:var(--text3);padding:50px 20px;font-size:.9rem}
 .mf-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-.mf-table-scroll{overflow-x:auto;border-radius:var(--radius)}
+.mf-table-scroll{overflow:auto;max-height:calc(100vh - 210px);border-radius:var(--radius)}
 .mf-table{width:100%;border-collapse:collapse;font-size:.81rem}
 .mf-table thead th{position:sticky;top:0;z-index:10;padding:8px 8px;text-align:right;font-weight:600;font-size:.72rem;color:var(--text2);background:#f5f3ef;border-bottom:2px solid var(--border2);white-space:nowrap;user-select:none}
 .mf-table thead th.left{text-align:left}
@@ -187,6 +187,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .cat-fund-row td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:right;vertical-align:middle}
 .cat-fund-row td.left{text-align:left}
 .mf-table td.right{text-align:right;vertical-align:middle}
+.stock-cat-spacer td{height:10px;background:var(--bg);border:none;padding:0}
+
+/* Category picker modal */
+.cat-pick-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:600;align-items:center;justify-content:center}
+.cat-pick-modal.open{display:flex}
+.cat-pick-box{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-md);padding:22px 24px;min-width:260px;max-width:340px;width:90%}
+.cat-pick-box h3{font-size:.95rem;font-weight:600;margin:0 0 4px;color:var(--text1)}
+.cat-pick-box p{font-size:.8rem;color:var(--text3);margin:0 0 16px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cat-pick-options{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.cat-pick-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:border-color .15s,background .15s}
+.cat-pick-option:hover,.cat-pick-option.selected{background:var(--accent-light);border-color:var(--accent)}
+.cat-pick-option input[type=radio]{accent-color:var(--accent);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.cat-pick-option label{font-size:.85rem;color:var(--text1);cursor:pointer;flex:1}
+.cat-pick-footer{display:flex;gap:8px;justify-content:flex-end}
+.cat-pick-footer .btn{min-width:70px;justify-content:center}
 .cat-fund-row:last-of-type td,.cat-empty-row td{border-bottom:none}
 .cat-fund-row:hover td{background:#faf9f7}
 .fund-num{color:var(--text3);font-size:.71rem}
