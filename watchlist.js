@@ -706,11 +706,15 @@ async function fetchStockPrice(symbol, exchange) {
   try {
     const suffix = exchange === 'BSE' ? '.BO' : '.NS';
     const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1wk&range=5y`;
-    const r = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`);
-    if (!r.ok) return null;
+    const proxyUrl = `${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`;
+    console.log('[stock] fetching', symbol, proxyUrl);
+    const r = await fetch(proxyUrl);
+    console.log('[stock]', symbol, 'status', r.status, r.ok);
+    if (!r.ok) { console.warn('[stock] not ok', symbol, r.status); return null; }
     const d = await r.json();
     const res = d.chart?.result?.[0];
-    if (!res) return null;
+    console.log('[stock]', symbol, 'cmp', res?.meta?.regularMarketPrice, 'points', res?.timestamp?.length);
+    if (!res) { console.warn('[stock] no result', symbol, d?.chart?.error); return null; }
     const meta = res.meta;
     const cmp = meta.regularMarketPrice;
     const prev = meta.chartPreviousClose || meta.previousClose;
@@ -737,6 +741,7 @@ async function fetchStockPrice(symbol, exchange) {
 }
 
 async function refreshStockWatchlist(forceAll) {
+  console.log('[stock] refreshStockWatchlist called, stocks:', WL.stocks.length, 'forceAll:', forceAll);
   if (!WL.stocks.length) { renderStockWatchlist(); return; }
   WL.stocks.forEach(s => {
     if (forceAll || !WL.stockPrices[s.symbol]) WL.stockPrices[s.symbol] = { loading: true };
