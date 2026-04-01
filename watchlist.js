@@ -716,7 +716,7 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
 async function fetchStockData(symbol, exchange) {
   try {
     const suffix = exchange === 'BSE' ? '.BO' : '.NS';
-    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1wk&range=5y`;
+    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1wk&range=5y&events=div`;
     const proxyUrl = `${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`;
     console.log('[stock] fetching', symbol, proxyUrl);
     const r = await fetch(proxyUrl);
@@ -742,10 +742,20 @@ async function fetchStockData(symbol, exchange) {
       const old = closes[idx];
       return old > 0 ? (cmp / old - 1) * 100 : null;
     }
+    // TTM dividends: sum all dividend payments in the last 365 days
+    const divEvents = res.events?.dividends || {};
+    const cutoffDiv = Date.now() / 1000 - 365 * 86400;
+    const ttmDiv = Object.values(divEvents)
+      .filter(d => d.date >= cutoffDiv)
+      .reduce((sum, d) => sum + (d.amount || 0), 0) || null;
+    const divYield = (ttmDiv && cmp) ? (ttmDiv / cmp) * 100 : null;
+
     return {
       cmp, ret1d, w52high, w52low,
       ret1m: retAtDays(30), ret3m: retAtDays(91), ret6m: retAtDays(182),
       ret1y: retAtDays(365), ret3y: retAtDays(1095),
+      ttmDiv: ttmDiv ? Math.round(ttmDiv * 100) / 100 : null,
+      divYield,
       date: new Date().toISOString()
     };
   } catch(e) { console.warn('fetchStockData failed', symbol, e); return null; }
@@ -897,7 +907,7 @@ function renderStockWatchlist() {
     tsEl.textContent = 'Updated ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ', ' + d.toLocaleDateString([], {day:'numeric',month:'short'});
   }
 
-  const COLS = 11; // Company + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + menu
+  const COLS = 13; // Company + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + TTMDiv + DivYield + menu
   const tbody = document.getElementById('stock-wl-tbody');
   let html = '';
 
@@ -948,6 +958,8 @@ function renderStockWatchlist() {
           <td class="right">${rc(p?.ret3y)}</td>
           <td class="right">${w52Cell(noData ? null : p?.w52high)}</td>
           <td class="right">${w52Cell(noData ? null : p?.w52low)}</td>
+          <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.ttmDiv != null ? `<span style="font-size:.82rem">₹ ${p.ttmDiv.toLocaleString('en-IN')}</span>` : '<span class="chip-n">—</span>')}</td>
+          <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.divYield != null ? `<span class="chip ${p.divYield >= 2 ? 'chip-g' : 'chip-a'}">${p.divYield.toFixed(2)}%</span>` : '<span class="chip-n">—</span>')}</td>
           <td>
             <div class="fund-menu-wrap">
               <button class="fund-menu-btn" data-ev="stock-wl-menu" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" title="Options">⋯</button>
