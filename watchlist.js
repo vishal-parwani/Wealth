@@ -935,8 +935,6 @@ function stockCatMoveDown(catId) {
 }
 
 // ── STOCK WATCHLIST RENDER ────────────────────────────
-const STOCK_CAT_COLORS = ['#c8a882','#82a882','#8295a8','#a882a0','#9082a8','#a8a264','#82a8a5','#b08060'];
-
 function renderStockWatchlist() {
   const allStocks = allWlStocks();
   const noEl = document.getElementById('wl-stocks-no-items');
@@ -951,31 +949,37 @@ function renderStockWatchlist() {
     tsEl.textContent = 'Updated ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ', ' + d.toLocaleDateString([], {day:'numeric',month:'short'});
   }
 
-  const COLS = 13; // Company + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + TTMDiv + DivYield + menu
+  const COLS = 15; // num + name + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + TTMDiv + DivYield + menu
   const tbody = document.getElementById('stock-wl-tbody');
   let html = '';
 
   WL.stockCategories.forEach((cat, idx) => {
-    if (idx > 0) html += `<tr class="stock-cat-spacer"><td colspan="${COLS}"></td></tr>`;
-    const color = STOCK_CAT_COLORS[idx % STOCK_CAT_COLORS.length];
-    const arrow = cat.collapsed ? '▶' : '▼';
-    html += `<tr class="cat-row" data-ev="stock-cat-toggle" data-catid="${esc(cat.id)}" style="cursor:pointer">
-      <td colspan="${COLS}" style="padding:6px 8px 6px 10px;border-bottom:2px solid ${color};background:var(--bg2)">
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="color:${color};font-size:.7rem">${arrow}</span>
-          <span style="font-weight:600;font-size:.82rem;color:var(--text1)">${esc(cat.name)}</span>
-          <span style="font-size:.75rem;color:var(--text3);margin-left:2px">${cat.stocks.length} stock${cat.stocks.length !== 1 ? 's' : ''}</span>
-          <div style="margin-left:auto;display:flex;gap:4px">
-            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px" data-ev="stock-cat-up" data-catid="${esc(cat.id)}" title="Move up">↑</button>
-            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px" data-ev="stock-cat-down" data-catid="${esc(cat.id)}" title="Move down">↓</button>
-            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px" data-ev="stock-cat-rename" data-catid="${esc(cat.id)}" title="Rename">✎</button>
-            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px;color:var(--red)" data-ev="stock-cat-delete" data-catid="${esc(cat.id)}" title="Delete category">✕</button>
+    const color = CAT_COLORS[idx % CAT_COLORS.length];
+    html += `
+    <tr class="cat-group-row${cat.collapsed ? ' collapsed' : ''}" data-catid="${esc(cat.id)}">
+      <td colspan="${COLS}" style="padding:0">
+        <div class="cat-group-inner" data-ev="scat-toggle" data-cat="${esc(cat.id)}">
+          <div class="cat-dot" style="background:${color}"></div>
+          <input class="cat-name-edit" value="${esc(cat.name)}" data-ev="scat-rename" data-cat="${esc(cat.id)}">
+          <span class="cat-count">${cat.stocks.length} stock${cat.stocks.length !== 1 ? 's' : ''}</span>
+          <span class="cat-chevron">▾</span>
+          <div class="cat-menu-wrap">
+            <button class="cat-menu-btn" data-ev="scat-menu" data-cat="${esc(cat.id)}" title="Options">⋯</button>
+            <div class="cat-menu-dropdown" id="scat-menu-${esc(cat.id)}">
+              <button class="cat-menu-item" data-ev="scat-up"   data-cat="${esc(cat.id)}">↑ Move up</button>
+              <button class="cat-menu-item" data-ev="scat-down" data-cat="${esc(cat.id)}">↓ Move down</button>
+              <div class="cat-menu-sep"></div>
+              <button class="cat-menu-item danger" data-ev="scat-delete" data-cat="${esc(cat.id)}">🗑 Delete</button>
+            </div>
           </div>
         </div>
       </td>
     </tr>`;
-    if (!cat.collapsed) {
-      cat.stocks.forEach(s => {
+    if (cat.stocks.length === 0) {
+      html += `<tr class="cat-empty-row" data-catid="${esc(cat.id)}"${cat.collapsed ? ' style="display:none"' : ''}>
+        <td colspan="${COLS}">No stocks yet — search and add stocks above</td></tr>`;
+    } else {
+      cat.stocks.forEach((s, i) => {
         const p = WL.stockPrices[s.symbol];
         const loading = p?.loading === true;
         const noData = !p || p.loading;
@@ -987,83 +991,86 @@ function renderStockWatchlist() {
         };
         const w52Cell = v => loading
           ? '<span class="sk" style="width:50px"></span>'
-          : v != null ? `<span style="font-size:.82rem">₹ ${Math.round(v).toLocaleString('en-IN')}</span>`
+          : v != null ? `<span class="nav-val">₹ ${Math.round(v).toLocaleString('en-IN')}</span>`
           : '<span class="chip-n">—</span>';
-        html += `<tr data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-catid="${esc(cat.id)}">
-          <td class="left">
-            <div style="font-size:.85rem;font-weight:500">${esc(s.name)}</div>
-            <div style="font-size:.73rem;color:var(--text3)">${esc(s.symbol)} · ${esc(s.exchange)}</div>
-          </td>
-          <td class="right">${priceCell(noData ? null : p?.cmp)}</td>
-          <td class="right">${rc(p?.ret1d)}</td>
-          <td class="right">${rc(p?.ret1m)}</td>
-          <td class="right">${rc(p?.ret3m)}</td>
-          <td class="right">${rc(p?.ret6m)}</td>
-          <td class="right">${rc(p?.ret1y)}</td>
-          <td class="right">${rc(p?.ret3y)}</td>
-          <td class="right">${w52Cell(noData ? null : p?.w52high)}</td>
-          <td class="right">${w52Cell(noData ? null : p?.w52low)}</td>
-          <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.ttmDiv != null ? `<span style="font-size:.82rem">₹ ${p.ttmDiv.toLocaleString('en-IN')}</span>` : '<span class="chip-n">—</span>')}</td>
-          <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.divYield != null ? `<span class="chip ${p.divYield >= 2 ? 'chip-g' : 'chip-a'}">${p.divYield.toFixed(2)}%</span>` : '<span class="chip-n">—</span>')}</td>
-          <td>
-            <div class="fund-menu-wrap">
-              <button class="fund-menu-btn" data-ev="stock-wl-menu" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" title="Options">⋯</button>
-              <div class="fund-menu-dropdown" id="swl-menu-${esc(s.symbol)}">
-                <button class="fund-menu-item" data-ev="stock-wl-add-portfolio" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-name="${esc(s.name)}">+ Add to Portfolio</button>
-                <div class="fund-menu-sep"></div>
-                <button class="fund-menu-item danger" data-ev="stock-wl-remove" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-catid="${esc(cat.id)}">🗑 Remove</button>
-              </div>
-            </div>
-          </td>
-        </tr>`;
+        html += `
+    <tr class="cat-fund-row data-row" data-catid="${esc(cat.id)}"${cat.collapsed ? ' style="display:none"' : ''}>
+      <td class="left fund-num" style="padding-left:10px">${i + 1}</td>
+      <td class="left col-name">
+        <div class="fund-name" title="${esc(s.name)}">${esc(s.name)}</div>
+        <div style="font-size:.72rem;color:var(--text3);margin-top:1px">${esc(s.symbol)} · ${esc(s.exchange)}</div>
+      </td>
+      <td class="right">${priceCell(noData ? null : p?.cmp)}</td>
+      <td class="right">${rc(p?.ret1d)}</td>
+      <td class="right">${rc(p?.ret1m)}</td>
+      <td class="right">${rc(p?.ret3m)}</td>
+      <td class="right">${rc(p?.ret6m)}</td>
+      <td class="right">${rc(p?.ret1y)}</td>
+      <td class="right">${rc(p?.ret3y)}</td>
+      <td class="right">${w52Cell(noData ? null : p?.w52high)}</td>
+      <td class="right">${w52Cell(noData ? null : p?.w52low)}</td>
+      <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.ttmDiv != null ? `<span class="nav-val">₹ ${p.ttmDiv.toLocaleString('en-IN')}</span>` : '<span class="chip-n">—</span>')}</td>
+      <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.divYield != null ? `<span class="chip ${p.divYield >= 2 ? 'chip-g' : 'chip-a'}">${p.divYield.toFixed(2)}%</span>` : '<span class="chip-n">—</span>')}</td>
+      <td>
+        <div class="fund-menu-wrap">
+          <button class="fund-menu-btn" data-ev="swl-menu" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" title="Options">⋯</button>
+          <div class="fund-menu-dropdown" id="swl-menu-${esc(s.symbol)}">
+            <button class="fund-menu-item" data-ev="swl-portfolio" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-name="${esc(s.name)}">+ Add to Portfolio</button>
+            <div class="fund-menu-sep"></div>
+            <button class="fund-menu-item danger" data-ev="swl-remove" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-catid="${esc(cat.id)}">✕ Remove</button>
+          </div>
+        </div>
+      </td>
+    </tr>`;
       });
     }
   });
   tbody.innerHTML = html;
+  // Bind rename inputs (inline edit like MF watchlist)
+  tbody.querySelectorAll('input.cat-name-edit').forEach(inp => {
+    inp.addEventListener('click', e => e.stopPropagation());
+    inp.addEventListener('change', () => {
+      const cat = WL.stockCategories.find(c => c.id === inp.dataset.cat);
+      if (cat && inp.value.trim()) { cat.name = inp.value.trim(); wlSave(); }
+    });
+  });
 }
 
 // One-time event delegation for stock watchlist tbody
 document.getElementById('stock-wl-tbody').addEventListener('click', e => {
   const btn = e.target.closest('[data-ev]');
   if (!btn) return;
-  e.stopPropagation();
   const ev = btn.dataset.ev;
-  const sym = btn.dataset.sym;
-  const exch = btn.dataset.exch;
-  const name = btn.dataset.name;
-  const catId = btn.dataset.catid || e.target.closest('tr')?.dataset.catid;
 
-  if (ev === 'stock-cat-toggle') {
-    const id = btn.closest('tr')?.dataset.catid || btn.dataset.catid;
-    toggleStockCatCollapse(id);
-  } else if (ev === 'stock-cat-up') {
-    stockCatMoveUp(btn.dataset.catid);
-  } else if (ev === 'stock-cat-down') {
-    stockCatMoveDown(btn.dataset.catid);
-  } else if (ev === 'stock-cat-rename') {
-    const cat = WL.stockCategories.find(c => c.id === btn.dataset.catid);
-    if (!cat) return;
-    const n = prompt('Rename category:', cat.name);
-    if (n && n.trim()) { cat.name = n.trim(); wlSave(); renderStockWatchlist(); }
-  } else if (ev === 'stock-cat-delete') {
-    const cat = WL.stockCategories.find(c => c.id === btn.dataset.catid);
+  if (ev === 'scat-toggle') {
+    toggleStockCatCollapse(btn.dataset.cat); e.stopPropagation();
+  } else if (ev === 'scat-menu') {
+    const dd = document.getElementById('scat-menu-' + btn.dataset.cat);
+    document.querySelectorAll('.cat-menu-dropdown.open,.fund-menu-dropdown.open').forEach(d => { if (d !== dd) d.classList.remove('open'); });
+    dd?.classList.toggle('open'); e.stopPropagation();
+  } else if (ev === 'scat-up') {
+    stockCatMoveUp(btn.dataset.cat); e.stopPropagation();
+  } else if (ev === 'scat-down') {
+    stockCatMoveDown(btn.dataset.cat); e.stopPropagation();
+  } else if (ev === 'scat-delete') {
+    const cat = WL.stockCategories.find(c => c.id === btn.dataset.cat);
     if (!cat) return;
     if (cat.stocks.length && !confirm(`Delete "${cat.name}" and its ${cat.stocks.length} stock(s)?`)) return;
     cat.stocks.forEach(s => delete WL.stockPrices[s.symbol]);
-    WL.stockCategories = WL.stockCategories.filter(c => c.id !== btn.dataset.catid);
+    WL.stockCategories = WL.stockCategories.filter(c => c.id !== btn.dataset.cat);
     wlSave(); renderStockWatchlist(); toast('Category deleted');
-  } else if (ev === 'stock-wl-menu') {
-    const dropdown = document.getElementById('swl-menu-' + sym);
-    document.querySelectorAll('.fund-menu-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
-    dropdown?.classList.toggle('open');
-  } else if (ev === 'stock-wl-remove') {
-    if (!confirm('Remove ' + sym + ' from watchlist?')) return;
-    const cat = WL.stockCategories.find(c => c.id === catId);
-    if (cat) cat.stocks = cat.stocks.filter(s => !(s.symbol === sym && s.exchange === exch));
-    delete WL.stockPrices[sym];
+  } else if (ev === 'swl-menu') {
+    const dd = document.getElementById('swl-menu-' + btn.dataset.sym);
+    document.querySelectorAll('.cat-menu-dropdown.open,.fund-menu-dropdown.open').forEach(d => { if (d !== dd) d.classList.remove('open'); });
+    dd?.classList.toggle('open'); e.stopPropagation();
+  } else if (ev === 'swl-remove') {
+    if (!confirm('Remove ' + btn.dataset.sym + ' from watchlist?')) return;
+    const cat = WL.stockCategories.find(c => c.id === btn.dataset.catid);
+    if (cat) cat.stocks = cat.stocks.filter(s => !(s.symbol === btn.dataset.sym && s.exchange === btn.dataset.exch));
+    delete WL.stockPrices[btn.dataset.sym];
     wlSave(); renderStockWatchlist(); toast('Removed');
-  } else if (ev === 'stock-wl-add-portfolio') {
-    openWlAddToPortfolio('stock', sym, exch, name, WL.stockPrices[sym]?.cmp);
+  } else if (ev === 'swl-portfolio') {
+    openWlAddToPortfolio('stock', btn.dataset.sym, btn.dataset.exch, btn.dataset.name, WL.stockPrices[btn.dataset.sym]?.cmp);
   }
 });
 
