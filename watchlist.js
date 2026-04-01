@@ -716,20 +716,18 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
 async function fetchStockData(symbol, exchange) {
   try {
     const suffix = exchange === 'BSE' ? '.BO' : '.NS';
-    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}${suffix}?interval=1wk&range=5y&events=div`;
-    const proxyUrl = `${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`;
-    console.log('[stock] fetching', symbol, proxyUrl);
-    const r = await fetch(proxyUrl);
-    console.log('[stock]', symbol, 'status', r.status, r.ok);
-    if (!r.ok) { console.warn('[stock] not ok', symbol, r.status); return null; }
-    const d = await r.json();
-    const res = d.chart?.result?.[0];
-    console.log('[stock]', symbol, 'cmp', res?.meta?.regularMarketPrice, 'points', res?.timestamp?.length);
-    if (!res) { console.warn('[stock] no result', symbol, d?.chart?.error); return null; }
+    const base = `${symbol}${suffix}`;
+    // Run two calls in parallel: 5y weekly (returns + dividends) + 5d daily (1D return)
+    const [rLong, rShort] = await Promise.all([
+      fetch(`${CF_PROXY}?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${base}?interval=1wk&range=5y&events=div`)}`),
+      fetch(`${CF_PROXY}?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${base}?interval=1d&range=5d`)}`)
+    ]);
+    if (!rLong.ok) return null;
+    const dLong = await rLong.json();
+    const res = dLong.chart?.result?.[0];
+    if (!res) return null;
     const meta = res.meta;
     const cmp = meta.regularMarketPrice;
-    const prev = meta.chartPreviousClose || meta.previousClose;
-    const ret1d = prev ? (cmp / prev - 1) * 100 : null;
     const w52high = meta.fiftyTwoWeekHigh || null;
     const w52low  = meta.fiftyTwoWeekLow  || null;
     const closes = res.indicators?.quote?.[0]?.close || [];
@@ -742,12 +740,28 @@ async function fetchStockData(symbol, exchange) {
       const old = closes[idx];
       return old > 0 ? (cmp / old - 1) * 100 : null;
     }
+    // 1D return from daily data (previous session close)
+    let ret1d = null;
+    if (rShort.ok) {
+      try {
+        const dShort = await rShort.json();
+        const sRes = dShort.chart?.result?.[0];
+        if (sRes) {
+          const dCloses = sRes.indicators?.quote?.[0]?.close || [];
+          const validCloses = dCloses.filter(c => c != null);
+          if (validCloses.length >= 2) {
+            const prev = validCloses[validCloses.length - 2];
+            ret1d = prev > 0 ? (cmp / prev - 1) * 100 : null;
+          }
+        }
+      } catch(e) {}
+    }
     // TTM dividends: sum all dividend payments in the last 365 days
     const divEvents = res.events?.dividends || {};
     const cutoffDiv = Date.now() / 1000 - 365 * 86400;
     const ttmDiv = Object.values(divEvents)
-      .filter(d => d.date >= cutoffDiv)
-      .reduce((sum, d) => sum + (d.amount || 0), 0) || null;
+      .filter(ev => ev.date >= cutoffDiv)
+      .reduce((sum, ev) => sum + (ev.amount || 0), 0) || null;
     const divYield = (ttmDiv && cmp) ? (ttmDiv / cmp) * 100 : null;
 
     return {
