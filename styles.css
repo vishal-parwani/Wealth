@@ -186,6 +186,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 /* Fund rows */
 .cat-fund-row td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:right;vertical-align:middle}
 .cat-fund-row td.left{text-align:left}
+.mf-table td.right{text-align:right;vertical-align:middle}
 .cat-fund-row:last-of-type td,.cat-empty-row td{border-bottom:none}
 .cat-fund-row:hover td{background:#faf9f7}
 .fund-num{color:var(--text3);font-size:.71rem}

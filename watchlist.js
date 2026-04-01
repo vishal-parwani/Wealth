@@ -19,7 +19,7 @@ const CAT_COLORS = ['#c8a882','#82a882','#8295a8','#a882a0','#9082a8','#a8a264',
 let WL = {
   categories:[], navCache:{}, lastRefresh:null, colVisible:{},
   globalSort:{col:null,dir:1}, returnMode:'cagr',
-  stocks: [], stockPrices: {}, stockLastRefresh: null
+  stockCategories: [], stockPrices: {}, stockLastRefresh: null
 };
 let _wlUid = Date.now();
 function wlUid() { return 'c'+(++_wlUid)+'_'+Math.random().toString(36).slice(2,5); }
@@ -33,7 +33,7 @@ function wlSave() {
     globalSort: WL.globalSort,
     returnMode: WL.returnMode,
     lastRefresh: WL.lastRefresh,
-    stocks: WL.stocks,
+    stockCategories: WL.stockCategories,
     stockLastRefresh: WL.stockLastRefresh
   });
 }
@@ -55,7 +55,17 @@ function wlLoadState(data) {
     WL.globalSort  = p.globalSort||{col:null,dir:1};
     WL.returnMode  = p.returnMode||'cagr';
     WL.lastRefresh = p.lastRefresh||null;
-    WL.stocks = p.stocks || [];
+    // Migrate old flat stocks array to stockCategories
+    if (p.stockCategories && p.stockCategories.length) {
+      WL.stockCategories = p.stockCategories.map(c => ({
+        id: c.id, name: c.name, collapsed: !!c.collapsed,
+        stocks: (c.stocks || []).map(s => ({ symbol: s.symbol, exchange: s.exchange, name: s.name }))
+      }));
+    } else if (p.stocks && p.stocks.length) {
+      WL.stockCategories = [{ id: newId(), name: 'Stocks', collapsed: false, stocks: p.stocks.map(s => ({ symbol: s.symbol, exchange: s.exchange, name: s.name })) }];
+    } else {
+      WL.stockCategories = [];
+    }
     WL.stockLastRefresh = p.stockLastRefresh || null;
   }
   ALL_COLS.forEach(c => { if (WL.colVisible[c.id]===undefined) WL.colVisible[c.id]=c.defaultOn; });
@@ -741,14 +751,18 @@ async function fetchStockData(symbol, exchange) {
   } catch(e) { console.warn('fetchStockData failed', symbol, e); return null; }
 }
 
+function allWlStocks() {
+  return WL.stockCategories.flatMap(c => c.stocks);
+}
+
 async function refreshStockWatchlist(forceAll) {
-  console.log('[stock] refreshStockWatchlist called, stocks:', WL.stocks.length, 'forceAll:', forceAll);
-  if (!WL.stocks.length) { renderStockWatchlist(); return; }
-  WL.stocks.forEach(s => {
+  const all = allWlStocks();
+  if (!all.length) { renderStockWatchlist(); return; }
+  all.forEach(s => {
     if (forceAll || !WL.stockPrices[s.symbol]) WL.stockPrices[s.symbol] = { loading: true };
   });
   renderStockWatchlist();
-  await Promise.all(WL.stocks.map(async s => {
+  await Promise.all(all.map(async s => {
     const d = await fetchStockData(s.symbol, s.exchange);
     WL.stockPrices[s.symbol] = d;
   }));
@@ -819,10 +833,25 @@ function doStockSearch(q) {
 }
 
 function addStockToWatchlist(symbol, exchange, name) {
-  if (WL.stocks.find(s => s.symbol === symbol && s.exchange === exchange)) {
+  if (allWlStocks().find(s => s.symbol === symbol && s.exchange === exchange)) {
     toast('Stock already in watchlist'); return;
   }
-  WL.stocks.push({ symbol, exchange, name });
+  // Ensure at least one category exists
+  if (!WL.stockCategories.length) {
+    WL.stockCategories.push({ id: newId(), name: 'Stocks', collapsed: false, stocks: [] });
+  }
+  // If multiple categories, ask which one
+  let targetCat;
+  if (WL.stockCategories.length === 1) {
+    targetCat = WL.stockCategories[0];
+  } else {
+    const options = WL.stockCategories.map((c, i) => `${i + 1}. ${c.name}`).join('\n');
+    const choice = prompt(`Add "${name}" to which category?\n\n${options}\n\nEnter number:`);
+    const idx = parseInt(choice, 10) - 1;
+    if (idx < 0 || idx >= WL.stockCategories.length || isNaN(idx)) { toast('Cancelled'); return; }
+    targetCat = WL.stockCategories[idx];
+  }
+  targetCat.stocks.push({ symbol, exchange, name });
   wlSave(); renderStockWatchlist(); toast('Stock added ✓');
   fetchStockData(symbol, exchange).then(d => {
     WL.stockPrices[symbol] = d;
@@ -830,15 +859,37 @@ function addStockToWatchlist(symbol, exchange, name) {
   });
 }
 
+function stockCatCreate(name) {
+  WL.stockCategories.push({ id: newId(), name: name.trim(), collapsed: false, stocks: [] });
+  wlSave(); renderStockWatchlist();
+}
+function toggleStockCatCollapse(catId) {
+  const c = WL.stockCategories.find(c => c.id === catId);
+  if (c) { c.collapsed = !c.collapsed; wlSave(); renderStockWatchlist(); }
+}
+function stockCatMoveUp(catId) {
+  const i = WL.stockCategories.findIndex(c => c.id === catId);
+  if (i <= 0) return;
+  [WL.stockCategories[i-1], WL.stockCategories[i]] = [WL.stockCategories[i], WL.stockCategories[i-1]];
+  wlSave(); renderStockWatchlist();
+}
+function stockCatMoveDown(catId) {
+  const i = WL.stockCategories.findIndex(c => c.id === catId);
+  if (i < 0 || i >= WL.stockCategories.length - 1) return;
+  [WL.stockCategories[i], WL.stockCategories[i+1]] = [WL.stockCategories[i+1], WL.stockCategories[i]];
+  wlSave(); renderStockWatchlist();
+}
+
 // ── STOCK WATCHLIST RENDER ────────────────────────────
+const STOCK_CAT_COLORS = ['#c8a882','#82a882','#8295a8','#a882a0','#9082a8','#a8a264','#82a8a5','#b08060'];
+
 function renderStockWatchlist() {
-  const hasStocks = WL.stocks.length > 0;
+  const allStocks = allWlStocks();
   const noEl = document.getElementById('wl-stocks-no-items');
   const wrapEl = document.getElementById('stock-table-wrap');
   if (!noEl || !wrapEl) return;
-  noEl.style.display = hasStocks ? 'none' : 'block';
-  wrapEl.style.display = hasStocks ? 'block' : 'none';
-  if (!hasStocks) return;
+  noEl.style.display = allStocks.length ? 'none' : 'block';
+  wrapEl.style.display = allStocks.length ? 'block' : 'none';
 
   const tsEl = document.getElementById('stock-refresh-ts');
   if (tsEl && WL.stockLastRefresh) {
@@ -846,67 +897,123 @@ function renderStockWatchlist() {
     tsEl.textContent = 'Updated ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ', ' + d.toLocaleDateString([], {day:'numeric',month:'short'});
   }
 
+  const COLS = 11; // Company + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + menu
   const tbody = document.getElementById('stock-wl-tbody');
-  tbody.innerHTML = WL.stocks.map(s => {
-    const p = WL.stockPrices[s.symbol];
-    const loading = p?.loading === true;
-    const noData = !p || p.loading;
-    function retChipLocal(v) { return retChip(noData ? null : v, loading); }
-    function priceCell(v) {
-      if (loading) return '<span class="sk" style="width:60px"></span>';
-      if (v == null) return '<span class="chip-n">—</span>';
-      return `<span class="nav-val">₹ ${Math.round(v).toLocaleString('en-IN')}</span>`;
-    }
-    return `<tr data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}">
-      <td class="left">
-        <div style="font-size:.85rem;font-weight:500">${esc(s.name)}</div>
-        <div style="font-size:.73rem;color:var(--text3)">${esc(s.symbol)} · ${esc(s.exchange)}</div>
-      </td>
-      <td>${priceCell(noData ? null : p?.cmp)}</td>
-      <td>${retChipLocal(p?.ret1d)}</td>
-      <td>${retChipLocal(p?.ret1m)}</td>
-      <td>${retChipLocal(p?.ret3m)}</td>
-      <td>${retChipLocal(p?.ret6m)}</td>
-      <td>${retChipLocal(p?.ret1y)}</td>
-      <td>${retChipLocal(p?.ret3y)}</td>
-      <td>${loading ? '<span class="sk" style="width:60px"></span>' : (p?.w52high != null ? `<span style="font-size:.82rem">₹ ${Math.round(p.w52high).toLocaleString('en-IN')}</span>` : '<span class="chip-n">—</span>')}</td>
-      <td>${loading ? '<span class="sk" style="width:60px"></span>' : (p?.w52low != null ? `<span style="font-size:.82rem">₹ ${Math.round(p.w52low).toLocaleString('en-IN')}</span>` : '<span class="chip-n">—</span>')}</td>
-      <td>
-        <div class="fund-menu-wrap">
-          <button class="fund-menu-btn" data-ev="stock-wl-menu" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" title="Options">⋯</button>
-          <div class="fund-menu-dropdown" id="swl-menu-${esc(s.symbol)}">
-            <button class="fund-menu-item" data-ev="stock-wl-add-portfolio" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-name="${esc(s.name)}">+ Add to Portfolio</button>
-            <div class="fund-menu-sep"></div>
-            <button class="fund-menu-item danger" data-ev="stock-wl-remove" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}">🗑 Remove</button>
+  let html = '';
+
+  WL.stockCategories.forEach((cat, idx) => {
+    const color = STOCK_CAT_COLORS[idx % STOCK_CAT_COLORS.length];
+    const arrow = cat.collapsed ? '▶' : '▼';
+    html += `<tr class="cat-row" data-ev="stock-cat-toggle" data-catid="${esc(cat.id)}" style="cursor:pointer">
+      <td colspan="${COLS}" style="padding:6px 8px 6px 10px;border-bottom:2px solid ${color};background:var(--bg2)">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="color:${color};font-size:.7rem">${arrow}</span>
+          <span style="font-weight:600;font-size:.82rem;color:var(--text1)">${esc(cat.name)}</span>
+          <span style="font-size:.75rem;color:var(--text3);margin-left:2px">${cat.stocks.length} stock${cat.stocks.length !== 1 ? 's' : ''}</span>
+          <div style="margin-left:auto;display:flex;gap:4px">
+            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px" data-ev="stock-cat-up" data-catid="${esc(cat.id)}" title="Move up">↑</button>
+            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px" data-ev="stock-cat-down" data-catid="${esc(cat.id)}" title="Move down">↓</button>
+            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px" data-ev="stock-cat-rename" data-catid="${esc(cat.id)}" title="Rename">✎</button>
+            <button class="fund-menu-btn" style="font-size:.75rem;padding:2px 6px;color:var(--red)" data-ev="stock-cat-delete" data-catid="${esc(cat.id)}" title="Delete category">✕</button>
           </div>
         </div>
       </td>
     </tr>`;
-  }).join('');
-
+    if (!cat.collapsed) {
+      cat.stocks.forEach(s => {
+        const p = WL.stockPrices[s.symbol];
+        const loading = p?.loading === true;
+        const noData = !p || p.loading;
+        const rc = v => retChip(noData ? null : v, loading);
+        const priceCell = v => {
+          if (loading) return '<span class="sk" style="width:60px"></span>';
+          if (v == null) return '<span class="chip-n">—</span>';
+          return `<span class="nav-val">₹ ${Math.round(v).toLocaleString('en-IN')}</span>`;
+        };
+        const w52Cell = v => loading
+          ? '<span class="sk" style="width:50px"></span>'
+          : v != null ? `<span style="font-size:.82rem">₹ ${Math.round(v).toLocaleString('en-IN')}</span>`
+          : '<span class="chip-n">—</span>';
+        html += `<tr data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-catid="${esc(cat.id)}">
+          <td class="left">
+            <div style="font-size:.85rem;font-weight:500">${esc(s.name)}</div>
+            <div style="font-size:.73rem;color:var(--text3)">${esc(s.symbol)} · ${esc(s.exchange)}</div>
+          </td>
+          <td class="right">${priceCell(noData ? null : p?.cmp)}</td>
+          <td class="right">${rc(p?.ret1d)}</td>
+          <td class="right">${rc(p?.ret1m)}</td>
+          <td class="right">${rc(p?.ret3m)}</td>
+          <td class="right">${rc(p?.ret6m)}</td>
+          <td class="right">${rc(p?.ret1y)}</td>
+          <td class="right">${rc(p?.ret3y)}</td>
+          <td class="right">${w52Cell(noData ? null : p?.w52high)}</td>
+          <td class="right">${w52Cell(noData ? null : p?.w52low)}</td>
+          <td>
+            <div class="fund-menu-wrap">
+              <button class="fund-menu-btn" data-ev="stock-wl-menu" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" title="Options">⋯</button>
+              <div class="fund-menu-dropdown" id="swl-menu-${esc(s.symbol)}">
+                <button class="fund-menu-item" data-ev="stock-wl-add-portfolio" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-name="${esc(s.name)}">+ Add to Portfolio</button>
+                <div class="fund-menu-sep"></div>
+                <button class="fund-menu-item danger" data-ev="stock-wl-remove" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" data-catid="${esc(cat.id)}">🗑 Remove</button>
+              </div>
+            </div>
+          </td>
+        </tr>`;
+      });
+    }
+  });
+  tbody.innerHTML = html;
 }
 
-// One-time event delegation for stock watchlist tbody (must not be inside renderStockWatchlist to avoid stacking)
+// One-time event delegation for stock watchlist tbody
 document.getElementById('stock-wl-tbody').addEventListener('click', e => {
   const btn = e.target.closest('[data-ev]');
   if (!btn) return;
+  e.stopPropagation();
   const ev = btn.dataset.ev;
   const sym = btn.dataset.sym;
   const exch = btn.dataset.exch;
   const name = btn.dataset.name;
-  if (ev === 'stock-wl-menu') {
+  const catId = btn.dataset.catid || e.target.closest('tr')?.dataset.catid;
+
+  if (ev === 'stock-cat-toggle') {
+    const id = btn.closest('tr')?.dataset.catid || btn.dataset.catid;
+    toggleStockCatCollapse(id);
+  } else if (ev === 'stock-cat-up') {
+    stockCatMoveUp(btn.dataset.catid);
+  } else if (ev === 'stock-cat-down') {
+    stockCatMoveDown(btn.dataset.catid);
+  } else if (ev === 'stock-cat-rename') {
+    const cat = WL.stockCategories.find(c => c.id === btn.dataset.catid);
+    if (!cat) return;
+    const n = prompt('Rename category:', cat.name);
+    if (n && n.trim()) { cat.name = n.trim(); wlSave(); renderStockWatchlist(); }
+  } else if (ev === 'stock-cat-delete') {
+    const cat = WL.stockCategories.find(c => c.id === btn.dataset.catid);
+    if (!cat) return;
+    if (cat.stocks.length && !confirm(`Delete "${cat.name}" and its ${cat.stocks.length} stock(s)?`)) return;
+    cat.stocks.forEach(s => delete WL.stockPrices[s.symbol]);
+    WL.stockCategories = WL.stockCategories.filter(c => c.id !== btn.dataset.catid);
+    wlSave(); renderStockWatchlist(); toast('Category deleted');
+  } else if (ev === 'stock-wl-menu') {
     const dropdown = document.getElementById('swl-menu-' + sym);
     document.querySelectorAll('.fund-menu-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
     dropdown?.classList.toggle('open');
-    e.stopPropagation();
   } else if (ev === 'stock-wl-remove') {
     if (!confirm('Remove ' + sym + ' from watchlist?')) return;
-    WL.stocks = WL.stocks.filter(s => !(s.symbol === sym && s.exchange === exch));
+    const cat = WL.stockCategories.find(c => c.id === catId);
+    if (cat) cat.stocks = cat.stocks.filter(s => !(s.symbol === sym && s.exchange === exch));
     delete WL.stockPrices[sym];
     wlSave(); renderStockWatchlist(); toast('Removed');
   } else if (ev === 'stock-wl-add-portfolio') {
     openWlAddToPortfolio('stock', sym, exch, name, WL.stockPrices[sym]?.cmp);
   }
+});
+
+// "New Category" button for stocks
+document.getElementById('btn-new-stock-cat').addEventListener('click', () => {
+  const n = prompt('New category name:');
+  if (n && n.trim()) stockCatCreate(n.trim());
 });
 
 // ── ADD TO PORTFOLIO MODAL ────────────────────────────
