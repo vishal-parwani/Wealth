@@ -686,7 +686,10 @@ async function initWatchlist(allData) {
   wlRenderAll();
   updateRefreshLabel();
   renderStockWatchlist();
-  await refreshNav(false);
+  await Promise.all([
+    refreshNav(false),
+    refreshStockWatchlist(false)
+  ]);
 }
 
 // ── SUBTAB SWITCHING ──────────────────────────────────
