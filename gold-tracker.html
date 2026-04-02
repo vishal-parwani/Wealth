@@ -489,7 +489,7 @@ function fmtChange(abs, pct, prefix = '') {
   const cls    = abs >= 0 ? 'pos' : 'neg';
   const sign   = abs >= 0 ? '+' : '-';
   const pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
-  const absStr = Math.abs(abs) < 1 ? Math.abs(abs).toFixed(4) : Math.abs(abs).toFixed(2);
+  const absStr = Math.round(Math.abs(abs)).toLocaleString();
   return `<span class="pc-change ${cls}">${sign}${prefix}${absStr} · ${pctStr}</span>`;
 }
 
@@ -572,14 +572,14 @@ function renderView() {
 
   // USD/INR card
   if (inr) {
-    valUsdinr.innerHTML = fmtInr(inr.price, 4) + ' / $1';
+    valUsdinr.innerHTML = fmtInr(inr.price, 2) + ' / $1';
     chgUsdinr.innerHTML = fmtChange(inr.changeAbs, inr.changePct);
   }
 
   // Metal card
   metalLabel.textContent = cfg.label;
   if (metal) {
-    valMetal.innerHTML = fmtUsd(metal.price, 2) + ' / ' + cfg.unit;
+    valMetal.innerHTML = fmtUsd(metal.price, 0) + ' / ' + cfg.unit;
     chgMetal.innerHTML = fmtChange(metal.changeAbs, metal.changePct, '$');
     srcMetal.textContent = metal.source;
   }
@@ -590,7 +590,7 @@ function renderView() {
     landedRows.innerHTML = rows.map(r =>
       `<div class="landed-row">
         <span class="landed-karat">${r.label}</span>
-        <span class="landed-price">${fmtInr(r.price, 2)}/g</span>
+        <span class="landed-price">${fmtInr(r.price, 0)}/g</span>
       </div>`
     ).join('');
   }
