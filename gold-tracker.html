@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Price Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0ede8;
+    --surface: #fff;
+    --surface2: #f0ede8;
+    --border: #e2ddd6;
+    --border2: #ccc8c0;
+    --text: #2c2a26;
+    --text2: #6b6660;
+    --text3: #9e9890;
+    --accent: #5b7fa6;
+    --gold: #8a6d3b;
+    --gold-bg: #fdf6e7;
+    --green: #2e7d52;
+    --green-bg: #e6f4ed;
+    --red: #b53c34;
+    --red-bg: #fdecea;
+    --radius: 14px;
+    --shadow: 0 1px 4px rgba(0,0,0,.07), 0 2px 12px rgba(0,0,0,.05);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+
+  .tracker-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  /* ── Header ── */
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 22px 20px 14px;
+    gap: 12px;
+  }
+
+  .card-header h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .card-header .subtitle {
+    font-size: .82rem;
+    color: var(--text2);
+    line-height: 1.4;
+  }
+
+  /* ── Toggle switch ── */
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .toggle-label {
+    font-size: .75rem;
+    color: var(--text3);
+  }
+
+  .toggle {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--border2);
+    border-radius: 99px;
+    cursor: pointer;
+    transition: background .25s;
+  }
+
+  .toggle-slider::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: transform .25s;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  }
+
+  .toggle input:checked + .toggle-slider {
+    background: var(--gold);
+  }
+
+  .toggle input:checked + .toggle-slider::after {
+    transform: translateX(20px);
+  }
+
+  /* ── Status line ── */
+  .status-line {
+    padding: 6px 20px 14px;
+    font-size: .78rem;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border2);
+    margin-right: 5px;
+    vertical-align: middle;
+    transition: background .3s;
+  }
+
+  .status-dot.live { background: var(--green); }
+  .status-dot.error { background: var(--red); }
+  .status-dot.paused { background: var(--text3); }
+
+  /* ── Price cards ── */
+  .prices-wrap {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .price-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .price-card .pc-label {
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 6px;
+  }
+
+  .price-card .pc-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .price-card.gold-card .pc-value {
+    color: var(--gold);
+  }
+
+  .price-card .pc-change {
+    font-size: .78rem;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 4px;
+  }
+
+  .pc-change.pos { color: var(--green); }
+  .pc-change.neg { color: var(--red); }
+
+  .price-card .pc-source {
+    font-size: .71rem;
+    color: var(--text3);
+    line-height: 1.4;
+    margin-top: 6px;
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+
+  /* ── India Import section ── */
+  .import-section {
+    margin: 0 20px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .import-header {
+    background: var(--surface2);
+    padding: 8px 14px;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .landed-table {
+    padding: 4px 0;
+  }
+
+  .landed-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .landed-row:last-child { border-bottom: none; }
+
+  .landed-karat {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--text2);
+  }
+
+  .landed-price {
+    font-size: .92rem;
+    font-weight: 600;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .duty-note {
+    padding: 10px 14px;
+    font-size: .72rem;
+    color: var(--text3);
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  /* ── Skeleton / loading ── */
+  .sk {
+    background: linear-gradient(90deg, var(--border) 25%, var(--surface2) 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s infinite;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── Methodology accordion ── */
+  .methodology {
+    margin: 0 20px 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: .8rem;
+    color: var(--text2);
+  }
+
+  .methodology summary {
+    padding: 10px 14px;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--text2);
+    cursor: pointer;
+    background: var(--surface2);
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .methodology summary::after {
+    content: '›';
+    font-size: 1rem;
+    color: var(--text3);
+    transform: rotate(90deg);
+    display: inline-block;
+    transition: transform .2s;
+  }
+
+  .methodology[open] summary::after {
+    transform: rotate(270deg);
+  }
+
+  .methodology summary::-webkit-details-marker { display: none; }
+
+  .methodology-body {
+    padding: 12px 14px;
+    line-height: 1.65;
+    border-top: 1px solid var(--border);
+  }
+
+  .methodology-body p { margin-bottom: 10px; }
+  .methodology-body p:last-child { margin-bottom: 0; }
+  .methodology-body strong { color: var(--text); }
+  .methodology-body a { color: var(--accent); text-decoration: none; }
+  .methodology-body a:hover { text-decoration: underline; }
+
+  /* ── Error banner ── */
+  .error-banner {
+    margin: 0 20px 12px;
+    background: var(--red-bg);
+    color: var(--red);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: .78rem;
+    display: none;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="tracker-card">
+
+  <!-- Header -->
+  <div class="card-header">
+    <div>
+      <h1>Gold price tracker</h1>
+      <p class="subtitle">Live XAU/USD + USD/INR · India import landed (24K–18K)</p>
+    </div>
+    <label class="toggle" title="Pause/resume polling">
+      <input type="checkbox" id="poll-toggle" checked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <!-- Status line -->
+  <div class="status-line">
+    <span class="status-dot" id="status-dot"></span>
+    <span id="status-text">Connecting…</span>
+  </div>
+
+  <!-- Price cards -->
+  <div class="prices-wrap">
+
+    <!-- USD/INR -->
+    <div class="price-card" id="card-usdinr">
+      <div class="pc-label">USD/INR</div>
+      <div class="pc-value" id="val-usdinr"><span class="sk" style="width:130px;height:32px">&nbsp;</span></div>
+      <div class="pc-change" id="chg-usdinr"></div>
+    </div>
+
+    <!-- XAU/USD -->
+    <div class="price-card gold-card" id="card-xauusd">
+      <div class="pc-label">XAU/USD</div>
+      <div class="pc-value" id="val-xauusd"><span class="sk" style="width:160px;height:32px">&nbsp;</span></div>
+      <div class="pc-change" id="chg-xauusd"></div>
+      <div class="pc-source" id="src-xauusd"></div>
+    </div>
+
+  </div>
+
+  <!-- Error banner -->
+  <div class="error-banner" id="error-banner"></div>
+
+  <!-- India Import Landed -->
+  <div class="import-section">
+    <div class="import-header">₹ / g · India Import Landed</div>
+    <div class="landed-table">
+      <div class="landed-row">
+        <span class="landed-karat">24K</span>
+        <span class="landed-price" id="price-24k">—</span>
+      </div>
+      <div class="landed-row">
+        <span class="landed-karat">22K</span>
+        <span class="landed-price" id="price-22k">—</span>
+      </div>
+      <div class="landed-row">
+        <span class="landed-karat">18K</span>
+        <span class="landed-price" id="price-18k">—</span>
+      </div>
+    </div>
+    <div class="duty-note" id="duty-note">
+      BCD 5.00% + AIDC 1.00% → 6.00%<br>
+      on CIF · ~+6.00% vs raw 24K
+    </div>
+  </div>
+
+  <!-- Methodology -->
+  <details class="methodology">
+    <summary>Methodology</summary>
+    <div class="methodology-body">
+      <p>
+        <strong>Gold</strong> — <strong>OANDA:XAUUSD</strong> via TradingView CFD
+        scanner (same family as TradingView XAUUSD);
+        fallback Yahoo <strong>GC=F</strong>.
+        <strong>USD/INR</strong> — <strong>FX_IDC:USDINR</strong> via TradingView
+        scanner; fallback Yahoo <strong>USDINR=X</strong>.
+      </p>
+      <p>
+        India duty defaults: gold <strong>5% BCD + 1% AIDC</strong>
+        on CIF (landed price = raw 24K × 1.06). Polls every ~2.5 s.
+        Illustrative only. 1 troy oz = 31.1035 g.
+      </p>
+    </div>
+  </details>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  Gold Price Tracker — standalone
+//  Sources: TradingView scanner (primary), Yahoo Finance (fallback)
+//  Duty:    BCD 5% + AIDC 1% = 6% on CIF
+// ════════════════════════════════════════════════════════
+
+const TROY_OZ_G   = 31.1035;       // grams per troy ounce
+const POLL_MS     = 2500;          // polling interval
+const BCD_PCT     = 0.05;          // Basic Customs Duty
+const AIDC_PCT    = 0.01;          // Agriculture Infrastructure & Dev Cess
+const TOTAL_DUTY  = BCD_PCT + AIDC_PCT; // 0.06
+
+// Cloudflare proxy used by the wealth dashboard for Yahoo Finance
+const CF_PROXY = 'https://damp-bar-b442ok.r24rp9hgxh.workers.dev';
+
+// TradingView scanner — unofficial public API, no auth needed for these symbols
+const TV_BASE = 'https://scanner.tradingview.com/symbol';
+
+let pollTimer = null;
+let lastXauUsd = null;   // { price, changeAbs, changePct, source }
+let lastUsdInr = null;   // { price, changeAbs, changePct, source }
+let tickCount  = 0;
+let startTime  = Date.now();
+
+// ── DOM refs ──
+const dot       = document.getElementById('status-dot');
+const statusTxt = document.getElementById('status-text');
+const valUsdinr = document.getElementById('val-usdinr');
+const chgUsdinr = document.getElementById('chg-usdinr');
+const valXauusd = document.getElementById('val-xauusd');
+const chgXauusd = document.getElementById('chg-xauusd');
+const srcXauusd = document.getElementById('src-xauusd');
+const p24k      = document.getElementById('price-24k');
+const p22k      = document.getElementById('price-22k');
+const p18k      = document.getElementById('price-18k');
+const errBanner = document.getElementById('error-banner');
+const toggle    = document.getElementById('poll-toggle');
+
+// ── Helpers ──
+function fmtInr(n, decimals = 2) {
+  return '₹' + n.toLocaleString('en-IN', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
+}
+
+function fmtUsd(n, decimals = 2) {
+  return '$' + n.toLocaleString('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
+}
+
+function fmtChange(abs, pct, prefix = '') {
+  if (abs == null || pct == null) return '';
+  const sign  = abs >= 0 ? '+' : '';
+  const cls   = abs >= 0 ? 'pos' : 'neg';
+  const pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+  return `<span class="pc-change ${cls}">${sign}${prefix}${Math.abs(abs).toFixed(abs < 1 && abs > -1 ? 4 : 2)} · ${pctStr}</span>`;
+}
+
+function setStatus(state, msg) {
+  dot.className  = 'status-dot ' + state;
+  statusTxt.textContent = msg;
+}
+
+function showError(msg) {
+  errBanner.textContent = msg;
+  errBanner.style.display = '';
+}
+
+function clearError() {
+  errBanner.style.display = 'none';
+}
+
+// ── TradingView scanner fetch ──
+async function tvFetch(symbol, fields = 'close,change,change_abs') {
+  const url = `${TV_BASE}?symbol=${encodeURIComponent(symbol)}&fields=${encodeURIComponent(fields)}&no_404=1`;
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error(`TV ${symbol} HTTP ${r.status}`);
+  const d = await r.json();
+  // Response: { close: number, change: number (pct), change_abs: number }
+  if (d.close == null) throw new Error(`TV ${symbol} no close`);
+  return {
+    price:     d.close,
+    changePct: d.change ?? null,
+    changeAbs: d.change_abs ?? null
+  };
+}
+
+// ── Yahoo Finance fetch (via CF proxy to avoid CORS) ──
+async function yfFetch(ticker) {
+  const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&range=5d`;
+  const r = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yfUrl)}`, { cache: 'no-store' });
+  if (!r.ok) throw new Error(`YF ${ticker} HTTP ${r.status}`);
+  const d = await r.json();
+  const meta = d?.chart?.result?.[0]?.meta;
+  if (!meta?.regularMarketPrice) throw new Error(`YF ${ticker} no price`);
+  const price      = meta.regularMarketPrice;
+  const prevClose  = meta.chartPreviousClose ?? meta.previousClose ?? null;
+  const changeAbs  = prevClose ? price - prevClose : null;
+  const changePct  = prevClose ? ((price - prevClose) / prevClose) * 100 : null;
+  return { price, changeAbs, changePct };
+}
+
+// ── Fetch XAU/USD ──
+async function fetchXauUsd() {
+  // Primary: TradingView — OANDA:XAUUSD
+  try {
+    const d = await tvFetch('OANDA:XAUUSD');
+    return { ...d, source: 'OANDA:XAUUSD · OANDA XAU/USD via TradingView (XAUUSD family). Unofficial scanner API.' };
+  } catch (e) {
+    console.warn('TradingView XAUUSD failed, trying YF GC=F:', e.message);
+  }
+
+  // Fallback: Yahoo Finance GC=F
+  try {
+    const d = await yfFetch('GC=F');
+    return { ...d, source: 'Yahoo Finance GC=F · COMEX Gold Futures (USD/troy oz). Fallback.' };
+  } catch (e) {
+    throw new Error('Both XAU/USD sources failed: ' + e.message);
+  }
+}
+
+// ── Fetch USD/INR ──
+async function fetchUsdInr() {
+  // Primary: TradingView — FX_IDC:USDINR
+  try {
+    const d = await tvFetch('FX_IDC:USDINR');
+    return { ...d, source: 'FX_IDC:USDINR · TradingView FX scanner.' };
+  } catch (e) {
+    console.warn('TradingView USDINR failed, trying YF USDINR=X:', e.message);
+  }
+
+  // Fallback: Yahoo Finance USDINR=X
+  try {
+    const d = await yfFetch('USDINR=X');
+    return { ...d, source: 'Yahoo Finance USDINR=X. Fallback.' };
+  } catch (e) {
+    throw new Error('Both USD/INR sources failed: ' + e.message);
+  }
+}
+
+// ── Compute India landed prices ──
+function computeLanded(xauUsd, usdInr) {
+  const xauInrPerOz  = xauUsd * usdInr;
+  const raw24kPerG   = xauInrPerOz / TROY_OZ_G;
+  const landed24k    = raw24kPerG  * (1 + TOTAL_DUTY);
+  const landed22k    = landed24k   * (22 / 24);
+  const landed18k    = landed24k   * (18 / 24);
+  return { landed24k, landed22k, landed18k };
+}
+
+// ── Render ──
+function renderPrices(xau, inr) {
+  // USD/INR
+  valUsdinr.innerHTML = `${fmtInr(inr.price, 4)} / $1`;
+  chgUsdinr.innerHTML = fmtChange(inr.changeAbs, inr.changePct);
+
+  // XAU/USD
+  valXauusd.innerHTML = `${fmtUsd(xau.price, 2)} / tr oz`;
+  chgXauusd.innerHTML = fmtChange(xau.changeAbs, xau.changePct, '$');
+  srcXauusd.textContent = xau.source;
+
+  // India landed
+  const { landed24k, landed22k, landed18k } = computeLanded(xau.price, inr.price);
+  p24k.textContent = fmtInr(landed24k, 2) + '/g';
+  p22k.textContent = fmtInr(landed22k, 2) + '/g';
+  p18k.textContent = fmtInr(landed18k, 2) + '/g';
+}
+
+// ── Poll ──
+async function poll() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-IN', { hour12: true });
+  setStatus('', 'Fetching…');
+
+  try {
+    const [xau, inr] = await Promise.all([fetchXauUsd(), fetchUsdInr()]);
+    lastXauUsd = xau;
+    lastUsdInr = inr;
+    tickCount++;
+    renderPrices(xau, inr);
+    clearError();
+
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
+    const avgTick = tickCount > 1 ? ((Date.now() - startTime) / tickCount / 1000).toFixed(1) : POLL_MS / 1000;
+    setStatus('live', `Live XAU + USD/INR (poll) · ${timeStr} · ~${avgTick}s tick`);
+  } catch (e) {
+    console.error('Poll error:', e);
+    setStatus('error', `Error · ${timeStr} · retrying in ${POLL_MS / 1000}s`);
+    showError('Fetch failed: ' + e.message);
+  }
+}
+
+// ── Start / stop polling ──
+function startPolling() {
+  if (pollTimer) return;
+  startTime = Date.now() - tickCount * POLL_MS; // adjust for existing ticks
+  poll(); // immediate
+  pollTimer = setInterval(poll, POLL_MS);
+  setStatus('live', 'Starting…');
+}
+
+function stopPolling() {
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  setStatus('paused', 'Paused · toggle to resume');
+}
+
+// ── Toggle handler ──
+toggle.addEventListener('change', () => {
+  if (toggle.checked) startPolling();
+  else stopPolling();
+});
+
+// ── Boot ──
+startPolling();
+</script>
+
+</body>
+</html>
