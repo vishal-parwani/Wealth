@@ -452,3 +452,50 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .fund-menu-item:hover{background:var(--surface2)}
 .fund-menu-item.danger{color:var(--red)}
 .fund-menu-sep{height:1px;background:var(--border);margin:4px 0}
+
+/* ── PRICE TRACKER TAB ───────────────────────────────── */
+:root{--pt-gold:#8a6520;--pt-silver:#636366}
+#pt-content{padding:20px;max-width:480px}
+.pt-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.pt-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 20px 12px}
+.pt-title{font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.pt-sub{font-size:.8rem;color:var(--text2)}
+/* toggle */
+.pt-toggle{position:relative;width:46px;height:26px;flex-shrink:0;margin-top:2px;cursor:pointer}
+.pt-toggle input{opacity:0;width:0;height:0;position:absolute}
+.pt-tog-slider{position:absolute;inset:0;background:var(--pt-silver);border-radius:99px;transition:background .25s}
+.pt-tog-slider::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .25s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.pt-toggle input:checked+.pt-tog-slider{background:var(--pt-gold)}
+.pt-toggle input:checked+.pt-tog-slider::after{transform:translateX(20px)}
+/* status */
+.pt-status{padding:4px 20px 12px;font-size:.75rem;color:var(--text3);font-family:'DM Mono',monospace;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.pt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--border2)}
+.pt-dot-live{background:var(--green)}
+.pt-dot-err{background:var(--red)}
+/* price cards */
+.pt-prices{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.pt-pc{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+.pt-pc-lbl{font-size:.67rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.pt-pc-val{font-size:1.5rem;font-weight:700;color:var(--text);line-height:1;margin-bottom:3px;font-variant-numeric:tabular-nums}
+.pt-pc-chg{font-size:.78rem;font-family:'DM Mono',monospace;min-height:1em}
+.pt-pc-src{font-size:.69rem;color:var(--text3);line-height:1.4;margin-top:6px;border-top:1px solid var(--border);padding-top:6px}
+.pt-pos{color:var(--green)}
+.pt-neg{color:var(--red)}
+/* import landed */
+.pt-import{margin:0 16px 14px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.pt-imp-hdr{background:var(--surface2);padding:7px 13px;font-size:.67rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)}
+.pt-imp-rows{}
+.pt-lr{display:flex;justify-content:space-between;align-items:center;padding:8px 13px;border-bottom:1px solid var(--border)}
+.pt-lr:last-child{border-bottom:none}
+.pt-karat{font-size:.8rem;font-weight:600;color:var(--text2)}
+.pt-lprice{font-size:.9rem;font-weight:600;color:var(--text);font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums}
+.pt-imp-duty{padding:9px 13px;font-size:.71rem;color:var(--text3);background:var(--surface2);border-top:1px solid var(--border)}
+/* methodology */
+.pt-method{margin:0 16px 16px;border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:.78rem;color:var(--text2)}
+.pt-method summary{padding:9px 13px;font-size:.77rem;font-weight:600;color:var(--text2);cursor:pointer;background:var(--surface2);user-select:none;list-style:none;display:flex;align-items:center;justify-content:space-between}
+.pt-method summary::after{content:'›';font-size:1rem;color:var(--text3);transform:rotate(90deg);display:inline-block;transition:transform .2s}
+.pt-method[open] summary::after{transform:rotate(270deg)}
+.pt-method summary::-webkit-details-marker{display:none}
+.pt-method-body{padding:11px 13px;line-height:1.65;border-top:1px solid var(--border)}
+.pt-method-body p{margin-bottom:9px}.pt-method-body p:last-child{margin-bottom:0}
+.pt-method-body strong{color:var(--text)}

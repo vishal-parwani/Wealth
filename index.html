@@ -37,6 +37,7 @@
     <button class="tab-btn" data-tab="watchlist">Watchlist</button>
     <button class="tab-btn" data-tab="mf">MF Holdings</button>
     <button class="tab-btn" data-tab="stocks">Stocks</button>
+    <button class="tab-btn" data-tab="prices">Live Prices</button>
     <button class="tab-btn" data-tab="gold">Gold</button>
     <button class="tab-btn" data-tab="silver">Silver</button>
     <button class="tab-btn" data-tab="realestate">Real Estate</button>
@@ -155,6 +156,13 @@
     </div>
     <div id="stocks-content">
       <div class="empty-state">No stock holdings yet.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ LIVE PRICES TAB ══════════════ -->
+  <div class="tab-panel" id="tab-prices">
+    <div id="pt-content">
+      <div style="padding:32px;text-align:center;color:var(--text3)">Loading…</div>
     </div>
   </div>
 
@@ -852,6 +860,7 @@
 <script src="utils.js"></script>
 <script src="watchlist.js"></script>
 <script src="portfolio.js"></script>
+<script src="price-tracker.js"></script>
 <script src="summary.js"></script>
 <script src="export.js"></script>
 
@@ -862,6 +871,7 @@ const ALL_MODULES = [
   { key: 'watchlist',  label: 'Watchlist' },
   { key: 'mf',         label: 'MF Holdings' },
   { key: 'stocks',     label: 'Stocks' },
+  { key: 'prices',     label: 'Live Prices' },
   { key: 'gold',       label: 'Gold' },
   { key: 'silver',     label: 'Silver' },
   { key: 'realestate', label: 'Real Estate' },
@@ -900,6 +910,7 @@ function openSettingsModal(isFirstRun) {
     summary:    () => renderSummary(),
     mf:         () => renderMFHoldings(),
     stocks:     () => renderStocks(),
+    prices:     () => renderPriceTracker(),
     gold:       () => renderGold(),
     silver:     () => renderSilver(),
     realestate: () => renderRealEstate(),
@@ -959,6 +970,7 @@ function openSettingsModal(isFirstRun) {
     // ── Init modules ──
     initWatchlist(allData);
     initPortfolio(allData);
+    initPriceTracker();   // start live price polling; feeds LIVE.goldRate / silverRate
     initSummary();
 
     // ── Apply active modules (or show first-run prompt) ──

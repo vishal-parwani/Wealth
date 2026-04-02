@@ -179,7 +179,7 @@ async function fetchSilverPrice() {
 }
 
 const PURITY_FACTOR = { '24K': 1.0, '22K': 22/24, '18K': 18/24 };
-const SILVER_PURITY_FACTOR = { '999': 1.0, '925': 0.925, '800': 0.800 };
+const SILVER_PURITY_FACTOR = { '999': 1.0, '950': 0.950, '925': 0.925, '800': 0.800 };
 
 // ── PORTFOLIO SUMMARY VALUES (for summary.js) ─────────
 async function getPortfolioValues() {
@@ -710,8 +710,8 @@ async function renderGold() {
   const rateEl = document.getElementById('gold-rate-display');
   if (rateEl) {
     rateEl.textContent = goldRate
-      ? `24K 999: ${formatINRFull(goldRate)}/g  (spot + 10% Indian premium)`
-      : 'Price unavailable — click ↻ Refresh Rate to enter manually';
+      ? `24K 999: ${formatINRFull(goldRate)}/g  (India import landed · BCD 5% + AIDC 1%)`
+      : 'Price unavailable — visit Live Prices tab or click ↻ Refresh Rate';
   }
 
   const activeGold = P.gold.filter(g => (parseFloat(g.weightGrams)||0) > 0.0001);
@@ -1688,7 +1688,7 @@ async function renderSilver() {
 
   const totalGain = totalCurrent - totalPurchase;
   const totalGainPct = totalPurchase > 0 ? (totalGain/totalPurchase)*100 : 0;
-  const rateInfo = silverRate ? `999 fine: ${formatINRFull(silverRate)}/g (spot + 10% Indian premium)` : 'Price unavailable';
+  const rateInfo = silverRate ? `999 fine: ${formatINRFull(silverRate)}/g (India import landed · BCD 5% + AIDC 1%)` : 'Price unavailable — visit Live Prices tab';
 
   el.innerHTML = `
     <div class="gold-rate-banner" style="background:linear-gradient(135deg,#f0f0f0,#f8f8f8);border-color:#c0c0c0">
