@@ -856,6 +856,12 @@ function deleteRE(id) {
 }
 
 // ── EPF ───────────────────────────────────────────────
+function fmtMonthYear(dateStr) {
+  if (!dateStr) return '—';
+  const [y, m] = dateStr.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(m,10)-1]} ${y}`;
+}
 function renderEPF() {
   const el = document.getElementById('epf-content');
   if (!el) return;
@@ -875,7 +881,7 @@ function renderEPF() {
       const empr  = parseFloat(t.employerAmount)||0;
       const total = t.type==='contribution' ? emp+empr : parseFloat(t.amount)||0;
       return `<tr>
-        <td class="left">${t.date}</td>
+        <td class="left">${fmtMonthYear(t.date)}</td>
         <td class="left">${t.type==='contribution'?'Contribution':'Interest Credit'}</td>
         <td>${t.type==='contribution'?formatINR(emp,false):'—'}</td>
         <td>${t.type==='contribution'?formatINR(empr,false):'—'}</td>
@@ -945,7 +951,7 @@ function renderNPS() {
   const txnRows = [...P.nps.transactions]
     .sort((a,b)=>b.date.localeCompare(a.date))
     .map(t => `<tr>
-      <td class="left">${t.date}</td>
+      <td class="left">${fmtMonthYear(t.date)}</td>
       <td><strong>${formatINR(parseFloat(t.amount)||0,false)}</strong></td>
       <td><div class="row-btns">
         <button class="row-btn" onclick="openNPSTxnModal('${t.id}')">✎</button>
