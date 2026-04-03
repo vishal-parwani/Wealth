@@ -186,24 +186,26 @@ function ptDraw() {
 
       <div class="pt-status"><span class="${dotCls}"></span>${statusMsg}</div>
 
-      <div class="pt-prices">
-        <div class="pt-pc">
-          <div class="pt-pc-lbl">USD / INR</div>
-          <div class="pt-pc-val">${inr ? ptInr(inr.price, 2) + ' / $1' : '—'}</div>
-          <div class="pt-pc-chg">${inr ? ptChg(inr.changeAbs, inr.changePct) : ''}</div>
-        </div>
-        <div class="pt-pc">
-          <div class="pt-pc-lbl">${cfg.apiLabel}</div>
-          <div class="pt-pc-val" style="color:${cfg.cssColor}">${metal ? ptUsd(metal.price) + ' / tr oz' : '—'}</div>
-          <div class="pt-pc-chg">${metal ? ptChg(metal.changeAbs, metal.changePct, '$') : ''}</div>
-          <div class="pt-pc-src">${metal?.src ?? ''}</div>
-        </div>
-      </div>
-
+      <!-- ① Landed prices — hero section -->
       <div class="pt-import">
         <div class="pt-imp-hdr">₹ / g · India Import Landed</div>
         <div class="pt-imp-rows">${landedHTML}</div>
         <div class="pt-imp-duty">BCD 5.00% + AIDC 1.00% → 6.00% on CIF</div>
+      </div>
+
+      <!-- ② USD/INR — compact card -->
+      <div class="pt-pc pt-pc-sm">
+        <div class="pt-pc-lbl">USD / INR</div>
+        <div class="pt-pc-val pt-pc-val-sm">${inr ? ptInr(inr.price, 2) + ' / $1' : '—'}</div>
+        <div class="pt-pc-chg">${inr ? ptChg(inr.changeAbs, inr.changePct) : ''}</div>
+      </div>
+
+      <!-- ③ XAU/USD — small footer line -->
+      <div class="pt-metal-footer">
+        <span class="pt-metal-footer-lbl">${cfg.apiLabel}</span>
+        <span class="pt-metal-footer-val" style="color:${cfg.cssColor}">${metal ? ptUsd(metal.price) + ' / tr oz' : '—'}</span>
+        <span class="pt-metal-footer-chg">${metal ? ptChg(metal.changeAbs, metal.changePct, '$') : ''}</span>
+        <span class="pt-metal-footer-src">${metal?.src ?? ''}</span>
       </div>
 
       <details class="pt-method">
