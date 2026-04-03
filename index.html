@@ -829,6 +829,7 @@
       <label class="module-toggle"><input type="checkbox" id="mod-realestate"> Real Estate</label>
       <label class="module-toggle"><input type="checkbox" id="mod-epf"> EPF</label>
       <label class="module-toggle"><input type="checkbox" id="mod-nps"> NPS</label>
+      <label class="module-toggle"><input type="checkbox" id="mod-prices"> Live Gold &amp; Silver Prices</label>
     </div>
     <label class="module-toggle-watchlist">
       <input type="checkbox" id="mod-watchlist">
@@ -974,7 +975,15 @@ function openSettingsModal(isFirstRun) {
     initSummary();
 
     // ── Apply active modules (or show first-run prompt) ──
-    const savedModules = allData?.config?.activeModules;
+    let savedModules = allData?.config?.activeModules;
+    // Migration: add any newly introduced modules that aren't in saved config yet
+    if (savedModules && savedModules.length) {
+      const newModules = ALL_MODULES.map(m => m.key).filter(k => !savedModules.includes(k));
+      if (newModules.length) {
+        savedModules = [...savedModules, ...newModules];
+        saveSection('config', { activeModules: savedModules });
+      }
+    }
     if (savedModules && savedModules.length) {
       applyActiveModules(savedModules);
     } else {
