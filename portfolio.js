@@ -24,9 +24,6 @@ let LIVE = {
   silverRate: null // price per gram (999 fine silver)
 };
 
-// GoldAPI.io key — default hardcoded, can be overridden via ⚙ API Key button (saves to Firestore)
-let GOLDAPI_KEY = 'goldapi-kpklsmn22z55a-io';
-
 // Active modules — set by boot script from Firestore config; null means all active
 let ACTIVE_MODULES = null;
 
@@ -102,81 +99,10 @@ async function fetchStockPrice(symbol, exchange) {
   } catch(e) { return null; }
 }
 
-async function fetchGoldPrice() {
-  if (LIVE.goldRate != null) return LIVE.goldRate;
-
-  // Primary: GoldAPI.io — returns exact 24K INR/gram
-  if (GOLDAPI_KEY) {
-    try {
-      const r = await fetch('https://www.goldapi.io/api/XAU/INR', {
-        headers: { 'x-access-token': GOLDAPI_KEY, 'Content-Type': 'application/json' }
-      });
-      if (r.ok) {
-        const d = await r.json();
-        if (d.price_gram_24k && d.price_gram_24k > 100) {
-          // Apply 10% Indian premium (import duty ~6% + GST 3% + local spread ~1%)
-          const INDIA_PREMIUM = 1.10;
-          LIVE.goldRate = d.price_gram_24k * INDIA_PREMIUM;
-          LIVE.gold22k = (d.price_gram_22k || d.price_gram_24k * (22/24)) * INDIA_PREMIUM;
-          LIVE.gold18k = (d.price_gram_18k || d.price_gram_24k * (18/24)) * INDIA_PREMIUM;
-          return LIVE.goldRate;
-        }
-      }
-    } catch(e) { console.warn('GoldAPI.io fetch failed:', e); }
-  }
-
-  // Fallback 1: MCX symbols via Yahoo Finance (works during Indian market hours)
-  for (const [sym, xform] of [
-    ['GOLDPETAL.MCX', p => p > 100 ? p : null],
-    ['GOLD.MCX',      p => p > 1000 ? (p/10)*(999/995) : null]
-  ]) {
-    try {
-      const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=5d`);
-      if (r.ok) {
-        const d = await r.json();
-        const price = d?.chart?.result?.[0]?.meta?.regularMarketPrice;
-        if (price) { const adj = xform(price); if (adj) { LIVE.goldRate = adj; return adj; } }
-      }
-    } catch(e) {}
-  }
-
-  // Fallback 2: GC=F (USD/troy oz) × USDINR=X ÷ 31.1035 → INR/gram 24K999
-  try {
-    const [gcR, fxR] = await Promise.all([
-      fetch('https://query1.finance.yahoo.com/v8/finance/chart/GC%3DF?interval=1d&range=5d'),
-      fetch('https://query1.finance.yahoo.com/v8/finance/chart/USDINR%3DX?interval=1d&range=5d')
-    ]);
-    if (gcR.ok && fxR.ok) {
-      const gc = await gcR.json(), fx = await fxR.json();
-      const gcPrice = gc?.chart?.result?.[0]?.meta?.regularMarketPrice;
-      const usdinr  = fx?.chart?.result?.[0]?.meta?.regularMarketPrice;
-      if (gcPrice && usdinr) { LIVE.goldRate = (gcPrice / 31.1035) * usdinr; return LIVE.goldRate; }
-    }
-  } catch(e) {}
-  return null;
-}
-
-async function fetchSilverPrice() {
-  if (LIVE.silverRate != null) return LIVE.silverRate;
-  if (GOLDAPI_KEY) {
-    try {
-      const r = await fetch('https://www.goldapi.io/api/XAG/INR', {
-        headers: { 'x-access-token': GOLDAPI_KEY, 'Content-Type': 'application/json' }
-      });
-      if (r.ok) {
-        const d = await r.json();
-        // price_gram for silver (999 fine) or calculate from troy oz price
-        const pricePerGram = d.price_gram || (d.price ? d.price / 31.1035 : null);
-        if (pricePerGram && pricePerGram > 0) {
-          const INDIA_PREMIUM = 1.10;
-          LIVE.silverRate = pricePerGram * INDIA_PREMIUM;
-          return LIVE.silverRate;
-        }
-      }
-    } catch(e) { console.warn('Silver price fetch failed:', e); }
-  }
-  return null;
-}
+// Gold and silver rates are supplied by the Live Prices tab (price-tracker.js).
+// These stubs let the rest of the portfolio code remain unchanged.
+async function fetchGoldPrice()   { return LIVE.goldRate;   }
+async function fetchSilverPrice() { return LIVE.silverRate; }
 
 const PURITY_FACTOR = { '24K': 1.0, '22K': 22/24, '18K': 18/24 };
 const SILVER_PURITY_FACTOR = { '999': 1.0, '950': 0.950, '925': 0.925, '800': 0.800 };
@@ -815,32 +741,11 @@ document.getElementById('gold-modal-confirm').addEventListener('click', ()=>{
 });
 document.getElementById('btn-add-gold').addEventListener('click', ()=>openGoldModal());
 
-// ↻ Refresh Rate — fetch API price, let user override with local rate
+// ↻ Refresh Rate — trigger a fresh poll from the Live Prices tracker
 document.getElementById('btn-refresh-gold').addEventListener('click', async () => {
-  LIVE.goldRate = null; // force re-fetch
-  toast('Fetching gold rate…');
-  const apiRate = await fetchGoldPrice();
-  const suggestion = apiRate ? Math.round(apiRate) : '';
-  const msg = apiRate
-    ? `API (international spot) rate: ₹${Math.round(apiRate).toLocaleString('en-IN')}/g\n\nIndian retail prices include import duty and are typically 8–12% higher.\n\nEnter the rate you want to use (₹/gram for 24K 999):`
-    : 'Could not fetch API rate. Enter gold rate manually (₹/gram for 24K 999):';
-  const input = prompt(msg, suggestion);
-  if (input === null) return; // cancelled
-  const rate = parseFloat(input);
-  if (isNaN(rate) || rate < 100) { toast('Invalid rate'); return; }
-  LIVE.goldRate = rate;
-  renderGold(); toast(`Rate set to ₹${rate.toLocaleString('en-IN')}/g ✓`);
-});
-
-// ⚙ API Key button — update GoldAPI.io key and save to Firestore
-document.getElementById('btn-gold-api-key').addEventListener('click', () => {
-  const current = GOLDAPI_KEY || '';
-  const key = prompt('Enter your GoldAPI.io key (free at goldapi.io):', current);
-  if (key === null) return; // cancelled
-  GOLDAPI_KEY = key.trim();
-  saveSection('config', { goldApiKey: GOLDAPI_KEY });
-  LIVE.goldRate = null; // force re-fetch with new key
-  renderGold(); toast('API key saved ✓');
+  toast('Refreshing gold rate…');
+  await ptPoll();
+  renderGold();
 });
 
 function deleteGold(id) {
@@ -1555,30 +1460,11 @@ function openGoldSellModal(goldId) {
   document.getElementById('gold-sell-modal').style.display = 'flex';
 }
 
-document.getElementById('gold-sell-date').addEventListener('change', async function() {
+document.getElementById('gold-sell-date').addEventListener('change', function() {
   this.blur();
-  const date = this.value;
-  if (!date || !GOLDAPI_KEY) { goldSellRate = LIVE.goldRate; goldSellAutoCalc(); return; }
-  const info = document.getElementById('gold-sell-rate-info');
-  info.textContent = 'Fetching rate…';
-  try {
-    const dateStr = date.replace(/-/g, '');
-    const r = await fetch(`https://www.goldapi.io/api/XAU/INR/${dateStr}`, {
-      headers: { 'x-access-token': GOLDAPI_KEY }
-    });
-    if (r.ok) {
-      const d = await r.json();
-      if (d.price_gram_24k) {
-        goldSellRate = d.price_gram_24k * 1.10;
-        info.textContent = `Rate on ${date}: ₹${Math.round(goldSellRate).toLocaleString('en-IN')}/g`;
-        document.getElementById('gold-sell-rate').value = Math.round(goldSellRate);
-        goldSellAutoCalc();
-        return;
-      }
-    }
-  } catch(e) {}
   goldSellRate = LIVE.goldRate;
-  info.textContent = goldSellRate ? `Using current rate: ₹${Math.round(goldSellRate).toLocaleString('en-IN')}/g` : 'Rate unavailable';
+  const info = document.getElementById('gold-sell-rate-info');
+  info.textContent = goldSellRate ? `Current rate: ₹${Math.round(goldSellRate).toLocaleString('en-IN')}/g` : '';
   document.getElementById('gold-sell-rate').value = goldSellRate ? Math.round(goldSellRate) : '';
   goldSellAutoCalc();
 });
@@ -1757,12 +1643,9 @@ document.getElementById('silver-modal-confirm').addEventListener('click', ()=>{
 });
 document.getElementById('btn-add-silver').addEventListener('click', ()=>openSilverModal());
 document.getElementById('btn-refresh-silver').addEventListener('click', async () => {
-  LIVE.silverRate = null;
-  toast('Fetching silver rate…');
-  const rate = await fetchSilverPrice();
+  toast('Refreshing silver rate…');
+  await ptPoll();
   renderSilver();
-  if (rate) toast(`Silver rate: ₹ ${Math.round(rate).toLocaleString('en-IN')}/g ✓`);
-  else toast('Could not fetch silver rate');
 });
 
 function deleteSilver(id) {
@@ -1860,6 +1743,4 @@ document.querySelectorAll('input[type=date]').forEach(el => {
 
 function initPortfolio(allData) {
   pLoad(allData);
-  // Load saved API key from Firestore (overrides hardcoded default if user updated it)
-  if (allData?.config?.goldApiKey) GOLDAPI_KEY = allData.config.goldApiKey;
 }
