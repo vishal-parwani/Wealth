@@ -9,7 +9,7 @@ let P = {
   silver: [],
   real_estate: [],
   epf: { currentBalance:0, interestRate:8.15, lastUpdated:'', transactions:[] },
-  nps: { currentValue:0, scheme:'', fundManager:'', lastUpdated:'', transactions:[] },
+  nps: { currentValue:0, scheme:'', lastUpdated:'', transactions:[], schemeHistory:[] },
   mf_sales: [],
   stock_sales: [],
   gold_sales: [],
@@ -57,12 +57,21 @@ function pLoad(data) {
     transactions:   d.epf?.transactions   || []
   };
   P.nps = {
-    currentValue: d.nps?.currentValue || 0,
-    scheme:       d.nps?.scheme       || '',
-    fundManager:  d.nps?.fundManager  || '',
-    lastUpdated:  d.nps?.lastUpdated  || '',
-    transactions: d.nps?.transactions || []
+    currentValue:  d.nps?.currentValue  || 0,
+    scheme:        d.nps?.scheme        || '',
+    lastUpdated:   d.nps?.lastUpdated   || '',
+    transactions:  d.nps?.transactions  || [],
+    schemeHistory: d.nps?.schemeHistory || []
   };
+  // Migration: if scheme set but no history yet, seed an open entry
+  if (P.nps.scheme && P.nps.schemeHistory.length === 0) {
+    const firstTxn = [...P.nps.transactions].sort((a,b)=>a.date.localeCompare(b.date))[0];
+    P.nps.schemeHistory.push({
+      id: newId(), scheme: P.nps.scheme,
+      from: firstTxn?.date || P.nps.lastUpdated || '',
+      to: null, valueAtStart: 0, valueAtEnd: null
+    });
+  }
   P.mf_sales     = d.mf_sales     || [];
   P.stock_sales  = d.stock_sales  || [];
   P.gold_sales   = d.gold_sales   || [];
@@ -959,6 +968,29 @@ function renderNPS() {
       </div></td>
     </tr>`).join('') || '<tr><td colspan="3" style="text-align:center;padding:18px;color:var(--text3);font-style:italic">No transactions yet — click + Transaction to add</td></tr>';
 
+  const histRows = [...P.nps.schemeHistory]
+    .sort((a,b) => b.from.localeCompare(a.from))
+    .map(h => {
+      const endVal = h.valueAtEnd !== null ? h.valueAtEnd : value;
+      const contribDuring = P.nps.transactions
+        .filter(t => t.date >= h.from && (h.to === null || t.date <= h.to))
+        .reduce((s,t) => s + (parseFloat(t.amount)||0), 0);
+      const gain = endVal - h.valueAtStart - contribDuring;
+      const gainColor = gain >= 0 ? 'var(--green)' : 'var(--red)';
+      const toLabel = h.to
+        ? fmtMonthYear(h.to)
+        : `<span style="color:var(--green);font-size:.75rem;font-weight:600">Present</span>`;
+      return `<tr>
+        <td class="left" style="font-weight:500">${esc(h.scheme)}</td>
+        <td>${fmtMonthYear(h.from)}</td>
+        <td>${toLabel}</td>
+        <td>${formatINR(contribDuring,false)}</td>
+        <td>${formatINR(endVal,false)}</td>
+        <td style="color:${gainColor};font-weight:600">${gain>=0?'+':''}${formatINR(gain,false)}</td>
+        <td><button class="row-btn del" onclick="deleteNPSHistory('${h.id}')">✕</button></td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="7" style="text-align:center;padding:16px;color:var(--text3);font-style:italic">No history yet — change scheme via ✎ Update Balance to start tracking</td></tr>';
+
   el.innerHTML = `
     <div class="asset-cards-grid" style="margin-bottom:16px">
       <div class="asset-card">
@@ -977,7 +1009,6 @@ function renderNPS() {
           <div class="card-row"><span class="card-row-label">CAGR</span>${cagrChip(cagr, false)}</div>
           <div class="card-row"><span class="card-row-label">XIRR</span>${xirrChip(xirr, false)}</div>
           <div class="card-row"><span class="card-row-label">Scheme</span><span class="card-row-value">${esc(P.nps.scheme)||'—'}</span></div>
-          <div class="card-row"><span class="card-row-label">Fund Manager</span><span class="card-row-value">${esc(P.nps.fundManager)||'—'}</span></div>
           <div class="card-row"><span class="card-row-label">Last Updated</span><span class="card-row-value">${P.nps.lastUpdated||'—'}</span></div>
         </div>
         <div class="asset-card-footer">
@@ -986,7 +1017,7 @@ function renderNPS() {
         </div>
       </div>
     </div>
-    <div class="portfolio-table-wrap">
+    <div class="portfolio-table-wrap" style="margin-bottom:16px">
       <div style="padding:12px 16px;font-weight:600;font-size:.82rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
         Transactions
         <span style="font-size:.74rem;color:var(--text3);font-weight:400">${P.nps.transactions.length} entries</span>
@@ -997,6 +1028,19 @@ function renderNPS() {
           <th style="width:60px"></th>
         </tr></thead>
         <tbody>${txnRows}</tbody>
+      </table>
+    </div>
+    <div class="portfolio-table-wrap">
+      <div style="padding:12px 16px;font-weight:600;font-size:.82rem;border-bottom:1px solid var(--border)">
+        Scheme History
+      </div>
+      <table class="portfolio-table">
+        <thead><tr>
+          <th class="left">Scheme</th><th>From</th><th>To</th>
+          <th>Contributions</th><th>Corpus</th><th>Gain</th>
+          <th style="width:40px"></th>
+        </tr></thead>
+        <tbody>${histRows}</tbody>
       </table>
     </div>`;
 }
@@ -1072,19 +1116,42 @@ function deleteEPFTxn(id) {
 
 // NPS Balance Modal
 function openNPSModal() {
-  document.getElementById('nps-value').value   = P.nps.currentValue || '';
-  document.getElementById('nps-scheme').value  = P.nps.scheme       || '';
-  document.getElementById('nps-manager').value = P.nps.fundManager  || '';
-  document.getElementById('nps-date').value    = P.nps.lastUpdated  || '';
+  document.getElementById('nps-value').value  = P.nps.currentValue || '';
+  document.getElementById('nps-scheme').value = P.nps.scheme       || '';
+  document.getElementById('nps-date').value   = P.nps.lastUpdated  || '';
   document.getElementById('nps-modal').style.display = 'flex';
 }
 document.getElementById('nps-modal-cancel').addEventListener('click', ()=> document.getElementById('nps-modal').style.display='none');
 document.getElementById('nps-modal').addEventListener('click', e=>{ if(e.target===e.currentTarget) document.getElementById('nps-modal').style.display='none'; });
 document.getElementById('nps-modal-confirm').addEventListener('click', ()=>{
-  P.nps.currentValue  = parseFloat(document.getElementById('nps-value').value)||0;
-  P.nps.scheme        = document.getElementById('nps-scheme').value.trim();
-  P.nps.fundManager   = document.getElementById('nps-manager').value.trim();
-  P.nps.lastUpdated   = document.getElementById('nps-date').value;
+  const newValue  = parseFloat(document.getElementById('nps-value').value)||0;
+  const newScheme = document.getElementById('nps-scheme').value.trim();
+  const newDate   = document.getElementById('nps-date').value;
+  const oldScheme = P.nps.scheme;
+
+  // Log scheme change
+  if (newScheme && newScheme !== oldScheme) {
+    const openEntry = P.nps.schemeHistory.find(h => h.to === null);
+    if (openEntry) {
+      openEntry.to = newDate;
+      openEntry.valueAtEnd = newValue;
+    } else if (oldScheme) {
+      const firstTxn = [...P.nps.transactions].sort((a,b)=>a.date.localeCompare(b.date))[0];
+      P.nps.schemeHistory.push({
+        id: newId(), scheme: oldScheme,
+        from: firstTxn?.date || P.nps.lastUpdated || newDate,
+        to: newDate, valueAtStart: 0, valueAtEnd: newValue
+      });
+    }
+    P.nps.schemeHistory.push({
+      id: newId(), scheme: newScheme,
+      from: newDate, to: null, valueAtStart: newValue, valueAtEnd: null
+    });
+  }
+
+  P.nps.currentValue = newValue;
+  P.nps.scheme       = newScheme;
+  P.nps.lastUpdated  = newDate;
   pSave(); document.getElementById('nps-modal').style.display='none';
   renderNPS(); toast('Saved ✓');
 });
@@ -1119,6 +1186,11 @@ document.getElementById('nps-txn-confirm').addEventListener('click', ()=>{
 function deleteNPSTxn(id) {
   if (!confirm('Remove this transaction?')) return;
   P.nps.transactions = P.nps.transactions.filter(t=>t.id!==id);
+  pSave(); renderNPS(); toast('Removed');
+}
+function deleteNPSHistory(id) {
+  if (!confirm('Remove this scheme history entry?')) return;
+  P.nps.schemeHistory = P.nps.schemeHistory.filter(h=>h.id!==id);
   pSave(); renderNPS(); toast('Removed');
 }
 
