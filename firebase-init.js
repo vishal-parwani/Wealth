@@ -2,10 +2,14 @@
 //  FIREBASE INIT — compat SDK (no ES modules needed)
 // ════════════════════════════════════════════════════════
 
-// IMPORTANT: Set Firestore rules in Firebase Console:
-// match /dashboards/{userId} {
-//   allow read, write: if request.auth != null && request.auth.uid == userId;
+// IMPORTANT: Update Firestore rules in Firebase Console:
+// match /dashboards/{docId} {
+//   allow read, write: if request.auth != null && (
+//     (request.auth.token.email != null && docId == request.auth.token.email) ||
+//     (request.auth.token.email == null && docId == request.auth.uid)
+//   );
 // }
+// Accounts are keyed by email so Google + Apple logins with the same email share one document.
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyCPKwgdPoH0b6_8lKFBFkPZP3pO3IN45VQ",
@@ -34,23 +38,34 @@ function initAuth() {
       if (user) {
         currentUser = user;
         document.getElementById('login-overlay').style.display = 'none';
-        DASH_KEY = user.uid;
-        DASH_REF = db.collection('dashboards').doc(user.uid);
-        // Migration: if old UUID key exists and UID doc is empty, migrate
-        const oldKey = localStorage.getItem('wealth_key');
-        if (oldKey && oldKey.length > 20) {
-          try {
-            const uidSnap = await DASH_REF.get();
-            if (!uidSnap.exists) {
-              const oldSnap = await db.collection('dashboards').doc(oldKey).get();
-              if (oldSnap.exists) {
-                await DASH_REF.set(oldSnap.data());
-                setTimeout(() => toast('Your data has been migrated to your Google account ✓'), 1500);
+        // Use email as canonical key so Google + Apple with same email share one document.
+        // Fall back to UID for accounts without an email (e.g. Apple private relay).
+        const emailKey = user.email || user.uid;
+        DASH_KEY = emailKey;
+        DASH_REF = db.collection('dashboards').doc(emailKey);
+        // Migration: move data from older UID/UUID keys to the email-based key
+        try {
+          const emailSnap = await DASH_REF.get();
+          if (!emailSnap.exists) {
+            // Check for existing data stored under the Firebase UID (pre-email-linking era)
+            const uidSnap = await db.collection('dashboards').doc(user.uid).get();
+            if (uidSnap.exists) {
+              await DASH_REF.set(uidSnap.data());
+              setTimeout(() => toast('Your data has been linked to your email account ✓'), 1500);
+            } else {
+              // Check for legacy UUID-based data (pre-Firebase era)
+              const oldKey = localStorage.getItem('wealth_key');
+              if (oldKey && oldKey.length > 20) {
+                const oldSnap = await db.collection('dashboards').doc(oldKey).get();
+                if (oldSnap.exists) {
+                  await DASH_REF.set(oldSnap.data());
+                  setTimeout(() => toast('Your data has been migrated to your account ✓'), 1500);
+                }
               }
             }
-          } catch(e) { console.warn('Migration failed', e); }
-          localStorage.removeItem('wealth_key');
-        }
+          }
+        } catch(e) { console.warn('Migration failed', e); }
+        localStorage.removeItem('wealth_key');
         if (window.location.hash) history.replaceState(null, '', window.location.pathname);
         if (!_appStarted) {
           _appStarted = true;
