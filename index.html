@@ -14,10 +14,16 @@
   <div style="text-align:center;padding:40px;max-width:360px">
     <div style="font-size:1.5rem;font-weight:700;margin-bottom:8px;color:var(--text)">Wealth Tracker</div>
     <div style="font-size:.9rem;color:var(--text2);margin-bottom:32px">Sign in to access your dashboard</div>
-    <button onclick="signInWithGoogle()" style="display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg1);cursor:pointer;font-size:.95rem;font-weight:500;color:var(--text)">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-      Sign in with Google
-    </button>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:stretch">
+      <button onclick="signInWithGoogle()" style="display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg1);cursor:pointer;font-size:.95rem;font-weight:500;color:var(--text)">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+        Sign in with Google
+      </button>
+      <button onclick="signInWithApple()" style="display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:10px;border:1.5px solid var(--border);background:#000;cursor:pointer;font-size:.95rem;font-weight:500;color:#fff">
+        <svg width="18" height="18" viewBox="0 0 814 1000" fill="#fff"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 268.2-317.7 74.6 0 136.6 48.5 183.3 48.5 44.5 0 114.6-52.7 201.1-52.7 32.5 0 108.2 4.8 162.3 61.9z"/><path d="M554.1 107.5c-24.2 28.5-63.7 50.3-101.6 50.3-4.8 0-9.7-.5-14.5-1.3-.6-4.4-.9-8.8-.9-13.4 0-27.4 13.7-56.8 34.6-76.8 21.6-21.4 58.8-37.2 90.5-38.1 1 5.2 1.5 10.4 1.5 16.2 0 26.5-11.1 53.5-29.6 63.1z"/></svg>
+        Sign in with Apple
+      </button>
+    </div>
   </div>
 </div>
 
@@ -103,6 +109,11 @@
           <button id="stock-search-clear">✕</button>
           <div id="stock-search-results"></div>
         </div>
+        <div class="pill-wrap">
+          <span class="pill-label active" id="stock-pill-lbl-cagr">CAGR</span>
+          <div class="pill-track" id="stock-pill-toggle"><div class="pill-thumb"></div></div>
+          <span class="pill-label" id="stock-pill-lbl-total">Total</span>
+        </div>
         <span class="timestamp" id="stock-refresh-ts"></span>
         <button class="btn btn-sm" id="btn-new-stock-cat">+ Category</button>
         <button class="btn btn-sm" id="btn-refresh-wl-stocks">↻ Refresh Prices</button>
@@ -120,8 +131,8 @@
                 <th class="right" style="min-width:74px">1M</th>
                 <th class="right" style="min-width:74px">3M</th>
                 <th class="right" style="min-width:74px">6M</th>
-                <th class="right" style="min-width:74px">1Y</th>
-                <th class="right" style="min-width:74px">3Y</th>
+                <th class="right" style="min-width:74px" id="stock-th-1y">1Y CAGR</th>
+                <th class="right" style="min-width:74px" id="stock-th-3y">3Y CAGR</th>
                 <th class="right" style="min-width:80px">52W H</th>
                 <th class="right" style="min-width:80px">52W L</th>
                 <th class="right" style="min-width:74px">TTM Div</th>

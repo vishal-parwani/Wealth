@@ -89,6 +89,24 @@ function signInWithGoogle() {
     });
 }
 
+function signInWithApple() {
+  const provider = new firebase.auth.OAuthProvider('apple.com');
+  provider.addScope('email');
+  provider.addScope('name');
+  firebase.auth().signInWithPopup(provider)
+    .then(result => {
+      console.log('Signed in with Apple:', result.user.email);
+    })
+    .catch(e => {
+      console.warn('Apple sign-in failed', e);
+      if (e.code === 'auth/popup-blocked') {
+        toast('Popup was blocked. Please allow popups for this site and try again.');
+      } else if (e.code !== 'auth/popup-closed-by-user') {
+        toast('Sign-in failed: ' + e.message);
+      }
+    });
+}
+
 function signOut() {
   firebase.auth().signOut();
 }

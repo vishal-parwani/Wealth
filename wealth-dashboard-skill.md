@@ -1,4 +1,4 @@
-# SKILL.md — Wealth Tracker
+# wealth-dashboard-skill.md — Wealth Tracker
 
 > Claude context file. Read this before making any changes to this project.
 

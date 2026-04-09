@@ -18,7 +18,7 @@ const CAT_COLORS = ['#c8a882','#82a882','#8295a8','#a882a0','#9082a8','#a8a264',
 
 let WL = {
   categories:[], navCache:{}, lastRefresh:null, colVisible:{},
-  globalSort:{col:null,dir:1}, returnMode:'cagr',
+  globalSort:{col:null,dir:1}, returnMode:'cagr', stockReturnMode:'cagr',
   stockCategories: [], stockPrices: {}, stockLastRefresh: null
 };
 let _wlUid = Date.now();
@@ -34,7 +34,8 @@ function wlSave() {
     returnMode: WL.returnMode,
     lastRefresh: WL.lastRefresh,
     stockCategories: WL.stockCategories,
-    stockLastRefresh: WL.stockLastRefresh
+    stockLastRefresh: WL.stockLastRefresh,
+    stockReturnMode: WL.stockReturnMode
   });
 }
 
@@ -54,6 +55,7 @@ function wlLoadState(data) {
     WL.colVisible  = p.colVisible||{};
     WL.globalSort  = p.globalSort||{col:null,dir:1};
     WL.returnMode  = p.returnMode||'cagr';
+    WL.stockReturnMode = p.stockReturnMode||'cagr';
     WL.lastRefresh = p.lastRefresh||null;
     // Migrate old flat stocks array to stockCategories
     if (p.stockCategories && p.stockCategories.length) {
@@ -161,6 +163,19 @@ function updatePillUI() {
 document.getElementById('pill-toggle').addEventListener('click',()=>{
   WL.returnMode=WL.returnMode==='cagr'?'total':'cagr';
   wlSave(); updatePillUI(); wlRenderAll();
+});
+
+function updateStockPillUI() {
+  const isTotal = WL.stockReturnMode === 'total';
+  const track = document.getElementById('stock-pill-toggle');
+  if (!track) return;
+  track.classList.toggle('on', isTotal);
+  document.getElementById('stock-pill-lbl-cagr').classList.toggle('active', !isTotal);
+  document.getElementById('stock-pill-lbl-total').classList.toggle('active', isTotal);
+}
+document.getElementById('stock-pill-toggle').addEventListener('click', () => {
+  WL.stockReturnMode = WL.stockReturnMode === 'cagr' ? 'total' : 'cagr';
+  wlSave(); updateStockPillUI(); renderStockWatchlist();
 });
 
 // ── SEARCH ────────────────────────────────────────────
@@ -693,6 +708,7 @@ document.getElementById('mobile-add-cat').addEventListener('click',()=>{
 async function initWatchlist(allData) {
   wlLoadState(allData);
   updatePillUI();
+  updateStockPillUI();
   wlRenderAll();
   updateRefreshLabel();
   renderStockWatchlist();
@@ -740,6 +756,15 @@ async function fetchStockData(symbol, exchange) {
       const old = closes[idx];
       return old > 0 ? (cmp / old - 1) * 100 : null;
     }
+    function cagrAtDays(days) {
+      const cutoff = Date.now() / 1000 - days * 86400;
+      let idx = -1;
+      for (let i = 0; i < times.length; i++) { if (times[i] <= cutoff) idx = i; }
+      if (idx < 0) return null;
+      const old = closes[idx];
+      if (old <= 0) return null;
+      return (Math.pow(cmp / old, 365 / days) - 1) * 100;
+    }
     // 1D return from daily data (previous session close)
     let ret1d = null;
     if (rShort.ok) {
@@ -768,6 +793,7 @@ async function fetchStockData(symbol, exchange) {
       cmp, ret1d, w52high, w52low,
       ret1m: retAtDays(30), ret3m: retAtDays(91), ret6m: retAtDays(182),
       ret1y: retAtDays(365), ret3y: retAtDays(1095),
+      cagr1y: cagrAtDays(365), cagr3y: cagrAtDays(1095),
       ttmDiv: ttmDiv ? Math.round(ttmDiv * 100) / 100 : null,
       divYield,
       date: new Date().toISOString()
@@ -949,6 +975,12 @@ function renderStockWatchlist() {
     tsEl.textContent = 'Updated ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ', ' + d.toLocaleDateString([], {day:'numeric',month:'short'});
   }
 
+  const isCagrMode = WL.stockReturnMode !== 'total';
+  const th1y = document.getElementById('stock-th-1y');
+  const th3y = document.getElementById('stock-th-3y');
+  if (th1y) th1y.textContent = isCagrMode ? '1Y CAGR' : '1Y Total';
+  if (th3y) th3y.textContent = isCagrMode ? '3Y CAGR' : '3Y Total';
+
   const COLS = 15; // num + name + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + TTMDiv + DivYield + menu
   const tbody = document.getElementById('stock-wl-tbody');
   let html = '';
@@ -1005,8 +1037,8 @@ function renderStockWatchlist() {
       <td class="right">${rc(p?.ret1m)}</td>
       <td class="right">${rc(p?.ret3m)}</td>
       <td class="right">${rc(p?.ret6m)}</td>
-      <td class="right">${rc(p?.ret1y)}</td>
-      <td class="right">${rc(p?.ret3y)}</td>
+      <td class="right">${rc(isCagrMode ? (p?.cagr1y ?? p?.ret1y) : p?.ret1y)}</td>
+      <td class="right">${rc(isCagrMode ? (p?.cagr3y ?? p?.ret3y) : p?.ret3y)}</td>
       <td class="right">${w52Cell(noData ? null : p?.w52high)}</td>
       <td class="right">${w52Cell(noData ? null : p?.w52low)}</td>
       <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.ttmDiv != null ? `<span class="nav-val">₹ ${p.ttmDiv.toLocaleString('en-IN')}</span>` : '<span class="chip-n">—</span>')}</td>
@@ -1036,6 +1068,22 @@ function renderStockWatchlist() {
   });
 }
 
+// Position a dropdown as fixed to escape overflow:auto clipping in the table scroll
+function openStockDropdown(btn, dd) {
+  const isOpening = !dd.classList.contains('open');
+  document.querySelectorAll('.cat-menu-dropdown.open,.fund-menu-dropdown.open').forEach(d => { if (d !== dd) d.classList.remove('open'); });
+  if (isOpening) {
+    const rect = btn.getBoundingClientRect();
+    dd.style.position = 'fixed';
+    dd.style.top = (rect.bottom + 4) + 'px';
+    dd.style.right = (window.innerWidth - rect.right) + 'px';
+    dd.style.left = 'auto';
+    dd.classList.add('open');
+  } else {
+    dd.classList.remove('open');
+  }
+}
+
 // One-time event delegation for stock watchlist tbody
 document.getElementById('stock-wl-tbody').addEventListener('click', e => {
   const btn = e.target.closest('[data-ev]');
@@ -1046,8 +1094,7 @@ document.getElementById('stock-wl-tbody').addEventListener('click', e => {
     toggleStockCatCollapse(btn.dataset.cat); e.stopPropagation();
   } else if (ev === 'scat-menu') {
     const dd = document.getElementById('scat-menu-' + btn.dataset.cat);
-    document.querySelectorAll('.cat-menu-dropdown.open,.fund-menu-dropdown.open').forEach(d => { if (d !== dd) d.classList.remove('open'); });
-    dd?.classList.toggle('open'); e.stopPropagation();
+    if (dd) openStockDropdown(btn, dd); e.stopPropagation();
   } else if (ev === 'scat-up') {
     stockCatMoveUp(btn.dataset.cat); e.stopPropagation();
   } else if (ev === 'scat-down') {
@@ -1061,8 +1108,7 @@ document.getElementById('stock-wl-tbody').addEventListener('click', e => {
     wlSave(); renderStockWatchlist(); toast('Category deleted');
   } else if (ev === 'swl-menu') {
     const dd = document.getElementById('swl-menu-' + btn.dataset.sym);
-    document.querySelectorAll('.cat-menu-dropdown.open,.fund-menu-dropdown.open').forEach(d => { if (d !== dd) d.classList.remove('open'); });
-    dd?.classList.toggle('open'); e.stopPropagation();
+    if (dd) openStockDropdown(btn, dd); e.stopPropagation();
   } else if (ev === 'swl-remove') {
     if (!confirm('Remove ' + btn.dataset.sym + ' from watchlist?')) return;
     const cat = WL.stockCategories.find(c => c.id === btn.dataset.catid);
