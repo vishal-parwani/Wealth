@@ -106,10 +106,11 @@ firebase.auth().onAuthStateChanged(user => {
   if (user) {
     document.getElementById('auth-section').style.display = 'none';
     document.getElementById('logged-in-section').style.display = 'block';
+    const destKey = user.email || user.uid;
     document.getElementById('user-email').textContent = user.email || user.displayName || '(no email)';
-    document.getElementById('user-uid').textContent = user.uid;
-    if (user.uid === SOURCE_DOC_ID) {
-      setStatus('warning', '⚠️ Your current UID matches the source document — you are already signed in as the original account. Your data should be visible in the main dashboard. Try refreshing it.');
+    document.getElementById('user-uid').textContent = destKey + ' (document key)';
+    if (destKey === SOURCE_DOC_ID) {
+      setStatus('warning', '⚠️ Your account key matches the source document — you are already the original account. Your data should be visible in the main dashboard. Try refreshing it.');
       document.getElementById('migrate-btn').disabled = true;
     }
   } else {
@@ -137,7 +138,8 @@ function setStatus(type, msg) {
 async function runMigration() {
   const user = firebase.auth().currentUser;
   if (!user) { alert('Not signed in'); return; }
-  if (user.uid === SOURCE_DOC_ID) { alert('Already the original account — nothing to migrate.'); return; }
+  const destKey = user.email || user.uid;
+  if (destKey === SOURCE_DOC_ID) { alert('Already the original account — nothing to migrate.'); return; }
 
   const btn = document.getElementById('migrate-btn');
   btn.disabled = true;
@@ -154,7 +156,7 @@ async function runMigration() {
     const data = srcSnap.data();
     setStatus('info', 'Source data read. Checking destination...');
 
-    const destRef = db.collection('dashboards').doc(user.uid);
+    const destRef = db.collection('dashboards').doc(destKey);
     const destSnap = await destRef.get();
 
     if (destSnap.exists) {
