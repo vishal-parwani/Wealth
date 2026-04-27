@@ -71,8 +71,8 @@ service cloud.firestore {
       <div class="step-val" id="user-uid">—</div>
     </div>
     <div class="step">
-      <div class="step-label">Source document (your old data)</div>
-      <div class="step-val">QtzrYkSTcMYkfQFUwb01oqiZbw2</div>
+      <div class="step-label">Source document ID — paste exact ID from Firebase Console</div>
+      <input id="source-doc-id" type="text" value="QtzrYkSTcMYkfQFUwb01oqiZbw2" style="width:100%;box-sizing:border-box;background:#1a1a1a;border:1px solid #444;border-radius:6px;padding:8px 10px;color:#ccc;font-size:.85rem;font-family:monospace;margin-top:4px" />
     </div>
 
     <hr>
@@ -88,7 +88,7 @@ service cloud.firestore {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-const SOURCE_DOC_ID = 'QtzrYkSTcMYkfQFUwb01oqiZbw2';
+// SOURCE_DOC_ID is read from the input field at migration time
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyCPKwgdPoH0b6_8lKFBFkPZP3pO3IN45VQ",
@@ -109,10 +109,6 @@ firebase.auth().onAuthStateChanged(user => {
     const destKey = user.email || user.uid;
     document.getElementById('user-email').textContent = user.email || user.displayName || '(no email)';
     document.getElementById('user-uid').textContent = destKey + ' (document key)';
-    if (destKey === SOURCE_DOC_ID) {
-      setStatus('warning', '⚠️ Your account key matches the source document — you are already the original account. Your data should be visible in the main dashboard. Try refreshing it.');
-      document.getElementById('migrate-btn').disabled = true;
-    }
   } else {
     document.getElementById('auth-section').style.display = 'block';
     document.getElementById('logged-in-section').style.display = 'none';
@@ -138,15 +134,17 @@ function setStatus(type, msg) {
 async function runMigration() {
   const user = firebase.auth().currentUser;
   if (!user) { alert('Not signed in'); return; }
+  const sourceDocId = document.getElementById('source-doc-id').value.trim();
+  if (!sourceDocId) { alert('Please enter the source document ID.'); return; }
   const destKey = user.email || user.uid;
-  if (destKey === SOURCE_DOC_ID) { alert('Already the original account — nothing to migrate.'); return; }
+  if (destKey === sourceDocId) { alert('Source and destination are the same — nothing to migrate.'); return; }
 
   const btn = document.getElementById('migrate-btn');
   btn.disabled = true;
   setStatus('info', 'Reading source document...');
 
   try {
-    const srcSnap = await db.collection('dashboards').doc(SOURCE_DOC_ID).get();
+    const srcSnap = await db.collection('dashboards').doc(sourceDocId).get();
     if (!srcSnap.exists) {
       setStatus('error', '✗ Source document not found. Did you update the Firestore rules?');
       btn.disabled = false;
