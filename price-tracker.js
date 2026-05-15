@@ -10,9 +10,26 @@
 
 const PT_TROY   = 31.1035;
 const PT_MS     = 2500;
-const PT_DUTY   = 0.06;
 const PT_PROXY  = 'https://damp-bar-b442ok.r24rp9hgxh.workers.dev';
 const PT_TV     = 'https://scanner.tradingview.com/symbol';
+const PT_DUTY_LS_KEY = 'pt_duty_v1';
+const PT_DUTY_DEFAULT = { gold: { bcd: 5, aidc: 1 }, silver: { bcd: 5, aidc: 1 } };
+
+function ptLoadDuty() {
+  try {
+    const raw = localStorage.getItem(PT_DUTY_LS_KEY);
+    if (!raw) return structuredClone(PT_DUTY_DEFAULT);
+    const p = JSON.parse(raw);
+    const pick = (v, d) => Number.isFinite(+v) ? +v : d;
+    return {
+      gold:   { bcd: pick(p?.gold?.bcd,   5), aidc: pick(p?.gold?.aidc,   1) },
+      silver: { bcd: pick(p?.silver?.bcd, 5), aidc: pick(p?.silver?.aidc, 1) },
+    };
+  } catch { return structuredClone(PT_DUTY_DEFAULT); }
+}
+function ptSaveDuty() {
+  try { localStorage.setItem(PT_DUTY_LS_KEY, JSON.stringify(PT_duty)); } catch {}
+}
 
 const PT_CFG = {
   gold:   {
@@ -40,6 +57,9 @@ let PT_cache     = { gold: null, silver: null, inr: null };
 let PT_ticks     = 0;
 let PT_t0        = Date.now();
 let PT_lastErr   = null;
+let PT_duty      = ptLoadDuty();
+let PT_settingsOpen = false;
+let PT_methodOpen   = false;
 
 // ── Low-level fetchers ──────────────────────────────────
 
@@ -84,9 +104,15 @@ async function ptFetchInr() {
 
 // ── Calculations ────────────────────────────────────────
 
-function ptLanded(metalUsd, usdInr, cfg) {
+function ptDutyFactor(mode) {
+  const d = PT_duty[mode] || { bcd: 0, aidc: 0 };
+  return 1 + (Number(d.bcd) || 0) / 100 + (Number(d.aidc) || 0) / 100;
+}
+
+function ptLanded(metalUsd, usdInr, cfg, mode) {
   const perGram = (metalUsd * usdInr) / PT_TROY;
-  return cfg.grades.map(g => ({ label: g.label, price: perGram * g.f * (1 + PT_DUTY) }));
+  const factor  = ptDutyFactor(mode);
+  return cfg.grades.map(g => ({ label: g.label, price: perGram * g.f * factor }));
 }
 
 // ── Formatters (pt-scoped to avoid conflicts) ───────────
@@ -125,20 +151,20 @@ async function ptPoll() {
     PT_lastErr = null;
 
     // ── Feed Gold / Silver tabs ──
-    LIVE.goldRate   = ptLanded(gold.price,   inr.price, PT_CFG.gold)[0].price;   // 24K
-    LIVE.silverRate = ptLanded(silver.price, inr.price, PT_CFG.silver)[0].price; // 999
+    LIVE.goldRate   = ptLanded(gold.price,   inr.price, PT_CFG.gold,   'gold')[0].price;   // 24K
+    LIVE.silverRate = ptLanded(silver.price, inr.price, PT_CFG.silver, 'silver')[0].price; // 999
 
     // Re-render those tabs if currently visible
     if (document.getElementById('tab-gold')?.classList.contains('active'))   renderGold();
     if (document.getElementById('tab-silver')?.classList.contains('active')) renderSilver();
 
-    // Re-render tracker tab if visible
-    if (document.getElementById('tab-prices')?.classList.contains('active')) ptDraw();
+    // Re-render tracker tab if visible (skip while user is editing settings)
+    if (document.getElementById('tab-prices')?.classList.contains('active') && !PT_settingsOpen) ptDraw();
 
   } catch(e) {
     PT_lastErr = e.message;
     console.error('Price tracker poll error:', e);
-    if (document.getElementById('tab-prices')?.classList.contains('active')) ptDraw();
+    if (document.getElementById('tab-prices')?.classList.contains('active') && !PT_settingsOpen) ptDraw();
   }
 }
 
@@ -164,12 +190,29 @@ function ptDraw() {
     : `Live ${isGold ? 'XAU' : 'XAG'} + USD/INR (poll) · ${timeStr} · ~${avgTick}s tick`;
 
   const landedHTML = (metal && inr)
-    ? ptLanded(metal.price, inr.price, cfg).map(r =>
+    ? ptLanded(metal.price, inr.price, cfg, PT_mode).map(r =>
         `<div class="pt-lr">
           <span class="pt-karat">${r.label}</span>
           <span class="pt-lprice">${ptInr(r.price)}/g</span>
         </div>`).join('')
     : `<div class="pt-lr"><span class="pt-karat">—</span><span class="pt-lprice">Loading…</span></div>`;
+
+  const duty      = PT_duty[PT_mode];
+  const dutyTotal = (Number(duty.bcd) || 0) + (Number(duty.aidc) || 0);
+  const dutyLine  = `BCD ${(+duty.bcd).toFixed(2)}% + AIDC ${(+duty.aidc).toFixed(2)}% → ${dutyTotal.toFixed(2)}% on CIF`;
+
+  const settingsHTML = PT_settingsOpen ? `
+    <div class="pt-settings">
+      <div class="pt-settings-hdr">${isGold ? 'Gold' : 'Silver'} import duty</div>
+      <div class="pt-settings-row">
+        <label>BCD %<input type="number" step="0.01" min="0" id="pt-bcd" value="${duty.bcd}"></label>
+        <label>AIDC %<input type="number" step="0.01" min="0" id="pt-aidc" value="${duty.aidc}"></label>
+      </div>
+      <div class="pt-settings-actions">
+        <button type="button" id="pt-duty-reset" class="pt-btn pt-btn-ghost">Reset</button>
+        <button type="button" id="pt-duty-save"  class="pt-btn">Save</button>
+      </div>
+    </div>` : '';
 
   wrap.innerHTML = `
     <div class="pt-card">
@@ -178,11 +221,15 @@ function ptDraw() {
           <div class="pt-title">${isGold ? 'Gold' : 'Silver'} price tracker</div>
           <div class="pt-sub">Live ${isGold ? 'XAU' : 'XAG'}/USD + USD/INR · India import landed</div>
         </div>
-        <label class="pt-toggle" title="Switch Gold / Silver">
-          <input type="checkbox" id="pt-tog" ${isGold ? 'checked' : ''}>
-          <span class="pt-tog-slider"></span>
-        </label>
+        <div class="pt-hdr-actions">
+          <button type="button" id="pt-gear" class="pt-gear" title="Edit import duty" aria-label="Settings">⚙</button>
+          <label class="pt-toggle" title="Switch Gold / Silver">
+            <input type="checkbox" id="pt-tog" ${isGold ? 'checked' : ''}>
+            <span class="pt-tog-slider"></span>
+          </label>
+        </div>
       </div>
+      ${settingsHTML}
 
       <div class="pt-status"><span class="${dotCls}"></span>${statusMsg}</div>
 
@@ -190,7 +237,7 @@ function ptDraw() {
       <div class="pt-import">
         <div class="pt-imp-hdr">₹ / g · India Import Landed</div>
         <div class="pt-imp-rows">${landedHTML}</div>
-        <div class="pt-imp-duty">BCD 5.00% + AIDC 1.00% → 6.00% on CIF</div>
+        <div class="pt-imp-duty">${dutyLine}</div>
       </div>
 
       <!-- ② USD/INR — compact card -->
@@ -208,7 +255,7 @@ function ptDraw() {
         <span class="pt-metal-footer-src">${metal?.src ?? ''}</span>
       </div>
 
-      <details class="pt-method">
+      <details class="pt-method" id="pt-method" ${PT_methodOpen ? 'open' : ''}>
         <summary>Methodology</summary>
         <div class="pt-method-body">
           <p><strong>Gold</strong> — OANDA:XAUUSD via TradingView CFD scanner; fallback Yahoo GC=F.
@@ -224,6 +271,41 @@ function ptDraw() {
   document.getElementById('pt-tog')?.addEventListener('change', e => {
     PT_mode = e.target.checked ? 'gold' : 'silver';
     ptDraw();
+  });
+
+  document.getElementById('pt-gear')?.addEventListener('click', () => {
+    PT_settingsOpen = !PT_settingsOpen;
+    ptDraw();
+  });
+
+  document.getElementById('pt-duty-save')?.addEventListener('click', () => {
+    const bcd  = parseFloat(document.getElementById('pt-bcd')?.value);
+    const aidc = parseFloat(document.getElementById('pt-aidc')?.value);
+    if (Number.isFinite(bcd))  PT_duty[PT_mode].bcd  = bcd;
+    if (Number.isFinite(aidc)) PT_duty[PT_mode].aidc = aidc;
+    ptSaveDuty();
+    PT_settingsOpen = false;
+    // Re-feed downstream LIVE rates and re-render dependent tabs
+    if (PT_cache.gold && PT_cache.inr)
+      LIVE.goldRate = ptLanded(PT_cache.gold.price, PT_cache.inr.price, PT_CFG.gold, 'gold')[0].price;
+    if (PT_cache.silver && PT_cache.inr)
+      LIVE.silverRate = ptLanded(PT_cache.silver.price, PT_cache.inr.price, PT_CFG.silver, 'silver')[0].price;
+    if (document.getElementById('tab-gold')?.classList.contains('active'))   renderGold?.();
+    if (document.getElementById('tab-silver')?.classList.contains('active')) renderSilver?.();
+    ptDraw();
+  });
+
+  document.getElementById('pt-duty-reset')?.addEventListener('click', () => {
+    PT_duty[PT_mode] = { ...PT_DUTY_DEFAULT[PT_mode] };
+    const b = document.getElementById('pt-bcd');
+    const a = document.getElementById('pt-aidc');
+    if (b) b.value = PT_duty[PT_mode].bcd;
+    if (a) a.value = PT_duty[PT_mode].aidc;
+  });
+
+  // Track methodology open state so the live re-render doesn't snap it shut
+  document.getElementById('pt-method')?.addEventListener('toggle', e => {
+    PT_methodOpen = e.target.open;
   });
 }
 
