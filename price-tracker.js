@@ -231,7 +231,7 @@ function ptDraw() {
   const dutyLine = PT_gstOn
     ? `BCD ${bcdN.toFixed(2)}% + AIDC ${aidcN.toFixed(2)}% + GST ${gstN.toFixed(2)}% → ${effectivePct.toFixed(2)}% on CIF`
     : `BCD ${bcdN.toFixed(2)}% + AIDC ${aidcN.toFixed(2)}% → ${customsPct.toFixed(2)}% on CIF · GST off`;
-  const retailHdr = PT_gstOn ? '₹ / g · India Retail (Incl GST)' : '₹ / g · India Landed (Pre-GST)';
+  const retailHdr = PT_gstOn ? '₹ / g · India Retail (Incl GST)' : '₹ / g · India Retail (Excl GST)';
 
   const settingsHTML = PT_settingsOpen ? `
     <div class="pt-settings">
@@ -251,7 +251,7 @@ function ptDraw() {
       <div class="pt-hdr">
         <div>
           <div class="pt-title">${isGold ? 'Gold' : 'Silver'} price tracker</div>
-          <div class="pt-sub">Live ${isGold ? 'XAU' : 'XAG'}/USD + USD/INR · ${PT_gstOn ? 'India retail (incl GST)' : 'India landed (pre-GST)'}</div>
+          <div class="pt-sub">Live ${isGold ? 'XAU' : 'XAG'}/USD + USD/INR · ${PT_gstOn ? 'India retail (incl GST)' : 'India retail (excl GST)'}</div>
         </div>
         <div class="pt-hdr-actions">
           <button type="button" id="pt-gear" class="pt-gear" title="Edit import duty" aria-label="Settings">⚙</button>
