@@ -491,7 +491,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .pt-neg{color:var(--red)}
 /* import landed — hero section */
 .pt-import{margin:0 16px 10px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.pt-imp-hdr{background:var(--surface2);padding:7px 13px;font-size:.67rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)}
+.pt-imp-hdr{background:var(--surface2);padding:7px 13px;font-size:.67rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pt-gst-toggle{position:relative;display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.pt-gst-lbl{font-size:.62rem;font-weight:700;letter-spacing:.08em;color:var(--text3)}
+.pt-gst-toggle input{opacity:0;width:0;height:0;position:absolute}
+.pt-gst-slider{position:relative;width:28px;height:16px;background:var(--border2);border-radius:99px;transition:background .2s;flex-shrink:0}
+.pt-gst-slider::after{content:'';position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pt-gst-toggle input:checked~.pt-gst-slider{background:var(--green,#1aae50)}
+.pt-gst-toggle input:checked~.pt-gst-slider::after{transform:translateX(12px)}
 .pt-lr{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border)}
 .pt-lr:last-child{border-bottom:none}
 .pt-karat{font-size:.88rem;font-weight:600;color:var(--text2)}

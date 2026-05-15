@@ -13,7 +13,11 @@ const PT_MS     = 2500;
 const PT_PROXY  = 'https://damp-bar-b442ok.r24rp9hgxh.workers.dev';
 const PT_TV     = 'https://scanner.tradingview.com/symbol';
 const PT_DUTY_LS_KEY = 'pt_duty_v1';
-const PT_DUTY_DEFAULT = { gold: { bcd: 5, aidc: 1 }, silver: { bcd: 5, aidc: 1 } };
+const PT_GST_LS_KEY  = 'pt_gst_on_v1';
+const PT_DUTY_DEFAULT = {
+  gold:   { bcd: 5, aidc: 1, gst: 3 },
+  silver: { bcd: 5, aidc: 1, gst: 3 },
+};
 
 function ptLoadDuty() {
   try {
@@ -22,13 +26,20 @@ function ptLoadDuty() {
     const p = JSON.parse(raw);
     const pick = (v, d) => Number.isFinite(+v) ? +v : d;
     return {
-      gold:   { bcd: pick(p?.gold?.bcd,   5), aidc: pick(p?.gold?.aidc,   1) },
-      silver: { bcd: pick(p?.silver?.bcd, 5), aidc: pick(p?.silver?.aidc, 1) },
+      gold:   { bcd: pick(p?.gold?.bcd,   5), aidc: pick(p?.gold?.aidc,   1), gst: pick(p?.gold?.gst,   3) },
+      silver: { bcd: pick(p?.silver?.bcd, 5), aidc: pick(p?.silver?.aidc, 1), gst: pick(p?.silver?.gst, 3) },
     };
   } catch { return structuredClone(PT_DUTY_DEFAULT); }
 }
 function ptSaveDuty() {
   try { localStorage.setItem(PT_DUTY_LS_KEY, JSON.stringify(PT_duty)); } catch {}
+}
+function ptLoadGstOn() {
+  const raw = localStorage.getItem(PT_GST_LS_KEY);
+  return raw === null ? true : raw === '1';
+}
+function ptSaveGstOn() {
+  try { localStorage.setItem(PT_GST_LS_KEY, PT_gstOn ? '1' : '0'); } catch {}
 }
 
 const PT_CFG = {
@@ -58,6 +69,7 @@ let PT_ticks     = 0;
 let PT_t0        = Date.now();
 let PT_lastErr   = null;
 let PT_duty      = ptLoadDuty();
+let PT_gstOn     = ptLoadGstOn();
 let PT_settingsOpen = false;
 let PT_methodOpen   = false;
 
@@ -105,14 +117,25 @@ async function ptFetchInr() {
 // ── Calculations ────────────────────────────────────────
 
 function ptDutyFactor(mode) {
-  const d = PT_duty[mode] || { bcd: 0, aidc: 0 };
-  return 1 + (Number(d.bcd) || 0) / 100 + (Number(d.aidc) || 0) / 100;
+  const d = PT_duty[mode] || { bcd: 0, aidc: 0, gst: 0 };
+  const customs = 1 + (Number(d.bcd) || 0) / 100 + (Number(d.aidc) || 0) / 100;
+  const gst     = PT_gstOn ? (1 + (Number(d.gst) || 0) / 100) : 1;
+  return customs * gst;
 }
 
 function ptLanded(metalUsd, usdInr, cfg, mode) {
   const perGram = (metalUsd * usdInr) / PT_TROY;
   const factor  = ptDutyFactor(mode);
   return cfg.grades.map(g => ({ label: g.label, price: perGram * g.f * factor }));
+}
+
+function ptRefreshDownstream() {
+  if (PT_cache.gold && PT_cache.inr)
+    LIVE.goldRate = ptLanded(PT_cache.gold.price, PT_cache.inr.price, PT_CFG.gold, 'gold')[0].price;
+  if (PT_cache.silver && PT_cache.inr)
+    LIVE.silverRate = ptLanded(PT_cache.silver.price, PT_cache.inr.price, PT_CFG.silver, 'silver')[0].price;
+  if (document.getElementById('tab-gold')?.classList.contains('active'))   renderGold?.();
+  if (document.getElementById('tab-silver')?.classList.contains('active')) renderSilver?.();
 }
 
 // ── Formatters (pt-scoped to avoid conflicts) ───────────
@@ -197,20 +220,29 @@ function ptDraw() {
         </div>`).join('')
     : `<div class="pt-lr"><span class="pt-karat">—</span><span class="pt-lprice">Loading…</span></div>`;
 
-  const duty      = PT_duty[PT_mode];
-  const dutyTotal = (Number(duty.bcd) || 0) + (Number(duty.aidc) || 0);
-  const dutyLine  = `BCD ${(+duty.bcd).toFixed(2)}% + AIDC ${(+duty.aidc).toFixed(2)}% → ${dutyTotal.toFixed(2)}% on CIF`;
+  const duty       = PT_duty[PT_mode];
+  const bcdN       = +duty.bcd  || 0;
+  const aidcN      = +duty.aidc || 0;
+  const gstN       = +duty.gst  || 0;
+  const customsPct = bcdN + aidcN;
+  const effectivePct = PT_gstOn
+    ? ((1 + customsPct / 100) * (1 + gstN / 100) - 1) * 100
+    : customsPct;
+  const dutyLine = PT_gstOn
+    ? `BCD ${bcdN.toFixed(2)}% + AIDC ${aidcN.toFixed(2)}% + GST ${gstN.toFixed(2)}% → ${effectivePct.toFixed(2)}% on CIF`
+    : `BCD ${bcdN.toFixed(2)}% + AIDC ${aidcN.toFixed(2)}% → ${customsPct.toFixed(2)}% on CIF · GST off`;
+  const retailHdr = PT_gstOn ? '₹ / g · India Retail (Incl GST)' : '₹ / g · India Landed (Pre-GST)';
 
   const settingsHTML = PT_settingsOpen ? `
     <div class="pt-settings">
-      <div class="pt-settings-hdr">${isGold ? 'Gold' : 'Silver'} import duty</div>
+      <div class="pt-settings-hdr">${isGold ? 'Gold' : 'Silver'} import duty + GST</div>
       <div class="pt-settings-row">
         <label>BCD %<input type="number" step="0.01" min="0" id="pt-bcd" value="${duty.bcd}"></label>
         <label>AIDC %<input type="number" step="0.01" min="0" id="pt-aidc" value="${duty.aidc}"></label>
+        <label>GST %<input type="number" step="0.01" min="0" id="pt-gst" value="${duty.gst}"></label>
       </div>
       <div class="pt-settings-actions">
-        <button type="button" id="pt-duty-reset" class="pt-btn pt-btn-ghost">Reset</button>
-        <button type="button" id="pt-duty-save"  class="pt-btn">Save</button>
+        <button type="button" id="pt-duty-save" class="pt-btn">Save</button>
       </div>
     </div>` : '';
 
@@ -219,7 +251,7 @@ function ptDraw() {
       <div class="pt-hdr">
         <div>
           <div class="pt-title">${isGold ? 'Gold' : 'Silver'} price tracker</div>
-          <div class="pt-sub">Live ${isGold ? 'XAU' : 'XAG'}/USD + USD/INR · India import landed</div>
+          <div class="pt-sub">Live ${isGold ? 'XAU' : 'XAG'}/USD + USD/INR · ${PT_gstOn ? 'India retail (incl GST)' : 'India landed (pre-GST)'}</div>
         </div>
         <div class="pt-hdr-actions">
           <button type="button" id="pt-gear" class="pt-gear" title="Edit import duty" aria-label="Settings">⚙</button>
@@ -233,9 +265,16 @@ function ptDraw() {
 
       <div class="pt-status"><span class="${dotCls}"></span>${statusMsg}</div>
 
-      <!-- ① Landed prices — hero section -->
+      <!-- ① Retail prices — hero section -->
       <div class="pt-import">
-        <div class="pt-imp-hdr">₹ / g · India Import Landed</div>
+        <div class="pt-imp-hdr">
+          <span>${retailHdr}</span>
+          <label class="pt-gst-toggle" title="Toggle GST">
+            <span class="pt-gst-lbl">GST</span>
+            <input type="checkbox" id="pt-gst-tog" ${PT_gstOn ? 'checked' : ''}>
+            <span class="pt-gst-slider"></span>
+          </label>
+        </div>
         <div class="pt-imp-rows">${landedHTML}</div>
         <div class="pt-imp-duty">${dutyLine}</div>
       </div>
@@ -261,8 +300,8 @@ function ptDraw() {
           <p><strong>Gold</strong> — OANDA:XAUUSD via TradingView CFD scanner; fallback Yahoo GC=F.
              <strong>Silver</strong> — TVC:SILVER via TradingView scanner (XAG/silver index); fallback Yahoo SI=F.</p>
           <p><strong>USD/INR</strong> — FX_IDC:USDINR via TradingView scanner; fallback Yahoo USDINR=X.</p>
-          <p>India duty defaults: gold &amp; silver each <strong>5% BCD + 1% AIDC</strong> on CIF.
-             Landed prices feed the Gold &amp; Silver holding tabs. Polls every ~2.5 s. Illustrative only. 1 troy oz = 31.1035 g.</p>
+          <p>${isGold ? 'Gold' : 'Silver'} retail uses <strong>${bcdN.toFixed(2)}% BCD + ${aidcN.toFixed(2)}% AIDC</strong> on CIF${PT_gstOn ? `, then <strong>${gstN.toFixed(2)}% GST</strong> on (CIF + duty)` : ' (GST currently off)'}.
+             Rates editable via the ⚙ button. Retail prices feed the Gold &amp; Silver holding tabs. Polls every ~2.5 s. Illustrative only. 1 troy oz = 31.1035 g.</p>
         </div>
       </details>
     </div>`;
@@ -281,26 +320,21 @@ function ptDraw() {
   document.getElementById('pt-duty-save')?.addEventListener('click', () => {
     const bcd  = parseFloat(document.getElementById('pt-bcd')?.value);
     const aidc = parseFloat(document.getElementById('pt-aidc')?.value);
+    const gst  = parseFloat(document.getElementById('pt-gst')?.value);
     if (Number.isFinite(bcd))  PT_duty[PT_mode].bcd  = bcd;
     if (Number.isFinite(aidc)) PT_duty[PT_mode].aidc = aidc;
+    if (Number.isFinite(gst))  PT_duty[PT_mode].gst  = gst;
     ptSaveDuty();
     PT_settingsOpen = false;
-    // Re-feed downstream LIVE rates and re-render dependent tabs
-    if (PT_cache.gold && PT_cache.inr)
-      LIVE.goldRate = ptLanded(PT_cache.gold.price, PT_cache.inr.price, PT_CFG.gold, 'gold')[0].price;
-    if (PT_cache.silver && PT_cache.inr)
-      LIVE.silverRate = ptLanded(PT_cache.silver.price, PT_cache.inr.price, PT_CFG.silver, 'silver')[0].price;
-    if (document.getElementById('tab-gold')?.classList.contains('active'))   renderGold?.();
-    if (document.getElementById('tab-silver')?.classList.contains('active')) renderSilver?.();
+    ptRefreshDownstream();
     ptDraw();
   });
 
-  document.getElementById('pt-duty-reset')?.addEventListener('click', () => {
-    PT_duty[PT_mode] = { ...PT_DUTY_DEFAULT[PT_mode] };
-    const b = document.getElementById('pt-bcd');
-    const a = document.getElementById('pt-aidc');
-    if (b) b.value = PT_duty[PT_mode].bcd;
-    if (a) a.value = PT_duty[PT_mode].aidc;
+  document.getElementById('pt-gst-tog')?.addEventListener('change', e => {
+    PT_gstOn = !!e.target.checked;
+    ptSaveGstOn();
+    ptRefreshDownstream();
+    ptDraw();
   });
 
   // Track methodology open state so the live re-render doesn't snap it shut
