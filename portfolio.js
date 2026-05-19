@@ -7,13 +7,15 @@ let P = {
   stocks: [],
   gold: [],
   silver: [],
+  jewellery: [],
   real_estate: [],
   epf: { currentBalance:0, interestRate:8.15, lastUpdated:'', transactions:[] },
   nps: { currentValue:0, scheme:'', lastUpdated:'', transactions:[], schemeHistory:[] },
   mf_sales: [],
   stock_sales: [],
   gold_sales: [],
-  silver_sales: []
+  silver_sales: [],
+  jewellery_sales: []
 };
 
 // Live prices cache (in-memory, refreshed per session)
@@ -33,13 +35,15 @@ function pSave() {
     stocks: P.stocks,
     gold: P.gold,
     silver: P.silver,
+    jewellery: P.jewellery,
     real_estate: P.real_estate,
     epf: P.epf,
     nps: P.nps,
     mf_sales: P.mf_sales,
     stock_sales: P.stock_sales,
     gold_sales: P.gold_sales,
-    silver_sales: P.silver_sales
+    silver_sales: P.silver_sales,
+    jewellery_sales: P.jewellery_sales
   });
 }
 
@@ -72,10 +76,12 @@ function pLoad(data) {
       to: null, valueAtStart: 0, valueAtEnd: null
     });
   }
+  P.jewellery    = d.jewellery    || [];
   P.mf_sales     = d.mf_sales     || [];
   P.stock_sales  = d.stock_sales  || [];
   P.gold_sales   = d.gold_sales   || [];
   P.silver_sales = d.silver_sales || [];
+  P.jewellery_sales = d.jewellery_sales || [];
 }
 
 // ── LIVE PRICE FETCHERS ───────────────────────────────
@@ -148,6 +154,10 @@ async function getPortfolioValues() {
       goldTotal += parseFloat(g.purchasePrice)||0;
     }
   });
+  P.jewellery.forEach(j=>{
+    goldInvested += parseFloat(j.purchaseTotal)||0;
+    goldTotal += computeJewelleryCurrentValue(j, goldRate);
+  });
 
   let silverTotal=0, silverInvested=0;
   P.silver.forEach(s=>{
@@ -175,7 +185,8 @@ async function getPortfolioValues() {
 
   const mfRealised     = P.mf_sales.reduce((s,x) => s + x.gainAmount, 0);
   const stocksRealised = P.stock_sales.reduce((s,x) => s + x.gainAmount, 0);
-  const goldRealised   = P.gold_sales.reduce((s,x) => s + x.gainAmount, 0);
+  const goldRealised   = P.gold_sales.reduce((s,x) => s + x.gainAmount, 0)
+                       + P.jewellery_sales.reduce((s,x) => s + x.gainAmount, 0);
   const silverRealised = P.silver_sales.reduce((s,x) => s + x.gainAmount, 0);
 
   return {
@@ -209,6 +220,10 @@ function getAssetCashflows(key, currentValue) {
       const inv = parseFloat(g.purchasePrice)||0;
       if (g.purchaseDate && inv>0) flows.push({amount:-inv, date:g.purchaseDate});
     });
+    P.jewellery.forEach(j => {
+      const inv = parseFloat(j.purchaseTotal)||0;
+      if (j.purchaseDate && inv>0) flows.push({amount:-inv, date:j.purchaseDate});
+    });
   } else if (key === 'silver') {
     P.silver.forEach(s => {
       const inv = parseFloat(s.purchasePrice)||0;
@@ -237,6 +252,7 @@ function getAssetCashflows(key, currentValue) {
     P.stock_sales.forEach(s => { if (s.saleDate && s.saleAmount > 0) flows.push({ amount: +s.saleAmount, date: s.saleDate }); });
   } else if (key === 'gold') {
     P.gold_sales.forEach(s => { if (s.saleDate && s.saleAmount > 0) flows.push({ amount: +s.saleAmount, date: s.saleDate }); });
+    P.jewellery_sales.forEach(s => { if (s.saleDate && s.saleAmount > 0) flows.push({ amount: +s.saleAmount, date: s.saleDate }); });
   } else if (key === 'silver') {
     P.silver_sales.forEach(s => { if (s.saleDate && s.saleAmount > 0) flows.push({ amount: +s.saleAmount, date: s.saleDate }); });
   }
@@ -250,7 +266,8 @@ function getAssetCashflows(key, currentValue) {
 function getRealisedGain(key) {
   if (key === 'mf')     return P.mf_sales.reduce((s,x) => s + x.gainAmount, 0);
   if (key === 'stocks') return P.stock_sales.reduce((s,x) => s + x.gainAmount, 0);
-  if (key === 'gold')   return P.gold_sales.reduce((s,x) => s + x.gainAmount, 0);
+  if (key === 'gold')   return P.gold_sales.reduce((s,x) => s + x.gainAmount, 0)
+                             + P.jewellery_sales.reduce((s,x) => s + x.gainAmount, 0);
   if (key === 'silver') return P.silver_sales.reduce((s,x) => s + x.gainAmount, 0);
   return 0;
 }
@@ -638,6 +655,7 @@ function deleteStock(id) {
 async function renderGold() {
   const el = document.getElementById('gold-content');
   if (!el) return;
+  renderJewellery();   // render jewellery section in parallel
 
   const goldRate = await fetchGoldPrice();
 
@@ -652,7 +670,7 @@ async function renderGold() {
   const activeGold = P.gold.filter(g => (parseFloat(g.weightGrams)||0) > 0.0001);
 
   if (activeGold.length === 0 && P.gold_sales.length === 0) {
-    el.innerHTML = '<div class="empty-state">No gold holdings yet — click <strong>+ Add Gold</strong> to get started.</div>';
+    el.innerHTML = '';
     return;
   }
 
@@ -688,7 +706,9 @@ async function renderGold() {
   const totalGain = totalCurrent - totalPurchase;
   const totalGainPct = totalPurchase > 0 ? (totalGain/totalPurchase)*100 : 0;
 
+  const coinsHdr = `<div class="jewellery-section-hdr" style="border-top:none;padding-top:0"><span class="jewellery-section-title">Coins &amp; Bars</span></div>`;
   el.innerHTML = `
+    ${coinsHdr}
     <div class="portfolio-table-wrap">
       <table class="portfolio-table">
         <thead><tr>
@@ -761,6 +781,417 @@ function deleteGold(id) {
   if (!confirm('Remove this gold holding?')) return;
   P.gold = P.gold.filter(g=>g.id!==id);
   pSave(); renderGold(); toast('Removed');
+}
+
+// ── JEWELLERY ─────────────────────────────────────────
+
+function computeJewelleryCurrentValue(j, goldRate) {
+  let val = 0;
+  if (j.gold) {
+    const w = parseFloat(j.gold.weightGrams)||0;
+    const f = PURITY_FACTOR[j.gold.purity] || (22/24);
+    val += goldRate ? w * f * goldRate : (parseFloat(j.gold.purchasePrice)||0);
+  }
+  if (j.diamonds) {
+    val += parseFloat(j.diamonds.currentOverride ?? j.diamonds.purchasePrice)||0;
+  }
+  if (j.stones) {
+    val += parseFloat(j.stones.currentOverride ?? j.stones.purchasePrice)||0;
+  }
+  // making charges always contribute 0 to current value
+  return val;
+}
+
+const _jwlOpen = {};  // tracks which jewellery rows have sub-rows expanded
+
+async function renderJewellery() {
+  const el = document.getElementById('jewellery-content');
+  if (!el) return;
+  const goldRate = await fetchGoldPrice();
+
+  if (P.jewellery.length === 0 && P.jewellery_sales.length === 0) {
+    el.innerHTML = '';
+    return;
+  }
+
+  let totalPurchase = 0, totalCurrent = 0;
+
+  const rows = P.jewellery.map((j, i) => {
+    const purchased = parseFloat(j.purchaseTotal)||0;
+    const current   = computeJewelleryCurrentValue(j, goldRate);
+    const gain      = current - purchased;
+    const gainPct   = purchased > 0 ? (gain/purchased)*100 : null;
+    totalPurchase += purchased;
+    totalCurrent  += current;
+    const isOpen = !!_jwlOpen[j.id];
+
+    const goldVal    = j.gold ? formatINR(computeJewelleryCurrentValue({gold:j.gold}, goldRate)) : '—';
+    const goldPurch  = j.gold ? formatINR(parseFloat(j.gold.purchasePrice)||0) : '—';
+    const makingPurch= j.making ? formatINR(parseFloat(j.making.purchasePrice)||0) : '—';
+
+    let subRows = `
+      <tr class="jwl-sub-row">
+        <td colspan="2"><span class="jwl-sub-label">Gold ${j.gold?.purity||''}</span> ${j.gold?.weightGrams||0}g</td>
+        <td class="right">${goldPurch}</td>
+        <td class="right">${goldVal}</td>
+        <td colspan="4"></td>
+      </tr>
+      <tr class="jwl-sub-row">
+        <td colspan="2"><span class="jwl-sub-label">Making Charges</span></td>
+        <td class="right">${makingPurch}</td>
+        <td class="right"><span style="color:var(--text3)">₹0</span></td>
+        <td colspan="4"></td>
+      </tr>`;
+
+    if (j.diamonds) {
+      const dPurch = parseFloat(j.diamonds.purchasePrice)||0;
+      const dCur   = parseFloat(j.diamonds.currentOverride ?? j.diamonds.purchasePrice)||0;
+      const hasOvr = j.diamonds.currentOverride !== undefined && j.diamonds.currentOverride !== null;
+      subRows += `
+        <tr class="jwl-sub-row">
+          <td colspan="2"><span class="jwl-sub-label">Diamonds</span> ${j.diamonds.carats||0}ct</td>
+          <td class="right">${formatINR(dPurch)}</td>
+          <td class="right">
+            <span class="jwl-override-wrap">
+              <span id="jwl-dov-disp-${j.id}">${formatINR(dCur)}</span>
+              <button class="jwl-override-clear" title="${hasOvr?'Clear override':'Override current value'}"
+                onclick="jwlOverride('diamonds','${j.id}',${dPurch})">✎</button>
+              ${hasOvr ? `<button class="jwl-override-clear" title="Reset to purchase value"
+                onclick="jwlClearOverride('diamonds','${j.id}')">↺</button>` : ''}
+            </span>
+          </td>
+          <td colspan="4"></td>
+        </tr>`;
+    }
+
+    if (j.stones) {
+      const sPurch = parseFloat(j.stones.purchasePrice)||0;
+      const sCur   = parseFloat(j.stones.currentOverride ?? j.stones.purchasePrice)||0;
+      const hasOvr = j.stones.currentOverride !== undefined && j.stones.currentOverride !== null;
+      subRows += `
+        <tr class="jwl-sub-row">
+          <td colspan="2"><span class="jwl-sub-label">Stones</span> ${esc(j.stones.description||'')}</td>
+          <td class="right">${formatINR(sPurch)}</td>
+          <td class="right">
+            <span class="jwl-override-wrap">
+              <span id="jwl-sov-disp-${j.id}">${formatINR(sCur)}</span>
+              <button class="jwl-override-clear" title="${hasOvr?'Clear override':'Override current value'}"
+                onclick="jwlOverride('stones','${j.id}',${sPurch})">✎</button>
+              ${hasOvr ? `<button class="jwl-override-clear" title="Reset to purchase value"
+                onclick="jwlClearOverride('stones','${j.id}')">↺</button>` : ''}
+            </span>
+          </td>
+          <td colspan="4"></td>
+        </tr>`;
+    }
+
+    return `
+      <tbody>
+        <tr>
+          <td class="left fund-num">${i+1}</td>
+          <td class="left">
+            <button class="jwl-expand-btn${isOpen?' open':''}" onclick="jwlToggle('${j.id}',this)" title="Show/hide components">▸</button>
+            ${esc(j.description)}
+          </td>
+          <td>${purchased ? formatINR(purchased) : '—'}</td>
+          <td>${formatINR(current)}</td>
+          <td>${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
+          <td>${gainChip(gainPct)}</td>
+          <td>${j.purchaseDate||'—'}</td>
+          <td><div class="fund-btns">
+            <button class="fnd-btn" onclick="openJewelleryModal('${esc(j.id)}')">✎</button>
+            <button class="sell-btn" onclick="openJwlSellModal('${esc(j.id)}')">Sell</button>
+            <button class="fnd-btn del" onclick="deleteJewellery('${esc(j.id)}')">✕</button>
+          </div></td>
+        </tr>
+      </tbody>
+      <tbody class="jewellery-sub-rows${isOpen?' open':''}" id="jwl-sub-${j.id}">${subRows}</tbody>`;
+  }).join('');
+
+  const totalGain = totalCurrent - totalPurchase;
+  const totalGainPct = totalPurchase > 0 ? (totalGain/totalPurchase)*100 : 0;
+
+  let html = `
+    <div class="jewellery-section-hdr">
+      <span class="jewellery-section-title">Jewellery</span>
+    </div>
+    <div class="portfolio-table-wrap">
+      <table class="portfolio-table">
+        <thead><tr>
+          <th class="left" style="width:30px"></th>
+          <th class="left" style="min-width:180px">Description</th>
+          <th>Purchase Price</th><th>Current Value</th>
+          <th>Notional Gain</th><th>Gain%</th>
+          <th>Purchase Date</th>
+          <th style="width:80px"></th>
+        </tr></thead>
+        ${rows}
+        <tfoot><tr class="totals-row">
+          <td colspan="2" class="left"><strong>Total</strong></td>
+          <td><strong>${formatINR(totalPurchase)}</strong></td>
+          <td><strong>${formatINR(totalCurrent)}</strong></td>
+          <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)}</strong></td>
+          <td>${gainChip(totalGainPct)}</td>
+          <td colspan="2"></td>
+        </tr></tfoot>
+      </table>
+    </div>`;
+
+  if (P.jewellery_sales.length > 0) {
+    html += renderJewellerySoldSection();
+  }
+  el.innerHTML = html;
+}
+
+function jwlToggle(id, btn) {
+  _jwlOpen[id] = !_jwlOpen[id];
+  btn.classList.toggle('open', _jwlOpen[id]);
+  btn.textContent = _jwlOpen[id] ? '▾' : '▸';
+  document.getElementById('jwl-sub-' + id)?.classList.toggle('open', _jwlOpen[id]);
+}
+
+function jwlOverride(component, id, purchasePrice) {
+  const j = P.jewellery.find(x => x.id === id);
+  if (!j || !j[component]) return;
+  const cur = parseFloat(j[component].currentOverride ?? purchasePrice)||0;
+  const val = prompt(`Override current value for ${component} (purchase: ₹${Math.round(purchasePrice).toLocaleString('en-IN')}):`, Math.round(cur));
+  if (val === null) return;
+  const n = parseFloat(val);
+  if (!Number.isFinite(n) || n < 0) { toast('Invalid value'); return; }
+  j[component].currentOverride = n;
+  pSave();
+  renderJewellery();
+}
+
+function jwlClearOverride(component, id) {
+  const j = P.jewellery.find(x => x.id === id);
+  if (!j || !j[component]) return;
+  delete j[component].currentOverride;
+  pSave();
+  renderJewellery();
+}
+
+function renderJewellerySoldSection() {
+  if (!P.jewellery_sales.length) return '';
+  const rows = P.jewellery_sales.map(s => {
+    const g = s.gainAmount;
+    return `<tr>
+      <td class="left">${esc(s.description)}</td>
+      <td>${s.saleDate||'—'}</td>
+      <td>${formatINR(s.saleAmount)}</td>
+      <td>${formatINR(s.costBasis)}</td>
+      <td><span style="color:${g>=0?'var(--green)':'var(--red)'}">${g>=0?'+':''}${formatINRFull(g)}</span></td>
+      <td><button class="fnd-btn del" onclick="deleteJwlSale('${s.id}')">✕</button></td>
+    </tr>`;
+  }).join('');
+  return `
+    <div class="sold-section">
+      <div style="font-size:.82rem;font-weight:600;margin-bottom:10px;color:var(--text2)">Jewellery Sales</div>
+      <div class="portfolio-table-wrap">
+        <table class="portfolio-table">
+          <thead><tr>
+            <th class="left">Description</th><th>Sale Date</th>
+            <th>Sale Amount</th><th>Cost Basis</th><th>Gain/Loss</th><th style="width:40px"></th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// ── Jewellery modal ────────────────────────────────────
+
+let jwlEditId = null;
+
+function openJewelleryModal(editId = null) {
+  jwlEditId = editId;
+  const j = editId ? P.jewellery.find(x => x.id === editId) : null;
+  document.getElementById('jwl-modal-title').textContent = editId ? 'Edit Jewellery' : 'Add Jewellery';
+  document.getElementById('jwl-desc').value    = j?.description || '';
+  document.getElementById('jwl-date').value    = j?.purchaseDate || '';
+  document.getElementById('jwl-total').value   = j?.purchaseTotal || '';
+  document.getElementById('jwl-gold-purity').value = j?.gold?.purity || '22K';
+  document.getElementById('jwl-gold-weight').value = j?.gold?.weightGrams || '';
+  document.getElementById('jwl-gold-price').value  = j?.gold?.purchasePrice || '';
+  document.getElementById('jwl-making').value       = j?.making?.purchasePrice || '';
+  const hasDiamonds = !!(j?.diamonds);
+  const hasStones   = !!(j?.stones);
+  document.getElementById('jwl-has-diamonds').checked = hasDiamonds;
+  document.getElementById('jwl-diamonds-fields').style.display = hasDiamonds ? '' : 'none';
+  document.getElementById('jwl-diamond-ct').value    = j?.diamonds?.carats || '';
+  document.getElementById('jwl-diamond-price').value = j?.diamonds?.purchasePrice || '';
+  document.getElementById('jwl-has-stones').checked = hasStones;
+  document.getElementById('jwl-stones-fields').style.display = hasStones ? '' : 'none';
+  document.getElementById('jwl-stones-desc').value   = j?.stones?.description || '';
+  document.getElementById('jwl-stones-price').value  = j?.stones?.purchasePrice || '';
+  jwlUpdateReconcile();
+  document.getElementById('jewellery-modal').style.display = 'flex';
+}
+
+function jwlUpdateReconcile() {
+  const el = document.getElementById('jwl-reconcile');
+  if (!el) return;
+  const total    = parseFloat(document.getElementById('jwl-total').value)||0;
+  const gold     = parseFloat(document.getElementById('jwl-gold-price').value)||0;
+  const making   = parseFloat(document.getElementById('jwl-making').value)||0;
+  const diamonds = document.getElementById('jwl-has-diamonds').checked
+    ? parseFloat(document.getElementById('jwl-diamond-price').value)||0 : 0;
+  const stones   = document.getElementById('jwl-has-stones').checked
+    ? parseFloat(document.getElementById('jwl-stones-price').value)||0 : 0;
+  const subSum   = gold + making + diamonds + stones;
+  const diff     = total - subSum;
+  if (total === 0 && subSum === 0) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  const absDiff = Math.abs(diff);
+  const cls = absDiff < 1 ? 'jwl-diff-ok' : absDiff < total * 0.02 ? 'jwl-diff-warn' : 'jwl-diff-err';
+  el.innerHTML = `<span class="${cls}">Sub-row sum: ${formatINR(subSum)} · Total: ${formatINR(total)} · Diff: ${diff >= 0 ? '+' : ''}${formatINRFull(diff)}</span>`;
+}
+
+document.getElementById('jwl-has-diamonds').addEventListener('change', e => {
+  document.getElementById('jwl-diamonds-fields').style.display = e.target.checked ? '' : 'none';
+  jwlUpdateReconcile();
+});
+document.getElementById('jwl-has-stones').addEventListener('change', e => {
+  document.getElementById('jwl-stones-fields').style.display = e.target.checked ? '' : 'none';
+  jwlUpdateReconcile();
+});
+['jwl-total','jwl-gold-price','jwl-making','jwl-diamond-price','jwl-stones-price'].forEach(id => {
+  document.getElementById(id).addEventListener('input', jwlUpdateReconcile);
+});
+
+document.getElementById('jwl-modal-cancel').addEventListener('click', () => {
+  document.getElementById('jewellery-modal').style.display = 'none';
+});
+document.getElementById('jewellery-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) document.getElementById('jewellery-modal').style.display = 'none';
+});
+
+document.getElementById('jwl-modal-confirm').addEventListener('click', () => {
+  const desc    = document.getElementById('jwl-desc').value.trim();
+  const date    = document.getElementById('jwl-date').value;
+  const total   = parseFloat(document.getElementById('jwl-total').value);
+  const goldW   = parseFloat(document.getElementById('jwl-gold-weight').value);
+  const goldP   = parseFloat(document.getElementById('jwl-gold-purity').value || document.getElementById('jwl-gold-purity').options[document.getElementById('jwl-gold-purity').selectedIndex].value);
+  const goldPrice = parseFloat(document.getElementById('jwl-gold-price').value);
+  const making  = parseFloat(document.getElementById('jwl-making').value)||0;
+  if (!desc) { toast('Enter a description'); return; }
+  if (isNaN(total)) { toast('Enter total purchase price'); return; }
+  if (isNaN(goldW) || isNaN(goldPrice)) { toast('Enter gold weight and price'); return; }
+  const purity  = document.getElementById('jwl-gold-purity').value;
+  const hasDia  = document.getElementById('jwl-has-diamonds').checked;
+  const hasSto  = document.getElementById('jwl-has-stones').checked;
+  const diamondCt    = parseFloat(document.getElementById('jwl-diamond-ct').value)||0;
+  const diamondPrice = parseFloat(document.getElementById('jwl-diamond-price').value)||0;
+  const stonesDesc   = document.getElementById('jwl-stones-desc').value.trim();
+  const stonesPrice  = parseFloat(document.getElementById('jwl-stones-price').value)||0;
+
+  const entry = {
+    description: desc, purchaseDate: date, purchaseTotal: total,
+    gold: { weightGrams: goldW, purity, purchasePrice: goldPrice },
+    making: { purchasePrice: making },
+    diamonds: hasDia ? { carats: diamondCt, purchasePrice: diamondPrice } : null,
+    stones:   hasSto ? { description: stonesDesc, purchasePrice: stonesPrice } : null,
+  };
+  if (!hasDia) delete entry.diamonds;
+  if (!hasSto) delete entry.stones;
+
+  if (jwlEditId) {
+    const idx = P.jewellery.findIndex(x => x.id === jwlEditId);
+    if (idx >= 0) {
+      // Preserve any currentOverride values
+      if (entry.diamonds && P.jewellery[idx].diamonds?.currentOverride !== undefined)
+        entry.diamonds.currentOverride = P.jewellery[idx].diamonds.currentOverride;
+      if (entry.stones && P.jewellery[idx].stones?.currentOverride !== undefined)
+        entry.stones.currentOverride = P.jewellery[idx].stones.currentOverride;
+      entry.id = jwlEditId;
+      P.jewellery[idx] = entry;
+    }
+  } else {
+    entry.id = newId();
+    P.jewellery.push(entry);
+  }
+  pSave();
+  document.getElementById('jewellery-modal').style.display = 'none';
+  renderGold();
+  toast('Saved ✓');
+});
+
+document.getElementById('btn-add-jewellery').addEventListener('click', () => openJewelleryModal());
+
+function deleteJewellery(id) {
+  if (!confirm('Remove this jewellery item?')) return;
+  P.jewellery = P.jewellery.filter(j => j.id !== id);
+  pSave(); renderGold(); toast('Removed');
+}
+
+// ── Jewellery Sell Modal ───────────────────────────────
+
+let jwlSellId = null;
+
+function openJwlSellModal(id) {
+  jwlSellId = id;
+  const j = P.jewellery.find(x => x.id === id);
+  if (!j) return;
+  document.getElementById('jwl-sell-desc').textContent = j.description;
+  document.getElementById('jwl-sell-cost').textContent = `Purchase price: ${formatINR(parseFloat(j.purchaseTotal)||0)}`;
+  document.getElementById('jwl-sell-date').value   = new Date().toISOString().slice(0,10);
+  document.getElementById('jwl-sell-amount').value = '';
+  document.getElementById('jwl-sell-gain-preview').textContent = '';
+  document.getElementById('jwl-sell-modal').style.display = 'flex';
+}
+
+document.getElementById('jwl-sell-amount').addEventListener('input', () => {
+  const j = P.jewellery.find(x => x.id === jwlSellId);
+  if (!j) return;
+  const amt  = parseFloat(document.getElementById('jwl-sell-amount').value)||0;
+  const cost = parseFloat(j.purchaseTotal)||0;
+  const gain = amt - cost;
+  const el   = document.getElementById('jwl-sell-gain-preview');
+  if (amt > 0) {
+    el.style.color = gain >= 0 ? 'var(--green)' : 'var(--red)';
+    el.textContent = `Gain/Loss: ${gain >= 0 ? '+' : ''}${formatINRFull(gain)}`;
+  } else {
+    el.textContent = '';
+  }
+});
+
+document.getElementById('jwl-sell-cancel').addEventListener('click', () => {
+  document.getElementById('jwl-sell-modal').style.display = 'none';
+});
+document.getElementById('jwl-sell-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) document.getElementById('jwl-sell-modal').style.display = 'none';
+});
+
+document.getElementById('jwl-sell-confirm').addEventListener('click', () => {
+  const j = P.jewellery.find(x => x.id === jwlSellId);
+  if (!j) return;
+  const date   = document.getElementById('jwl-sell-date').value;
+  const amount = parseFloat(document.getElementById('jwl-sell-amount').value);
+  if (!date) { toast('Enter sale date'); return; }
+  if (isNaN(amount) || amount <= 0) { toast('Enter sale amount'); return; }
+  const costBasis  = parseFloat(j.purchaseTotal)||0;
+  const gainAmount = amount - costBasis;
+  P.jewellery_sales.push({
+    id: newId(), jewelleryId: j.id, description: j.description,
+    saleDate: date, saleAmount: amount, costBasis, gainAmount
+  });
+  P.jewellery = P.jewellery.filter(x => x.id !== j.id);
+  pSave();
+  document.getElementById('jwl-sell-modal').style.display = 'none';
+  renderGold();
+  toast('Sale recorded ✓');
+});
+
+function deleteJwlSale(id) {
+  if (!confirm('Remove this sale? The jewellery will be restored.')) return;
+  const sale = P.jewellery_sales.find(x => x.id === id);
+  if (!sale) return;
+  P.jewellery.push({
+    id: sale.jewelleryId, description: sale.description,
+    purchaseTotal: sale.costBasis, purchaseDate: '', gold: { weightGrams: 0, purity: '22K', purchasePrice: 0 }, making: { purchasePrice: 0 }
+  });
+  P.jewellery_sales = P.jewellery_sales.filter(x => x.id !== id);
+  pSave(); renderGold(); toast('Sale removed');
 }
 
 // ── REAL ESTATE ───────────────────────────────────────

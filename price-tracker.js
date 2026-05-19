@@ -12,34 +12,38 @@ const PT_TROY   = 31.1035;
 const PT_MS     = 2500;
 const PT_PROXY  = 'https://damp-bar-b442ok.r24rp9hgxh.workers.dev';
 const PT_TV     = 'https://scanner.tradingview.com/symbol';
-const PT_DUTY_LS_KEY = 'pt_duty_v1';
-const PT_GST_LS_KEY  = 'pt_gst_on_v1';
 const PT_DUTY_DEFAULT = {
   gold:   { bcd: 5, aidc: 1, gst: 3 },
   silver: { bcd: 5, aidc: 1, gst: 3 },
 };
 
-function ptLoadDuty() {
-  try {
-    const raw = localStorage.getItem(PT_DUTY_LS_KEY);
-    if (!raw) return structuredClone(PT_DUTY_DEFAULT);
-    const p = JSON.parse(raw);
-    const pick = (v, d) => Number.isFinite(+v) ? +v : d;
-    return {
-      gold:   { bcd: pick(p?.gold?.bcd,   5), aidc: pick(p?.gold?.aidc,   1), gst: pick(p?.gold?.gst,   3) },
-      silver: { bcd: pick(p?.silver?.bcd, 5), aidc: pick(p?.silver?.aidc, 1), gst: pick(p?.silver?.gst, 3) },
-    };
-  } catch { return structuredClone(PT_DUTY_DEFAULT); }
+function ptPickDuty(p) {
+  const pick = (v, d) => Number.isFinite(+v) ? +v : d;
+  return {
+    gold:   { bcd: pick(p?.gold?.bcd,   5), aidc: pick(p?.gold?.aidc,   1), gst: pick(p?.gold?.gst,   3) },
+    silver: { bcd: pick(p?.silver?.bcd, 5), aidc: pick(p?.silver?.aidc, 1), gst: pick(p?.silver?.gst, 3) },
+  };
 }
-function ptSaveDuty() {
-  try { localStorage.setItem(PT_DUTY_LS_KEY, JSON.stringify(PT_duty)); } catch {}
+
+function ptInitSettings(allData) {
+  const saved = allData?.price_settings;
+  if (saved?.duty) {
+    PT_duty  = ptPickDuty(saved.duty);
+    PT_gstOn = saved.gstOn !== undefined ? !!saved.gstOn : true;
+  } else {
+    // Migrate from localStorage if present, then clear
+    try {
+      const raw = localStorage.getItem('pt_duty_v1');
+      if (raw) { PT_duty = ptPickDuty(JSON.parse(raw)); localStorage.removeItem('pt_duty_v1'); }
+      const gst = localStorage.getItem('pt_gst_on_v1');
+      if (gst !== null) { PT_gstOn = gst === '1'; localStorage.removeItem('pt_gst_on_v1'); }
+    } catch {}
+    ptSaveSettings();
+  }
 }
-function ptLoadGstOn() {
-  const raw = localStorage.getItem(PT_GST_LS_KEY);
-  return raw === null ? true : raw === '1';
-}
-function ptSaveGstOn() {
-  try { localStorage.setItem(PT_GST_LS_KEY, PT_gstOn ? '1' : '0'); } catch {}
+
+function ptSaveSettings() {
+  saveSection('price_settings', { duty: PT_duty, gstOn: PT_gstOn });
 }
 
 const PT_CFG = {
@@ -68,8 +72,8 @@ let PT_cache     = { gold: null, silver: null, inr: null };
 let PT_ticks     = 0;
 let PT_t0        = Date.now();
 let PT_lastErr   = null;
-let PT_duty      = ptLoadDuty();
-let PT_gstOn     = ptLoadGstOn();
+let PT_duty      = structuredClone(PT_DUTY_DEFAULT);
+let PT_gstOn     = true;
 let PT_settingsOpen = false;
 let PT_methodOpen   = false;
 
@@ -324,7 +328,7 @@ function ptDraw() {
     if (Number.isFinite(bcd))  PT_duty[PT_mode].bcd  = bcd;
     if (Number.isFinite(aidc)) PT_duty[PT_mode].aidc = aidc;
     if (Number.isFinite(gst))  PT_duty[PT_mode].gst  = gst;
-    ptSaveDuty();
+    ptSaveSettings();
     PT_settingsOpen = false;
     ptRefreshDownstream();
     ptDraw();
@@ -332,7 +336,7 @@ function ptDraw() {
 
   document.getElementById('pt-gst-tog')?.addEventListener('change', e => {
     PT_gstOn = !!e.target.checked;
-    ptSaveGstOn();
+    ptSaveSettings();
     ptRefreshDownstream();
     ptDraw();
   });
@@ -352,7 +356,8 @@ function renderPriceTracker() {
   wrap.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text3)">Connecting…</div>';
 }
 
-function initPriceTracker() {
+function initPriceTracker(allData) {
+  ptInitSettings(allData || {});
   PT_t0 = Date.now();
   ptPoll();                             // immediate first tick
   PT_timer = setInterval(ptPoll, PT_MS);

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wealth Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -181,12 +181,14 @@
   <div class="tab-panel" id="tab-gold">
     <div class="tab-toolbar">
       <span class="tab-title">Gold</span>
-      <button class="btn btn-primary btn-sm" id="btn-add-gold">+ Add Gold</button>
+      <button class="btn btn-primary btn-sm" id="btn-add-gold">+ Add Coin / Bar</button>
+      <button class="btn btn-primary btn-sm" id="btn-add-jewellery">+ Add Jewellery</button>
       <button class="btn btn-sm" id="btn-refresh-gold">↻ Refresh Rate</button>
     </div>
     <div id="gold-content">
       <div class="empty-state">No gold holdings yet.</div>
     </div>
+    <div id="jewellery-content"></div>
   </div>
 
   <!-- ══════════════ SILVER TAB ══════════════ -->
@@ -787,6 +789,134 @@
   </div>
 </div>
 
+<!-- Jewellery Modal -->
+<div id="jewellery-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:560px;max-height:90vh;overflow-y:auto">
+    <h3 id="jwl-modal-title">Add Jewellery</h3>
+    <div class="modal-grid">
+      <div class="full">
+        <label>Description</label>
+        <input type="text" id="jwl-desc" placeholder="e.g. Gold Necklace with Diamonds">
+      </div>
+      <div>
+        <label>Purchase Date</label>
+        <input type="date" id="jwl-date">
+      </div>
+      <div>
+        <label>Total Purchase Price (₹)</label>
+        <input type="number" id="jwl-total" placeholder="0" min="0">
+      </div>
+    </div>
+
+    <!-- Gold component (mandatory) -->
+    <div class="jwl-modal-section">
+      <div class="jwl-modal-section-hdr">
+        <span class="jwl-modal-section-title">Gold Component</span>
+        <span style="font-size:.72rem;color:var(--text3)">(mandatory)</span>
+      </div>
+      <div class="modal-grid">
+        <div>
+          <label>Purity</label>
+          <select id="jwl-gold-purity">
+            <option value="24K">24K (999)</option>
+            <option value="22K" selected>22K (916)</option>
+          </select>
+        </div>
+        <div>
+          <label>Weight (grams)</label>
+          <input type="number" id="jwl-gold-weight" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div class="full">
+          <label>Purchase Price of Gold Component (₹)</label>
+          <input type="number" id="jwl-gold-price" placeholder="0" min="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Making Charges (mandatory) -->
+    <div class="jwl-modal-section">
+      <div class="jwl-modal-section-hdr">
+        <span class="jwl-modal-section-title">Making Charges</span>
+        <span style="font-size:.72rem;color:var(--text3)">(mandatory · current value = ₹0)</span>
+      </div>
+      <div>
+        <label>Making Charges (₹)</label>
+        <input type="number" id="jwl-making" placeholder="0" min="0">
+      </div>
+    </div>
+
+    <!-- Diamonds (optional) -->
+    <div class="jwl-modal-section">
+      <div class="jwl-modal-section-hdr">
+        <input type="checkbox" class="jwl-modal-toggle" id="jwl-has-diamonds">
+        <label for="jwl-has-diamonds" class="jwl-modal-section-title" style="cursor:pointer">Diamonds</label>
+        <span style="font-size:.72rem;color:var(--text3)">(optional)</span>
+      </div>
+      <div id="jwl-diamonds-fields" style="display:none">
+        <div class="modal-grid">
+          <div>
+            <label>Weight (carats)</label>
+            <input type="number" id="jwl-diamond-ct" placeholder="0.00" step="0.01" min="0">
+          </div>
+          <div>
+            <label>Purchase Price (₹)</label>
+            <input type="number" id="jwl-diamond-price" placeholder="0" min="0">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Stones (optional) -->
+    <div class="jwl-modal-section">
+      <div class="jwl-modal-section-hdr">
+        <input type="checkbox" class="jwl-modal-toggle" id="jwl-has-stones">
+        <label for="jwl-has-stones" class="jwl-modal-section-title" style="cursor:pointer">Other Stones</label>
+        <span style="font-size:.72rem;color:var(--text3)">(optional)</span>
+      </div>
+      <div id="jwl-stones-fields" style="display:none">
+        <div class="modal-grid">
+          <div class="full">
+            <label>Description</label>
+            <input type="text" id="jwl-stones-desc" placeholder="e.g. Ruby, Emerald">
+          </div>
+          <div class="full">
+            <label>Purchase Price (₹)</label>
+            <input type="number" id="jwl-stones-price" placeholder="0" min="0">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reconciliation indicator -->
+    <div id="jwl-reconcile" class="jwl-reconcile" style="display:none"></div>
+
+    <div class="modal-footer">
+      <button class="btn" id="jwl-modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="jwl-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Jewellery Sell Modal -->
+<div id="jwl-sell-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:420px">
+    <h3>Sell Jewellery</h3>
+    <div style="background:var(--surface2);border-radius:8px;padding:10px 12px;margin-bottom:12px">
+      <div id="jwl-sell-desc" style="font-weight:700;font-size:.9rem"></div>
+      <div id="jwl-sell-cost" style="font-size:.74rem;color:var(--text3);margin-top:3px"></div>
+    </div>
+    <label>Sale Date</label>
+    <input type="date" id="jwl-sell-date" style="width:100%;box-sizing:border-box;margin-bottom:14px">
+    <label>Sale Amount (₹)</label>
+    <input type="number" id="jwl-sell-amount" placeholder="0" min="0" style="width:100%;box-sizing:border-box;margin-bottom:4px">
+    <div id="jwl-sell-gain-preview" style="font-size:.78rem;color:var(--text3);margin-bottom:14px;min-height:1.2em"></div>
+    <div class="modal-footer">
+      <button class="btn" id="jwl-sell-cancel">Cancel</button>
+      <button class="btn btn-primary" id="jwl-sell-confirm">Record Sale</button>
+    </div>
+  </div>
+</div>
+
 <!-- Silver Sell Modal -->
 <div id="silver-sell-modal" class="modal-overlay" style="display:none">
   <div class="modal" style="max-width:420px">
@@ -982,7 +1112,7 @@ function openSettingsModal(isFirstRun) {
     // ── Init modules ──
     initWatchlist(allData);
     initPortfolio(allData);
-    initPriceTracker();   // start live price polling; feeds LIVE.goldRate / silverRate
+    initPriceTracker(allData);   // start live price polling; feeds LIVE.goldRate / silverRate
     initSummary();
 
     // ── Apply active modules (or show first-run prompt) ──
