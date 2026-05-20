@@ -1627,11 +1627,14 @@ function deleteNPSHistory(id) {
 
 // ── SOLD SECTION HELPERS ──────────────────────────────
 
+const _soldOpen = {};  // persists open/closed state across re-renders
+
 function toggleSold(key) {
   const el = document.getElementById('sold-' + key);
   const btn = document.getElementById('sold-toggle-' + key);
   if (!el) return;
   const isOpen = el.style.display !== 'none';
+  _soldOpen[key] = !isOpen;
   el.style.display = isOpen ? 'none' : '';
   btn.textContent = btn.textContent.replace(isOpen ? '▼' : '▶', isOpen ? '▶' : '▼');
 }
@@ -1643,6 +1646,9 @@ function renderSoldSection(key, sales) {
   const totalCostBasis  = sales.reduce((s, x) => s + x.costBasis, 0);
   const gainCls = totalGain >= 0 ? 'chip chip-g' : 'chip chip-r';
   const gainStr = (totalGain >= 0 ? '+' : '') + formatINR(totalGain);
+  const isOpen  = !!_soldOpen[key];
+  const arrow   = isOpen ? '▼' : '▶';
+  const disp    = isOpen ? '' : 'none';
 
   let rows = '';
   if (key === 'mf') {
@@ -1658,8 +1664,8 @@ function renderSoldSection(key, sales) {
       <td><button class="fnd-btn del" onclick="deleteMFSale('${s.id}')">✕</button></td>
     </tr>`).join('');
     return `<div class="sold-section">
-      <button class="sold-toggle" id="sold-toggle-mf" onclick="toggleSold('mf')">▶ Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
-      <div id="sold-mf" style="display:none">
+      <button class="sold-toggle" id="sold-toggle-mf" onclick="toggleSold('mf')">${arrow} Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
+      <div id="sold-mf" style="display:${disp}">
         <table class="portfolio-table" style="margin-top:0">
           <thead><tr><th class="left">Fund</th><th>Sale Date</th><th>Units</th><th>Sale NAV</th><th>Sale Amount</th><th>Cost Basis</th><th>Realised Gain</th><th>Gain%</th><th></th></tr></thead>
           <tbody>${rows}</tbody>
@@ -1687,8 +1693,8 @@ function renderSoldSection(key, sales) {
       <td><button class="fnd-btn del" onclick="deleteStockSale('${s.id}')">✕</button></td>
     </tr>`).join('');
     return `<div class="sold-section">
-      <button class="sold-toggle" id="sold-toggle-stocks" onclick="toggleSold('stocks')">▶ Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
-      <div id="sold-stocks" style="display:none">
+      <button class="sold-toggle" id="sold-toggle-stocks" onclick="toggleSold('stocks')">${arrow} Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
+      <div id="sold-stocks" style="display:${disp}">
         <table class="portfolio-table" style="margin-top:0">
           <thead><tr><th class="left">Stock</th><th>Sale Date</th><th>Qty</th><th>Price/Share</th><th>Sale Amount</th><th>Cost Basis</th><th>Realised Gain</th><th>Gain%</th><th></th></tr></thead>
           <tbody>${rows}</tbody>
@@ -1717,8 +1723,8 @@ function renderSoldSection(key, sales) {
       <td><button class="fnd-btn del" onclick="deleteGoldSale('${s.id}')">✕</button></td>
     </tr>`).join('');
     return `<div class="sold-section">
-      <button class="sold-toggle" id="sold-toggle-gold" onclick="toggleSold('gold')">▶ Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
-      <div id="sold-gold" style="display:none">
+      <button class="sold-toggle" id="sold-toggle-gold" onclick="toggleSold('gold')">${arrow} Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
+      <div id="sold-gold" style="display:${disp}">
         <table class="portfolio-table" style="margin-top:0">
           <thead><tr><th class="left">Description</th><th>Sale Date</th><th>Weight</th><th>Purity</th><th>Rate/g</th><th>Sale Amount</th><th>Cost Basis</th><th>Realised Gain</th><th>Gain%</th><th></th></tr></thead>
           <tbody>${rows}</tbody>
@@ -1747,8 +1753,8 @@ function renderSoldSection(key, sales) {
       <td><button class="fnd-btn del" onclick="deleteSilverSale('${s.id}')">✕</button></td>
     </tr>`).join('');
     return `<div class="sold-section">
-      <button class="sold-toggle" id="sold-toggle-silver" onclick="toggleSold('silver')">▶ Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
-      <div id="sold-silver" style="display:none">
+      <button class="sold-toggle" id="sold-toggle-silver" onclick="toggleSold('silver')">${arrow} Sold Holdings (${sales.length}) &nbsp;·&nbsp; Realised: <span class="${gainCls}">${gainStr}</span></button>
+      <div id="sold-silver" style="display:${disp}">
         <table class="portfolio-table" style="margin-top:0">
           <thead><tr><th class="left">Description</th><th>Sale Date</th><th>Weight</th><th>Purity</th><th>Rate/g</th><th>Sale Amount</th><th>Cost Basis</th><th>Realised Gain</th><th>Gain%</th><th></th></tr></thead>
           <tbody>${rows}</tbody>
