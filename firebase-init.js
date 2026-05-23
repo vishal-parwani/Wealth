@@ -141,6 +141,15 @@ function saveSection(section, data) {
   }, 1200);
 }
 
+// Immediate (non-debounced) save — clears any pending debounced write for the section.
+// Use this for settings where data loss after a quick tab close would be problematic.
+function saveSectionImmediate(section, data) {
+  clearTimeout(_saveTimers[section]);
+  delete _saveTimers[section];
+  return DASH_REF.set({ [section]: data }, { merge: true })
+    .catch(e => console.warn('Save failed:', section, e));
+}
+
 const NAV_KEY = 'mfd_nav';
 function getNavCache() {
   try { return JSON.parse(localStorage.getItem(NAV_KEY)) || {}; } catch(e) { return {}; }

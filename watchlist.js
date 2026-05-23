@@ -229,9 +229,14 @@ function buildSettings() {
   });
 }
 document.getElementById('btn-settings').addEventListener('click',()=>{
-  document.getElementById('settings-panel').classList.add('open');
-  document.getElementById('settings-overlay').classList.add('open');
-  buildSettings();
+  // Opens the unified settings panel with the Watchlist columns section expanded.
+  if (typeof openSettingsPanel === 'function') {
+    openSettingsPanel('columns', false);
+  } else {
+    document.getElementById('settings-panel').classList.add('open');
+    document.getElementById('settings-overlay').classList.add('open');
+    buildSettings();
+  }
 });
 document.getElementById('settings-close').addEventListener('click',closeSettings);
 document.getElementById('settings-overlay').addEventListener('click',closeSettings);
@@ -660,7 +665,9 @@ document.getElementById('ribbon-search').addEventListener('click',()=>{
 document.getElementById('ribbon-refresh').addEventListener('click',()=>{
   WL.navCache={}; wlSave(); toast('Refreshing…'); refreshNav(true);
 });
-document.getElementById('ribbon-settings').addEventListener('click',()=>{
+// ribbon-settings was removed when the bottom ribbon was retired in favor of the hamburger drawer.
+// Guard the listener in case the element no longer exists.
+document.getElementById('ribbon-settings')?.addEventListener('click',()=>{
   document.getElementById('settings-panel').classList.add('open');
   document.getElementById('settings-overlay').classList.add('open');
   buildSettings();
