@@ -186,7 +186,6 @@
       <span class="tab-title">Gold</span>
       <button class="btn btn-primary btn-sm" id="btn-add-gold">+ Add Coin / Bar</button>
       <button class="btn btn-primary btn-sm" id="btn-add-jewellery">+ Add Jewellery</button>
-      <button class="btn btn-sm" id="btn-refresh-gold">↻ Refresh Rate</button>
     </div>
     <div id="gold-content">
       <div class="empty-state">No gold holdings yet.</div>
@@ -199,7 +198,6 @@
     <div class="tab-toolbar">
       <span class="tab-title">Silver</span>
       <button class="btn btn-primary btn-sm" id="btn-add-silver">+ Add Silver</button>
-      <button class="btn btn-sm" id="btn-refresh-silver">↻ Refresh Rate</button>
     </div>
     <div id="silver-content">
       <div class="empty-state">No silver holdings yet.</div>
@@ -1122,9 +1120,9 @@ function closeSettingsPanel() {
     if (searchBtn) searchBtn.style.display = tab === 'watchlist' ? '' : 'none';
     if (refreshBtn) {
       refreshBtn.style.display =
-        ['watchlist','stocks','gold','silver'].includes(tab) ? '' : 'none';
+        ['watchlist','stocks'].includes(tab) ? '' : 'none';
     }
-    const hasActions = ['watchlist','stocks','gold','silver'].includes(tab);
+    const hasActions = ['watchlist','stocks'].includes(tab);
     document.body.classList.toggle('ribbon-empty', !hasActions);
   }
   updateRibbon('summary');

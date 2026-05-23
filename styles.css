@@ -437,6 +437,26 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .metal-row-expand-grid > div{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--text2)}
 .metal-row-expand-grid strong{font-family:'DM Mono',monospace;color:var(--text);font-weight:600}
 .metal-row-actions{display:flex;gap:8px;justify-content:flex-end}
+
+/* ── COMPACT TXN ROWS (EPF / NPS) ── */
+.txn-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px}
+.txn-list-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);font-size:.82rem;font-weight:600}
+.txn-list-count{font-size:.74rem;color:var(--text3);font-weight:400}
+.txn-row{border-bottom:1px solid var(--border)}
+.txn-row:last-child{border-bottom:none}
+.txn-row-main{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;min-height:40px;cursor:pointer;user-select:none;gap:12px}
+.txn-row-main:hover{background:#fdf4ec}
+.txn-row-date{font-size:.82rem;font-weight:600;color:var(--text);font-family:'DM Mono',monospace;flex-shrink:0}
+.txn-row-amount{font-size:.88rem;font-weight:700;font-family:'DM Mono',monospace;color:var(--text)}
+.txn-row-chevron{font-size:.62rem;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.txn-row.open .txn-row-chevron{transform:rotate(90deg)}
+.txn-row-expand{max-height:0;overflow:hidden;transition:max-height .22s ease,padding .22s ease;background:var(--surface2);padding:0 16px}
+.txn-row.open .txn-row-expand{max-height:200px;padding:10px 16px 12px}
+.txn-row-detail{display:flex;flex-wrap:wrap;gap:6px 20px;margin-bottom:10px}
+.txn-row-detail-item{font-size:.78rem;color:var(--text2)}
+.txn-row-detail-item strong{font-family:'DM Mono',monospace;color:var(--text);font-weight:600}
+.txn-row-actions{display:flex;gap:6px;justify-content:flex-end}
+
 .metal-totals{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
 .metal-totals-title{font-size:.74rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .metal-totals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px 24px}

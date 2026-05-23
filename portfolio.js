@@ -692,6 +692,11 @@ function metalRowToggle(id, rowEl) {
   rowEl.classList.toggle('open', _metalRowOpen[id]);
 }
 
+function txnRowToggle(rowId) {
+  const el = document.getElementById(rowId);
+  if (el) el.classList.toggle('open');
+}
+
 async function renderGold() {
   const el = document.getElementById('gold-content');
   if (!el) return;
@@ -786,13 +791,6 @@ document.getElementById('gold-modal-confirm').addEventListener('click', ()=>{
   renderGold(); toast('Saved ✓');
 });
 document.getElementById('btn-add-gold').addEventListener('click', ()=>openGoldModal());
-
-// ↻ Refresh Rate — trigger a fresh poll from the Live Prices tracker
-document.getElementById('btn-refresh-gold').addEventListener('click', async () => {
-  toast('Refreshing gold rate…');
-  await ptPoll();
-  renderGold();
-});
 
 function deleteGold(id) {
   if (!confirm('Remove this gold holding?')) return;
@@ -1337,19 +1335,27 @@ function renderEPF() {
       const emp   = parseFloat(t.employeeAmount)||0;
       const empr  = parseFloat(t.employerAmount)||0;
       const total = t.type==='contribution' ? emp+empr : parseFloat(t.amount)||0;
-      return `<tr>
-        <td class="left">${fmtMonthYear(t.date)}</td>
-        <td class="left">${t.type==='contribution'?'Contribution':'Interest Credit'}</td>
-        <td>${t.type==='contribution'?formatINR(emp,false):'—'}</td>
-        <td>${t.type==='contribution'?formatINR(empr,false):'—'}</td>
-        <td>${t.type==='interest'?formatINR(parseFloat(t.amount)||0,false):'—'}</td>
-        <td><strong>${formatINR(total,false)}</strong></td>
-        <td><div class="row-btns">
-          <button class="row-btn" onclick="openEPFTxnModal('${t.id}')">✎</button>
-          <button class="row-btn del" onclick="deleteEPFTxn('${t.id}')">✕</button>
-        </div></td>
-      </tr>`;
-    }).join('') || '<tr><td colspan="7" style="text-align:center;padding:18px;color:var(--text3);font-style:italic">No transactions yet — click + Transaction to add</td></tr>';
+      const isContrib = t.type==='contribution';
+      const detail = isContrib
+        ? `<span class="txn-row-detail-item">Employee <strong>${formatINR(emp,false)}</strong></span>
+           <span class="txn-row-detail-item">Employer <strong>${formatINR(empr,false)}</strong></span>`
+        : `<span class="txn-row-detail-item">Interest credit</span>`;
+      return `<div class="txn-row" id="epf-txn-${t.id}">
+        <div class="txn-row-main" onclick="txnRowToggle('epf-txn-${t.id}')">
+          <span class="txn-row-date">${fmtMonthYear(t.date)}</span>
+          <span style="flex:1;font-size:.72rem;color:var(--text3);padding-left:8px">${isContrib?'Contribution':'Interest'}</span>
+          <span class="txn-row-amount">${formatINR(total,false)}</span>
+          <span class="txn-row-chevron">▶</span>
+        </div>
+        <div class="txn-row-expand">
+          <div class="txn-row-detail">${detail}</div>
+          <div class="txn-row-actions">
+            <button class="row-btn" onclick="openEPFTxnModal('${t.id}')">✎ Edit</button>
+            <button class="row-btn del" onclick="deleteEPFTxn('${t.id}')">✕ Delete</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('') || '<div style="text-align:center;padding:20px;color:var(--text3);font-size:.82rem;font-style:italic">No transactions yet — click + Transaction to add</div>';
 
   el.innerHTML = `
     <div class="asset-cards-grid" style="margin-bottom:16px">
@@ -1377,19 +1383,9 @@ function renderEPF() {
         </div>
       </div>
     </div>
-    <div class="portfolio-table-wrap">
-      <div style="padding:12px 16px;font-weight:600;font-size:.82rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-        Transactions
-        <span style="font-size:.74rem;color:var(--text3);font-weight:400">${P.epf.transactions.length} entries</span>
-      </div>
-      <table class="portfolio-table">
-        <thead><tr>
-          <th class="left">Date</th><th class="left">Type</th>
-          <th>Employee</th><th>Employer</th><th>Interest</th><th>Total</th>
-          <th style="width:60px"></th>
-        </tr></thead>
-        <tbody>${txnRows}</tbody>
-      </table>
+    <div class="txn-list">
+      <div class="txn-list-header">Transactions <span class="txn-list-count">${P.epf.transactions.length} entries</span></div>
+      ${txnRows}
     </div>`;
 }
 
@@ -1407,14 +1403,22 @@ function renderNPS() {
 
   const txnRows = [...P.nps.transactions]
     .sort((a,b)=>b.date.localeCompare(a.date))
-    .map(t => `<tr>
-      <td class="left">${fmtMonthYear(t.date)}</td>
-      <td><strong>${formatINR(parseFloat(t.amount)||0,false)}</strong></td>
-      <td><div class="row-btns">
-        <button class="row-btn" onclick="openNPSTxnModal('${t.id}')">✎</button>
-        <button class="row-btn del" onclick="deleteNPSTxn('${t.id}')">✕</button>
-      </div></td>
-    </tr>`).join('') || '<tr><td colspan="3" style="text-align:center;padding:18px;color:var(--text3);font-style:italic">No transactions yet — click + Transaction to add</td></tr>';
+    .map(t => {
+      const amt = parseFloat(t.amount)||0;
+      return `<div class="txn-row" id="nps-txn-${t.id}">
+        <div class="txn-row-main" onclick="txnRowToggle('nps-txn-${t.id}')">
+          <span class="txn-row-date">${fmtMonthYear(t.date)}</span>
+          <span class="txn-row-amount">${formatINR(amt,false)}</span>
+          <span class="txn-row-chevron">▶</span>
+        </div>
+        <div class="txn-row-expand">
+          <div class="txn-row-actions">
+            <button class="row-btn" onclick="openNPSTxnModal('${t.id}')">✎ Edit</button>
+            <button class="row-btn del" onclick="deleteNPSTxn('${t.id}')">✕ Delete</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('') || '<div style="text-align:center;padding:20px;color:var(--text3);font-size:.82rem;font-style:italic">No transactions yet — click + Transaction to add</div>';
 
   const histRows = [...P.nps.schemeHistory]
     .sort((a,b) => b.from.localeCompare(a.from))
@@ -1465,18 +1469,9 @@ function renderNPS() {
         </div>
       </div>
     </div>
-    <div class="portfolio-table-wrap" style="margin-bottom:16px">
-      <div style="padding:12px 16px;font-weight:600;font-size:.82rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-        Transactions
-        <span style="font-size:.74rem;color:var(--text3);font-weight:400">${P.nps.transactions.length} entries</span>
-      </div>
-      <table class="portfolio-table">
-        <thead><tr>
-          <th class="left">Date</th><th>Amount</th>
-          <th style="width:60px"></th>
-        </tr></thead>
-        <tbody>${txnRows}</tbody>
-      </table>
+    <div class="txn-list" style="margin-bottom:16px">
+      <div class="txn-list-header">Transactions <span class="txn-list-count">${P.nps.transactions.length} entries</span></div>
+      ${txnRows}
     </div>
     <div class="portfolio-table-wrap">
       <div style="padding:12px 16px;font-weight:600;font-size:.82rem;border-bottom:1px solid var(--border)">
@@ -2156,11 +2151,6 @@ document.getElementById('silver-modal-confirm').addEventListener('click', ()=>{
   renderSilver(); toast('Saved ✓');
 });
 document.getElementById('btn-add-silver').addEventListener('click', ()=>openSilverModal());
-document.getElementById('btn-refresh-silver').addEventListener('click', async () => {
-  toast('Refreshing silver rate…');
-  await ptPoll();
-  renderSilver();
-});
 
 function deleteSilver(id) {
   if (!confirm('Remove this silver holding?')) return;
