@@ -193,26 +193,38 @@ async function renderSummary() {
             ctx.fillText(label, lx, ly - 7);
             ctx.fillText(pctTxt, lx, ly + 7);
           } else {
-            // Callout for small slices
+            // Callout for small slices — clamp position so label stays within canvas
+            const text = label + ' ' + pctTxt;
+            const textW = ctx.measureText(text).width;
             const r1 = outerRadius;
-            const r2 = outerRadius + 14;
+            const r2 = outerRadius + 12;
             const x1 = x + Math.cos(midAngle) * r1;
             const y1 = y + Math.sin(midAngle) * r1;
-            const x2 = x + Math.cos(midAngle) * r2;
+            let x2 = x + Math.cos(midAngle) * r2;
             const y2 = y + Math.sin(midAngle) * r2;
             const side = Math.cos(midAngle) >= 0 ? 1 : -1;
-            const x3 = x2 + side * 6;
+            const margin = 4;
+            // Where the label baseline would start
+            let labelX = x2 + side * 6;
+            // Clamp: if label would overflow canvas, pull it back inside
+            const canvasW = chart.width;
+            if (side > 0 && labelX + textW + margin > canvasW) {
+              labelX = canvasW - textW - margin;
+              x2 = labelX - 6;
+            } else if (side < 0 && labelX - textW - margin < 0) {
+              labelX = textW + margin;
+              x2 = labelX + 6;
+            }
             ctx.strokeStyle = dataset.backgroundColor[i] || 'rgba(0,0,0,.35)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
-            ctx.lineTo(x3, y2);
+            ctx.lineTo(labelX, y2);
             ctx.stroke();
-            ctx.fillStyle = 'var(--text)';
             ctx.fillStyle = '#3d2b1f';
             ctx.textAlign = side >= 0 ? 'left' : 'right';
-            ctx.fillText(label + ' ' + pctTxt, x3 + side * 3, y2);
+            ctx.fillText(text, labelX + (side >= 0 ? 0 : 0), y2);
             ctx.textAlign = 'center';
           }
         });
@@ -226,7 +238,7 @@ async function renderSummary() {
         datasets: [{ data: pieData, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
       },
       options: {
-        layout: { padding: 30 },
+        layout: { padding: { top: 20, bottom: 20, left: 70, right: 70 } },
         plugins: {
           legend: { display: false },
           tooltip: {

@@ -706,12 +706,6 @@ document.getElementById('mobile-search-input').addEventListener('input',function
   }
   }, 300);
 });
-document.getElementById('mobile-add-cat').addEventListener('click',()=>{
-  closeSettings();
-  const name=prompt('New category name:');
-  if(name&&name.trim()){ wlCreateCat(name.trim()); wlSave(); wlRenderAll(); }
-});
-
 async function initWatchlist(allData) {
   wlLoadState(allData);
   updatePillUI();

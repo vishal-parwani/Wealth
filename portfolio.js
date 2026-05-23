@@ -730,15 +730,26 @@ async function renderGold() {
   const purityTotals = ['24K','22K','18K'].filter(p=>weightByPurity[p])
     .map(p=>`${weightByPurity[p].toFixed(2).replace(/\.?0+$/,'')}g ${p}`).join(' · ');
 
-  const coinsHdr = `<div class="jewellery-section-hdr" style="border-top:none;padding-top:0"><span class="jewellery-section-title">Coins &amp; Bars</span></div>`;
+  const fmtRate = v => v >= 1000 ? `₹${(v/1000).toFixed(1)}k` : `₹${Math.round(v)}`;
+  const goldRateStrip = goldRate ? `
+    <div class="metal-rate-strip">
+      <span class="mrs-lbl">Gold rate</span>
+      <span class="mrs-item"><span class="mrs-grade">24K</span><span class="mrs-val">${fmtRate(goldRate)}/g</span></span>
+      <span class="mrs-item"><span class="mrs-grade">22K</span><span class="mrs-val">${fmtRate(goldRate*22/24)}/g</span></span>
+      <span class="mrs-item"><span class="mrs-grade">18K</span><span class="mrs-val">${fmtRate(goldRate*18/24)}/g</span></span>
+    </div>`
+    : `<div class="metal-rate-strip"><span class="mrs-empty">Live gold rate unavailable — visit Live Prices tab</span></div>`;
   el.innerHTML = `
-    ${coinsHdr}
+    ${goldRateStrip}
     <div class="metal-rows">${rows}</div>
     <div class="metal-totals">
-      <div><span>Total weight</span><strong>${purityTotals||'—'}</strong></div>
-      <div><span>Invested</span><strong>${formatINR(totalPurchase)}</strong></div>
-      <div><span>Current value</span><strong>${formatINR(totalCurrent)}</strong></div>
-      <div><span>Notional gain</span><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)} · ${gainChip(totalGainPct)}</strong></div>
+      <div class="metal-totals-title">Gold · Totals</div>
+      <div class="metal-totals-grid">
+        <div><span class="mt-lbl">Total weight</span><span class="mt-val">${purityTotals||'—'}</span></div>
+        <div><span class="mt-lbl">Invested</span><span class="mt-val">${formatINR(totalPurchase)}</span></div>
+        <div><span class="mt-lbl">Current value</span><span class="mt-val">${formatINR(totalCurrent)}</span></div>
+        <div><span class="mt-lbl">Notional gain</span><span class="mt-val gain" style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)} ${gainChip(totalGainPct)}</span></div>
+      </div>
     </div>
     ${renderSoldSection('gold', P.gold_sales)}`;
 }
@@ -2085,22 +2096,30 @@ async function renderSilver() {
 
   const totalGain = totalCurrent - totalPurchase;
   const totalGainPct = totalPurchase > 0 ? (totalGain/totalPurchase)*100 : 0;
-  const rateInfo = silverRate ? `999 fine: ${formatINRFull(silverRate)}/g (India import landed · BCD 5% + AIDC 1%)` : 'Price unavailable — visit Live Prices tab';
   const purityTotals = ['999','925','800'].filter(p=>weightByPurity[p])
     .map(p=>`${weightByPurity[p].toFixed(2).replace(/\.?0+$/,'')}g ${p}`).join(' · ');
 
+  const fmtRate = v => v >= 1000 ? `₹${(v/1000).toFixed(1)}k` : `₹${Math.round(v)}`;
+  const silverRateStrip = silverRate ? `
+    <div class="metal-rate-strip">
+      <span class="mrs-lbl">Silver rate</span>
+      <span class="mrs-item"><span class="mrs-grade">999</span><span class="mrs-val">${fmtRate(silverRate)}/g</span></span>
+      <span class="mrs-item"><span class="mrs-grade">925</span><span class="mrs-val">${fmtRate(silverRate*0.925)}/g</span></span>
+      <span class="mrs-item"><span class="mrs-grade">800</span><span class="mrs-val">${fmtRate(silverRate*0.800)}/g</span></span>
+    </div>`
+    : `<div class="metal-rate-strip"><span class="mrs-empty">Live silver rate unavailable — visit Live Prices tab</span></div>`;
+
   el.innerHTML = `
-    <div class="gold-rate-banner" style="background:linear-gradient(135deg,#f0f0f0,#f8f8f8);border-color:#c0c0c0">
-      <div><div class="gold-rate-label" style="color:#666">Silver Rate</div>
-      <div class="gold-rate-value" style="color:#444">${silverRate ? '₹ '+Math.round(silverRate).toLocaleString('en-IN') : '—'}/g</div>
-      <div class="gold-rate-sub">${rateInfo}</div></div>
-    </div>
+    ${silverRateStrip}
     <div class="metal-rows">${rows}</div>
     <div class="metal-totals">
-      <div><span>Total weight</span><strong>${purityTotals||'—'}</strong></div>
-      <div><span>Invested</span><strong>${formatINR(totalPurchase)}</strong></div>
-      <div><span>Current value</span><strong>${formatINR(totalCurrent)}</strong></div>
-      <div><span>Notional gain</span><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)} · ${gainChip(totalGainPct)}</strong></div>
+      <div class="metal-totals-title">Silver · Totals</div>
+      <div class="metal-totals-grid">
+        <div><span class="mt-lbl">Total weight</span><span class="mt-val">${purityTotals||'—'}</span></div>
+        <div><span class="mt-lbl">Invested</span><span class="mt-val">${formatINR(totalPurchase)}</span></div>
+        <div><span class="mt-lbl">Current value</span><span class="mt-val">${formatINR(totalCurrent)}</span></div>
+        <div><span class="mt-lbl">Notional gain</span><span class="mt-val gain" style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)} ${gainChip(totalGainPct)}</span></div>
+      </div>
     </div>
     ${renderSoldSection('silver', P.silver_sales)}`;
 }

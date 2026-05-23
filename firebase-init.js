@@ -71,8 +71,21 @@ function initAuth() {
           _appStarted = true;
           resolve(user);
         } else {
-          // Auth state fired again after popup sign-in — run full boot
-          if (typeof window._bootPortfolio === 'function') window._bootPortfolio();
+          // Auth state fired again after popup sign-in — run full boot.
+          // Use Promise.resolve so we can attach an error handler that still
+          // hides the loading overlay if boot throws.
+          try {
+            const p = typeof window._bootPortfolio === 'function' ? window._bootPortfolio() : null;
+            Promise.resolve(p).catch(err => {
+              console.error('Post-signin boot failed', err);
+              const lo = document.getElementById('loading-overlay');
+              if (lo) lo.style.display = 'none';
+            });
+          } catch (err) {
+            console.error('Post-signin boot threw', err);
+            const lo = document.getElementById('loading-overlay');
+            if (lo) lo.style.display = 'none';
+          }
         }
       } else {
         currentUser = null;
