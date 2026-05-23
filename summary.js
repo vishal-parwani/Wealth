@@ -70,6 +70,45 @@ async function renderSummary() {
   // Load snapshots
   const snapshots = await loadSnapshots();
 
+  // ── Asset cards (compact, expandable) ────────────────
+  const ASSET_ICONS = { mf:'∫', stocks:'$', gold:'◉', silver:'◎', real_estate:'⌂', epf:'⊟', nps:'⊞' };
+  const assetCards = keys.map((k,i) => {
+    const v = values[k];
+    const cur  = v.current || 0;
+    const inv  = v.invested || 0;
+    const gain = cur - inv;
+    const gainPct = inv > 0 ? (gain/inv)*100 : 0;
+    const realisedGain = v.realised || 0;
+    const { xirr, cagr } = assetMetrics[i];
+    return `<details class="asset-summary-card" data-tab="${tabs[i]}">
+      <summary class="asset-summary-summary">
+        <div class="asset-summary-head">
+          <span class="asset-summary-icon" style="background:${colors[i]}22;color:${colors[i]}">${ASSET_ICONS[k]||'•'}</span>
+          <div class="asset-summary-meta">
+            <div class="asset-summary-label">${labels[i]}</div>
+            <div class="asset-summary-sub">Invested ${formatINR(inv)}</div>
+          </div>
+        </div>
+        <div class="asset-summary-vals">
+          <div class="asset-summary-current">${formatINR(cur)}</div>
+          <div class="asset-summary-gain" style="color:${gain>=0?'var(--green)':'var(--red)'}">
+            ${gain>=0?'+':''}${formatINR(gain)} · ${gainPct>=0?'+':''}${gainPct.toFixed(2)}%
+          </div>
+        </div>
+      </summary>
+      <div class="asset-summary-body">
+        <div class="asset-summary-stat-row"><span>Invested</span><span>${formatINR(inv)}</span></div>
+        <div class="asset-summary-stat-row"><span>Current value</span><span>${formatINR(cur)}</span></div>
+        <div class="asset-summary-stat-row"><span>Notional gain</span><span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINR(gain)}</span></div>
+        <div class="asset-summary-stat-row"><span>Gain %</span><span>${gainChip(gainPct)}</span></div>
+        <div class="asset-summary-stat-row"><span>Realised gain</span><span style="color:${realisedGain>=0?'var(--green)':'var(--red)'}">${realisedGain!==0?(realisedGain>=0?'+':'')+formatINR(realisedGain):'—'}</span></div>
+        <div class="asset-summary-stat-row"><span>CAGR</span><span>${cagrChip(cagr, false)}</span></div>
+        <div class="asset-summary-stat-row"><span>XIRR</span><span>${xirrChip(xirr, false)}</span></div>
+        <button class="btn btn-sm asset-summary-open" data-go="${tabs[i]}">Open ${labels[i]} →</button>
+      </div>
+    </details>`;
+  }).join('');
+
   el.innerHTML = `
     <div class="summary-grid">
       <!-- Net Worth Card -->
@@ -84,36 +123,17 @@ async function renderSummary() {
         </div>
       </div>
 
-      <!-- Pie Chart + Table -->
-      <div class="summary-row">
-        <div class="pie-wrap">
-          <canvas id="summary-pie" width="220" height="220"></canvas>
-        </div>
-        <div class="summary-table-wrap">
-          <table class="portfolio-table">
-            <thead><tr>
-              <th class="left">Asset Class</th>
-              <th>Invested</th><th>Current Value</th>
-              <th>Notional Gain</th><th>Gain%</th><th>Realised Gain</th><th>CAGR</th><th>XIRR</th>
-            </tr></thead>
-            <tbody>${tableRows}</tbody>
-            <tfoot><tr class="totals-row">
-              <td class="left"><strong>Total</strong></td>
-              <td><strong>${formatINR(totalInvested)}</strong></td>
-              <td><strong>${formatINR(totalCurrent)}</strong></td>
-              <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">
-                ${totalGain>=0?'+':''}${formatINR(totalGain)}
-              </strong></td>
-              <td>${gainChip(totalGainPct)}</td>
-              <td></td><td></td><td></td>
-            </tr></tfoot>
-          </table>
-        </div>
+      <!-- Pie Chart with on-slice labels -->
+      <div class="pie-only-wrap">
+        <canvas id="summary-pie" width="320" height="320"></canvas>
       </div>
 
-      <!-- History Chart -->
+      <!-- Expandable asset class cards -->
+      <div class="asset-summary-grid">${assetCards}</div>
+
+      <!-- History Chart (hidden on mobile via CSS) -->
       ${snapshots.length > 1 ? `
-      <div class="history-card">
+      <div class="history-card" id="history-card">
         <div class="history-header">
           <h3 class="section-title">Net Worth Over Time</h3>
         </div>
@@ -129,10 +149,76 @@ async function renderSummary() {
       </div>
     </div>`;
 
-  // Draw pie chart
+  // Wire "Open <tab>" buttons inside expanded cards
+  el.querySelectorAll('.asset-summary-open').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation();
+      document.querySelector(`.tab-btn[data-tab=${btn.dataset.go}]`)?.click();
+    });
+  });
+
+  // Draw pie chart with on-slice labels (legend removed)
   const pieCtx = document.getElementById('summary-pie')?.getContext('2d');
   if (pieCtx) {
     if (summaryChart) summaryChart.destroy();
+    // Inline plugin: draw label + percentage on each slice (or callout for tiny slices)
+    const sliceLabelPlugin = {
+      id: 'sliceLabels',
+      afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        const meta = chart.getDatasetMeta(0);
+        const dataset = chart.data.datasets[0];
+        const total = dataset.data.reduce((a,b)=>a+(+b||0), 0);
+        if (!total) return;
+        ctx.save();
+        ctx.font = '600 11px Nunito, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        meta.data.forEach((arc, i) => {
+          const value = dataset.data[i];
+          if (!value) return;
+          const pct = (value / total) * 100;
+          if (pct < 1) return;
+          const { x, y, startAngle, endAngle, outerRadius, innerRadius } = arc.getProps(
+            ['x','y','startAngle','endAngle','outerRadius','innerRadius'], true);
+          const midAngle = (startAngle + endAngle) / 2;
+          const label = chart.data.labels[i];
+          const pctTxt = pct.toFixed(0) + '%';
+          if (pct >= 7) {
+            // On-slice label
+            const r = (innerRadius + outerRadius) / 2;
+            const lx = x + Math.cos(midAngle) * r;
+            const ly = y + Math.sin(midAngle) * r;
+            ctx.fillStyle = '#fff';
+            ctx.fillText(label, lx, ly - 7);
+            ctx.fillText(pctTxt, lx, ly + 7);
+          } else {
+            // Callout for small slices
+            const r1 = outerRadius;
+            const r2 = outerRadius + 14;
+            const x1 = x + Math.cos(midAngle) * r1;
+            const y1 = y + Math.sin(midAngle) * r1;
+            const x2 = x + Math.cos(midAngle) * r2;
+            const y2 = y + Math.sin(midAngle) * r2;
+            const side = Math.cos(midAngle) >= 0 ? 1 : -1;
+            const x3 = x2 + side * 6;
+            ctx.strokeStyle = dataset.backgroundColor[i] || 'rgba(0,0,0,.35)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x3, y2);
+            ctx.stroke();
+            ctx.fillStyle = 'var(--text)';
+            ctx.fillStyle = '#3d2b1f';
+            ctx.textAlign = side >= 0 ? 'left' : 'right';
+            ctx.fillText(label + ' ' + pctTxt, x3 + side * 3, y2);
+            ctx.textAlign = 'center';
+          }
+        });
+        ctx.restore();
+      }
+    };
     summaryChart = new Chart(pieCtx, {
       type: 'doughnut',
       data: {
@@ -140,16 +226,18 @@ async function renderSummary() {
         datasets: [{ data: pieData, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
       },
       options: {
+        layout: { padding: 30 },
         plugins: {
-          legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12, padding: 10 } },
+          legend: { display: false },
           tooltip: {
             callbacks: {
               label: ctx => ' ' + ctx.label + ': ' + formatINR(ctx.raw)
             }
           }
         },
-        cutout: '55%'
-      }
+        cutout: '50%'
+      },
+      plugins: [sliceLabelPlugin]
     });
   }
 

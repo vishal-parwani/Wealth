@@ -347,40 +347,116 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .del-move-target{margin-left:22px;margin-top:4px}
 
 /* ════════════════════════════════════════════════════════
-   MOBILE BOTTOM RIBBON
+   MOBILE BOTTOM RIBBON (removed — kept for legacy stub element)
    ════════════════════════════════════════════════════════ */
-#bottom-ribbon{display:none}
+#bottom-ribbon{display:none!important}
 #mobile-search-overlay{display:none}
 .mobile-only{display:none}
+
+/* ════════════════════════════════════════════════════════
+   HAMBURGER + NAV DRAWER
+   ════════════════════════════════════════════════════════ */
+.hamburger-btn{display:none;background:none;border:none;cursor:pointer;padding:10px 12px;flex-direction:column;justify-content:center;gap:4px;width:42px;height:42px}
+.hamburger-btn span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:transform .2s}
+#nav-drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:402;display:none}
+#nav-drawer-overlay.open{display:block}
+#nav-drawer{position:fixed;top:0;left:0;bottom:0;width:280px;max-width:85vw;background:var(--surface);box-shadow:4px 0 24px rgba(0,0,0,.18);z-index:403;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .25s ease}
+#nav-drawer.open{transform:translateX(0)}
+.nav-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border)}
+.nav-drawer-list{flex:1;overflow-y:auto;padding:8px}
+.nav-drawer-item{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:none;background:none;font-family:inherit;font-size:.92rem;color:var(--text);cursor:pointer;border-radius:10px;text-align:left;transition:background .15s}
+.nav-drawer-item:hover{background:var(--accent-light)}
+.nav-drawer-item:active{background:var(--surface2)}
+.nav-drawer-icon{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--surface2);color:var(--accent);font-size:.95rem;flex-shrink:0}
+.nav-drawer-label{font-weight:500}
+
+/* ════════════════════════════════════════════════════════
+   SETTINGS PANEL — collapsible + footer
+   ════════════════════════════════════════════════════════ */
+.settings-collapsible{margin-bottom:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);overflow:hidden}
+.settings-collapsible > summary{cursor:pointer;padding:11px 14px;background:var(--surface2);font-size:.78rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.05em;list-style:none;display:flex;align-items:center;justify-content:space-between}
+.settings-collapsible > summary::-webkit-details-marker{display:none}
+.settings-collapsible > summary::after{content:'▸';font-size:.7rem;color:var(--text3);transition:transform .2s}
+.settings-collapsible[open] > summary::after{transform:rotate(90deg)}
+.settings-collapsible > :not(summary){padding:14px}
+.settings-help{font-size:.78rem;color:var(--text2);margin-bottom:10px;line-height:1.45}
+.settings-subsection-title{font-size:.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.settings-footer{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--border);background:var(--surface)}
+
+/* ════════════════════════════════════════════════════════
+   SUMMARY — pie + expandable asset cards
+   ════════════════════════════════════════════════════════ */
+.pie-only-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;align-items:center;justify-content:center}
+#summary-pie{max-width:100%;height:auto}
+
+.asset-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.asset-summary-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .15s}
+.asset-summary-card[open]{box-shadow:var(--shadow-md)}
+.asset-summary-card > summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.asset-summary-card > summary::-webkit-details-marker{display:none}
+.asset-summary-card > summary::after{content:'▸';font-size:.72rem;color:var(--text3);margin-left:6px;transition:transform .2s;flex-shrink:0}
+.asset-summary-card[open] > summary::after{transform:rotate(90deg)}
+.asset-summary-head{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.asset-summary-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;font-size:1.05rem;font-weight:700;flex-shrink:0}
+.asset-summary-meta{min-width:0}
+.asset-summary-label{font-size:.92rem;font-weight:700;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.asset-summary-sub{font-size:.74rem;color:var(--text3);margin-top:2px}
+.asset-summary-vals{text-align:right;flex-shrink:0}
+.asset-summary-current{font-size:1.05rem;font-weight:700;font-family:'DM Mono',monospace;color:var(--text);line-height:1.15}
+.asset-summary-gain{font-size:.74rem;font-family:'DM Mono',monospace;margin-top:2px}
+.asset-summary-body{padding:0 16px 14px;border-top:1px solid var(--border);animation:cardExpand .2s ease}
+@keyframes cardExpand{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.asset-summary-stat-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--border);font-size:.82rem;color:var(--text2)}
+.asset-summary-stat-row:last-of-type{border-bottom:none}
+.asset-summary-stat-row strong,.asset-summary-stat-row > span:last-child{color:var(--text);font-weight:500;font-family:'DM Mono',monospace}
+.asset-summary-open{margin-top:10px}
+
+/* ════════════════════════════════════════════════════════
+   METAL ROWS (Gold + Silver) — row-based expandable layout
+   ════════════════════════════════════════════════════════ */
+.metal-rows{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}
+.metal-row{border-bottom:1px solid var(--border);transition:background .15s}
+.metal-row:last-child{border-bottom:none}
+.metal-row-main{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;min-height:64px;cursor:pointer;user-select:none}
+.metal-row-main:hover{background:#fdf4ec}
+.metal-row-left{min-width:0;flex:1}
+.metal-row-desc{font-size:.92rem;font-weight:600;color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metal-row-chips{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.metal-chip{font-family:'DM Mono',monospace;font-size:.7rem;background:var(--surface2);color:var(--text2);padding:1px 7px;border-radius:99px;border:1px solid var(--border)}
+.metal-row-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.metal-row-value{font-size:1.05rem;font-weight:700;font-family:'DM Mono',monospace;color:var(--text)}
+.metal-row-expand{max-height:0;overflow:hidden;transition:max-height .25s ease,padding .25s ease;padding:0 16px;background:var(--surface2)}
+.metal-row.open .metal-row-expand{max-height:240px;padding:12px 16px 14px;border-top:1px solid var(--border)}
+.metal-row-expand-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-bottom:10px}
+.metal-row-expand-grid > div{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--text2)}
+.metal-row-expand-grid strong{font-family:'DM Mono',monospace;color:var(--text);font-weight:600}
+.metal-row-actions{display:flex;gap:8px;justify-content:flex-end}
+.metal-totals{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 24px}
+.metal-totals > div{display:flex;flex-direction:column;gap:2px;font-size:.74rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.metal-totals strong{font-family:'DM Mono',monospace;font-size:.95rem;font-weight:700;color:var(--text);text-transform:none;letter-spacing:0}
 
 /* ════════════════════════════════════════════════════════
    RESPONSIVE — MOBILE (≤700px)
    ════════════════════════════════════════════════════════ */
 @media(max-width:700px){
-  /* Tab bar stays at top, smaller */
+  /* Tab bar — hide all data-tab buttons; only hamburger + gear + signout remain */
   #tab-bar-inner{padding:0 4px}
   .app-logo{display:none}
+  .tab-btn[data-tab]{display:none!important}
+  .hamburger-btn{display:flex}
   .tab-btn{padding:13px 10px;font-size:.82rem}
 
-  /* Main padding */
-  #main{padding:10px 6px 72px}
+  /* No bottom ribbon anymore — restore normal bottom padding */
+  #main{padding:10px 6px 24px}
 
-  /* ── BOTTOM RIBBON ── */
-  #bottom-ribbon{
-    display:flex;position:fixed;bottom:0;left:0;right:0;
-    height:56px;background:var(--surface);border-top:1px solid var(--border);
-    z-index:200;align-items:center;justify-content:space-around;
-    box-shadow:0 -2px 12px rgba(0,0,0,.08);
-  }
-  .ribbon-btn{
-    background:none;border:none;cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;gap:2px;
-    padding:6px 18px;border-radius:8px;color:var(--text2);
-    font-family:inherit;-webkit-tap-highlight-color:transparent;
-  }
-  .ribbon-btn:active{background:var(--surface2)}
-  .ribbon-icon{font-size:1.3rem;line-height:1}
-  .ribbon-label{font-size:.62rem;font-weight:500}
+  /* Hide Net Worth Over Time chart on mobile */
+  #history-card{display:none!important}
+
+  /* Asset summary cards stack on mobile */
+  .asset-summary-grid{grid-template-columns:1fr}
+
+  /* Bottom ribbon removed on mobile (replaced by hamburger drawer) */
+  #bottom-ribbon{display:none!important}
 
   /* ── MOBILE SEARCH OVERLAY ── */
   #mobile-search-overlay{
@@ -438,8 +514,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   /* Show mobile-only elements */
   .mobile-only{display:block}
 
-  /* Toast higher up (above ribbon) */
-  #toast{bottom:70px}
+  /* Toast positioning */
+  #toast{bottom:24px}
 
   /* Portfolio table stacked card layout */
   .portfolio-table-wrap{overflow-x:unset}
@@ -482,9 +558,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   .pt-pc-val{font-size:1.8rem}
   .pt-title{font-size:1.1rem}
 
-  /* Hide bottom ribbon on tabs with no relevant actions */
-  .ribbon-empty #bottom-ribbon{display:none}
-  .ribbon-empty #main{padding-bottom:16px}
 }
 
 /* ── SUBTABS ── */

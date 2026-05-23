@@ -38,6 +38,9 @@
 <!-- ── TAB BAR ── -->
 <div id="tab-bar">
   <div id="tab-bar-inner">
+    <button class="hamburger-btn" id="hamburger-btn" title="Menu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
     <div class="app-logo">Wealth <span>Tracker</span></div>
     <button class="tab-btn active" data-tab="summary">Summary</button>
     <button class="tab-btn" data-tab="watchlist">Watchlist</button>
@@ -596,27 +599,71 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════════
-     SETTINGS PANEL (Watchlist column toggles)
+     SETTINGS PANEL — Modules + Watchlist column toggles
      ══════════════════════════════════════════════════════ -->
 <div id="settings-overlay"></div>
 <div id="settings-panel">
   <div class="settings-header">
-    <h3>⚙ Personalise</h3>
+    <h3 id="settings-panel-title">⚙ Settings</h3>
     <button class="settings-close" id="settings-close">✕</button>
   </div>
   <div class="settings-body">
     <div class="mobile-only" style="margin-bottom:16px">
       <button class="btn btn-primary" id="mobile-add-cat" style="width:100%">+ Add Category</button>
     </div>
-    <div class="settings-section">
-      <div class="settings-section-title">Return Periods</div>
-      <div id="col-toggles-returns"></div>
-    </div>
-    <div class="settings-section">
-      <div class="settings-section-title">Other Columns</div>
-      <div id="col-toggles-other"></div>
-    </div>
+
+    <!-- Modules collapsible -->
+    <details class="settings-collapsible" id="settings-modules-section" open>
+      <summary class="settings-section-title">Modules</summary>
+      <p class="settings-help" id="settings-modules-help">Choose which asset classes to track. Hidden tabs keep your data — just out of sight.</p>
+      <div class="settings-modules">
+        <label class="module-toggle"><input type="checkbox" id="mod-mf"> MF Holdings</label>
+        <label class="module-toggle"><input type="checkbox" id="mod-stocks"> Stocks</label>
+        <label class="module-toggle"><input type="checkbox" id="mod-gold"> Gold</label>
+        <label class="module-toggle"><input type="checkbox" id="mod-silver"> Silver</label>
+        <label class="module-toggle"><input type="checkbox" id="mod-realestate"> Real Estate</label>
+        <label class="module-toggle"><input type="checkbox" id="mod-epf"> EPF</label>
+        <label class="module-toggle"><input type="checkbox" id="mod-nps"> NPS</label>
+      </div>
+      <label class="module-toggle-watchlist">
+        <input type="checkbox" id="mod-watchlist">
+        Also create a Watchlist for MFs and Stocks
+      </label>
+      <label class="module-toggle-watchlist">
+        <input type="checkbox" id="mod-prices">
+        Show Live Gold &amp; Silver Prices tab
+      </label>
+    </details>
+
+    <!-- Watchlist columns collapsible -->
+    <details class="settings-collapsible" id="settings-cols-section">
+      <summary class="settings-section-title">Watchlist columns</summary>
+      <div class="settings-section">
+        <div class="settings-subsection-title">Return Periods</div>
+        <div id="col-toggles-returns"></div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-subsection-title">Other Columns</div>
+        <div id="col-toggles-other"></div>
+      </div>
+    </details>
   </div>
+  <div class="settings-footer">
+    <button class="btn" id="settings-panel-cancel">Cancel</button>
+    <button class="btn btn-primary" id="settings-panel-save">Save</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     HAMBURGER NAV DRAWER (mobile)
+     ══════════════════════════════════════════════════════ -->
+<div id="nav-drawer-overlay"></div>
+<div id="nav-drawer">
+  <div class="nav-drawer-header">
+    <div class="app-logo">Wealth <span>Tracker</span></div>
+    <button class="settings-close" id="nav-drawer-close">✕</button>
+  </div>
+  <nav class="nav-drawer-list" id="nav-drawer-list"></nav>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
@@ -630,22 +677,12 @@
   <div id="mobile-search-results"></div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     MOBILE BOTTOM RIBBON
-     ══════════════════════════════════════════════════════ -->
-<div id="bottom-ribbon">
-  <button class="ribbon-btn" id="ribbon-search">
-    <span class="ribbon-icon">⌕</span>
-    <span class="ribbon-label">Search</span>
-  </button>
-  <button class="ribbon-btn" id="ribbon-refresh">
-    <span class="ribbon-icon">↻</span>
-    <span class="ribbon-label">Refresh</span>
-  </button>
-  <button class="ribbon-btn" id="ribbon-settings">
-    <span class="ribbon-icon">⚙</span>
-    <span class="ribbon-label">Settings</span>
-  </button>
+<!-- (bottom ribbon removed — replaced by hamburger drawer) -->
+<!-- Hidden stub buttons kept so watchlist.js listener attachment doesn't error.
+     They are visually hidden via CSS but functional handlers remain. -->
+<div id="bottom-ribbon" style="display:none!important">
+  <button class="ribbon-btn" id="ribbon-search"></button>
+  <button class="ribbon-btn" id="ribbon-refresh"></button>
 </div>
 
 <!-- Silver Modal -->
@@ -954,34 +991,7 @@
   </div>
 </div>
 
-<!-- Settings / First-Run Modal -->
-<div id="settings-modal" class="modal-overlay" style="display:none">
-  <div class="modal" style="max-width:380px">
-    <h3 id="settings-modal-title">Settings</h3>
-    <p style="font-size:.83rem;color:var(--text2);margin:8px 0 16px">Choose which asset classes to track. Hidden tabs keep your data — just out of sight.</p>
-    <div class="settings-modules">
-      <label class="module-toggle"><input type="checkbox" id="mod-mf"> MF Holdings</label>
-      <label class="module-toggle"><input type="checkbox" id="mod-stocks"> Stocks</label>
-      <label class="module-toggle"><input type="checkbox" id="mod-gold"> Gold</label>
-      <label class="module-toggle"><input type="checkbox" id="mod-silver"> Silver</label>
-      <label class="module-toggle"><input type="checkbox" id="mod-realestate"> Real Estate</label>
-      <label class="module-toggle"><input type="checkbox" id="mod-epf"> EPF</label>
-      <label class="module-toggle"><input type="checkbox" id="mod-nps"> NPS</label>
-    </div>
-    <label class="module-toggle-watchlist">
-      <input type="checkbox" id="mod-watchlist">
-      Also create a Watchlist for MFs and Stocks
-    </label>
-    <label class="module-toggle-watchlist">
-      <input type="checkbox" id="mod-prices">
-      Show Live Gold &amp; Silver Prices tab
-    </label>
-    <div class="modal-footer">
-      <button class="btn" id="settings-cancel">Cancel</button>
-      <button class="btn btn-primary" id="settings-confirm">Save</button>
-    </div>
-  </div>
-</div>
+<!-- (settings modal removed — merged into #settings-panel) -->
 
 <!-- ══════════════════════════════════════════════════════
      SCRIPTS
@@ -1029,18 +1039,50 @@ function applyActiveModules(modules) {
   });
 }
 
-function openSettingsModal(isFirstRun) {
-  const modal = document.getElementById('settings-modal');
-  document.getElementById('settings-modal-title').textContent =
-    isFirstRun ? 'What would you like to track?' : 'Settings';
-  document.getElementById('settings-confirm').textContent =
-    isFirstRun ? 'Get Started' : 'Save';
-  document.getElementById('settings-cancel').style.display = isFirstRun ? 'none' : '';
+// Opens the unified slide-out settings panel.
+// `focus`: 'modules' | 'columns' — which section to expand and scroll to.
+// `isFirstRun`: true → hide Cancel, scroll Modules into view, "Get Started" label.
+function openSettingsPanel(focus, isFirstRun) {
+  const panel    = document.getElementById('settings-panel');
+  const overlay  = document.getElementById('settings-overlay');
+  const modSec   = document.getElementById('settings-modules-section');
+  const colSec   = document.getElementById('settings-cols-section');
+  const title    = document.getElementById('settings-panel-title');
+  const cancel   = document.getElementById('settings-panel-cancel');
+  const saveBtn  = document.getElementById('settings-panel-save');
+  // Title + button copy
+  title.textContent = isFirstRun ? 'What would you like to track?' : '⚙ Settings';
+  saveBtn.textContent = isFirstRun ? 'Get Started' : 'Save';
+  cancel.style.display = isFirstRun ? 'none' : '';
+  // Expand requested section, collapse the other (unless first run = open modules only)
+  if (focus === 'columns') {
+    if (modSec) modSec.open = false;
+    if (colSec) colSec.open = true;
+  } else {
+    if (modSec) modSec.open = true;
+    if (colSec) colSec.open = false;
+  }
+  // Pre-fill module checkboxes
   ALL_MODULES.forEach(m => {
     const cb = document.getElementById('mod-' + m.key);
     if (cb) cb.checked = !ACTIVE_MODULES || ACTIVE_MODULES.includes(m.key);
   });
-  modal.style.display = 'flex';
+  // Build watchlist column toggles if the function is available (defined in watchlist.js)
+  if (typeof buildSettings === 'function') {
+    try { buildSettings(); } catch(e) {}
+  }
+  panel.classList.add('open');
+  overlay.classList.add('open');
+  // Scroll to focused section
+  setTimeout(() => {
+    const target = focus === 'columns' ? colSec : modSec;
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+}
+
+function closeSettingsPanel() {
+  document.getElementById('settings-panel').classList.remove('open');
+  document.getElementById('settings-overlay').classList.remove('open');
 }
 
 (async function boot() {
@@ -1083,29 +1125,64 @@ function openSettingsModal(isFirstRun) {
   }
   updateRibbon('summary');
 
-  // ── Settings modal handlers (set up before auth so they're ready) ──
-  document.getElementById('btn-global-settings').addEventListener('click', () => openSettingsModal(false));
+  // ── Settings panel handlers (set up before auth so they're ready) ──
+  document.getElementById('btn-global-settings').addEventListener('click', () => openSettingsPanel('modules', false));
+  document.getElementById('settings-panel-cancel').addEventListener('click', closeSettingsPanel);
 
-  document.getElementById('settings-cancel').addEventListener('click', () => {
-    document.getElementById('settings-modal').style.display = 'none';
-  });
-
-  document.getElementById('settings-confirm').addEventListener('click', async () => {
+  document.getElementById('settings-panel-save').addEventListener('click', async () => {
     const selected = ALL_MODULES.filter(m => document.getElementById('mod-' + m.key)?.checked).map(m => m.key);
     if (!selected.length) { toast('Select at least one module'); return; }
     applyActiveModules(selected);
-    saveSection('config', { activeModules: selected });
-    document.getElementById('settings-modal').style.display = 'none';
+    saveSectionImmediate('config', { activeModules: selected });
+    // Watchlist column toggles are already saved on every change inside buildSettings
+    closeSettingsPanel();
     // If the currently active tab was just hidden, fall back to Summary
     const activeBtn = document.querySelector('.tab-btn.active');
     if (activeBtn && activeBtn.style.display === 'none') switchTab('summary');
     toast('Settings saved ✓');
   });
 
-  // ── Auth then load data ──
-  const authUser = await initAuth();
-  if (!authUser) return; // Waiting for sign-in; onAuthStateChanged will re-trigger
+  // ── Hamburger drawer (mobile nav) ──
+  const drawer  = document.getElementById('nav-drawer');
+  const drawerO = document.getElementById('nav-drawer-overlay');
+  function openDrawer() {
+    const list = document.getElementById('nav-drawer-list');
+    // Build list from currently-visible tabs (in tab-bar DOM order)
+    const items = [{ key:'summary', label:'Summary', icon:'◐' }];
+    const iconMap = { watchlist:'★', mf:'∫', stocks:'$', prices:'⟳', gold:'◉', silver:'◎', realestate:'⌂', epf:'⊟', nps:'⊞' };
+    document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
+      const key = btn.dataset.tab;
+      if (key === 'summary') return;
+      if (btn.style.display === 'none') return;
+      items.push({ key, label: btn.textContent.trim(), icon: iconMap[key] || '•' });
+    });
+    items.push({ key:'__settings__', label:'Settings', icon:'⚙' });
+    list.innerHTML = items.map(it =>
+      `<button class="nav-drawer-item" data-key="${it.key}">
+        <span class="nav-drawer-icon">${it.icon}</span>
+        <span class="nav-drawer-label">${it.label}</span>
+      </button>`).join('');
+    list.querySelectorAll('.nav-drawer-item').forEach(b => {
+      b.addEventListener('click', () => {
+        const k = b.dataset.key;
+        closeDrawer();
+        if (k === '__settings__') { openSettingsPanel('modules', false); }
+        else { switchTab(k); }
+      });
+    });
+    drawer.classList.add('open');
+    drawerO.classList.add('open');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    drawerO.classList.remove('open');
+  }
+  document.getElementById('hamburger-btn')?.addEventListener('click', openDrawer);
+  document.getElementById('nav-drawer-close')?.addEventListener('click', closeDrawer);
+  drawerO?.addEventListener('click', closeDrawer);
 
+  // Define _bootPortfolio BEFORE auth check so onAuthStateChanged
+  // can call it after a fresh sign-in (otherwise the loading overlay sticks).
   window._bootPortfolio = async function initPortfolio_boot() {
     // ── Load all Firestore data once ──
     let allData = {};
@@ -1131,7 +1208,7 @@ function openSettingsModal(isFirstRun) {
       applyActiveModules(savedModules);
     } else {
       applyActiveModules(ALL_MODULES.map(m => m.key)); // all on by default
-      openSettingsModal(true);
+      openSettingsPanel('modules', true);
     }
 
     // ── Render starting tab ──
@@ -1142,6 +1219,9 @@ function openSettingsModal(isFirstRun) {
     if (lo) lo.style.display = 'none';
   }
 
+  // ── Auth then load data ──
+  const authUser = await initAuth();
+  if (!authUser) return; // Waiting for sign-in; onAuthStateChanged will call _bootPortfolio
   await window._bootPortfolio();
 })();
 </script>

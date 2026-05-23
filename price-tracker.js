@@ -43,7 +43,9 @@ function ptInitSettings(allData) {
 }
 
 function ptSaveSettings() {
-  saveSection('price_settings', { duty: PT_duty, gstOn: PT_gstOn });
+  // Use immediate write — duty/GST changes are small, infrequent, and we want
+  // them to persist even if the tab is closed within the 1.2s debounce window.
+  saveSectionImmediate('price_settings', { duty: PT_duty, gstOn: PT_gstOn });
 }
 
 const PT_CFG = {
