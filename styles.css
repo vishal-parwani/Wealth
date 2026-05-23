@@ -14,7 +14,7 @@
   --radius:10px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px}
+html{font-size:16px}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 /* ── TAB BAR ── */
@@ -360,7 +360,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   /* Tab bar stays at top, smaller */
   #tab-bar-inner{padding:0 4px}
   .app-logo{display:none}
-  .tab-btn{padding:11px 10px;font-size:.78rem}
+  .tab-btn{padding:13px 10px;font-size:.82rem}
 
   /* Main padding */
   #main{padding:10px 6px 72px}
@@ -440,6 +440,51 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
   /* Toast higher up (above ribbon) */
   #toast{bottom:70px}
+
+  /* Portfolio table stacked card layout */
+  .portfolio-table-wrap{overflow-x:unset}
+  .portfolio-table,.portfolio-table tbody,.portfolio-table tfoot{display:block}
+  .portfolio-table thead{display:none}
+  .portfolio-table tbody tr{
+    display:block;border:1px solid var(--border);border-radius:10px;
+    margin-bottom:10px;background:var(--surface);overflow:hidden
+  }
+  .portfolio-table tbody td{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:9px 14px;border-bottom:1px solid var(--border);text-align:right
+  }
+  .portfolio-table tbody td:last-child{border-bottom:none}
+  .portfolio-table tbody td.fund-num{display:none}
+  .portfolio-table tbody td.td-name{
+    flex-direction:column;align-items:flex-start;
+    background:var(--surface2);padding:10px 14px 9px;
+    border-bottom:2px solid var(--border)
+  }
+  .portfolio-table tbody td[data-label]::before{
+    content:attr(data-label);font-size:.72rem;font-weight:600;
+    color:var(--text3);text-transform:uppercase;letter-spacing:.04em;
+    text-align:left;flex-shrink:0;margin-right:8px
+  }
+  .portfolio-table tbody td.td-actions{
+    justify-content:center;background:var(--surface2);gap:8px;padding:8px 14px
+  }
+  .portfolio-table tfoot tr.totals-row{
+    display:flex;flex-wrap:wrap;gap:4px 16px;padding:10px 14px;
+    background:var(--surface2);border-top:2px solid var(--border2);
+    border-radius:0 0 var(--radius) var(--radius)
+  }
+  .portfolio-table tfoot td{border:none;padding:2px 0}
+  .portfolio-table tfoot td:empty{display:none}
+
+  /* Price tracker improvements */
+  .pt-card-inner{padding:12px}
+  .pt-pc{margin:0 0 10px}
+  .pt-pc-val{font-size:1.8rem}
+  .pt-title{font-size:1.1rem}
+
+  /* Hide bottom ribbon on tabs with no relevant actions */
+  .ribbon-empty #bottom-ribbon{display:none}
+  .ribbon-empty #main{padding-bottom:16px}
 }
 
 /* ── SUBTABS ── */
