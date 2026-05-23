@@ -608,10 +608,6 @@
     <button class="settings-close" id="settings-close">✕</button>
   </div>
   <div class="settings-body">
-    <div class="mobile-only" style="margin-bottom:16px">
-      <button class="btn btn-primary" id="mobile-add-cat" style="width:100%">+ Add Category</button>
-    </div>
-
     <!-- Modules collapsible -->
     <details class="settings-collapsible" id="settings-modules-section" open>
       <summary class="settings-section-title">Modules</summary>
@@ -1083,6 +1079,13 @@ function openSettingsPanel(focus, isFirstRun) {
 function closeSettingsPanel() {
   document.getElementById('settings-panel').classList.remove('open');
   document.getElementById('settings-overlay').classList.remove('open');
+  // Ensure a tab panel is visible — if no tab is active (or active tab was hidden),
+  // fall back to Summary so the user isn't left looking at a blank page.
+  const activeBtn = document.querySelector('.tab-btn.active');
+  const activePanel = document.querySelector('.tab-panel.active');
+  if (!activePanel || (activeBtn && activeBtn.style.display === 'none')) {
+    if (typeof window._switchTab === 'function') window._switchTab('summary');
+  }
 }
 
 (async function boot() {
@@ -1109,6 +1112,7 @@ function closeSettingsPanel() {
     updateRibbon(name);
     if (TAB_RENDERERS[name]) TAB_RENDERERS[name]();
   }
+  window._switchTab = switchTab;  // expose for closeSettingsPanel fallback
   tabBtns.forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
   // ── Mobile ribbon — context-aware per tab ──
@@ -1183,40 +1187,42 @@ function closeSettingsPanel() {
 
   // Define _bootPortfolio BEFORE auth check so onAuthStateChanged
   // can call it after a fresh sign-in (otherwise the loading overlay sticks).
+  let _bootRan = false;
   window._bootPortfolio = async function initPortfolio_boot() {
-    // ── Load all Firestore data once ──
-    let allData = {};
-    try { allData = await loadAllState(); } catch(e) { console.warn('Load failed', e); }
+    if (_bootRan) return;            // idempotent — only run once per page load
+    _bootRan = true;
+    try {
+      let allData = {};
+      try { allData = await loadAllState(); } catch(e) { console.warn('Load failed', e); }
 
-    // ── Init modules ──
-    initWatchlist(allData);
-    initPortfolio(allData);
-    initPriceTracker(allData);   // start live price polling; feeds LIVE.goldRate / silverRate
-    initSummary();
+      initWatchlist(allData);
+      initPortfolio(allData);
+      initPriceTracker(allData);
+      initSummary();
 
-    // ── Apply active modules (or show first-run prompt) ──
-    let savedModules = allData?.config?.activeModules;
-    // Migration: add any newly introduced modules that aren't in saved config yet
-    if (savedModules && savedModules.length) {
-      const newModules = ALL_MODULES.map(m => m.key).filter(k => !savedModules.includes(k));
-      if (newModules.length) {
-        savedModules = [...savedModules, ...newModules];
-        saveSection('config', { activeModules: savedModules });
+      let savedModules = allData?.config?.activeModules;
+      if (savedModules && savedModules.length) {
+        const newModules = ALL_MODULES.map(m => m.key).filter(k => !savedModules.includes(k));
+        if (newModules.length) {
+          savedModules = [...savedModules, ...newModules];
+          saveSection('config', { activeModules: savedModules });
+        }
       }
-    }
-    if (savedModules && savedModules.length) {
-      applyActiveModules(savedModules);
-    } else {
-      applyActiveModules(ALL_MODULES.map(m => m.key)); // all on by default
-      openSettingsPanel('modules', true);
-    }
+      if (savedModules && savedModules.length) {
+        applyActiveModules(savedModules);
+      } else {
+        applyActiveModules(ALL_MODULES.map(m => m.key));
+        openSettingsPanel('modules', true);
+      }
 
-    // ── Render starting tab ──
-    renderSummary();
-
-    // ── Hide loading overlay ──
-    const lo = document.getElementById('loading-overlay');
-    if (lo) lo.style.display = 'none';
+      renderSummary();
+    } catch (e) {
+      console.error('Boot failed', e);
+      toast('Failed to load dashboard. Please refresh.');
+    } finally {
+      const lo = document.getElementById('loading-overlay');
+      if (lo) lo.style.display = 'none';
+    }
   }
 
   // ── Auth then load data ──

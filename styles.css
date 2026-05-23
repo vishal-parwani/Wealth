@@ -414,6 +414,12 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 /* ════════════════════════════════════════════════════════
    METAL ROWS (Gold + Silver) — row-based expandable layout
    ════════════════════════════════════════════════════════ */
+.metal-rate-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:10px 16px;margin-bottom:12px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:.82rem}
+.metal-rate-strip .mrs-lbl{font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;flex-shrink:0}
+.metal-rate-strip .mrs-item{display:inline-flex;align-items:baseline;gap:5px}
+.metal-rate-strip .mrs-grade{font-size:.72rem;color:var(--text2);font-weight:600}
+.metal-rate-strip .mrs-val{font-family:'DM Mono',monospace;font-size:.88rem;font-weight:700;color:var(--text)}
+.metal-rate-strip .mrs-empty{color:var(--text3);font-size:.78rem}
 .metal-rows{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}
 .metal-row{border-bottom:1px solid var(--border);transition:background .15s}
 .metal-row:last-child{border-bottom:none}
@@ -431,9 +437,14 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .metal-row-expand-grid > div{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--text2)}
 .metal-row-expand-grid strong{font-family:'DM Mono',monospace;color:var(--text);font-weight:600}
 .metal-row-actions{display:flex;gap:8px;justify-content:flex-end}
-.metal-totals{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 24px}
-.metal-totals > div{display:flex;flex-direction:column;gap:2px;font-size:.74rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
-.metal-totals strong{font-family:'DM Mono',monospace;font-size:.95rem;font-weight:700;color:var(--text);text-transform:none;letter-spacing:0}
+.metal-totals{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
+.metal-totals-title{font-size:.74rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.metal-totals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px 24px}
+.metal-totals-grid > div{display:flex;flex-direction:column;gap:4px}
+.metal-totals-grid .mt-lbl{font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.metal-totals-grid .mt-val{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--text);line-height:1.2}
+.metal-totals-grid .mt-val.gain{font-size:1rem;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.metal-totals-grid .mt-val .gain-chip{font-size:.75rem}
 
 /* ════════════════════════════════════════════════════════
    RESPONSIVE — MOBILE (≤700px)
