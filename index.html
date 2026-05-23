@@ -1076,8 +1076,10 @@ function openSettingsModal(isFirstRun) {
     if (searchBtn) searchBtn.style.display = tab === 'watchlist' ? '' : 'none';
     if (refreshBtn) {
       refreshBtn.style.display =
-        ['watchlist','stocks','gold'].includes(tab) ? '' : 'none';
+        ['watchlist','stocks','gold','silver'].includes(tab) ? '' : 'none';
     }
+    const hasActions = ['watchlist','stocks','gold','silver'].includes(tab);
+    document.body.classList.toggle('ribbon-empty', !hasActions);
   }
   updateRibbon('summary');
 

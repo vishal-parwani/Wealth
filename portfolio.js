@@ -302,16 +302,16 @@ async function renderMFHoldings() {
     if (currentVal) totalCurrent += currentVal;
     return `<tr>
       <td class="left fund-num">${i+1}</td>
-      <td class="left"><div class="fund-name" title="${esc(h.name)}">${esc(h.name)}</div>
+      <td class="left td-name"><div class="fund-name" title="${esc(h.name)}">${esc(h.name)}</div>
         <div style="font-size:.7rem;color:var(--text3)">${esc(h.schemeCode)}</div></td>
-      <td>${formatINR(invested)}</td>
-      <td>${currentNav ? '₹ '+parseFloat(currentNav).toFixed(1) : '<span class="chip-n">—</span>'}</td>
-      <td>${units > 0 ? units.toFixed(1) : '—'}</td>
-      <td>${currentVal ? formatINR(currentVal) : '<span class="chip-n">—</span>'}</td>
-      <td>${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
-      <td>${gainChip(gainPct)}</td>
-      <td>${cagr != null ? cagrChip(cagr, false) : '<span class="chip-n">—</span>'}</td>
-      <td><div class="fund-btns">
+      <td data-label="Invested">${formatINR(invested)}</td>
+      <td data-label="NAV">${currentNav ? '₹ '+parseFloat(currentNav).toFixed(1) : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Units">${units > 0 ? units.toFixed(1) : '—'}</td>
+      <td data-label="Value">${currentVal ? formatINR(currentVal) : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Gain">${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
+      <td data-label="Gain%">${gainChip(gainPct)}</td>
+      <td data-label="CAGR">${cagr != null ? cagrChip(cagr, false) : '<span class="chip-n">—</span>'}</td>
+      <td class="td-actions"><div class="fund-btns">
         <button class="fnd-btn" onclick="openMFModal('${esc(h.id)}')">✎</button>
         <button class="sell-btn" onclick="openMFSellModal('${esc(h.id)}')">Sell</button>
         <button class="fnd-btn del" onclick="deleteMFHolding('${esc(h.id)}')">✕</button>
@@ -564,16 +564,16 @@ async function renderStocks() {
     if (current) totalCurrent += current;
     return `<tr>
       <td class="left fund-num">${i+1}</td>
-      <td class="left"><strong>${esc(s.name)}</strong></td>
-      <td><span class="ticker-chip">${esc(s.symbol)}.${esc(s.exchange)}</span></td>
-      <td>${qty}</td>
-      <td>${formatINR(avg, false)}</td>
-      <td>${formatINR(invested)}</td>
-      <td>${price ? formatINR(price, false) : '<span class="chip-n">—</span>'}</td>
-      <td>${current ? formatINR(current) : '<span class="chip-n">—</span>'}</td>
-      <td>${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
-      <td>${gainChip(gainPct)}</td>
-      <td><div class="fund-btns">
+      <td class="left td-name"><strong>${esc(s.name)}</strong></td>
+      <td data-label="Symbol"><span class="ticker-chip">${esc(s.symbol)}.${esc(s.exchange)}</span></td>
+      <td data-label="Qty">${qty}</td>
+      <td data-label="Avg Cost">${formatINR(avg, false)}</td>
+      <td data-label="Invested">${formatINR(invested)}</td>
+      <td data-label="CMP">${price ? formatINR(price, false) : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Value">${current ? formatINR(current) : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Gain">${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
+      <td data-label="Gain%">${gainChip(gainPct)}</td>
+      <td class="td-actions"><div class="fund-btns">
         <button class="fnd-btn" onclick="openStockModal('${esc(s.id)}')">✎</button>
         <button class="sell-btn" onclick="openStockSellModal('${esc(s.id)}')">Sell</button>
         <button class="fnd-btn del" onclick="deleteStock('${esc(s.id)}')">✕</button>
@@ -688,14 +688,14 @@ async function renderGold() {
     weightByPurity[g.purity] = (weightByPurity[g.purity] || 0) + weight;
     return `<tr>
       <td class="left fund-num">${i+1}</td>
-      <td class="left">${esc(g.description)}</td>
-      <td>${weight}g</td>
-      <td><span class="ticker-chip">${esc(g.purity)}</span></td>
-      <td>${formatINR(purchased)}</td>
-      <td>${current ? formatINR(current) : '<span class="chip-n">—</span>'}</td>
-      <td>${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
-      <td>${gainChip(gainPct)}</td>
-      <td><div class="fund-btns">
+      <td class="left td-name">${esc(g.description)}</td>
+      <td data-label="Weight">${weight}g</td>
+      <td data-label="Purity"><span class="ticker-chip">${esc(g.purity)}</span></td>
+      <td data-label="Invested">${formatINR(purchased)}</td>
+      <td data-label="Value">${current ? formatINR(current) : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Gain">${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
+      <td data-label="Gain%">${gainChip(gainPct)}</td>
+      <td class="td-actions"><div class="fund-btns">
         <button class="fnd-btn" onclick="openGoldModal('${esc(g.id)}')">✎</button>
         <button class="sell-btn" onclick="openGoldSellModal('${esc(g.id)}')">Sell</button>
         <button class="fnd-btn del" onclick="deleteGold('${esc(g.id)}')">✕</button>
@@ -889,16 +889,16 @@ async function renderJewellery() {
       <tbody>
         <tr>
           <td class="left fund-num">${i+1}</td>
-          <td class="left">
+          <td class="left td-name">
             <button class="jwl-expand-btn${isOpen?' open':''}" onclick="jwlToggle('${j.id}',this)" title="Show/hide components">▸</button>
             ${esc(j.description)}
           </td>
-          <td>${purchased ? formatINR(purchased) : '—'}</td>
-          <td>${formatINR(current)}</td>
-          <td>${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
-          <td>${gainChip(gainPct)}</td>
-          <td>${j.purchaseDate||'—'}</td>
-          <td><div class="fund-btns">
+          <td data-label="Invested">${purchased ? formatINR(purchased) : '—'}</td>
+          <td data-label="Value">${formatINR(current)}</td>
+          <td data-label="Gain">${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
+          <td data-label="Gain%">${gainChip(gainPct)}</td>
+          <td data-label="Purchase Date">${j.purchaseDate||'—'}</td>
+          <td class="td-actions"><div class="fund-btns">
             <button class="fnd-btn" onclick="openJewelleryModal('${esc(j.id)}')">✎</button>
             <button class="sell-btn" onclick="openJwlSellModal('${esc(j.id)}')">Sell</button>
             <button class="fnd-btn del" onclick="deleteJewellery('${esc(j.id)}')">✕</button>
@@ -1214,17 +1214,17 @@ function renderRealEstate() {
     totalCost += cost; totalCurrent += current;
     return `<tr>
       <td class="left fund-num">${i+1}</td>
-      <td class="left"><strong>${esc(r.name)}</strong>
+      <td class="left td-name"><strong>${esc(r.name)}</strong>
         ${r.notes?`<div style="font-size:.7rem;color:var(--text3)">${esc(r.notes)}</div>`:''}
       </td>
-      <td class="left">${esc(r.location)}</td>
-      <td>${r.purchaseDate||'—'}</td>
-      <td>${formatINR(cost)}</td>
-      <td>${formatINR(current)}</td>
-      <td><span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span></td>
-      <td>${gainChip(gainPct)}</td>
-      <td>${cagr!=null?cagrChip(cagr,false):'—'}</td>
-      <td><div class="fund-btns">
+      <td data-label="Location" class="left">${esc(r.location)}</td>
+      <td data-label="Purchase Date">${r.purchaseDate||'—'}</td>
+      <td data-label="Invested">${formatINR(cost)}</td>
+      <td data-label="Value">${formatINR(current)}</td>
+      <td data-label="Gain"><span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span></td>
+      <td data-label="Gain%">${gainChip(gainPct)}</td>
+      <td data-label="CAGR">${cagr!=null?cagrChip(cagr,false):'—'}</td>
+      <td class="td-actions"><div class="fund-btns">
         <button class="fnd-btn" onclick="openREModal('${esc(r.id)}')">✎</button>
         <button class="fnd-btn del" onclick="deleteRE('${esc(r.id)}')">✕</button>
       </div></td>
@@ -2072,14 +2072,14 @@ async function renderSilver() {
     weightByPurity[s.purity] = (weightByPurity[s.purity] || 0) + weight;
     return `<tr>
       <td class="left fund-num">${i+1}</td>
-      <td class="left">${esc(s.description)}</td>
-      <td>${weight}g</td>
-      <td><span class="ticker-chip">${esc(s.purity)}</span></td>
-      <td>${formatINR(purchased)}</td>
-      <td>${current ? formatINR(current) : '<span class="chip-n">—</span>'}</td>
-      <td>${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
-      <td>${gainChip(gainPct)}</td>
-      <td><div class="fund-btns">
+      <td class="left td-name">${esc(s.description)}</td>
+      <td data-label="Weight">${weight}g</td>
+      <td data-label="Purity"><span class="ticker-chip">${esc(s.purity)}</span></td>
+      <td data-label="Invested">${formatINR(purchased)}</td>
+      <td data-label="Value">${current ? formatINR(current) : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Gain">${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
+      <td data-label="Gain%">${gainChip(gainPct)}</td>
+      <td class="td-actions"><div class="fund-btns">
         <button class="fnd-btn" onclick="openSilverModal('${esc(s.id)}')">✎</button>
         <button class="sell-btn" onclick="openSilverSellModal('${esc(s.id)}')">Sell</button>
         <button class="fnd-btn del" onclick="deleteSilver('${esc(s.id)}')">✕</button>
