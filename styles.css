@@ -2,10 +2,11 @@
    WEALTH TRACKER — Global Styles
    ════════════════════════════════════════════════════════ */
 
-/* ── CSS VARIABLES ── */
+/* ── CSS VARIABLES (palette mirrored from cards-tracker) ── */
 :root {
   --bg:#f5ede4;--surface:#fff8f2;--surface2:#f0e0d0;--border:#ead8c8;--border2:#d4b8a0;
   --text:#3d2b1f;--text2:#9c8374;--text3:#b8a090;
+  --header:#5c3d2e;--header-text-dim:#d4b89c;
   --accent:#c4845a;--accent-light:#fbeee4;
   --green:#6b8f71;--green-bg:#e5ede5;
   --amber:#c49a3c;--amber-bg:#fdf3d4;
@@ -17,25 +18,48 @@
 html{font-size:16px}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
+/* ── APP HEADER (dark brown strip — cards-tracker pattern) ── */
+.app-header{
+  background:var(--header);color:#fff;
+  padding:0 20px;height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:101;
+}
+.app-header-title{font-size:1rem;font-weight:800;letter-spacing:.01em}
+.app-header-right{display:flex;align-items:center;gap:12px}
+.btn-link{
+  background:none;border:none;color:var(--header-text-dim);
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  font-size:.82rem;font-weight:600;padding:4px 6px;
+  transition:color .15s;
+}
+.btn-link:hover{color:#fff}
+.btn-icon-header{
+  background:none;border:none;padding:6px 8px;
+  color:var(--header-text-dim);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:6px;font-size:1rem;line-height:1;
+  transition:color .15s,background .15s;
+}
+.btn-icon-header:hover{color:#fff;background:rgba(255,255,255,.08)}
+
 /* ── TAB BAR ── */
 #tab-bar {
-  position:sticky;top:0;z-index:100;
+  position:sticky;top:52px;z-index:100;
   background:var(--surface);border-bottom:1px solid var(--border);
   box-shadow:var(--shadow);overflow-x:auto;white-space:nowrap;
   scrollbar-width:none;-ms-overflow-style:none;
 }
 #tab-bar::-webkit-scrollbar{display:none}
 #tab-bar-inner{display:inline-flex;align-items:center;padding:0 12px;min-width:100%}
-.app-logo{font-size:1rem;font-weight:600;padding:12px 14px 12px 4px;flex-shrink:0;white-space:nowrap;border-right:1px solid var(--border);margin-right:8px}
-.app-logo span{color:var(--accent)}
 .tab-btn{
-  padding:13px 14px;font-family:inherit;font-size:.82rem;font-weight:500;
+  padding:14px 16px;font-family:inherit;font-size:.82rem;font-weight:600;
   background:none;border:none;border-bottom:2px solid transparent;
   color:var(--text2);cursor:pointer;white-space:nowrap;
   transition:color .15s,border-color .15s;margin-bottom:-1px;
 }
 .tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
 
 /* ── MAIN CONTAINER ── */
 #main{max-width:1800px;margin:0 auto;padding:16px 12px 80px}
@@ -48,22 +72,26 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .tab-toolbar{
   display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;
 }
-.tab-title{font-size:1rem;font-weight:800;flex:1;min-width:120px}
+.tab-title{font-size:1rem;font-weight:800;flex:1;min-width:120px;color:var(--text)}
 
-/* ── BUTTONS ── */
-.btn{padding:6px 13px;border-radius:7px;border:1.5px solid var(--border2);background:var(--surface2);color:var(--text);font-family:inherit;font-size:.82rem;cursor:pointer;font-weight:500;transition:all .15s;white-space:nowrap}
-.btn:hover{background:var(--border)}
-.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn-primary:hover{background:#a8694a;border-color:#a8694a}
-.btn-danger{background:var(--red);color:#fff;border-color:var(--red)}
-.btn-danger:hover{background:#953430;border-color:#953430}
-.btn-sm{padding:4px 10px;font-size:.78rem}
+/* ── BUTTONS (cards-tracker style: filled primary, soft secondary) ── */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:9px;
+  border:1.5px solid var(--border);background:var(--surface2);
+  color:var(--text);font-family:'Nunito',sans-serif;
+  font-size:.82rem;font-weight:700;cursor:pointer;
+  transition:opacity .15s,background .15s,border-color .15s;
+  white-space:nowrap;
+}
+.btn:hover{opacity:.85}
+.btn-primary{background:var(--accent);color:#fff;border:none;padding:8px 16px}
+.btn-primary:hover{opacity:.85;background:var(--accent)}
+.btn-danger{background:var(--red);color:#fff;border:none}
+.btn-danger:hover{opacity:.85;background:var(--red)}
+.btn-sm{padding:5px 11px;font-size:.76rem;border-radius:7px;font-weight:700}
 .btn-icon{padding:5px 9px;font-size:.88rem}
-.timestamp{font-size:.73rem;color:var(--text3)}
-
-/* ── GEAR BUTTON (settings) ── */
-.gear-btn{font-size:.95rem;padding:8px 12px;color:var(--text3);border-bottom:2px solid transparent!important}
-.gear-btn:hover{color:var(--accent);background:none}
+.timestamp{font-size:.73rem;color:var(--text3);font-weight:600}
 
 /* ── SETTINGS MODAL ── */
 .settings-modules{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
@@ -276,7 +304,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 .history-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
 .history-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.section-title{font-size:.9rem;font-weight:600;color:var(--text)}
+.section-title{font-size:.95rem;font-weight:800;color:var(--text)}
 
 .snapshot-row{display:flex;align-items:center;padding:8px 0}
 .summary-table-wrap .portfolio-table tbody tr:hover td{background:var(--accent-light)}
@@ -470,9 +498,13 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
    RESPONSIVE — MOBILE (≤700px)
    ════════════════════════════════════════════════════════ */
 @media(max-width:700px){
-  /* Tab bar — hide all data-tab buttons; only hamburger + gear + signout remain */
+  /* App header — tighter padding, smaller controls */
+  .app-header{padding:0 12px;height:48px}
+  .app-header-title{font-size:.95rem}
+  #tab-bar{top:48px}
+
+  /* Tab bar — hide all data-tab buttons; only hamburger remains */
   #tab-bar-inner{padding:0 4px}
-  .app-logo{display:none}
   .tab-btn[data-tab]{display:none!important}
   .hamburger-btn{display:flex}
   .tab-btn{padding:13px 10px;font-size:.82rem}
