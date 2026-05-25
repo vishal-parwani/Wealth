@@ -35,13 +35,21 @@
   </div>
 </div>
 
+<!-- ── APP HEADER (dark brown strip — cards-tracker style) ── -->
+<div class="app-header">
+  <div class="app-header-title">Wealth Tracker</div>
+  <div class="app-header-right">
+    <button class="btn-icon-header" id="btn-global-settings" title="Settings" aria-label="Settings">⚙</button>
+    <button class="btn-link" id="btn-signout" title="Sign out" onclick="signOut()">Sign out</button>
+  </div>
+</div>
+
 <!-- ── TAB BAR ── -->
 <div id="tab-bar">
   <div id="tab-bar-inner">
     <button class="hamburger-btn" id="hamburger-btn" title="Menu" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
-    <div class="app-logo">Wealth <span>Tracker</span></div>
     <button class="tab-btn active" data-tab="summary">Summary</button>
     <button class="tab-btn" data-tab="watchlist">Watchlist</button>
     <button class="tab-btn" data-tab="mf">MF Holdings</button>
@@ -52,8 +60,6 @@
     <button class="tab-btn" data-tab="epf">EPF</button>
     <button class="tab-btn" data-tab="nps">NPS</button>
     <button class="tab-btn" data-tab="prices">Live Gold &amp; Silver Prices</button>
-    <button class="tab-btn gear-btn" id="btn-global-settings" title="Settings" style="margin-left:auto">⚙</button>
-    <button class="tab-btn" id="btn-signout" title="Sign out" style="margin-left:8px;font-size:.8rem" onclick="signOut()">Sign out</button>
   </div>
 </div>
 
