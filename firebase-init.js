@@ -126,10 +126,13 @@ function signInWithApple() {
       console.log('Signed in with Apple:', result.user.email);
     })
     .catch(e => {
-      console.warn('Apple sign-in failed', e);
+      console.warn('Apple sign-in failed', e.code, e.message, e);
       if (e.code === 'auth/popup-blocked') {
         toast('Popup was blocked. Please allow popups for this site and try again.');
-      } else if (e.code !== 'auth/popup-closed-by-user') {
+      } else if (e.code === 'auth/popup-closed-by-user') {
+        // Log to help diagnose silent Apple config errors that masquerade as user-closed
+        console.warn('Apple popup closed — if you did not close it, check Apple Sign In config in Firebase Console and Apple Developer account.');
+      } else {
         toast('Sign-in failed: ' + e.message);
       }
     });
