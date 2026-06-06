@@ -12,7 +12,7 @@
 // Accounts are keyed by email so Google + Apple logins with the same email share one document.
 
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCPKwgdPoH0b6_8lKFBFkPZP3pO3IN45VQ",
+  apiKey: "AIzaSyAcW-wvEOsbrX-3CMb58r4nfokELbInWIM",
   authDomain: "wealth-vishalparwani.firebaseapp.com",
   projectId: "wealth-vishalparwani",
   storageBucket: "wealth-vishalparwani.firebasestorage.app",
