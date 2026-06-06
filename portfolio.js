@@ -235,9 +235,14 @@ function getAssetCashflows(key, currentValue) {
       if (r.purchaseDate && inv>0) flows.push({amount:-inv, date:r.purchaseDate});
     });
   } else if (key === 'epf') {
-    P.epf.transactions.filter(t=>t.type==='contribution').forEach(t => {
-      const total = (parseFloat(t.employeeAmount)||0)+(parseFloat(t.employerAmount)||0);
-      if (total>0 && t.date) flows.push({amount:-total, date:t.date});
+    P.epf.transactions.forEach(t => {
+      if (t.type === 'contribution') {
+        const total = (parseFloat(t.employeeAmount)||0)+(parseFloat(t.employerAmount)||0);
+        if (total>0 && t.date) flows.push({amount:-total, date:t.date});
+      } else if (t.type === 'withdrawal') {
+        const amt = parseFloat(t.amount)||0;
+        if (amt>0 && t.date) flows.push({amount:+amt, date:t.date});
+      }
     });
   } else if (key === 'nps') {
     P.nps.transactions.forEach(t => {
@@ -1323,11 +1328,14 @@ function renderEPF() {
   const balance = parseFloat(P.epf.currentBalance)||0;
   const contrib = P.epf.transactions.filter(t=>t.type==='contribution')
     .reduce((s,t)=>s+(parseFloat(t.employeeAmount)||0)+(parseFloat(t.employerAmount)||0),0);
-  const gain    = balance - contrib;
+  const withdrawn = P.epf.transactions.filter(t=>t.type==='withdrawal')
+    .reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+  const netInvested = contrib - withdrawn;
+  const gain    = balance + withdrawn - contrib;
   const gainPct = contrib>0 ? (gain/contrib)*100 : 0;
   const flows   = getAssetCashflows('epf', balance);
   const xirr    = computeXIRR(flows);
-  const cagr    = flows.length>=2 ? computeCAGR(contrib, balance, flows[0].date) : null;
+  const cagr    = flows.length>=2 ? computeCAGR(netInvested, balance, flows[0].date) : null;
 
   const txnRows = [...P.epf.transactions]
     .sort((a,b)=>b.date.localeCompare(a.date))
@@ -1335,16 +1343,22 @@ function renderEPF() {
       const emp   = parseFloat(t.employeeAmount)||0;
       const empr  = parseFloat(t.employerAmount)||0;
       const total = t.type==='contribution' ? emp+empr : parseFloat(t.amount)||0;
-      const isContrib = t.type==='contribution';
+      const isContrib    = t.type==='contribution';
+      const isWithdrawal = t.type==='withdrawal';
+      const typeLabel = isContrib ? 'Contribution' : isWithdrawal ? 'Withdrawal' : 'Interest';
       const detail = isContrib
         ? `<span class="txn-row-detail-item">Employee <strong>${formatINR(emp,false)}</strong></span>
            <span class="txn-row-detail-item">Employer <strong>${formatINR(empr,false)}</strong></span>`
-        : `<span class="txn-row-detail-item">Interest credit</span>`;
+        : isWithdrawal
+          ? `<span class="txn-row-detail-item">Withdrawal${t.note?` — ${esc(t.note)}`:''}</span>`
+          : `<span class="txn-row-detail-item">Interest credit</span>`;
+      const amountDisplay = isWithdrawal ? `-${formatINR(total,false)}` : formatINR(total,false);
+      const amountStyle = isWithdrawal ? 'color:var(--red)' : '';
       return `<div class="txn-row" id="epf-txn-${t.id}">
         <div class="txn-row-main" onclick="txnRowToggle('epf-txn-${t.id}')">
           <span class="txn-row-date">${fmtMonthYear(t.date)}</span>
-          <span style="flex:1;font-size:.72rem;color:var(--text3);padding-left:8px">${isContrib?'Contribution':'Interest'}</span>
-          <span class="txn-row-amount">${formatINR(total,false)}</span>
+          <span style="flex:1;font-size:.72rem;color:var(--text3);padding-left:8px">${typeLabel}</span>
+          <span class="txn-row-amount" style="${amountStyle}">${amountDisplay}</span>
           <span class="txn-row-chevron">▶</span>
         </div>
         <div class="txn-row-expand">
@@ -1366,6 +1380,7 @@ function renderEPF() {
         </div>
         <div class="asset-card-body">
           <div class="card-row"><span class="card-row-label">Total Contribution</span><span class="card-row-value">${formatINR(contrib)}</span></div>
+          ${withdrawn>0?`<div class="card-row"><span class="card-row-label">Total Withdrawn</span><span class="card-row-value">${formatINR(withdrawn)}</span></div>`:''}
           <div class="card-row"><span class="card-row-label">Current Balance</span><span class="card-row-value">${formatINR(balance)}</span></div>
           <div class="card-row"><span class="card-row-label">Gain</span>
             <strong style="color:${gain>=0?'var(--green)':'var(--red)'}">
@@ -1515,13 +1530,16 @@ function openEPFTxnModal(editId = null) {
   document.getElementById('epf-txn-type').value          = t?.type || 'contribution';
   document.getElementById('epf-txn-emp').value           = t?.employeeAmount || '';
   document.getElementById('epf-txn-employer').value      = t?.employerAmount || '';
-  document.getElementById('epf-txn-interest').value      = t?.amount || '';
+  document.getElementById('epf-txn-interest').value      = (t?.type==='interest' ? t?.amount : '') || '';
+  document.getElementById('epf-txn-withdrawal').value    = (t?.type==='withdrawal' ? t?.amount : '') || '';
+  document.getElementById('epf-txn-withdrawal-note').value = t?.note || '';
   toggleEPFTxnFields(t?.type || 'contribution');
   document.getElementById('epf-txn-modal').style.display = 'flex';
 }
 function toggleEPFTxnFields(type) {
   document.getElementById('epf-txn-contribution-wrap').style.display = type==='contribution' ? '' : 'none';
   document.getElementById('epf-txn-interest-wrap').style.display     = type==='interest'     ? '' : 'none';
+  document.getElementById('epf-txn-withdrawal-wrap').style.display   = type==='withdrawal'   ? '' : 'none';
 }
 document.getElementById('epf-txn-type').addEventListener('change', e=>toggleEPFTxnFields(e.target.value));
 document.getElementById('epf-txn-cancel').addEventListener('click', ()=> document.getElementById('epf-txn-modal').style.display='none');
@@ -1536,10 +1554,15 @@ document.getElementById('epf-txn-confirm').addEventListener('click', ()=>{
     const empr = parseFloat(document.getElementById('epf-txn-employer').value)||0;
     if (emp<=0 && empr<=0) { toast('Enter at least one amount'); return; }
     txn = { id:epfTxnEditId||newId(), date, type, employeeAmount:emp, employerAmount:empr };
-  } else {
+  } else if (type === 'interest') {
     const amt = parseFloat(document.getElementById('epf-txn-interest').value)||0;
     if (amt<=0) { toast('Enter interest amount'); return; }
     txn = { id:epfTxnEditId||newId(), date, type:'interest', amount:amt };
+  } else {
+    const amt = parseFloat(document.getElementById('epf-txn-withdrawal').value)||0;
+    if (amt<=0) { toast('Enter withdrawal amount'); return; }
+    const note = document.getElementById('epf-txn-withdrawal-note').value.trim();
+    txn = { id:epfTxnEditId||newId(), date, type:'withdrawal', amount:amt, note };
   }
   if (epfTxnEditId) {
     const idx = P.epf.transactions.findIndex(x=>x.id===epfTxnEditId);

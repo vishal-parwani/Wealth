@@ -551,6 +551,7 @@
     <select id="epf-txn-type">
       <option value="contribution">Contribution</option>
       <option value="interest">Interest Credit</option>
+      <option value="withdrawal">Withdrawal</option>
     </select>
     <div id="epf-txn-contribution-wrap">
       <label>Employee Contribution (₹)</label>
@@ -561,6 +562,12 @@
     <div id="epf-txn-interest-wrap" style="display:none">
       <label>Interest Amount (₹)</label>
       <input type="number" id="epf-txn-interest" placeholder="0" min="0">
+    </div>
+    <div id="epf-txn-withdrawal-wrap" style="display:none">
+      <label>Withdrawal Amount (₹)</label>
+      <input type="number" id="epf-txn-withdrawal" placeholder="0" min="0">
+      <label>Note (optional)</label>
+      <input type="text" id="epf-txn-withdrawal-note" placeholder="e.g. partial withdrawal for...">
     </div>
     <div class="modal-footer">
       <button class="btn" id="epf-txn-cancel">Cancel</button>
