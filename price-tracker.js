@@ -140,8 +140,9 @@ function ptRefreshDownstream() {
     LIVE.goldRate = ptLanded(PT_cache.gold.price, PT_cache.inr.price, PT_CFG.gold, 'gold')[0].price;
   if (PT_cache.silver && PT_cache.inr)
     LIVE.silverRate = ptLanded(PT_cache.silver.price, PT_cache.inr.price, PT_CFG.silver, 'silver')[0].price;
-  if (document.getElementById('tab-gold')?.classList.contains('active'))   renderGold?.();
-  if (document.getElementById('tab-silver')?.classList.contains('active')) renderSilver?.();
+  if (document.getElementById('tab-gold')?.classList.contains('active'))    renderGold?.();
+  if (document.getElementById('tab-silver')?.classList.contains('active'))  renderSilver?.();
+  if (document.getElementById('tab-summary')?.classList.contains('active')) renderSummary?.();
 }
 
 // ── Formatters (pt-scoped to avoid conflicts) ───────────
@@ -184,8 +185,9 @@ async function ptPoll() {
     LIVE.silverRate = ptLanded(silver.price, inr.price, PT_CFG.silver, 'silver')[0].price; // 999
 
     // Re-render those tabs if currently visible
-    if (document.getElementById('tab-gold')?.classList.contains('active'))   renderGold();
-    if (document.getElementById('tab-silver')?.classList.contains('active')) renderSilver();
+    if (document.getElementById('tab-gold')?.classList.contains('active'))    renderGold();
+    if (document.getElementById('tab-silver')?.classList.contains('active'))  renderSilver();
+    if (document.getElementById('tab-summary')?.classList.contains('active')) renderSummary?.();
 
     // Re-render tracker tab if visible (skip while user is editing settings)
     if (document.getElementById('tab-prices')?.classList.contains('active') && !PT_settingsOpen) ptDraw();

@@ -179,10 +179,29 @@ async function getPortfolioValues() {
   const epfContrib = P.epf.transactions
     .filter(t=>t.type==='contribution')
     .reduce((s,t)=>s+(parseFloat(t.employeeAmount)||0)+(parseFloat(t.employerAmount)||0),0);
-  const epfWithdrawn = P.epf.transactions
-    .filter(t=>t.type==='withdrawal')
-    .reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
-  const epfNetInvested = epfContrib - epfWithdrawn;
+  // Split each withdrawal into principal-returned vs realised-gain using the
+  // optional balanceBefore field. If balanceBefore is missing, treat the
+  // whole withdrawal as principal return (current behaviour).
+  const epfSorted = [...P.epf.transactions].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  let epfPrincipalReturned = 0;
+  let epfRealised = 0;
+  let contribSoFar = 0;
+  for (const t of epfSorted) {
+    if (t.type === 'contribution') {
+      contribSoFar += (parseFloat(t.employeeAmount)||0) + (parseFloat(t.employerAmount)||0);
+    } else if (t.type === 'withdrawal') {
+      const w  = parseFloat(t.amount)||0;
+      const bb = t.balanceBefore != null ? parseFloat(t.balanceBefore) : null;
+      if (bb && bb > 0 && contribSoFar > 0) {
+        const principalFrac = Math.min(1, contribSoFar / bb);
+        epfPrincipalReturned += w * principalFrac;
+        epfRealised          += w * (1 - principalFrac);
+      } else {
+        epfPrincipalReturned += w;
+      }
+    }
+  }
+  const epfNetInvested = epfContrib - epfPrincipalReturned;
   const npsValue   = parseFloat(P.nps.currentValue)||0;
   const npsContrib = P.nps.transactions
     .reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
@@ -199,7 +218,7 @@ async function getPortfolioValues() {
     gold:       { current: goldTotal,   invested: goldInvested,   realised: goldRealised },
     silver:     { current: silverTotal, invested: silverInvested, realised: silverRealised },
     real_estate:{ current: reTotal,     invested: reInvested,     realised: 0 },
-    epf:        { current: epfBalance,  invested: epfNetInvested, realised: 0 },
+    epf:        { current: epfBalance,  invested: epfNetInvested, realised: epfRealised },
     nps:        { current: npsValue,    invested: npsContrib,     realised: 0 },
     total:      mfTotal + stocksTotal + goldTotal + silverTotal + reTotal + epfBalance + npsValue
   };
@@ -701,6 +720,27 @@ function metalRowToggle(id, rowEl) {
   rowEl.classList.toggle('open', _metalRowOpen[id]);
 }
 
+// Desktop table row (paired with renderMetalRow's mobile expandable row)
+function renderMetalTableRow(item, opts) {
+  const purchased = parseFloat(item.purchasePrice)||0;
+  const gainColor = (opts.gain||0) >= 0 ? 'var(--green)' : 'var(--red)';
+  return `<tr>
+    <td class="left">${esc(item.description)}</td>
+    <td>${opts.weight}g</td>
+    <td><span class="ticker-chip">${esc(opts.purityLabel)}</span></td>
+    <td>${item.purchaseDate||'—'}</td>
+    <td>${formatINR(purchased)}</td>
+    <td>${opts.current!=null ? formatINR(opts.current) : '<span class="chip-n">—</span>'}</td>
+    <td>${opts.gain!=null ? `<span style="color:${gainColor}">${opts.gain>=0?'+':''}${formatINRFull(opts.gain)}</span>` : '—'}</td>
+    <td>${gainChip(opts.gainPct)}</td>
+    <td><div class="fund-btns">
+      <button class="fnd-btn" onclick="${opts.openModal}('${esc(item.id)}')">✎</button>
+      <button class="sell-btn" onclick="${opts.openSell}('${esc(item.id)}')">Sell</button>
+      <button class="fnd-btn del" onclick="${opts.del}('${esc(item.id)}')">✕</button>
+    </div></td>
+  </tr>`;
+}
+
 function txnRowToggle(rowId) {
   const el = document.getElementById(rowId);
   if (el) el.classList.toggle('open');
@@ -722,7 +762,7 @@ async function renderGold() {
 
   let totalPurchase=0, totalCurrent=0;
   const weightByPurity = {};
-  const rows = activeGold.map(g => {
+  const rowPairs = activeGold.map(g => {
     const purchased = parseFloat(g.purchasePrice)||0;
     const weight    = parseFloat(g.weightGrams)||0;
     const factor    = PURITY_FACTOR[g.purity] || 1;
@@ -732,12 +772,15 @@ async function renderGold() {
     totalPurchase += purchased;
     if (current) totalCurrent += current;
     weightByPurity[g.purity] = (weightByPurity[g.purity] || 0) + weight;
-    return renderMetalRow(g, {
+    const opts = {
       kind:'gold', current, gain, gainPct,
       openModal:'openGoldModal', openSell:'openGoldSellModal', del:'deleteGold',
       purityLabel:g.purity, weight
-    });
-  }).join('');
+    };
+    return { mobile: renderMetalRow(g, opts), desktop: renderMetalTableRow(g, opts) };
+  });
+  const rows = rowPairs.map(r=>r.mobile).join('');
+  const tableRows = rowPairs.map(r=>r.desktop).join('');
 
   const totalGain = totalCurrent - totalPurchase;
   const totalGainPct = totalPurchase > 0 ? (totalGain/totalPurchase)*100 : 0;
@@ -755,6 +798,30 @@ async function renderGold() {
     : `<div class="metal-rate-strip"><span class="mrs-empty">Live gold rate unavailable — visit Live Prices tab</span></div>`;
   el.innerHTML = `
     ${goldRateStrip}
+    <div class="metal-table-wrap portfolio-table-wrap">
+      <table class="portfolio-table">
+        <thead><tr>
+          <th class="left" style="min-width:160px">Description</th>
+          <th>Weight</th><th>Purity</th><th>Purchase Date</th>
+          <th>Purchase Price</th><th>Current Value</th>
+          <th>Notional Gain</th><th>Gain%</th>
+          <th style="width:120px"></th>
+        </tr></thead>
+        <tbody>${tableRows}</tbody>
+        <tfoot><tr class="totals-row">
+          <td class="left"><strong>Total</strong></td>
+          <td class="left" style="font-size:.78rem;color:var(--text2)">
+            ${['24K','22K','18K'].filter(p=>weightByPurity[p]).map(p=>`<span style="white-space:nowrap">${weightByPurity[p].toFixed(2).replace(/\.?0+$/,'')}g ${p}</span>`).join('<br>')}
+          </td>
+          <td></td><td></td>
+          <td><strong>${formatINR(totalPurchase)}</strong></td>
+          <td><strong>${formatINR(totalCurrent)}</strong></td>
+          <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)}</strong></td>
+          <td>${gainChip(totalGainPct)}</td>
+          <td></td>
+        </tr></tfoot>
+      </table>
+    </div>
     <div class="metal-rows">${rows}</div>
     <div class="metal-totals">
       <div class="metal-totals-title">Gold · Totals</div>
@@ -1536,6 +1603,7 @@ function openEPFTxnModal(editId = null) {
   document.getElementById('epf-txn-employer').value      = t?.employerAmount || '';
   document.getElementById('epf-txn-interest').value      = (t?.type==='interest' ? t?.amount : '') || '';
   document.getElementById('epf-txn-withdrawal').value    = (t?.type==='withdrawal' ? t?.amount : '') || '';
+  document.getElementById('epf-txn-withdrawal-balance').value = (t?.type==='withdrawal' ? t?.balanceBefore : '') || '';
   document.getElementById('epf-txn-withdrawal-note').value = t?.note || '';
   toggleEPFTxnFields(t?.type || 'contribution');
   document.getElementById('epf-txn-modal').style.display = 'flex';
@@ -1565,8 +1633,10 @@ document.getElementById('epf-txn-confirm').addEventListener('click', ()=>{
   } else {
     const amt = parseFloat(document.getElementById('epf-txn-withdrawal').value)||0;
     if (amt<=0) { toast('Enter withdrawal amount'); return; }
+    const balRaw = document.getElementById('epf-txn-withdrawal-balance').value;
+    const balanceBefore = balRaw === '' ? null : (parseFloat(balRaw)||0);
     const note = document.getElementById('epf-txn-withdrawal-note').value.trim();
-    txn = { id:epfTxnEditId||newId(), date, type:'withdrawal', amount:amt, note };
+    txn = { id:epfTxnEditId||newId(), date, type:'withdrawal', amount:amt, balanceBefore, note };
   }
   if (epfTxnEditId) {
     const idx = P.epf.transactions.findIndex(x=>x.id===epfTxnEditId);
@@ -2099,7 +2169,7 @@ async function renderSilver() {
 
   let totalPurchase=0, totalCurrent=0;
   const weightByPurity = {};
-  const rows = activeSilver.map(s => {
+  const rowPairs = activeSilver.map(s => {
     const purchased = parseFloat(s.purchasePrice)||0;
     const weight    = parseFloat(s.weightGrams)||0;
     const factor    = SILVER_PURITY_FACTOR[s.purity] || 1;
@@ -2109,12 +2179,15 @@ async function renderSilver() {
     totalPurchase += purchased;
     if (current) totalCurrent += current;
     weightByPurity[s.purity] = (weightByPurity[s.purity] || 0) + weight;
-    return renderMetalRow(s, {
+    const opts = {
       kind:'silver', current, gain, gainPct,
       openModal:'openSilverModal', openSell:'openSilverSellModal', del:'deleteSilver',
       purityLabel:s.purity, weight
-    });
-  }).join('');
+    };
+    return { mobile: renderMetalRow(s, opts), desktop: renderMetalTableRow(s, opts) };
+  });
+  const rows = rowPairs.map(r=>r.mobile).join('');
+  const tableRows = rowPairs.map(r=>r.desktop).join('');
 
   const totalGain = totalCurrent - totalPurchase;
   const totalGainPct = totalPurchase > 0 ? (totalGain/totalPurchase)*100 : 0;
@@ -2133,6 +2206,30 @@ async function renderSilver() {
 
   el.innerHTML = `
     ${silverRateStrip}
+    <div class="metal-table-wrap portfolio-table-wrap">
+      <table class="portfolio-table">
+        <thead><tr>
+          <th class="left" style="min-width:160px">Description</th>
+          <th>Weight</th><th>Purity</th><th>Purchase Date</th>
+          <th>Purchase Price</th><th>Current Value</th>
+          <th>Notional Gain</th><th>Gain%</th>
+          <th style="width:120px"></th>
+        </tr></thead>
+        <tbody>${tableRows}</tbody>
+        <tfoot><tr class="totals-row">
+          <td class="left"><strong>Total</strong></td>
+          <td class="left" style="font-size:.78rem;color:var(--text2)">
+            ${['999','925','800'].filter(p=>weightByPurity[p]).map(p=>`<span style="white-space:nowrap">${weightByPurity[p].toFixed(2).replace(/\.?0+$/,'')}g ${p}</span>`).join('<br>')}
+          </td>
+          <td></td><td></td>
+          <td><strong>${formatINR(totalPurchase)}</strong></td>
+          <td><strong>${formatINR(totalCurrent)}</strong></td>
+          <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)}</strong></td>
+          <td>${gainChip(totalGainPct)}</td>
+          <td></td>
+        </tr></tfoot>
+      </table>
+    </div>
     <div class="metal-rows">${rows}</div>
     <div class="metal-totals">
       <div class="metal-totals-title">Silver · Totals</div>
