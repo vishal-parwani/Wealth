@@ -1210,7 +1210,10 @@ function closeSettingsPanel() {
 
       initWatchlist(allData);
       initPortfolio(allData);
-      initPriceTracker(allData);
+      // Kick off price polling and keep the promise for the first tick so we can
+      // await live gold/silver rates BEFORE the first summary render — this avoids
+      // both the stale-rate flash and any corrective re-render (zero visible flicker).
+      const firstPriceTick = initPriceTracker(allData);
       initSummary();
 
       let savedModules = allData?.config?.activeModules;
@@ -1228,6 +1231,18 @@ function closeSettingsPanel() {
         openSettingsPanel('modules', true);
       }
 
+      // Wait for the first gold/silver poll (bounded) so the summary's first paint
+      // already has live rates — no stale flash, no corrective re-render. If the
+      // network is slow/down, fall back after 4s (ptPoll's safety net will correct
+      // the summary once rates eventually arrive).
+      try {
+        await Promise.race([
+          firstPriceTick,
+          new Promise(res => setTimeout(res, 4000)),
+        ]);
+      } catch {}
+
+      PT_booted = true;   // from here on, ptPoll may do its one-time corrective re-render
       renderSummary();
     } catch (e) {
       console.error('Boot failed', e);

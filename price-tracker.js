@@ -78,6 +78,11 @@ let PT_duty      = structuredClone(PT_DUTY_DEFAULT);
 let PT_gstOn     = true;
 let PT_settingsOpen = false;
 let PT_methodOpen   = false;
+// Set true once the initial boot render has happened. Until then, the boot
+// sequence awaits the first poll itself, so ptPoll must NOT re-render summary
+// (that would double-render). After boot, this gates a one-time corrective
+// re-render only if the first poll failed and rates arrive on a later tick.
+let PT_booted       = false;
 
 // ── Low-level fetchers ──────────────────────────────────
 
@@ -188,9 +193,11 @@ async function ptPoll() {
     // Re-render those tabs if currently visible
     if (document.getElementById('tab-gold')?.classList.contains('active'))    renderGold();
     if (document.getElementById('tab-silver')?.classList.contains('active'))  renderSilver();
-    // Summary only needs a re-render the first time rates become available
-    // (otherwise it would visibly flicker every poll tick).
-    if (ratesWereMissing && document.getElementById('tab-summary')?.classList.contains('active')) renderSummary?.();
+    // Summary: boot awaits the first poll before its initial render, so in the
+    // normal path rates are already present and no re-render is needed here.
+    // This fires only as a safety net — if the first poll failed and rates
+    // arrive on a later tick — so the summary self-corrects exactly once.
+    if (PT_booted && ratesWereMissing && document.getElementById('tab-summary')?.classList.contains('active')) renderSummary?.();
 
     // Re-render tracker tab if visible (skip while user is editing settings)
     if (document.getElementById('tab-prices')?.classList.contains('active') && !PT_settingsOpen) ptDraw();
@@ -366,6 +373,7 @@ function renderPriceTracker() {
 function initPriceTracker(allData) {
   ptInitSettings(allData || {});
   PT_t0 = Date.now();
-  ptPoll();                             // immediate first tick
+  const firstTick = ptPoll();           // immediate first tick (returns a promise)
   PT_timer = setInterval(ptPoll, PT_MS);
+  return firstTick;                     // boot awaits this so rates are ready before first summary render
 }
