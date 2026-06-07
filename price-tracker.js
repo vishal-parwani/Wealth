@@ -181,13 +181,16 @@ async function ptPoll() {
     PT_lastErr = null;
 
     // ── Feed Gold / Silver tabs ──
+    const ratesWereMissing = (LIVE.goldRate == null || LIVE.silverRate == null);
     LIVE.goldRate   = ptLanded(gold.price,   inr.price, PT_CFG.gold,   'gold')[0].price;   // 24K
     LIVE.silverRate = ptLanded(silver.price, inr.price, PT_CFG.silver, 'silver')[0].price; // 999
 
     // Re-render those tabs if currently visible
     if (document.getElementById('tab-gold')?.classList.contains('active'))    renderGold();
     if (document.getElementById('tab-silver')?.classList.contains('active'))  renderSilver();
-    if (document.getElementById('tab-summary')?.classList.contains('active')) renderSummary?.();
+    // Summary only needs a re-render the first time rates become available
+    // (otherwise it would visibly flicker every poll tick).
+    if (ratesWereMissing && document.getElementById('tab-summary')?.classList.contains('active')) renderSummary?.();
 
     // Re-render tracker tab if visible (skip while user is editing settings)
     if (document.getElementById('tab-prices')?.classList.contains('active') && !PT_settingsOpen) ptDraw();
