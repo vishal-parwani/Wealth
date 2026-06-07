@@ -414,10 +414,11 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 /* ════════════════════════════════════════════════════════
    SUMMARY — pie + expandable asset cards
    ════════════════════════════════════════════════════════ */
-.pie-only-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;align-items:center;justify-content:center}
+.summary-row{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.pie-only-wrap{flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;align-items:center;justify-content:center}
 #summary-pie{max-width:100%;height:auto}
 
-.asset-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.asset-summary-grid{flex:1;min-width:320px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .asset-summary-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .15s}
 .asset-summary-card[open]{box-shadow:var(--shadow-md)}
 .asset-summary-card > summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -515,8 +516,11 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   /* Hide Net Worth Over Time chart on mobile */
   #history-card{display:none!important}
 
+  /* Summary row stacks pie on top, cards below on mobile */
+  .summary-row{flex-direction:column}
+  .pie-only-wrap{width:100%;justify-content:center}
   /* Asset summary cards stack on mobile */
-  .asset-summary-grid{grid-template-columns:1fr}
+  .asset-summary-grid{grid-template-columns:1fr;min-width:0}
 
   /* Bottom ribbon removed on mobile (replaced by hamburger drawer) */
   #bottom-ribbon{display:none!important}

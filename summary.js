@@ -123,13 +123,13 @@ async function renderSummary() {
         </div>
       </div>
 
-      <!-- Pie Chart with on-slice labels -->
-      <div class="pie-only-wrap">
-        <canvas id="summary-pie" width="320" height="320"></canvas>
+      <!-- Pie + asset cards side-by-side on desktop -->
+      <div class="summary-row">
+        <div class="pie-only-wrap">
+          <canvas id="summary-pie" width="320" height="320"></canvas>
+        </div>
+        <div class="asset-summary-grid">${assetCards}</div>
       </div>
-
-      <!-- Expandable asset class cards -->
-      <div class="asset-summary-grid">${assetCards}</div>
 
       <!-- History Chart (hidden on mobile via CSS) -->
       ${snapshots.length > 1 ? `
