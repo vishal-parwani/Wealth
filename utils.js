@@ -98,6 +98,13 @@ function computeXIRR(cashflows) {
       return y === 0 ? s : s - y*v / Math.pow(1+r, y+1);
     }, 0);
   }
+  // Anything above this annualised rate (10,000%) is treated as a numerical
+  // artifact rather than a real return — Newton's method can otherwise diverge
+  // to spurious roots (e.g. quick buy/sell pairs) and report absurd figures.
+  const SANE_MAX = 100;
+  const gross = vals.reduce((s,v) => s + Math.abs(v), 0);
+
+  // ── Newton's method (fast path) ──
   let r = 0.1;
   for (let i = 0; i < 300; i++) {
     const f = xnpv(r), df = dxnpv(r);
@@ -107,7 +114,27 @@ function computeXIRR(cashflows) {
     if (r <= -1) r = -0.9999;
     if (Math.abs(step) < 1e-10) break;
   }
-  return (isFinite(r) && r > -1) ? r * 100 : null;
+
+  // Accept Newton only if it landed in a sane range AND actually zeroes xnpv.
+  const converged = isFinite(r) && r > -1 && r <= SANE_MAX &&
+                    Math.abs(xnpv(r)) < 1e-4 * gross;
+
+  // ── Bisection fallback (robust) ──
+  if (!converged) {
+    let lo = -0.9999, hi = SANE_MAX;
+    let flo = xnpv(lo), fhi = xnpv(hi);
+    if (!isFinite(flo) || !isFinite(fhi) || flo * fhi > 0) return null; // no sign change → no root in range
+    r = null;
+    for (let i = 0; i < 200; i++) {
+      const mid = (lo + hi) / 2, fm = xnpv(mid);
+      if (!isFinite(fm)) return null;
+      r = mid;
+      if (Math.abs(fm) < 1e-6 || (hi - lo) < 1e-12) break;
+      if (flo * fm <= 0) { hi = mid; fhi = fm; } else { lo = mid; flo = fm; }
+    }
+  }
+
+  return (isFinite(r) && r > -1 && r <= SANE_MAX) ? r * 100 : null;
 }
 
 function xirrChip(val, loading) {

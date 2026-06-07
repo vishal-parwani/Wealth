@@ -298,7 +298,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .networth-value{font-size:2rem;font-weight:700;color:var(--text);line-height:1.2;font-family:'DM Mono',monospace}
 .networth-sub{margin-top:8px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:.84rem}
 
-.summary-row{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.summary-row{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
 .pie-wrap{flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;display:flex;align-items:center;justify-content:center}
 .summary-table-wrap{flex:1;min-width:320px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow-x:auto}
 
@@ -414,7 +414,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 /* ════════════════════════════════════════════════════════
    SUMMARY — pie + expandable asset cards
    ════════════════════════════════════════════════════════ */
-.summary-row{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.summary-row{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
 .pie-only-wrap{flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;align-items:center;justify-content:center}
 #summary-pie{max-width:100%;height:auto}
 

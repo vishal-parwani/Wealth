@@ -810,7 +810,7 @@ async function renderGold() {
         <tbody>${tableRows}</tbody>
         <tfoot><tr class="totals-row">
           <td class="left"><strong>Total</strong></td>
-          <td class="left" style="font-size:.78rem;color:var(--text2)">
+          <td style="font-size:.78rem;color:var(--text2)">
             ${['24K','22K','18K'].filter(p=>weightByPurity[p]).map(p=>`<span style="white-space:nowrap">${weightByPurity[p].toFixed(2).replace(/\.?0+$/,'')}g ${p}</span>`).join('<br>')}
           </td>
           <td></td><td></td>
@@ -2218,7 +2218,7 @@ async function renderSilver() {
         <tbody>${tableRows}</tbody>
         <tfoot><tr class="totals-row">
           <td class="left"><strong>Total</strong></td>
-          <td class="left" style="font-size:.78rem;color:var(--text2)">
+          <td style="font-size:.78rem;color:var(--text2)">
             ${['999','925','800'].filter(p=>weightByPurity[p]).map(p=>`<span style="white-space:nowrap">${weightByPurity[p].toFixed(2).replace(/\.?0+$/,'')}g ${p}</span>`).join('<br>')}
           </td>
           <td></td><td></td>
