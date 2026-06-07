@@ -179,6 +179,10 @@ async function getPortfolioValues() {
   const epfContrib = P.epf.transactions
     .filter(t=>t.type==='contribution')
     .reduce((s,t)=>s+(parseFloat(t.employeeAmount)||0)+(parseFloat(t.employerAmount)||0),0);
+  const epfWithdrawn = P.epf.transactions
+    .filter(t=>t.type==='withdrawal')
+    .reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+  const epfNetInvested = epfContrib - epfWithdrawn;
   const npsValue   = parseFloat(P.nps.currentValue)||0;
   const npsContrib = P.nps.transactions
     .reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
@@ -195,7 +199,7 @@ async function getPortfolioValues() {
     gold:       { current: goldTotal,   invested: goldInvested,   realised: goldRealised },
     silver:     { current: silverTotal, invested: silverInvested, realised: silverRealised },
     real_estate:{ current: reTotal,     invested: reInvested,     realised: 0 },
-    epf:        { current: epfBalance,  invested: epfContrib,     realised: 0 },
+    epf:        { current: epfBalance,  invested: epfNetInvested, realised: 0 },
     nps:        { current: npsValue,    invested: npsContrib,     realised: 0 },
     total:      mfTotal + stocksTotal + goldTotal + silverTotal + reTotal + epfBalance + npsValue
   };
