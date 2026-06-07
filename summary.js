@@ -123,10 +123,30 @@ async function renderSummary() {
         </div>
       </div>
 
-      <!-- Pie + asset cards side-by-side on desktop -->
+      <!-- Pie + asset table (desktop) / asset cards (mobile) -->
       <div class="summary-row">
         <div class="pie-only-wrap">
           <canvas id="summary-pie" width="320" height="320"></canvas>
+        </div>
+        <div class="summary-table-wrap">
+          <table class="portfolio-table">
+            <thead><tr>
+              <th class="left">Asset Class</th>
+              <th>Invested</th><th>Current Value</th>
+              <th>Notional Gain</th><th>Gain%</th><th>Realised Gain</th><th>CAGR</th><th>XIRR</th>
+            </tr></thead>
+            <tbody>${tableRows}</tbody>
+            <tfoot><tr class="totals-row">
+              <td class="left"><strong>Total</strong></td>
+              <td><strong>${formatINR(totalInvested)}</strong></td>
+              <td><strong>${formatINR(totalCurrent)}</strong></td>
+              <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">
+                ${totalGain>=0?'+':''}${formatINR(totalGain)}
+              </strong></td>
+              <td>${gainChip(totalGainPct)}</td>
+              <td></td><td></td><td></td>
+            </tr></tfoot>
+          </table>
         </div>
         <div class="asset-summary-grid">${assetCards}</div>
       </div>
