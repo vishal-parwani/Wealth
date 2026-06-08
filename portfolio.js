@@ -1408,21 +1408,25 @@ function estRenderList(goldRate) {
 
 function estRecompute() {
   const goldRate = LIVE.goldRate;
-  const coinPct = (parseFloat(document.getElementById('est-coin-pct').value) || 0) / 100;
-  const jwlPct  = (parseFloat(document.getElementById('est-jwl-pct').value) || 0) / 100;
+  const coinKeep   = 1 - (parseFloat(document.getElementById('est-coin-red').value) || 0) / 100;
+  const jGoldKeep  = 1 - (parseFloat(document.getElementById('est-jwl-gold-red').value) || 0) / 100;
+  const jStoneKeep = 1 - (parseFloat(document.getElementById('est-jwl-stone-red').value) || 0) / 100;
   let count = 0, fineG = 0, gross = 0, realised = 0;
 
   P.gold.forEach(g => {
     if (!estSelected.has('gold:' + g.id)) return;
     const w = parseFloat(g.weightGrams) || 0, f = PURITY_FACTOR[g.purity] || 1;
     const melt = goldRate ? w * f * goldRate : 0;
-    count++; fineG += w * f; gross += melt; realised += melt * coinPct;
+    count++; fineG += w * f; gross += melt; realised += melt * coinKeep;
   });
   P.jewellery.forEach(j => {
     if (!estSelected.has('jwl:' + j.id)) return;
     const net = parseFloat(j.gold?.weightGrams) || 0, f = PURITY_FACTOR[j.gold?.purity] || 1;
-    const val = computeJewelleryCurrentValue(j, goldRate);
-    count++; fineG += net * f; gross += val; realised += val * jwlPct;
+    const goldMelt  = goldRate ? net * f * goldRate : 0;
+    const val       = computeJewelleryCurrentValue(j, goldRate);
+    const stonesVal = Math.max(val - goldMelt, 0);
+    count++; fineG += net * f; gross += val;
+    realised += goldMelt * jGoldKeep + stonesVal * jStoneKeep;
   });
 
   const el = document.getElementById('est-totals');
@@ -1442,7 +1446,7 @@ document.getElementById('estimator-modal').addEventListener('click', e => {
   if (e.target === e.currentTarget) document.getElementById('estimator-modal').style.display = 'none';
 });
 document.getElementById('est-clear').addEventListener('click', () => { estSelected.clear(); estRenderList(LIVE.goldRate); });
-['est-coin-pct', 'est-jwl-pct'].forEach(id => document.getElementById(id).addEventListener('input', estRecompute));
+['est-coin-red', 'est-jwl-gold-red', 'est-jwl-stone-red'].forEach(id => document.getElementById(id).addEventListener('input', estRecompute));
 document.getElementById('est-list').addEventListener('click', e => {
   const sa = e.target.closest('.est-selall');
   if (!sa) return;

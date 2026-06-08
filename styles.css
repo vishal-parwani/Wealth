@@ -778,6 +778,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .jwl-recon.err{background:var(--red-bg);color:var(--red)}
 .jwl-reconcile{margin:8px 0;padding:7px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border);font-size:.75rem;font-weight:600}
 /* ── Sale Estimator ── */
+.est-reductions{display:grid;grid-template-columns:repeat(3,1fr);gap:0 12px}
+.est-reductions > *{display:flex;flex-direction:column;min-width:0}
+.est-reductions label{flex-grow:1}
+@media(max-width:600px){.est-reductions{grid-template-columns:1fr}}
 .est-rate-strip{font-size:.75rem;color:var(--text2);font-weight:600;margin-bottom:14px;padding:7px 10px;border-radius:6px;background:var(--surface2);border:1px solid var(--border)}
 .est-rate-strip .warn{color:var(--red)}
 .est-section{margin-bottom:14px}
