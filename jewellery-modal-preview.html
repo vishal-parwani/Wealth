@@ -8,7 +8,7 @@
 <style>
 :root{
   --bg:#f5ede4;--surface:#fff8f2;--surface2:#f0e0d0;--border:#ead8c8;--border2:#d4b8a0;
-  --text:#3d2b1f;--text2:#9c8374;--text3:#b8a090;
+  --text:#3d2b1f;--text2:#9c8374;--text3:#b8a090;--header:#5c3d2e;
   --accent:#c4845a;--accent-light:#fbeee4;
   --green:#6b8f71;--amber:#c49a3c;--red:#c06030;
   --shadow-md:0 4px 20px rgba(0,0,0,.12);
@@ -20,7 +20,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .modal{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-md);padding:24px;width:100%;max-width:560px;margin:0 auto}
 .modal h3{font-size:1.1rem;font-weight:800;color:var(--header);margin-bottom:16px}
 .modal label{font-size:.78rem;color:var(--text2);font-weight:600;display:block;margin-bottom:5px}
-.modal select,.modal input[type=text],.modal input[type=number],.modal input[type=date]{width:100%;min-width:0;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.84rem;background:#fffdfb;color:var(--text);outline:none;transition:border .15s,box-shadow .15s;margin-bottom:14px}
+.modal select,.modal input[type=text],.modal input[type=number],.modal input[type=date]{-webkit-appearance:none;appearance:none;width:100%;min-width:0;max-width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.84rem;background:#fffdfb;color:var(--text);outline:none;transition:border .15s,box-shadow .15s;margin-bottom:14px}
 .modal input::placeholder{color:#c9b6a6}
 .modal input[readonly]{background:var(--accent-light);border:1.5px dashed var(--accent);color:var(--header);font-weight:800}
 .modal select:focus,.modal input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(196,132,90,.15)}
@@ -34,18 +34,18 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .jwl-modal-section{border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:13px 14px;margin-bottom:12px;background:linear-gradient(180deg,#fbf3ea,#f4e7d8)}
 .jwl-modal-section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:11px}
 .jwl-modal-section-title{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--header)}
-.jwl-sub-block{border-top:1px dashed var(--border);padding-top:10px;margin-top:4px}
-.jwl-sub-block:first-child{border-top:none;padding-top:0;margin-top:0}
-.jwl-sub-block-title{font-size:.72rem;font-weight:700;color:var(--text2);margin-bottom:8px}
+.chk-row{display:flex;align-items:center;gap:9px;font-size:.86rem;font-weight:700;color:var(--text);cursor:pointer;margin-bottom:10px;user-select:none}
+.chk-row input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer;margin:0}
+.stone-block{border:1px solid var(--border);border-radius:8px;padding:11px 12px;margin:0 0 10px;background:#fffdfb}
 .seg{display:inline-flex;border:1.5px solid var(--border2);border-radius:8px;overflow:hidden;margin-bottom:10px;background:#fffdfb}
 .seg.big{margin-bottom:14px}
 .seg button{border:none;background:transparent;color:var(--text2);font-family:inherit;font-weight:700;font-size:.78rem;padding:7px 15px;cursor:pointer;transition:background .15s,color .15s}
 .seg button.active{background:var(--accent);color:#fff}
 .summary{margin-top:8px;border:1px solid var(--border2);border-radius:10px;background:#fffdfb;padding:14px 16px}
 .summary-row{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;color:var(--text)}
-.summary-row.sub{color:var(--text2);font-size:.75rem}
+.summary-row.sub{color:var(--text2);font-size:.78rem}
 .summary-row.total{border-top:1.5px solid var(--border);margin-top:7px;padding-top:9px;font-weight:800;color:var(--header)}
-.summary-row.total .v{color:var(--accent)}
+.summary-row.grand .v{color:var(--accent);font-size:.95rem}
 .summary-row .v{font-weight:700;font-variant-numeric:tabular-nums}
 .recon{margin-top:10px;padding:8px 11px;border-radius:6px;font-size:.76rem;font-weight:700}
 .recon.ok{background:#e5ede5;color:var(--green)}
@@ -55,9 +55,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <body>
 
 <div class="preview-note">
-  <b>Preview — Add Jewellery (redesigned).</b> ⚠ Needs a real browser (Safari/Chrome) — the in-app /
-  Files Quick-Look viewer blocks JavaScript, so toggles &amp; calculations won't run there.
-  First choose <b>Gold only</b> or <b>Gold + Stones</b> at the top and watch the form adapt.
+  <b>Preview — Add Jewellery (redesigned).</b> Choose <b>Gold only</b> or <b>Gold + Stones</b> at the top
+  and watch the form adapt. Within Stones, tick <b>Diamonds</b> and/or <b>Other Stones</b>.
 </div>
 
 <div class="modal">
@@ -157,38 +156,42 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   <!-- STONES (only for Gold + Stones) -->
   <div class="jwl-modal-section stones-section" style="display:none">
     <div class="jwl-modal-section-hdr">
-      <span class="jwl-modal-section-title">Stones (Diamonds + Other)</span>
+      <span class="jwl-modal-section-title">Stones</span>
     </div>
     <div class="seg" id="stonePriceSeg">
       <button data-mode="known" class="active">Enter prices</button>
       <button data-mode="derive">Derive from total</button>
     </div>
-    <div class="hint" id="stoneModeHint" style="margin-bottom:10px">Enter diamond / stone prices individually.</div>
+    <div class="hint" id="stoneModeHint" style="margin-bottom:12px">Tick what's present, then enter prices individually.</div>
 
-    <div class="jwl-sub-block">
-      <div class="jwl-sub-block-title">💎 Diamonds</div>
+    <!-- Diamonds -->
+    <label class="chk-row"><input type="checkbox" id="hasDia"> 💎 Diamonds</label>
+    <div class="stone-block" id="diaFields" style="display:none">
       <div class="modal-grid">
         <div>
-          <label>Weight (carats)</label>
+          <label>Weight (carats) <span class="hint">(optional)</span></label>
           <input type="number" id="diaCt" placeholder="0.00" step="0.01" min="0">
         </div>
-        <div class="dia-price-wrap">
+        <div class="dia-price">
           <label>Price <span class="hint">(₹)</span></label>
           <input type="number" id="diaPrice" placeholder="0" min="0">
         </div>
       </div>
     </div>
 
-    <div class="jwl-sub-block">
-      <div class="jwl-sub-block-title">🔶 Other Stones</div>
+    <!-- Other Stones -->
+    <label class="chk-row"><input type="checkbox" id="hasOther"> 🔶 Other Stones</label>
+    <div class="stone-block" id="otherFields" style="display:none">
+      <label>Description</label>
+      <input type="text" id="otherDesc" placeholder="e.g. Ruby, Emerald">
       <div class="modal-grid">
-        <div class="full">
-          <label>Description</label>
-          <input type="text" id="stoneDesc" placeholder="e.g. Ruby, Emerald">
+        <div>
+          <label>Weight (carats) <span class="hint">(optional)</span></label>
+          <input type="number" id="otherWt" placeholder="0.00" step="0.01" min="0">
         </div>
-        <div class="full sto-price-wrap">
+        <div class="other-price">
           <label>Price <span class="hint">(₹)</span></label>
-          <input type="number" id="stonePrice" placeholder="0" min="0">
+          <input type="number" id="otherPrice" placeholder="0" min="0">
         </div>
       </div>
     </div>
@@ -208,10 +211,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="summary-row"><span>MC/VA</span><span class="v" id="sMcva">₹0</span></div>
     <div class="summary-row" id="sStonesRow" style="display:none"><span>Diamonds + Stones</span><span class="v" id="sStones">₹0</span></div>
     <div class="summary-row total"><span>Subtotal (excl GST)</span><span class="v" id="sSub">₹0</span></div>
-    <div class="summary-row sub"><span>SGST @ 1.5%</span><span class="v" id="sSgst">₹0</span></div>
     <div class="summary-row sub"><span>CGST @ 1.5%</span><span class="v" id="sCgst">₹0</span></div>
-    <div class="summary-row"><span>GST @ 3%</span><span class="v" id="sGst">₹0</span></div>
-    <div class="summary-row total"><span>Total (incl GST)</span><span class="v" id="sGrand">₹0</span></div>
+    <div class="summary-row sub"><span>SGST @ 1.5%</span><span class="v" id="sSgst">₹0</span></div>
+    <div class="summary-row total grand"><span>Total (incl GST)</span><span class="v" id="sGrand">₹0</span></div>
     <div class="recon" id="recon" style="display:none"></div>
   </div>
 
@@ -234,7 +236,7 @@ function recompute(){
   const rate = num('rate'), gross = num('gross'), net = num('net');
   const withStones = itemType === 'withstones';
 
-  // Auto: stone weight (only relevant with stones) + gold price
+  // Auto: stone weight (with stones) + gold price
   $('stoneWt').value = withStones && (gross || net) ? (Math.max(gross - net, 0)).toFixed(3) : '';
   const goldPrice = rate * net;
   $('goldPrice').value = goldPrice ? Math.round(goldPrice) : '';
@@ -252,11 +254,12 @@ function recompute(){
   // Stones
   let stonesValue = 0;
   if (withStones){
+    const hasDia = $('hasDia').checked, hasOther = $('hasOther').checked;
     if (stoneMode === 'derive'){
       stonesValue = Math.max(num('total') - goldPrice - mcvaTotal, 0);
       $('derivedVal').textContent = inr(stonesValue);
     } else {
-      stonesValue = num('diaPrice') + num('stonePrice');
+      stonesValue = (hasDia ? num('diaPrice') : 0) + (hasOther ? num('otherPrice') : 0);
     }
   }
 
@@ -267,11 +270,9 @@ function recompute(){
   $('sStonesRow').style.display = withStones ? '' : 'none';
   $('sStones').textContent = inr(stonesValue);
   $('sSub').textContent   = inr(subtotal);
-  const gst = subtotal * 0.03;
-  $('sSgst').textContent  = inr(subtotal*0.015);
   $('sCgst').textContent  = inr(subtotal*0.015);
-  $('sGst').textContent   = inr(gst);
-  $('sGrand').textContent = inr(subtotal + gst);
+  $('sSgst').textContent  = inr(subtotal*0.015);
+  $('sGrand').textContent = inr(subtotal*1.03);
 
   // Reconciliation vs entered total (excl GST)
   const total = num('total');
@@ -297,8 +298,25 @@ function applyType(){
   recompute();
 }
 
-['desc','date','total','rate','gross','net','mcvaPg','mcvaTotal','diaCt','diaPrice','stoneDesc','stonePrice','purity']
+function applyStoneVisibility(){
+  const derive = stoneMode === 'derive';
+  $('diaFields').style.display   = $('hasDia').checked ? '' : 'none';
+  $('otherFields').style.display = $('hasOther').checked ? '' : 'none';
+  // hide individual price inputs in derive mode
+  document.querySelector('.dia-price').style.display   = derive ? 'none' : '';
+  document.querySelector('.other-price').style.display = derive ? 'none' : '';
+  $('derivedBox').style.display = derive ? '' : 'none';
+  $('stoneModeHint').textContent = derive
+    ? 'Tick what’s present (weights optional). Combined value = Total − Gold − MC/VA.'
+    : 'Tick what’s present, then enter prices individually.';
+  recompute();
+}
+
+['desc','date','total','rate','gross','net','mcvaPg','mcvaTotal','diaCt','diaPrice','otherDesc','otherWt','otherPrice','purity']
   .forEach(id => $(id).addEventListener('input', recompute));
+
+$('hasDia').addEventListener('change', applyStoneVisibility);
+$('hasOther').addEventListener('change', applyStoneVisibility);
 
 // Type toggle
 $('typeSeg').addEventListener('click', e => {
@@ -326,19 +344,13 @@ $('stonePriceSeg').addEventListener('click', e=>{
   const b = e.target.closest('button'); if(!b) return;
   stoneMode = b.dataset.mode;
   [...$('stonePriceSeg').children].forEach(x=>x.classList.toggle('active', x===b));
-  const derive = stoneMode==='derive';
-  document.querySelector('.dia-price-wrap').style.display = derive?'none':'';
-  document.querySelector('.sto-price-wrap').style.display = derive?'none':'';
-  $('derivedBox').style.display = derive?'':'none';
-  $('stoneModeHint').textContent = derive
-    ? 'Combined value = Total purchase price − Gold − MC/VA (enter a Total above).'
-    : 'Enter diamond / stone prices individually.';
-  recompute();
+  applyStoneVisibility();
 });
 
 // init
 $('mcvaTotal').readOnly = true;
 applyType();
+applyStoneVisibility();
 </script>
 </body>
 </html>
