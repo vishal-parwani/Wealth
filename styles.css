@@ -740,17 +740,40 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .jwl-expand-btn{background:none;border:none;cursor:pointer;font-size:.82rem;color:var(--text3);padding:2px 6px;border-radius:5px;transition:all .15s;line-height:1}
 .jwl-expand-btn:hover{background:var(--border);color:var(--text)}
 .jwl-expand-btn.open{color:var(--accent)}
-.jwl-diff-ok{font-size:.72rem;color:var(--green);font-weight:600}
-.jwl-diff-warn{font-size:.72rem;color:var(--amber);font-weight:600}
-.jwl-diff-err{font-size:.72rem;color:var(--red);font-weight:600}
 .jwl-override-wrap{display:inline-flex;align-items:center;gap:4px}
 .jwl-override-inp{width:90px;border:1px solid var(--border2);border-radius:5px;padding:2px 5px;font-family:'DM Mono',monospace;font-size:.75rem;background:var(--surface);color:var(--text);outline:none}
 .jwl-override-inp:focus{border-color:var(--accent)}
 .jwl-override-clear{background:none;border:none;cursor:pointer;color:var(--text3);font-size:.7rem;padding:1px 3px;border-radius:3px}
 .jwl-override-clear:hover{color:var(--red)}
 /* Jewellery modal sub-section */
-.jwl-modal-section{border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;background:var(--surface2)}
-.jwl-modal-section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.jwl-modal-section-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text2)}
+.jwl-modal-section{border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:13px 14px;margin-bottom:12px;background:linear-gradient(180deg,#fbf3ea,#f4e7d8)}
+.jwl-modal-section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.jwl-modal-section-title{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--header)}
 .jwl-modal-toggle{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
+.jwl-hint{font-size:.72rem;color:var(--text3);font-weight:600}
+/* fixed-height, near-white fields + bottom-aligned grid, scoped to jewellery modal */
+#jewellery-modal select,#jewellery-modal input[type=text],#jewellery-modal input[type=number],#jewellery-modal input[type=date]{-webkit-appearance:none;appearance:none;height:42px;min-width:0;max-width:100%;line-height:1.2;background:#fffdfb;border-color:var(--border)}
+#jewellery-modal input[readonly]{background:var(--accent-light);border:1.5px dashed var(--accent);color:var(--header);font-weight:800}
+#jewellery-modal .modal-grid{align-items:stretch}
+#jewellery-modal .modal-grid > *{display:flex;flex-direction:column;min-width:0}
+#jewellery-modal .modal-grid label{flex-grow:1}
+/* segmented control */
+.jwl-seg{display:inline-flex;border:1.5px solid var(--border2);border-radius:8px;overflow:hidden;margin-bottom:10px;background:#fffdfb}
+.jwl-seg-big{margin-bottom:14px}
+.jwl-seg button{border:none;background:transparent;color:var(--text2);font-family:inherit;font-weight:700;font-size:.78rem;padding:7px 15px;cursor:pointer;transition:background .15s,color .15s}
+.jwl-seg button.active{background:var(--accent);color:#fff}
+/* stone checkboxes + blocks */
+.jwl-chk-row{display:flex;align-items:center;gap:9px;font-size:.86rem;font-weight:700;color:var(--text);cursor:pointer;margin-bottom:10px;user-select:none}
+.jwl-chk-row input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer;margin:0}
+.jwl-stone-block{border:1px solid var(--border);border-radius:8px;padding:11px 12px;margin:0 0 10px;background:#fffdfb}
+/* summary / GST block */
+.jwl-summary{margin-top:8px;border:1px solid var(--border2);border-radius:10px;background:#fffdfb;padding:14px 16px}
+.jwl-summary-row{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;color:var(--text)}
+.jwl-summary-row.sub{color:var(--text2);font-size:.78rem}
+.jwl-summary-row.total{border-top:1.5px solid var(--border);margin-top:7px;padding-top:9px;font-weight:800;color:var(--header)}
+.jwl-summary-row.grand .v{color:var(--accent);font-size:.95rem}
+.jwl-summary-row .v{font-weight:700;font-variant-numeric:tabular-nums}
+.jwl-recon{margin-top:10px;padding:8px 11px;border-radius:6px;font-size:.76rem;font-weight:700}
+.jwl-recon.ok{background:var(--green-bg);color:var(--green)}
+.jwl-recon.err{background:var(--red-bg);color:var(--red)}
 .jwl-reconcile{margin:8px 0;padding:7px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border);font-size:.75rem;font-weight:600}
