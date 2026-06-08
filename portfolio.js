@@ -1342,9 +1342,14 @@ function deleteJewellery(id) {
 
 // ── Sale Estimator ─────────────────────────────────────
 // Read-only "what could I get" calculator. Multi-select gold coins/bars and
-// jewellery; shows total fine-gold weight and estimated proceeds after a
-// per-category realisation %.
+// jewellery; shows total fine-gold weight and estimated proceeds. Coins use a
+// single reduction %; each selected jewellery piece has its own gold and
+// stones reduction (defaults: gold 0%, stones 10%).
 const estSelected = new Set();
+const estJwlRed = {};               // id -> { gold, stone } per-piece overrides
+const EST_DEF_GOLD_RED = 0;
+const EST_DEF_STONE_RED = 10;
+const estJwlRedFor = id => estJwlRed[id] || { gold: EST_DEF_GOLD_RED, stone: EST_DEF_STONE_RED };
 
 async function openSaleEstimator() {
   const goldRate = await fetchGoldPrice();
@@ -1352,16 +1357,48 @@ async function openSaleEstimator() {
   document.getElementById('estimator-modal').style.display = 'flex';
 }
 
-function estRowHtml(key, name, meta, value) {
+function estCoinRowHtml(g, melt) {
+  const key = 'gold:' + g.id;
   const sel = estSelected.has(key);
-  return `<label class="est-row${sel ? ' sel' : ''}" data-key="${key}">
-    <input type="checkbox" ${sel ? 'checked' : ''}>
-    <span class="est-row-body">
-      <span class="est-row-name">${name}</span>
-      <span class="est-row-meta">${meta}</span>
-    </span>
-    <span class="est-row-val">${formatINR(value)}</span>
-  </label>`;
+  const wTxt = (parseFloat(g.weightGrams) || 0).toFixed(2).replace(/\.?0+$/, '');
+  return `<div class="est-item">
+    <label class="est-row${sel ? ' sel' : ''}" data-key="${key}">
+      <input type="checkbox" ${sel ? 'checked' : ''}>
+      <span class="est-row-body">
+        <span class="est-row-name">${esc(g.description || 'Gold')}</span>
+        <span class="est-row-meta">${wTxt}g · ${g.purity}</span>
+      </span>
+      <span class="est-row-val">${formatINR(melt)}</span>
+    </label>
+  </div>`;
+}
+
+function estJwlRowHtml(j, val) {
+  const key = 'jwl:' + j.id;
+  const sel = estSelected.has(key);
+  const hasStones = !!(j.diamonds || j.stones);
+  const net = parseFloat(j.gold?.weightGrams) || 0;
+  const wTxt = net.toFixed(2).replace(/\.?0+$/, '');
+  const meta = `${wTxt}g net · ${j.gold?.purity || ''}${hasStones ? ' · stones' : ''}`;
+  const r = estJwlRedFor(j.id);
+  const stoneField = hasStones ? `
+      <div><label>Stones reduction <span class="jwl-hint">(%)</span></label>
+        <input type="number" class="est-pp-stone" data-id="${j.id}" value="${r.stone}" min="0" max="100" step="0.5"></div>` : '';
+  return `<div class="est-item">
+    <label class="est-row${sel ? ' sel' : ''}" data-key="${key}">
+      <input type="checkbox" ${sel ? 'checked' : ''}>
+      <span class="est-row-body">
+        <span class="est-row-name">${esc(j.description || 'Jewellery')}</span>
+        <span class="est-row-meta">${meta}</span>
+      </span>
+      <span class="est-row-val">${formatINR(val)}</span>
+    </label>
+    <div class="est-row-red" style="display:${sel ? 'flex' : 'none'}">
+      <div><label>Gold reduction <span class="jwl-hint">(%)</span></label>
+        <input type="number" class="est-pp-gold" data-id="${j.id}" value="${r.gold}" min="0" max="100" step="0.5"></div>
+      ${stoneField}
+    </div>
+  </div>`;
 }
 
 function estRenderList(goldRate) {
@@ -1371,22 +1408,13 @@ function estRenderList(goldRate) {
     : `<span class="warn">⚠ Live gold rate unavailable — open the Live Prices tab first, then reopen the estimator.</span>`;
 
   const coins = P.gold.filter(g => (parseFloat(g.weightGrams) || 0) > 0.0001);
-
   const coinRows = coins.map(g => {
-    const w = parseFloat(g.weightGrams) || 0;
-    const f = PURITY_FACTOR[g.purity] || 1;
-    const melt = goldRate ? w * f * goldRate : 0;
-    const wTxt = w.toFixed(2).replace(/\.?0+$/, '');
-    return estRowHtml('gold:' + g.id, esc(g.description || 'Gold'), `${wTxt}g · ${g.purity}`, melt);
+    const w = parseFloat(g.weightGrams) || 0, f = PURITY_FACTOR[g.purity] || 1;
+    return estCoinRowHtml(g, goldRate ? w * f * goldRate : 0);
   }).join('') || `<div class="est-empty">No coins or bars.</div>`;
 
-  const jwlRows = P.jewellery.map(j => {
-    const val = computeJewelleryCurrentValue(j, goldRate);
-    const net = parseFloat(j.gold?.weightGrams) || 0;
-    const wTxt = net.toFixed(2).replace(/\.?0+$/, '');
-    const meta = `${wTxt}g net · ${j.gold?.purity || ''}${(j.diamonds || j.stones) ? ' · stones' : ''}`;
-    return estRowHtml('jwl:' + j.id, esc(j.description || 'Jewellery'), meta, val);
-  }).join('') || `<div class="est-empty">No jewellery.</div>`;
+  const jwlRows = P.jewellery.map(j => estJwlRowHtml(j, computeJewelleryCurrentValue(j, goldRate))).join('')
+    || `<div class="est-empty">No jewellery.</div>`;
 
   document.getElementById('est-list').innerHTML = `
     <div class="est-section">
@@ -1408,9 +1436,7 @@ function estRenderList(goldRate) {
 
 function estRecompute() {
   const goldRate = LIVE.goldRate;
-  const coinKeep   = 1 - (parseFloat(document.getElementById('est-coin-red').value) || 0) / 100;
-  const jGoldKeep  = 1 - (parseFloat(document.getElementById('est-jwl-gold-red').value) || 0) / 100;
-  const jStoneKeep = 1 - (parseFloat(document.getElementById('est-jwl-stone-red').value) || 0) / 100;
+  const coinKeep = 1 - (parseFloat(document.getElementById('est-coin-red').value) || 0) / 100;
   let count = 0, fineG = 0, gross = 0, realised = 0;
 
   P.gold.forEach(g => {
@@ -1425,8 +1451,9 @@ function estRecompute() {
     const goldMelt  = goldRate ? net * f * goldRate : 0;
     const val       = computeJewelleryCurrentValue(j, goldRate);
     const stonesVal = Math.max(val - goldMelt, 0);
+    const r = estJwlRedFor(j.id);
     count++; fineG += net * f; gross += val;
-    realised += goldMelt * jGoldKeep + stonesVal * jStoneKeep;
+    realised += goldMelt * (1 - (r.gold || 0) / 100) + stonesVal * (1 - (r.stone || 0) / 100);
   });
 
   const el = document.getElementById('est-totals');
@@ -1445,8 +1472,12 @@ document.getElementById('est-close').addEventListener('click', () => document.ge
 document.getElementById('estimator-modal').addEventListener('click', e => {
   if (e.target === e.currentTarget) document.getElementById('estimator-modal').style.display = 'none';
 });
-document.getElementById('est-clear').addEventListener('click', () => { estSelected.clear(); estRenderList(LIVE.goldRate); });
-['est-coin-red', 'est-jwl-gold-red', 'est-jwl-stone-red'].forEach(id => document.getElementById(id).addEventListener('input', estRecompute));
+document.getElementById('est-clear').addEventListener('click', () => {
+  estSelected.clear();
+  for (const k in estJwlRed) delete estJwlRed[k];
+  estRenderList(LIVE.goldRate);
+});
+document.getElementById('est-coin-red').addEventListener('input', estRecompute);
 document.getElementById('est-list').addEventListener('click', e => {
   const sa = e.target.closest('.est-selall');
   if (!sa) return;
@@ -1461,9 +1492,23 @@ document.getElementById('est-list').addEventListener('click', e => {
 document.getElementById('est-list').addEventListener('change', e => {
   const row = e.target.closest('.est-row'); if (!row) return;
   const key = row.dataset.key;
-  if (e.target.checked) estSelected.add(key); else estSelected.delete(key);
-  row.classList.toggle('sel', e.target.checked);
+  const checked = e.target.checked;
+  if (checked) estSelected.add(key); else estSelected.delete(key);
+  row.classList.toggle('sel', checked);
+  const red = row.parentElement.querySelector('.est-row-red');
+  if (red) red.style.display = checked ? 'flex' : 'none';
   estRecompute();
+});
+document.getElementById('est-list').addEventListener('input', e => {
+  const id = e.target.dataset.id;
+  if (!id) return;
+  if (e.target.classList.contains('est-pp-gold')) {
+    (estJwlRed[id] = estJwlRed[id] || { gold: EST_DEF_GOLD_RED, stone: EST_DEF_STONE_RED }).gold = parseFloat(e.target.value) || 0;
+    estRecompute();
+  } else if (e.target.classList.contains('est-pp-stone')) {
+    (estJwlRed[id] = estJwlRed[id] || { gold: EST_DEF_GOLD_RED, stone: EST_DEF_STONE_RED }).stone = parseFloat(e.target.value) || 0;
+    estRecompute();
+  }
 });
 
 // ── Jewellery Sell Modal ───────────────────────────────

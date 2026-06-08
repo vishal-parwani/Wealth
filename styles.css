@@ -778,18 +778,20 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .jwl-recon.err{background:var(--red-bg);color:var(--red)}
 .jwl-reconcile{margin:8px 0;padding:7px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border);font-size:.75rem;font-weight:600}
 /* ── Sale Estimator ── */
-.est-reductions{display:grid;grid-template-columns:repeat(3,1fr);gap:0 12px}
-.est-reductions > *{display:flex;flex-direction:column;min-width:0}
-.est-reductions label{flex-grow:1}
-@media(max-width:600px){.est-reductions{grid-template-columns:1fr}}
 .est-rate-strip{font-size:.75rem;color:var(--text2);font-weight:600;margin-bottom:14px;padding:7px 10px;border-radius:6px;background:var(--surface2);border:1px solid var(--border)}
 .est-rate-strip .warn{color:var(--red)}
 .est-section{margin-bottom:14px}
 .est-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .est-section-title{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--header)}
 .est-selall{background:none;border:none;color:var(--accent);font-family:inherit;font-weight:700;font-size:.74rem;cursor:pointer;padding:2px 4px}
-.est-row{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:#fffdfb;margin-bottom:6px;cursor:pointer}
+.est-item{margin-bottom:6px}
+.est-row{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:#fffdfb;cursor:pointer}
 .est-row.sel{border-color:var(--accent);background:var(--accent-light)}
+.est-item:has(.est-row.sel) .est-row{border-bottom-left-radius:0;border-bottom-right-radius:0}
+.est-row-red{display:flex;gap:12px;padding:9px 11px 10px 38px;border:1px solid var(--accent);border-top:none;border-radius:0 0 8px 8px;background:var(--accent-light)}
+.est-row-red > div{flex:1;min-width:0;display:flex;flex-direction:column}
+.est-row-red label{font-size:.7rem;margin-bottom:3px}
+.est-row-red input{height:34px;margin-bottom:0;background:#fffdfb}
 .est-row input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer;margin:0;flex:0 0 auto}
 .est-row-body{flex:1 1 auto;min-width:0}
 .est-row-name{font-size:.84rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
