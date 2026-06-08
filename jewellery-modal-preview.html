@@ -33,12 +33,12 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .jwl-modal-section{border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;background:var(--surface2)}
 .jwl-modal-section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .jwl-modal-section-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text2)}
-.jwl-modal-toggle{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
 .jwl-sub-block{border-top:1px dashed var(--border);padding-top:10px;margin-top:4px}
 .jwl-sub-block:first-child{border-top:none;padding-top:0;margin-top:0}
 .jwl-sub-block-title{font-size:.72rem;font-weight:700;color:var(--text2);margin-bottom:8px}
 .seg{display:inline-flex;border:1.5px solid var(--border2);border-radius:8px;overflow:hidden;margin-bottom:10px}
-.seg button{border:none;background:var(--surface2);color:var(--text2);font-family:inherit;font-weight:600;font-size:.76rem;padding:6px 12px;cursor:pointer}
+.seg.big{margin-bottom:14px}
+.seg button{border:none;background:var(--surface2);color:var(--text2);font-family:inherit;font-weight:600;font-size:.78rem;padding:7px 14px;cursor:pointer}
 .seg button.active{background:var(--accent);color:#fff}
 .summary{margin-top:8px;border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:12px 14px}
 .summary-row{display:flex;justify-content:space-between;font-size:.8rem;padding:3px 0}
@@ -53,10 +53,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <body>
 
 <div class="preview-note">
-  <b>Preview — Add Jewellery (redesigned).</b> ⚠ This needs a real browser — the Claude app's file viewer
-  blocks JavaScript, so calculations/toggles won't run there. Save this file and open it in
-  <b>Chrome / Safari / Edge</b>. Auto-computed fields have a dashed amber background. Try: Rate
-  <b>9000</b>, Gross <b>12</b>, Net <b>10</b>, MC/VA per-gram <b>600</b>, Total <b>96000</b>. Nothing is saved.
+  <b>Preview — Add Jewellery (redesigned).</b> ⚠ Needs a real browser (Safari/Chrome) — the in-app /
+  Files Quick-Look viewer blocks JavaScript, so toggles &amp; calculations won't run there.
+  First choose <b>Gold only</b> or <b>Gold + Stones</b> at the top and watch the form adapt.
 </div>
 
 <div class="modal">
@@ -77,13 +76,20 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     </div>
   </div>
 
-  <!-- WEIGHTS (asked up-front, before gold) -->
+  <!-- TYPE -->
+  <label>This item contains</label>
+  <div class="seg big" id="typeSeg">
+    <button data-type="goldonly" class="active">Gold only</button>
+    <button data-type="withstones">Gold + Stones</button>
+  </div>
+
+  <!-- WEIGHTS -->
   <div class="jwl-modal-section">
     <div class="jwl-modal-section-hdr">
       <span class="jwl-modal-section-title">Weights</span>
     </div>
     <div class="modal-grid">
-      <div>
+      <div class="gross-wrap" style="display:none">
         <label>Gross Weight <span class="hint">(g · gold + stones)</span></label>
         <input type="number" id="gross" placeholder="0.00" step="0.001" min="0">
       </div>
@@ -91,7 +97,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
         <label>Net Weight <span class="hint">(g · gold only)</span></label>
         <input type="number" id="net" placeholder="0.00" step="0.001" min="0">
       </div>
-      <div>
+      <div class="stoneWt-wrap" style="display:none">
         <label>Stone Weight <span class="hint">(auto · gross − net)</span></label>
         <input type="number" id="stoneWt" readonly placeholder="0.00">
       </div>
@@ -146,55 +152,51 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="hint" id="mcvaHint">Per-gram entered → total auto-calculated (per gram × net weight).</div>
   </div>
 
-  <!-- STONES -->
-  <div class="jwl-modal-section">
+  <!-- STONES (only for Gold + Stones) -->
+  <div class="jwl-modal-section stones-section" style="display:none">
     <div class="jwl-modal-section-hdr">
-      <input type="checkbox" class="jwl-modal-toggle" id="hasStones">
-      <label for="hasStones" class="jwl-modal-section-title" style="cursor:pointer;margin:0">Stones (Diamonds + Other)</label>
-      <span class="hint">(optional)</span>
+      <span class="jwl-modal-section-title">Stones (Diamonds + Other)</span>
     </div>
-    <div id="stonesBody" style="display:none">
-      <div class="seg" id="stonePriceSeg">
-        <button data-mode="known" class="active">Enter prices</button>
-        <button data-mode="derive">Derive from total</button>
-      </div>
-      <div class="hint" id="stoneModeHint" style="margin-bottom:10px">Enter diamond / stone prices individually.</div>
+    <div class="seg" id="stonePriceSeg">
+      <button data-mode="known" class="active">Enter prices</button>
+      <button data-mode="derive">Derive from total</button>
+    </div>
+    <div class="hint" id="stoneModeHint" style="margin-bottom:10px">Enter diamond / stone prices individually.</div>
 
-      <div class="jwl-sub-block">
-        <div class="jwl-sub-block-title">💎 Diamonds</div>
-        <div class="modal-grid">
-          <div>
-            <label>Weight (carats)</label>
-            <input type="number" id="diaCt" placeholder="0.00" step="0.01" min="0">
-          </div>
-          <div class="dia-price-wrap">
-            <label>Price <span class="hint">(₹)</span></label>
-            <input type="number" id="diaPrice" placeholder="0" min="0">
-          </div>
+    <div class="jwl-sub-block">
+      <div class="jwl-sub-block-title">💎 Diamonds</div>
+      <div class="modal-grid">
+        <div>
+          <label>Weight (carats)</label>
+          <input type="number" id="diaCt" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div class="dia-price-wrap">
+          <label>Price <span class="hint">(₹)</span></label>
+          <input type="number" id="diaPrice" placeholder="0" min="0">
         </div>
       </div>
+    </div>
 
-      <div class="jwl-sub-block">
-        <div class="jwl-sub-block-title">🔶 Other Stones</div>
-        <div class="modal-grid">
-          <div class="full">
-            <label>Description</label>
-            <input type="text" id="stoneDesc" placeholder="e.g. Ruby, Emerald">
-          </div>
-          <div class="full sto-price-wrap">
-            <label>Price <span class="hint">(₹)</span></label>
-            <input type="number" id="stonePrice" placeholder="0" min="0">
-          </div>
+    <div class="jwl-sub-block">
+      <div class="jwl-sub-block-title">🔶 Other Stones</div>
+      <div class="modal-grid">
+        <div class="full">
+          <label>Description</label>
+          <input type="text" id="stoneDesc" placeholder="e.g. Ruby, Emerald">
+        </div>
+        <div class="full sto-price-wrap">
+          <label>Price <span class="hint">(₹)</span></label>
+          <input type="number" id="stonePrice" placeholder="0" min="0">
         </div>
       </div>
+    </div>
 
-      <div id="derivedBox" class="summary" style="display:none">
-        <div class="summary-row">
-          <span>Diamonds + Stones value <span class="hint">(balance)</span></span>
-          <span class="v" id="derivedVal">₹0</span>
-        </div>
-        <div class="hint" style="margin-top:4px">= Total purchase price − Gold price − MC/VA total</div>
+    <div id="derivedBox" class="summary" style="display:none">
+      <div class="summary-row">
+        <span>Diamonds + Stones value <span class="hint">(balance)</span></span>
+        <span class="v" id="derivedVal">₹0</span>
       </div>
+      <div class="hint" style="margin-top:4px">= Total purchase price − Gold price − MC/VA total</div>
     </div>
   </div>
 
@@ -202,7 +204,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   <div class="summary">
     <div class="summary-row"><span>Gold price</span><span class="v" id="sGold">₹0</span></div>
     <div class="summary-row"><span>MC/VA</span><span class="v" id="sMcva">₹0</span></div>
-    <div class="summary-row" id="sStonesRow"><span>Diamonds + Stones</span><span class="v" id="sStones">₹0</span></div>
+    <div class="summary-row" id="sStonesRow" style="display:none"><span>Diamonds + Stones</span><span class="v" id="sStones">₹0</span></div>
     <div class="summary-row total"><span>Subtotal (excl GST)</span><span class="v" id="sSub">₹0</span></div>
     <div class="summary-row sub"><span>SGST @ 1.5%</span><span class="v" id="sSgst">₹0</span></div>
     <div class="summary-row sub"><span>CGST @ 1.5%</span><span class="v" id="sCgst">₹0</span></div>
@@ -222,31 +224,32 @@ const $ = id => document.getElementById(id);
 const num = id => parseFloat($(id).value) || 0;
 const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 
+let itemType = 'goldonly';  // 'goldonly' | 'withstones'
 let mcvaMode = 'pergram';   // 'pergram' | 'total'
 let stoneMode = 'known';    // 'known' | 'derive'
 
-function recompute(src){
+function recompute(){
   const rate = num('rate'), gross = num('gross'), net = num('net');
+  const withStones = itemType === 'withstones';
 
-  // Auto: stone weight + gold price
-  $('stoneWt').value  = (gross || net) ? (Math.max(gross - net, 0)).toFixed(3) : '';
+  // Auto: stone weight (only relevant with stones) + gold price
+  $('stoneWt').value = withStones && (gross || net) ? (Math.max(gross - net, 0)).toFixed(3) : '';
   const goldPrice = rate * net;
   $('goldPrice').value = goldPrice ? Math.round(goldPrice) : '';
 
   // MC/VA two-way binding (driven by net weight)
-  if (mcvaMode === 'pergram' && src !== 'mcvaTotal'){
+  if (mcvaMode === 'pergram'){
     const t = num('mcvaPg') * net;
     $('mcvaTotal').value = t ? Math.round(t) : '';
-  } else if (mcvaMode === 'total' && src !== 'mcvaPg' && net > 0){
+  } else if (net > 0){
     const pg = num('mcvaTotal') / net;
     $('mcvaPg').value = pg ? +pg.toFixed(2) : '';
   }
   const mcvaTotal = num('mcvaTotal');
 
   // Stones
-  const stonesOn = $('hasStones').checked;
   let stonesValue = 0;
-  if (stonesOn){
+  if (withStones){
     if (stoneMode === 'derive'){
       stonesValue = Math.max(num('total') - goldPrice - mcvaTotal, 0);
       $('derivedVal').textContent = inr(stonesValue);
@@ -259,7 +262,7 @@ function recompute(src){
   const subtotal = goldPrice + mcvaTotal + stonesValue;
   $('sGold').textContent  = inr(goldPrice);
   $('sMcva').textContent  = inr(mcvaTotal);
-  $('sStonesRow').style.display = stonesOn ? '' : 'none';
+  $('sStonesRow').style.display = withStones ? '' : 'none';
   $('sStones').textContent = inr(stonesValue);
   $('sSub').textContent   = inr(subtotal);
   const gst = subtotal * 0.03;
@@ -284,8 +287,24 @@ function recompute(src){
   } else { recon.style.display = 'none'; }
 }
 
+function applyType(){
+  const withStones = itemType === 'withstones';
+  document.querySelector('.gross-wrap').style.display   = withStones ? '' : 'none';
+  document.querySelector('.stoneWt-wrap').style.display = withStones ? '' : 'none';
+  document.querySelector('.stones-section').style.display = withStones ? '' : 'none';
+  recompute();
+}
+
 ['desc','date','total','rate','gross','net','mcvaPg','mcvaTotal','diaCt','diaPrice','stoneDesc','stonePrice','purity']
-  .forEach(id => $(id).addEventListener('input', () => recompute(id)));
+  .forEach(id => $(id).addEventListener('input', recompute));
+
+// Type toggle
+$('typeSeg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  itemType = b.dataset.type;
+  [...$('typeSeg').children].forEach(x=>x.classList.toggle('active', x===b));
+  applyType();
+});
 
 // MC/VA mode toggle
 $('mcvaSeg').addEventListener('click', e => {
@@ -297,13 +316,7 @@ $('mcvaSeg').addEventListener('click', e => {
   $('mcvaHint').textContent = mcvaMode==='pergram'
     ? 'Per-gram entered → total auto-calculated (per gram × net weight).'
     : 'Total entered → per-gram auto-calculated (total ÷ net weight).';
-  recompute('mode');
-});
-
-// Stones enable
-$('hasStones').addEventListener('change', e=>{
-  $('stonesBody').style.display = e.target.checked ? '' : 'none';
-  recompute('stones');
+  recompute();
 });
 
 // Stone pricing mode toggle
@@ -318,12 +331,12 @@ $('stonePriceSeg').addEventListener('click', e=>{
   $('stoneModeHint').textContent = derive
     ? 'Combined value = Total purchase price − Gold − MC/VA (enter a Total above).'
     : 'Enter diamond / stone prices individually.';
-  recompute('stonemode');
+  recompute();
 });
 
 // init
 $('mcvaTotal').readOnly = true;
-recompute('init');
+applyType();
 </script>
 </body>
 </html>
