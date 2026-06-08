@@ -777,3 +777,24 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .jwl-recon.ok{background:var(--green-bg);color:var(--green)}
 .jwl-recon.err{background:var(--red-bg);color:var(--red)}
 .jwl-reconcile{margin:8px 0;padding:7px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border);font-size:.75rem;font-weight:600}
+/* ── Sale Estimator ── */
+.est-rate-strip{font-size:.75rem;color:var(--text2);font-weight:600;margin-bottom:14px;padding:7px 10px;border-radius:6px;background:var(--surface2);border:1px solid var(--border)}
+.est-rate-strip .warn{color:var(--red)}
+.est-section{margin-bottom:14px}
+.est-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.est-section-title{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--header)}
+.est-selall{background:none;border:none;color:var(--accent);font-family:inherit;font-weight:700;font-size:.74rem;cursor:pointer;padding:2px 4px}
+.est-row{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:#fffdfb;margin-bottom:6px;cursor:pointer}
+.est-row.sel{border-color:var(--accent);background:var(--accent-light)}
+.est-row input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer;margin:0;flex:0 0 auto}
+.est-row-body{flex:1 1 auto;min-width:0}
+.est-row-name{font-size:.84rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.est-row-meta{font-size:.72rem;color:var(--text2);margin-top:1px}
+.est-row-val{flex:0 0 auto;text-align:right;font-size:.84rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
+.est-empty{font-size:.78rem;color:var(--text3);padding:4px 2px 8px}
+.est-totals{margin-top:6px;border:1px solid var(--border2);border-radius:10px;background:#fffdfb;padding:14px 16px}
+.est-totals-row{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;color:var(--text)}
+.est-totals-row.sub{color:var(--text2);font-size:.78rem}
+.est-totals-row.grand{border-top:1.5px solid var(--border);margin-top:7px;padding-top:9px;font-weight:800;color:var(--header)}
+.est-totals-row.grand .v{color:var(--accent);font-size:1rem}
+.est-totals-row .v{font-weight:700;font-variant-numeric:tabular-nums}

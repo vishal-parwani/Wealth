@@ -1340,6 +1340,128 @@ function deleteJewellery(id) {
   pSave(); renderGold(); toast('Removed');
 }
 
+// ── Sale Estimator ─────────────────────────────────────
+// Read-only "what could I get" calculator. Multi-select gold coins/bars and
+// jewellery; shows total fine-gold weight and estimated proceeds after a
+// per-category realisation %.
+const estSelected = new Set();
+
+async function openSaleEstimator() {
+  const goldRate = await fetchGoldPrice();
+  estRenderList(goldRate);
+  document.getElementById('estimator-modal').style.display = 'flex';
+}
+
+function estRowHtml(key, name, meta, value) {
+  const sel = estSelected.has(key);
+  return `<label class="est-row${sel ? ' sel' : ''}" data-key="${key}">
+    <input type="checkbox" ${sel ? 'checked' : ''}>
+    <span class="est-row-body">
+      <span class="est-row-name">${name}</span>
+      <span class="est-row-meta">${meta}</span>
+    </span>
+    <span class="est-row-val">${formatINR(value)}</span>
+  </label>`;
+}
+
+function estRenderList(goldRate) {
+  const strip = document.getElementById('est-rate-strip');
+  strip.innerHTML = goldRate
+    ? `Live gold rate: <strong>₹${Math.round(goldRate).toLocaleString('en-IN')}/g (24K)</strong>`
+    : `<span class="warn">⚠ Live gold rate unavailable — open the Live Prices tab first, then reopen the estimator.</span>`;
+
+  const coins = P.gold.filter(g => (parseFloat(g.weightGrams) || 0) > 0.0001);
+
+  const coinRows = coins.map(g => {
+    const w = parseFloat(g.weightGrams) || 0;
+    const f = PURITY_FACTOR[g.purity] || 1;
+    const melt = goldRate ? w * f * goldRate : 0;
+    const wTxt = w.toFixed(2).replace(/\.?0+$/, '');
+    return estRowHtml('gold:' + g.id, esc(g.description || 'Gold'), `${wTxt}g · ${g.purity}`, melt);
+  }).join('') || `<div class="est-empty">No coins or bars.</div>`;
+
+  const jwlRows = P.jewellery.map(j => {
+    const val = computeJewelleryCurrentValue(j, goldRate);
+    const net = parseFloat(j.gold?.weightGrams) || 0;
+    const wTxt = net.toFixed(2).replace(/\.?0+$/, '');
+    const meta = `${wTxt}g net · ${j.gold?.purity || ''}${(j.diamonds || j.stones) ? ' · stones' : ''}`;
+    return estRowHtml('jwl:' + j.id, esc(j.description || 'Jewellery'), meta, val);
+  }).join('') || `<div class="est-empty">No jewellery.</div>`;
+
+  document.getElementById('est-list').innerHTML = `
+    <div class="est-section">
+      <div class="est-section-hdr">
+        <span class="est-section-title">Coins / Bars</span>
+        <button class="est-selall" data-cat="gold">Toggle all</button>
+      </div>
+      ${coinRows}
+    </div>
+    <div class="est-section">
+      <div class="est-section-hdr">
+        <span class="est-section-title">Jewellery</span>
+        <button class="est-selall" data-cat="jwl">Toggle all</button>
+      </div>
+      ${jwlRows}
+    </div>`;
+  estRecompute();
+}
+
+function estRecompute() {
+  const goldRate = LIVE.goldRate;
+  const coinPct = (parseFloat(document.getElementById('est-coin-pct').value) || 0) / 100;
+  const jwlPct  = (parseFloat(document.getElementById('est-jwl-pct').value) || 0) / 100;
+  let count = 0, fineG = 0, gross = 0, realised = 0;
+
+  P.gold.forEach(g => {
+    if (!estSelected.has('gold:' + g.id)) return;
+    const w = parseFloat(g.weightGrams) || 0, f = PURITY_FACTOR[g.purity] || 1;
+    const melt = goldRate ? w * f * goldRate : 0;
+    count++; fineG += w * f; gross += melt; realised += melt * coinPct;
+  });
+  P.jewellery.forEach(j => {
+    if (!estSelected.has('jwl:' + j.id)) return;
+    const net = parseFloat(j.gold?.weightGrams) || 0, f = PURITY_FACTOR[j.gold?.purity] || 1;
+    const val = computeJewelleryCurrentValue(j, goldRate);
+    count++; fineG += net * f; gross += val; realised += val * jwlPct;
+  });
+
+  const el = document.getElementById('est-totals');
+  if (count === 0) {
+    el.innerHTML = `<div class="est-totals-row sub">Select items above to see an estimate.</div>`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="est-totals-row"><span>${count} item${count > 1 ? 's' : ''} selected</span><span class="v">${fineG.toFixed(2)} g fine gold</span></div>
+    <div class="est-totals-row sub"><span>Gross value (full)</span><span class="v">${formatINRFull(gross)}</span></div>
+    <div class="est-totals-row grand"><span>Estimated proceeds</span><span class="v">${formatINRFull(realised)}</span></div>`;
+}
+
+document.getElementById('btn-estimate-sale').addEventListener('click', openSaleEstimator);
+document.getElementById('est-close').addEventListener('click', () => document.getElementById('estimator-modal').style.display = 'none');
+document.getElementById('estimator-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) document.getElementById('estimator-modal').style.display = 'none';
+});
+document.getElementById('est-clear').addEventListener('click', () => { estSelected.clear(); estRenderList(LIVE.goldRate); });
+['est-coin-pct', 'est-jwl-pct'].forEach(id => document.getElementById(id).addEventListener('input', estRecompute));
+document.getElementById('est-list').addEventListener('click', e => {
+  const sa = e.target.closest('.est-selall');
+  if (!sa) return;
+  e.preventDefault();
+  const cat = sa.dataset.cat;
+  const items = cat === 'gold' ? P.gold.filter(g => (parseFloat(g.weightGrams) || 0) > 0.0001) : P.jewellery;
+  const keys = items.map(x => cat + ':' + x.id);
+  const allSel = keys.length > 0 && keys.every(k => estSelected.has(k));
+  keys.forEach(k => allSel ? estSelected.delete(k) : estSelected.add(k));
+  estRenderList(LIVE.goldRate);
+});
+document.getElementById('est-list').addEventListener('change', e => {
+  const row = e.target.closest('.est-row'); if (!row) return;
+  const key = row.dataset.key;
+  if (e.target.checked) estSelected.add(key); else estSelected.delete(key);
+  row.classList.toggle('sel', e.target.checked);
+  estRecompute();
+});
+
 // ── Jewellery Sell Modal ───────────────────────────────
 
 let jwlSellId = null;

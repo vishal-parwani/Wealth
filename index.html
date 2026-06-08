@@ -192,6 +192,7 @@
       <span class="tab-title">Gold</span>
       <button class="btn btn-primary btn-sm" id="btn-add-gold">+ Add Coin / Bar</button>
       <button class="btn btn-primary btn-sm" id="btn-add-jewellery">+ Add Jewellery</button>
+      <button class="btn btn-sm" id="btn-estimate-sale">💰 Estimate Sale</button>
     </div>
     <div id="gold-content">
       <div class="empty-state">No gold holdings yet.</div>
@@ -995,6 +996,36 @@
     <div class="modal-footer">
       <button class="btn" id="jwl-modal-cancel">Cancel</button>
       <button class="btn btn-primary" id="jwl-modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sale Estimator Modal -->
+<div id="estimator-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:600px;max-height:90vh;overflow-y:auto">
+    <h3>Sale Estimator</h3>
+    <div class="modal-sub">Tick gold and jewellery to estimate what you could realistically get if you sold them now. Read-only — nothing is sold or changed.</div>
+
+    <div class="est-rate-strip" id="est-rate-strip"></div>
+
+    <div class="modal-grid">
+      <div>
+        <label>Coins / Bars realisation <span class="jwl-hint">(% of melt)</span></label>
+        <input type="number" id="est-coin-pct" value="98" min="0" max="100" step="0.5">
+      </div>
+      <div>
+        <label>Jewellery realisation <span class="jwl-hint">(% of value)</span></label>
+        <input type="number" id="est-jwl-pct" value="95" min="0" max="100" step="0.5">
+      </div>
+    </div>
+
+    <div id="est-list"></div>
+
+    <div class="est-totals" id="est-totals"></div>
+
+    <div class="modal-footer">
+      <button class="btn" id="est-clear">Clear selection</button>
+      <button class="btn btn-primary" id="est-close">Done</button>
     </div>
   </div>
 </div>
