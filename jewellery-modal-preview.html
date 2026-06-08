@@ -20,7 +20,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .modal{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-md);padding:24px;width:100%;max-width:560px;margin:0 auto}
 .modal h3{font-size:1.1rem;font-weight:800;color:var(--header);margin-bottom:16px}
 .modal label{font-size:.78rem;color:var(--text2);font-weight:600;display:block;margin-bottom:5px}
-.modal select,.modal input[type=text],.modal input[type=number],.modal input[type=date]{-webkit-appearance:none;appearance:none;width:100%;min-width:0;max-width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.84rem;background:#fffdfb;color:var(--text);outline:none;transition:border .15s,box-shadow .15s;margin-bottom:14px}
+.modal select,.modal input[type=text],.modal input[type=number],.modal input[type=date]{-webkit-appearance:none;appearance:none;width:100%;min-width:0;max-width:100%;height:42px;line-height:1.2;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.84rem;background:#fffdfb;color:var(--text);outline:none;transition:border .15s,box-shadow .15s;margin-bottom:14px}
 .modal input::placeholder{color:#c9b6a6}
 .modal input[readonly]{background:var(--accent-light);border:1.5px dashed var(--accent);color:var(--header);font-weight:800}
 .modal select:focus,.modal input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(196,132,90,.15)}
@@ -126,7 +126,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
         <input type="number" id="rate" placeholder="0" min="0">
       </div>
       <div class="full">
-        <label>Gold Price <span class="hint">(auto · rate × net weight)</span></label>
+        <label>Gold Price <span class="hint">(auto calculated)</span></label>
         <input type="number" id="goldPrice" readonly placeholder="0">
       </div>
     </div>
