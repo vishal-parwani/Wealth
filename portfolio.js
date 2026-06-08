@@ -928,7 +928,7 @@ async function renderJewellery() {
         <td colspan="4"></td>
       </tr>
       <tr class="jwl-sub-row">
-        <td colspan="2"><span class="jwl-sub-label">Making Charges</span></td>
+        <td colspan="2"><span class="jwl-sub-label">MC/VA</span></td>
         <td class="right">${makingPurch}</td>
         <td class="right"><span style="color:var(--text3)">₹0</span></td>
         <td colspan="4"></td>
@@ -1093,61 +1093,158 @@ function renderJewellerySoldSection() {
 // ── Jewellery modal ────────────────────────────────────
 
 let jwlEditId = null;
+let jwlType = 'goldonly';       // 'goldonly' | 'withstones'
+let jwlMcvaMode = 'pergram';    // 'pergram' | 'total'
+let jwlStonePricing = 'known';  // 'known' | 'derive'
+
+const jwlEl  = id => document.getElementById(id);
+const jwlNum = id => parseFloat(jwlEl(id).value) || 0;
+const jwlINR = n => '₹' + Math.round(n).toLocaleString('en-IN');
 
 function openJewelleryModal(editId = null) {
   jwlEditId = editId;
   const j = editId ? P.jewellery.find(x => x.id === editId) : null;
-  document.getElementById('jwl-modal-title').textContent = editId ? 'Edit Jewellery' : 'Add Jewellery';
-  document.getElementById('jwl-desc').value    = j?.description || '';
-  document.getElementById('jwl-date').value    = j?.purchaseDate || '';
-  document.getElementById('jwl-total').value   = j?.purchaseTotal || '';
-  document.getElementById('jwl-gold-purity').value = j?.gold?.purity || '22K';
-  document.getElementById('jwl-gold-weight').value = j?.gold?.weightGrams || '';
-  document.getElementById('jwl-gold-price').value  = j?.gold?.purchasePrice || '';
-  document.getElementById('jwl-making').value       = j?.making?.purchasePrice || '';
-  const hasDiamonds = !!(j?.diamonds);
-  const hasStones   = !!(j?.stones);
-  document.getElementById('jwl-has-diamonds').checked = hasDiamonds;
-  document.getElementById('jwl-diamonds-fields').style.display = hasDiamonds ? '' : 'none';
-  document.getElementById('jwl-diamond-ct').value    = j?.diamonds?.carats || '';
-  document.getElementById('jwl-diamond-price').value = j?.diamonds?.purchasePrice || '';
-  document.getElementById('jwl-has-stones').checked = hasStones;
-  document.getElementById('jwl-stones-fields').style.display = hasStones ? '' : 'none';
-  document.getElementById('jwl-stones-desc').value   = j?.stones?.description || '';
-  document.getElementById('jwl-stones-price').value  = j?.stones?.purchasePrice || '';
-  jwlUpdateReconcile();
-  document.getElementById('jewellery-modal').style.display = 'flex';
+  jwlEl('jwl-modal-title').textContent = editId ? 'Edit Jewellery' : 'Add Jewellery';
+  jwlEl('jwl-desc').value  = j?.description || '';
+  jwlEl('jwl-date').value  = j?.purchaseDate || '';
+  jwlEl('jwl-total').value = (j?.purchaseTotal != null ? j.purchaseTotal : '');
+
+  // Gold
+  jwlEl('jwl-gold-purity').value = j?.gold?.purity || '22K';
+  const net = parseFloat(j?.gold?.weightGrams) || 0;
+  jwlEl('jwl-net').value   = j?.gold?.weightGrams || '';
+  jwlEl('jwl-gross').value = j?.gold?.grossWeightGrams || '';
+  let rate = j?.gold?.ratePerGram;
+  if (rate == null && net > 0 && j?.gold?.purchasePrice) rate = Math.round(parseFloat(j.gold.purchasePrice) / net);
+  jwlEl('jwl-gold-rate').value = rate || '';
+
+  // MC/VA
+  jwlMcvaMode = j?.making?.mode || (j?.making?.perGram != null ? 'pergram' : (j?.making ? 'total' : 'pergram'));
+  jwlEl('jwl-mcva-pg').value    = j?.making?.perGram || '';
+  jwlEl('jwl-mcva-total').value = (j?.making?.purchasePrice != null ? j.making.purchasePrice : '');
+
+  // Stones
+  const hasDia = !!(j?.diamonds), hasOther = !!(j?.stones);
+  jwlEl('jwl-has-diamonds').checked = hasDia;
+  jwlEl('jwl-diamond-ct').value     = j?.diamonds?.carats || '';
+  jwlEl('jwl-diamond-price').value  = j?.diamonds?.purchasePrice || '';
+  jwlEl('jwl-has-stones').checked   = hasOther;
+  jwlEl('jwl-stones-desc').value    = j?.stones?.description || '';
+  jwlEl('jwl-stones-wt').value      = j?.stones?.carats || '';
+  jwlEl('jwl-stones-price').value   = j?.stones?.purchasePrice || '';
+
+  jwlType         = j?.type || (hasDia || hasOther ? 'withstones' : 'goldonly');
+  jwlStonePricing = j?.stonePricing || 'known';
+
+  jwlApplyType();
+  jwlApplyMcvaMode();
+  jwlApplyStoneVisibility();
+  jwlEl('jewellery-modal').style.display = 'flex';
 }
 
-function jwlUpdateReconcile() {
-  const el = document.getElementById('jwl-reconcile');
-  if (!el) return;
-  const total    = parseFloat(document.getElementById('jwl-total').value)||0;
-  const gold     = parseFloat(document.getElementById('jwl-gold-price').value)||0;
-  const making   = parseFloat(document.getElementById('jwl-making').value)||0;
-  const diamonds = document.getElementById('jwl-has-diamonds').checked
-    ? parseFloat(document.getElementById('jwl-diamond-price').value)||0 : 0;
-  const stones   = document.getElementById('jwl-has-stones').checked
-    ? parseFloat(document.getElementById('jwl-stones-price').value)||0 : 0;
-  const subSum   = gold + making + diamonds + stones;
-  const diff     = total - subSum;
-  if (total === 0 && subSum === 0) { el.style.display = 'none'; return; }
-  el.style.display = '';
-  const absDiff = Math.abs(diff);
-  const cls = absDiff < 1 ? 'jwl-diff-ok' : absDiff < total * 0.02 ? 'jwl-diff-warn' : 'jwl-diff-err';
-  el.innerHTML = `<span class="${cls}">Sub-row sum: ${formatINR(subSum)} · Total: ${formatINR(total)} · Diff: ${diff >= 0 ? '+' : ''}${formatINRFull(diff)}</span>`;
+function jwlApplyType() {
+  const w = jwlType === 'withstones';
+  document.querySelector('#jewellery-modal .jwl-gross-wrap').style.display    = w ? '' : 'none';
+  document.querySelector('#jewellery-modal .jwl-stonewt-wrap').style.display  = w ? '' : 'none';
+  document.querySelector('#jewellery-modal .jwl-stones-section').style.display = w ? '' : 'none';
+  [...jwlEl('jwl-type-seg').children].forEach(b => b.classList.toggle('active', b.dataset.type === jwlType));
+  jwlRecompute();
 }
 
-document.getElementById('jwl-has-diamonds').addEventListener('change', e => {
-  document.getElementById('jwl-diamonds-fields').style.display = e.target.checked ? '' : 'none';
-  jwlUpdateReconcile();
+function jwlApplyMcvaMode() {
+  jwlEl('jwl-mcva-pg').readOnly    = (jwlMcvaMode === 'total');
+  jwlEl('jwl-mcva-total').readOnly = (jwlMcvaMode === 'pergram');
+  jwlEl('jwl-mcva-hint').textContent = jwlMcvaMode === 'pergram'
+    ? 'Per-gram entered → total auto-calculated (per gram × net weight).'
+    : 'Total entered → per-gram auto-calculated (total ÷ net weight).';
+  [...jwlEl('jwl-mcva-seg').children].forEach(b => b.classList.toggle('active', b.dataset.mode === jwlMcvaMode));
+  jwlRecompute();
+}
+
+function jwlApplyStoneVisibility() {
+  const derive = jwlStonePricing === 'derive';
+  jwlEl('jwl-diamonds-fields').style.display = jwlEl('jwl-has-diamonds').checked ? '' : 'none';
+  jwlEl('jwl-stones-fields').style.display   = jwlEl('jwl-has-stones').checked ? '' : 'none';
+  document.querySelector('#jewellery-modal .jwl-dia-price').style.display   = derive ? 'none' : '';
+  document.querySelector('#jewellery-modal .jwl-other-price').style.display = derive ? 'none' : '';
+  jwlEl('jwl-derived-box').style.display = derive ? '' : 'none';
+  jwlEl('jwl-stone-mode-hint').textContent = derive
+    ? 'Tick what’s present (weights optional). Combined value = Total − Gold − MC/VA.'
+    : 'Tick what’s present, then enter prices individually.';
+  [...jwlEl('jwl-stone-price-seg').children].forEach(b => b.classList.toggle('active', b.dataset.mode === jwlStonePricing));
+  jwlRecompute();
+}
+
+function jwlRecompute() {
+  const rate = jwlNum('jwl-gold-rate'), gross = jwlNum('jwl-gross'), net = jwlNum('jwl-net');
+  const withStones = jwlType === 'withstones';
+
+  jwlEl('jwl-stone-wt').value = withStones && (gross || net) ? Math.max(gross - net, 0).toFixed(3) : '';
+  const goldPrice = rate * net;
+  jwlEl('jwl-gold-price').value = goldPrice ? Math.round(goldPrice) : '';
+
+  if (jwlMcvaMode === 'pergram') {
+    const t = jwlNum('jwl-mcva-pg') * net;
+    jwlEl('jwl-mcva-total').value = t ? Math.round(t) : '';
+  } else if (net > 0) {
+    const pg = jwlNum('jwl-mcva-total') / net;
+    jwlEl('jwl-mcva-pg').value = pg ? +pg.toFixed(2) : '';
+  }
+  const mcvaTotal = jwlNum('jwl-mcva-total');
+
+  let stonesValue = 0;
+  if (withStones) {
+    const hasDia = jwlEl('jwl-has-diamonds').checked, hasOther = jwlEl('jwl-has-stones').checked;
+    if (jwlStonePricing === 'derive') {
+      stonesValue = Math.max(jwlNum('jwl-total') - goldPrice - mcvaTotal, 0);
+      jwlEl('jwl-derived-val').textContent = jwlINR(stonesValue);
+    } else {
+      stonesValue = (hasDia ? jwlNum('jwl-diamond-price') : 0) + (hasOther ? jwlNum('jwl-stones-price') : 0);
+    }
+  }
+
+  const subtotal = goldPrice + mcvaTotal + stonesValue;
+  jwlEl('jwl-s-gold').textContent  = jwlINR(goldPrice);
+  jwlEl('jwl-s-mcva').textContent  = jwlINR(mcvaTotal);
+  jwlEl('jwl-s-stones-row').style.display = withStones ? '' : 'none';
+  jwlEl('jwl-s-stones').textContent = jwlINR(stonesValue);
+  jwlEl('jwl-s-sub').textContent   = jwlINR(subtotal);
+  jwlEl('jwl-s-cgst').textContent  = jwlINR(subtotal * 0.015);
+  jwlEl('jwl-s-sgst').textContent  = jwlINR(subtotal * 0.015);
+  jwlEl('jwl-s-grand').textContent = jwlINR(subtotal * 1.03);
+
+  const total = jwlNum('jwl-total');
+  const recon = jwlEl('jwl-reconcile');
+  if (total > 0 && subtotal > 0) {
+    const diff = subtotal - total;
+    recon.style.display = '';
+    if (Math.abs(diff) <= 100) {
+      recon.className = 'jwl-recon ok';
+      recon.textContent = `✓ Matches entered total (diff ${diff >= 0 ? '+' : ''}${jwlINR(diff)}, within ₹100).`;
+    } else {
+      recon.className = 'jwl-recon err';
+      recon.textContent = `⚠ Calculated ${jwlINR(subtotal)} vs entered ${jwlINR(total)} — off by ${jwlINR(Math.abs(diff))} (> ₹100). Please review.`;
+    }
+  } else { recon.style.display = 'none'; }
+}
+
+['jwl-desc','jwl-date','jwl-total','jwl-gold-rate','jwl-gross','jwl-net','jwl-mcva-pg','jwl-mcva-total',
+ 'jwl-diamond-ct','jwl-diamond-price','jwl-stones-desc','jwl-stones-wt','jwl-stones-price','jwl-gold-purity']
+  .forEach(id => jwlEl(id).addEventListener('input', jwlRecompute));
+
+jwlEl('jwl-has-diamonds').addEventListener('change', jwlApplyStoneVisibility);
+jwlEl('jwl-has-stones').addEventListener('change', jwlApplyStoneVisibility);
+jwlEl('jwl-type-seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  jwlType = b.dataset.type; jwlApplyType();
 });
-document.getElementById('jwl-has-stones').addEventListener('change', e => {
-  document.getElementById('jwl-stones-fields').style.display = e.target.checked ? '' : 'none';
-  jwlUpdateReconcile();
+jwlEl('jwl-mcva-seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  jwlMcvaMode = b.dataset.mode; jwlApplyMcvaMode();
 });
-['jwl-total','jwl-gold-price','jwl-making','jwl-diamond-price','jwl-stones-price'].forEach(id => {
-  document.getElementById(id).addEventListener('input', jwlUpdateReconcile);
+jwlEl('jwl-stone-price-seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  jwlStonePricing = b.dataset.mode; jwlApplyStoneVisibility();
 });
 
 document.getElementById('jwl-modal-cancel').addEventListener('click', () => {
@@ -1158,42 +1255,70 @@ document.getElementById('jewellery-modal').addEventListener('click', e => {
 });
 
 document.getElementById('jwl-modal-confirm').addEventListener('click', () => {
-  const desc    = document.getElementById('jwl-desc').value.trim();
-  const date    = document.getElementById('jwl-date').value;
-  const total   = parseFloat(document.getElementById('jwl-total').value);
-  const goldW   = parseFloat(document.getElementById('jwl-gold-weight').value);
-  const goldP   = parseFloat(document.getElementById('jwl-gold-purity').value || document.getElementById('jwl-gold-purity').options[document.getElementById('jwl-gold-purity').selectedIndex].value);
-  const goldPrice = parseFloat(document.getElementById('jwl-gold-price').value);
-  const making  = parseFloat(document.getElementById('jwl-making').value)||0;
+  const desc  = jwlEl('jwl-desc').value.trim();
+  const date  = jwlEl('jwl-date').value;
+  const totalRaw = jwlEl('jwl-total').value.trim();
+  const total = totalRaw === '' ? null : (parseFloat(totalRaw) || 0);
+  const purity = jwlEl('jwl-gold-purity').value;
+  const rate = jwlNum('jwl-gold-rate');
+  const net  = jwlNum('jwl-net');
+  const gross = jwlNum('jwl-gross');
+  const withStones = jwlType === 'withstones';
+
   if (!desc) { toast('Enter a description'); return; }
-  if (isNaN(total)) { toast('Enter total purchase price'); return; }
-  if (isNaN(goldW) || isNaN(goldPrice)) { toast('Enter gold weight and price'); return; }
-  const purity  = document.getElementById('jwl-gold-purity').value;
-  const hasDia  = document.getElementById('jwl-has-diamonds').checked;
-  const hasSto  = document.getElementById('jwl-has-stones').checked;
-  const diamondCt    = parseFloat(document.getElementById('jwl-diamond-ct').value)||0;
-  const diamondPrice = parseFloat(document.getElementById('jwl-diamond-price').value)||0;
-  const stonesDesc   = document.getElementById('jwl-stones-desc').value.trim();
-  const stonesPrice  = parseFloat(document.getElementById('jwl-stones-price').value)||0;
+  if (!(net > 0)) { toast('Enter net gold weight'); return; }
+  if (!(rate > 0)) { toast('Enter gold rate per gram'); return; }
+
+  const goldPrice = Math.round(rate * net);
+  const mcvaTotal = Math.round(jwlNum('jwl-mcva-total'));
+  const mcvaPg = jwlMcvaMode === 'pergram' ? jwlNum('jwl-mcva-pg') : (net > 0 ? +(mcvaTotal / net).toFixed(2) : 0);
+
+  const hasDia   = withStones && jwlEl('jwl-has-diamonds').checked;
+  const hasOther = withStones && jwlEl('jwl-has-stones').checked;
+  const diaCt    = jwlNum('jwl-diamond-ct');
+  const stonesWt = jwlNum('jwl-stones-wt');
+  const stonesDesc = jwlEl('jwl-stones-desc').value.trim();
+
+  let diamonds = null, stones = null;
+  if (withStones) {
+    if (jwlStonePricing === 'derive') {
+      const balance = total != null ? Math.max(total - goldPrice - mcvaTotal, 0) : 0;
+      if (hasDia && hasOther) {
+        diamonds = { carats: diaCt, purchasePrice: balance };
+        stones   = { description: stonesDesc, carats: stonesWt, purchasePrice: 0 };
+      } else if (hasDia) {
+        diamonds = { carats: diaCt, purchasePrice: balance };
+      } else if (hasOther) {
+        stones   = { description: stonesDesc, carats: stonesWt, purchasePrice: balance };
+      }
+    } else {
+      if (hasDia)   diamonds = { carats: diaCt, purchasePrice: jwlNum('jwl-diamond-price') };
+      if (hasOther) stones   = { description: stonesDesc, carats: stonesWt, purchasePrice: jwlNum('jwl-stones-price') };
+    }
+  }
+
+  const stonesValue = (diamonds ? diamonds.purchasePrice : 0) + (stones ? stones.purchasePrice : 0);
+  const computedSubtotal = goldPrice + mcvaTotal + stonesValue;
 
   const entry = {
-    description: desc, purchaseDate: date, purchaseTotal: total,
-    gold: { weightGrams: goldW, purity, purchasePrice: goldPrice },
-    making: { purchasePrice: making },
-    diamonds: hasDia ? { carats: diamondCt, purchasePrice: diamondPrice } : null,
-    stones:   hasSto ? { description: stonesDesc, purchasePrice: stonesPrice } : null,
+    description: desc, purchaseDate: date,
+    purchaseTotal: total != null ? total : computedSubtotal,
+    type: jwlType,
+    gold: { purity, ratePerGram: rate, weightGrams: net, grossWeightGrams: withStones ? (gross || null) : null, purchasePrice: goldPrice },
+    making: { mode: jwlMcvaMode, perGram: mcvaPg, purchasePrice: mcvaTotal },
+    stonePricing: withStones ? jwlStonePricing : undefined,
+    diamonds, stones,
   };
-  if (!hasDia) delete entry.diamonds;
-  if (!hasSto) delete entry.stones;
+  if (!diamonds) delete entry.diamonds;
+  if (!stones) delete entry.stones;
+  if (!withStones) delete entry.stonePricing;
 
   if (jwlEditId) {
     const idx = P.jewellery.findIndex(x => x.id === jwlEditId);
     if (idx >= 0) {
-      // Preserve any currentOverride values
-      if (entry.diamonds && P.jewellery[idx].diamonds?.currentOverride !== undefined)
-        entry.diamonds.currentOverride = P.jewellery[idx].diamonds.currentOverride;
-      if (entry.stones && P.jewellery[idx].stones?.currentOverride !== undefined)
-        entry.stones.currentOverride = P.jewellery[idx].stones.currentOverride;
+      const old = P.jewellery[idx];
+      if (entry.diamonds && old.diamonds?.currentOverride != null) entry.diamonds.currentOverride = old.diamonds.currentOverride;
+      if (entry.stones   && old.stones?.currentOverride   != null) entry.stones.currentOverride   = old.stones.currentOverride;
       entry.id = jwlEditId;
       P.jewellery[idx] = entry;
     }
@@ -1214,6 +1339,128 @@ function deleteJewellery(id) {
   P.jewellery = P.jewellery.filter(j => j.id !== id);
   pSave(); renderGold(); toast('Removed');
 }
+
+// ── Sale Estimator ─────────────────────────────────────
+// Read-only "what could I get" calculator. Multi-select gold coins/bars and
+// jewellery; shows total fine-gold weight and estimated proceeds after a
+// per-category realisation %.
+const estSelected = new Set();
+
+async function openSaleEstimator() {
+  const goldRate = await fetchGoldPrice();
+  estRenderList(goldRate);
+  document.getElementById('estimator-modal').style.display = 'flex';
+}
+
+function estRowHtml(key, name, meta, value) {
+  const sel = estSelected.has(key);
+  return `<label class="est-row${sel ? ' sel' : ''}" data-key="${key}">
+    <input type="checkbox" ${sel ? 'checked' : ''}>
+    <span class="est-row-body">
+      <span class="est-row-name">${name}</span>
+      <span class="est-row-meta">${meta}</span>
+    </span>
+    <span class="est-row-val">${formatINR(value)}</span>
+  </label>`;
+}
+
+function estRenderList(goldRate) {
+  const strip = document.getElementById('est-rate-strip');
+  strip.innerHTML = goldRate
+    ? `Live gold rate: <strong>₹${Math.round(goldRate).toLocaleString('en-IN')}/g (24K)</strong>`
+    : `<span class="warn">⚠ Live gold rate unavailable — open the Live Prices tab first, then reopen the estimator.</span>`;
+
+  const coins = P.gold.filter(g => (parseFloat(g.weightGrams) || 0) > 0.0001);
+
+  const coinRows = coins.map(g => {
+    const w = parseFloat(g.weightGrams) || 0;
+    const f = PURITY_FACTOR[g.purity] || 1;
+    const melt = goldRate ? w * f * goldRate : 0;
+    const wTxt = w.toFixed(2).replace(/\.?0+$/, '');
+    return estRowHtml('gold:' + g.id, esc(g.description || 'Gold'), `${wTxt}g · ${g.purity}`, melt);
+  }).join('') || `<div class="est-empty">No coins or bars.</div>`;
+
+  const jwlRows = P.jewellery.map(j => {
+    const val = computeJewelleryCurrentValue(j, goldRate);
+    const net = parseFloat(j.gold?.weightGrams) || 0;
+    const wTxt = net.toFixed(2).replace(/\.?0+$/, '');
+    const meta = `${wTxt}g net · ${j.gold?.purity || ''}${(j.diamonds || j.stones) ? ' · stones' : ''}`;
+    return estRowHtml('jwl:' + j.id, esc(j.description || 'Jewellery'), meta, val);
+  }).join('') || `<div class="est-empty">No jewellery.</div>`;
+
+  document.getElementById('est-list').innerHTML = `
+    <div class="est-section">
+      <div class="est-section-hdr">
+        <span class="est-section-title">Coins / Bars</span>
+        <button class="est-selall" data-cat="gold">Toggle all</button>
+      </div>
+      ${coinRows}
+    </div>
+    <div class="est-section">
+      <div class="est-section-hdr">
+        <span class="est-section-title">Jewellery</span>
+        <button class="est-selall" data-cat="jwl">Toggle all</button>
+      </div>
+      ${jwlRows}
+    </div>`;
+  estRecompute();
+}
+
+function estRecompute() {
+  const goldRate = LIVE.goldRate;
+  const coinPct = (parseFloat(document.getElementById('est-coin-pct').value) || 0) / 100;
+  const jwlPct  = (parseFloat(document.getElementById('est-jwl-pct').value) || 0) / 100;
+  let count = 0, fineG = 0, gross = 0, realised = 0;
+
+  P.gold.forEach(g => {
+    if (!estSelected.has('gold:' + g.id)) return;
+    const w = parseFloat(g.weightGrams) || 0, f = PURITY_FACTOR[g.purity] || 1;
+    const melt = goldRate ? w * f * goldRate : 0;
+    count++; fineG += w * f; gross += melt; realised += melt * coinPct;
+  });
+  P.jewellery.forEach(j => {
+    if (!estSelected.has('jwl:' + j.id)) return;
+    const net = parseFloat(j.gold?.weightGrams) || 0, f = PURITY_FACTOR[j.gold?.purity] || 1;
+    const val = computeJewelleryCurrentValue(j, goldRate);
+    count++; fineG += net * f; gross += val; realised += val * jwlPct;
+  });
+
+  const el = document.getElementById('est-totals');
+  if (count === 0) {
+    el.innerHTML = `<div class="est-totals-row sub">Select items above to see an estimate.</div>`;
+    return;
+  }
+  el.innerHTML = `
+    <div class="est-totals-row"><span>${count} item${count > 1 ? 's' : ''} selected</span><span class="v">${fineG.toFixed(2)} g fine gold</span></div>
+    <div class="est-totals-row sub"><span>Gross value (full)</span><span class="v">${formatINRFull(gross)}</span></div>
+    <div class="est-totals-row grand"><span>Estimated proceeds</span><span class="v">${formatINRFull(realised)}</span></div>`;
+}
+
+document.getElementById('btn-estimate-sale').addEventListener('click', openSaleEstimator);
+document.getElementById('est-close').addEventListener('click', () => document.getElementById('estimator-modal').style.display = 'none');
+document.getElementById('estimator-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) document.getElementById('estimator-modal').style.display = 'none';
+});
+document.getElementById('est-clear').addEventListener('click', () => { estSelected.clear(); estRenderList(LIVE.goldRate); });
+['est-coin-pct', 'est-jwl-pct'].forEach(id => document.getElementById(id).addEventListener('input', estRecompute));
+document.getElementById('est-list').addEventListener('click', e => {
+  const sa = e.target.closest('.est-selall');
+  if (!sa) return;
+  e.preventDefault();
+  const cat = sa.dataset.cat;
+  const items = cat === 'gold' ? P.gold.filter(g => (parseFloat(g.weightGrams) || 0) > 0.0001) : P.jewellery;
+  const keys = items.map(x => cat + ':' + x.id);
+  const allSel = keys.length > 0 && keys.every(k => estSelected.has(k));
+  keys.forEach(k => allSel ? estSelected.delete(k) : estSelected.add(k));
+  estRenderList(LIVE.goldRate);
+});
+document.getElementById('est-list').addEventListener('change', e => {
+  const row = e.target.closest('.est-row'); if (!row) return;
+  const key = row.dataset.key;
+  if (e.target.checked) estSelected.add(key); else estSelected.delete(key);
+  row.classList.toggle('sel', e.target.checked);
+  estRecompute();
+});
 
 // ── Jewellery Sell Modal ───────────────────────────────
 
