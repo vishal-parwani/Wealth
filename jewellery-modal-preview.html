@@ -25,9 +25,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .modal input[readonly]{background:var(--accent-light);border:1.5px dashed var(--accent);color:var(--header);font-weight:800}
 .modal select:focus,.modal input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(196,132,90,.15)}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
-.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
-.modal-grid > *{grid-column:span 1;min-width:0}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;align-items:end}
+.modal-grid > *{grid-column:span 1;min-width:0;display:flex;flex-direction:column}
 .modal-grid > .full{grid-column:span 2}
+.modal-grid label{flex-grow:1;display:flex;align-items:flex-start}
 .btn{padding:8px 16px;border-radius:8px;border:1.5px solid var(--border2);background:var(--surface2);color:var(--text);font-family:inherit;font-weight:600;font-size:.84rem;cursor:pointer}
 .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .hint{font-size:.72rem;color:var(--text3);font-weight:600}
