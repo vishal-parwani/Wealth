@@ -703,7 +703,7 @@ function renderMetalRow(item, opts) {
     <div class="metal-row-expand">
       <div class="metal-row-expand-grid">
         <div><span>Purchase date</span><strong>${item.purchaseDate||'—'}</strong></div>
-        <div><span>Invested</span><strong>${formatINR(purchased)}</strong></div>
+        <div><span>Invested</span><strong>${formatINR(purchased)}${opts.pricePerGm!=null?` <span style="font-size:.72rem;color:var(--text2);font-weight:400">(${Math.round(opts.pricePerGm).toLocaleString('en-IN')}/g)</span>`:''}</strong></div>
         <div><span>Notional gain</span><strong style="color:${(opts.gain||0)>=0?'var(--green)':'var(--red)'}">${opts.gain!=null?(opts.gain>=0?'+':'')+formatINRFull(opts.gain):'—'}</strong></div>
         <div><span>Gain %</span><strong>${gainChip(opts.gainPct)}</strong></div>
       </div>
@@ -729,7 +729,7 @@ function renderMetalTableRow(item, opts) {
     <td>${opts.weight}g</td>
     <td><span class="ticker-chip">${esc(opts.purityLabel)}</span></td>
     <td>${item.purchaseDate||'—'}</td>
-    <td>${formatINR(purchased)}</td>
+    <td>${formatINR(purchased)}${opts.pricePerGm!=null?`<div style="font-size:.72rem;color:var(--text2)">(${Math.round(opts.pricePerGm).toLocaleString('en-IN')}/g)</div>`:''}</td>
     <td>${opts.current!=null ? formatINR(opts.current) : '<span class="chip-n">—</span>'}</td>
     <td>${opts.gain!=null ? `<span style="color:${gainColor}">${opts.gain>=0?'+':''}${formatINRFull(opts.gain)}</span>` : '—'}</td>
     <td>${gainChip(opts.gainPct)}</td>
@@ -760,8 +760,10 @@ async function renderGold() {
     return;
   }
 
-  let totalPurchase=0, totalCurrent=0;
+  let totalPurchase=0, totalCurrent=0, totalWeight=0;
   const weightByPurity = {};
+  const purchaseByPurity = {};
+  const currentByPurity = {};
   const rowPairs = activeGold.map(g => {
     const purchased = parseFloat(g.purchasePrice)||0;
     const weight    = parseFloat(g.weightGrams)||0;
@@ -770,12 +772,16 @@ async function renderGold() {
     const gain      = current != null ? current - purchased : null;
     const gainPct   = (gain != null && purchased > 0) ? (gain/purchased)*100 : null;
     totalPurchase += purchased;
+    totalWeight   += weight;
     if (current) totalCurrent += current;
-    weightByPurity[g.purity] = (weightByPurity[g.purity] || 0) + weight;
+    weightByPurity[g.purity]   = (weightByPurity[g.purity]   || 0) + weight;
+    purchaseByPurity[g.purity] = (purchaseByPurity[g.purity] || 0) + purchased;
+    if (current) currentByPurity[g.purity] = (currentByPurity[g.purity] || 0) + current;
+    const pricePerGm = weight > 0 ? purchased / weight : null;
     const opts = {
       kind:'gold', current, gain, gainPct,
       openModal:'openGoldModal', openSell:'openGoldSellModal', del:'deleteGold',
-      purityLabel:g.purity, weight
+      purityLabel:g.purity, weight, pricePerGm
     };
     return { mobile: renderMetalRow(g, opts), desktop: renderMetalTableRow(g, opts) };
   });
@@ -808,18 +814,44 @@ async function renderGold() {
           <th style="width:120px"></th>
         </tr></thead>
         <tbody>${tableRows}</tbody>
-        <tfoot><tr class="totals-row">
-          <td class="left"><strong>Total</strong></td>
-          <td style="font-size:.78rem;color:var(--text2)">
-            ${['24K','22K','18K'].filter(p=>weightByPurity[p]).map(p=>`<span style="white-space:nowrap">${weightByPurity[p].toFixed(2).replace(/\.?0+$/,'')}g ${p}</span>`).join('<br>')}
-          </td>
-          <td></td><td></td>
-          <td><strong>${formatINR(totalPurchase)}</strong></td>
-          <td><strong>${formatINR(totalCurrent)}</strong></td>
-          <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)}</strong></td>
-          <td>${gainChip(totalGainPct)}</td>
-          <td></td>
-        </tr></tfoot>
+        <tfoot>${(() => {
+          const purities = ['24K','22K','18K'].filter(p=>weightByPurity[p]);
+          const multi = purities.length > 1;
+          const fmtG = v => v.toFixed(2).replace(/\.?0+$/,'');
+          const perPurityRows = multi ? purities.map(p => {
+            const w   = weightByPurity[p];
+            const inv = purchaseByPurity[p] || 0;
+            const cur = currentByPurity[p]  || 0;
+            const hasCur = cur > 0;
+            const gn  = hasCur ? cur - inv : null;
+            const gnPct = (gn != null && inv > 0) ? (gn/inv)*100 : null;
+            const gnColor = (gn||0) >= 0 ? 'var(--green)' : 'var(--red)';
+            return `<tr class="totals-row totals-sub">
+              <td class="left" style="color:var(--text2);font-weight:500">Total ${p}</td>
+              <td>${fmtG(w)}g</td>
+              <td><span class="ticker-chip">${p}</span></td>
+              <td></td>
+              <td>${formatINR(inv)}${w>0?`<div style="font-size:.72rem;color:var(--text2);font-weight:400">(${Math.round(inv/w).toLocaleString('en-IN')}/g)</div>`:''}</td>
+              <td>${hasCur ? formatINR(cur) : '—'}</td>
+              <td>${gn!=null ? `<span style="color:${gnColor}">${gn>=0?'+':''}${formatINRFull(gn)}</span>` : '—'}</td>
+              <td>${gnPct!=null ? gainChip(gnPct) : '—'}</td>
+              <td></td>
+            </tr>`;
+          }).join('') : '';
+          const grand = `<tr class="totals-row${multi?' totals-grand':''}">
+            <td class="left"><strong>${multi?'Grand Total':'Total'}</strong></td>
+            <td style="font-size:.78rem;color:var(--text2)">
+              ${purities.map(p=>`<span style="white-space:nowrap">${fmtG(weightByPurity[p])}g ${p}</span>`).join('<br>')}
+            </td>
+            <td></td><td></td>
+            <td><strong>${formatINR(totalPurchase)}</strong>${!multi && totalWeight>0?`<div style="font-size:.72rem;color:var(--text2);font-weight:400">(${Math.round(totalPurchase/totalWeight).toLocaleString('en-IN')}/g)</div>`:''}</td>
+            <td><strong>${formatINR(totalCurrent)}</strong></td>
+            <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)}</strong></td>
+            <td>${gainChip(totalGainPct)}</td>
+            <td></td>
+          </tr>`;
+          return perPurityRows + grand;
+        })()}</tfoot>
       </table>
     </div>
     <div class="metal-rows">${rows}</div>
