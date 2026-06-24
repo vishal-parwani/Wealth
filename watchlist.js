@@ -1191,27 +1191,29 @@ document.getElementById('wl-atp-confirm').addEventListener('click', () => {
 
   if (type === 'mf') {
     const units = parseFloat(document.getElementById('wl-atp-units').value) || (amount / price);
-    // Add to P.mf_holdings
+    // Add to P.mf_holdings — must match the schema used by the MF Holdings tab
+    // (id + purchaseDate), otherwise the Edit button can't find the holding.
     P.mf_holdings.push({
+      id: newId(),
       schemeCode: codeOrSym,
       name,
-      date,
-      nav: price,
+      purchaseDate: date,
       units: parseFloat(units.toFixed(3)),
       invested: Math.round(amount)
     });
     pSave();
     toast('Added to MF Holdings ✓');
   } else {
-    // Add to P.stocks
+    // Add to P.stocks — must match the Stocks tab schema
+    // (id + quantity + avgPrice + purchaseDate).
     P.stocks.push({
+      id: newId(),
       name,
       symbol: codeOrSym,
       exchange: exchange || 'NSE',
-      date,
-      price,
-      qty: Math.round(amount / price),
-      invested: Math.round(amount)
+      purchaseDate: date,
+      avgPrice: price,
+      quantity: Math.round(amount / price)
     });
     pSave();
     toast('Added to Stocks ✓');

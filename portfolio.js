@@ -82,6 +82,33 @@ function pLoad(data) {
   P.gold_sales   = d.gold_sales   || [];
   P.silver_sales = d.silver_sales || [];
   P.jewellery_sales = d.jewellery_sales || [];
+
+  // Migration: holdings added via the watchlist "Add to Portfolio" flow used to
+  // be saved without an `id` and with legacy field names (date/nav/qty/price).
+  // Without an `id`, the Edit button opens the Add form instead. Normalise them.
+  if (normalizeHoldings()) pSave();
+}
+
+// Repair holdings saved with a missing id or legacy field names. Returns true
+// if anything changed so the caller can persist the fix.
+function normalizeHoldings() {
+  let changed = false;
+  (P.mf_holdings || []).forEach(h => {
+    if (!h.id) { h.id = newId(); changed = true; }
+    if (h.purchaseDate == null && h.date != null) { h.purchaseDate = h.date; changed = true; }
+    if ('date' in h) { delete h.date; changed = true; }
+    if ('nav'  in h) { delete h.nav;  changed = true; }
+  });
+  (P.stocks || []).forEach(s => {
+    if (!s.id) { s.id = newId(); changed = true; }
+    if (s.quantity == null && s.qty != null)   { s.quantity = s.qty;   changed = true; }
+    if (s.avgPrice == null && s.price != null)  { s.avgPrice = s.price; changed = true; }
+    if (s.purchaseDate == null && s.date != null) { s.purchaseDate = s.date; changed = true; }
+    if ('qty'   in s) { delete s.qty;   changed = true; }
+    if ('price' in s) { delete s.price; changed = true; }
+    if ('date'  in s) { delete s.date;  changed = true; }
+  });
+  return changed;
 }
 
 // ── LIVE PRICE FETCHERS ───────────────────────────────
