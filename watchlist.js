@@ -480,7 +480,7 @@ function wlRenderAll(){
   const minWidths={ret1d:68,ret1w:68,ret1m:68,ret6m:68,nav1y:74,nav3y:74,nav5y:74,navAll:74,nav:68,opinion:90,div:72};
 
   let thHtml=`<th class="left no-sort" style="padding-left:10px;min-width:30px;width:30px"></th>`
-    +`<th class="left col-name sortable${gs.col==='name'?' sorted':''}" data-sort="name" style="min-width:180px">Fund Name <span class="sort-arr">${gs.col==='name'?(gs.dir===1?'▲':'▼'):'▾'}</span></th>`;
+    +`<th class="left col-name sortable${gs.col==='name'?' sorted':''}" data-sort="name" style="min-width:220px">Fund Name <span class="sort-arr">${gs.col==='name'?(gs.dir===1?'▲':'▼'):'▾'}</span></th>`;
   vc.forEach(c=>{
     const isSorted=gs.col===c.sortKey;
     const arrow=isSorted?(gs.dir===1?'▲':'▼'):'▾';
