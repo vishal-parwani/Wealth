@@ -343,6 +343,7 @@ function srDrawViewer(wrap, r) {
           <span class="sr-viewer-drift">gen ₹${srFmtPrice(r.genPrice)}<span class="sr-arrow">→</span>${d.drift}</span>
           ${srFlags(r)}
           <span class="sr-viewer-spacer"></span>
+          <button class="btn btn-sm" id="sr-replace" title="Import an updated HTML for this ticker — keeps your note">Replace</button>
           <button class="btn btn-sm" id="sr-newtab">Open in new tab ↗</button>
         </div>
         <iframe class="sr-frame" sandbox="allow-scripts allow-popups" title="Research report: ${esc(r.name)}"></iframe>
@@ -358,6 +359,7 @@ function srDrawViewer(wrap, r) {
   wrap.querySelector('.sr-frame').srcdoc = r.html;
 
   document.getElementById('sr-back').addEventListener('click', srCloseViewer);
+  document.getElementById('sr-replace').addEventListener('click', () => srOpenImportModal(r.ticker));
   document.getElementById('sr-newtab').addEventListener('click', () => {
     const url = URL.createObjectURL(new Blob([r.html], { type: 'text/html' }));
     window.open(url, '_blank');
@@ -375,11 +377,137 @@ function srDrawViewer(wrap, r) {
   }));
 }
 
+// ── Import modal ────────────────────────────────────────
+
+let SR_impHtml   = null;   // current candidate HTML (validated)
+let SR_impMeta   = null;   // its parsed meta
+let SR_impExpect = null;   // ticker expected (Replace flow from viewer) or null
+
+function srImpPreviewEl() { return document.getElementById('sr-imp-preview'); }
+
+function srImpReset() {
+  SR_impHtml = null; SR_impMeta = null;
+  srImpPreviewEl().innerHTML = '';
+  document.getElementById('sr-imp-save').disabled = true;
+  document.getElementById('sr-paste').value = '';
+  document.getElementById('sr-file').value = '';
+  document.getElementById('sr-drop-name').textContent = 'accepts a single .html file';
+}
+
+function srOpenImportModal(expectTicker) {
+  SR_impExpect = expectTicker || null;
+  document.getElementById('sr-imp-title').textContent =
+    SR_impExpect ? `Replace report — ${SR_impExpect}` : 'Add Report';
+  srImpReset();
+  document.getElementById('sr-import-modal').style.display = 'flex';
+}
+
+function srCloseImportModal() {
+  document.getElementById('sr-import-modal').style.display = 'none';
+}
+
+// Validate candidate HTML and show the parsed-meta preview
+function srImpCandidate(html, sourceLabel) {
+  const box = srImpPreviewEl();
+  const saveBtn = document.getElementById('sr-imp-save');
+  SR_impHtml = null; SR_impMeta = null;
+  saveBtn.disabled = true;
+
+  const parsed = srParseReportHtml(html);
+  if (!parsed.ok) {
+    box.innerHTML = `<div class="sr-imp-box sr-imp-err">✕ ${esc(parsed.error)}</div>`;
+    return;
+  }
+  const m = parsed.meta;
+  if (SR_impExpect && m.ticker !== SR_impExpect) {
+    box.innerHTML = `<div class="sr-imp-box sr-imp-err">✕ This report is for <strong>${esc(m.ticker)}</strong>, but you're replacing <strong>${esc(SR_impExpect)}</strong>. Use + Add Report for a new ticker.</div>`;
+    return;
+  }
+  SR_impHtml = html; SR_impMeta = m;
+  const existing = SR_reports.find(r => r.id === m.ticker.toLowerCase());
+  box.innerHTML = `
+    <div class="sr-imp-box sr-imp-ok">
+      <div class="sr-imp-okhdr">✓ Valid report${sourceLabel ? ' · ' + esc(sourceLabel) : ''}</div>
+      <table class="sr-imp-meta">
+        <tr><td>Ticker</td><td><strong>${esc(m.ticker)}</strong> · ${esc(m.exchange)}</td></tr>
+        <tr><td>Name</td><td>${esc(m.name)}</td></tr>
+        <tr><td>Sector</td><td>${esc(m.sector)}</td></tr>
+        <tr><td>Rating</td><td>${srRatingBadge(m)}</td></tr>
+        <tr><td>Generated</td><td>${srFmtDate(m.generatedAt)} · gen price ₹${srFmtPrice(m.genPrice)}</td></tr>
+        <tr><td>Data gaps</td><td>${m.hasGaps ? 'yes — will show the <span class="sr-dot"></span> verify dot' : 'none flagged'}</td></tr>
+      </table>
+    </div>
+    ${existing ? `<div class="sr-imp-box sr-imp-warn"><strong>Replace mode:</strong> a ${esc(m.ticker)} report from ${srFmtDate(existing.generatedAt)} already exists. Saving updates the report, rating, gen price &amp; date — your personal note is kept.</div>` : ''}`;
+  saveBtn.disabled = false;
+}
+
+function srInitImportUI() {
+  const modal = document.getElementById('sr-import-modal');
+  if (!modal) return;
+
+  document.getElementById('btn-add-report')?.addEventListener('click', () => srOpenImportModal(null));
+  document.getElementById('sr-imp-cancel').addEventListener('click', srCloseImportModal);
+  modal.addEventListener('click', e => { if (e.target === modal) srCloseImportModal(); });
+
+  // Upload / Paste mode switch
+  modal.querySelectorAll('.sr-imp-tab').forEach(btn => btn.addEventListener('click', () => {
+    modal.querySelectorAll('.sr-imp-tab').forEach(b => b.classList.toggle('active', b === btn));
+    const paste = btn.dataset.mode === 'paste';
+    document.getElementById('sr-imp-upload').style.display = paste ? 'none' : '';
+    document.getElementById('sr-imp-paste').style.display  = paste ? '' : 'none';
+  }));
+
+  // File pick + drag-drop
+  const drop = document.getElementById('sr-drop');
+  const file = document.getElementById('sr-file');
+  const readFile = f => {
+    if (!f) return;
+    document.getElementById('sr-drop-name').textContent = f.name;
+    const rd = new FileReader();
+    rd.onload = () => srImpCandidate(String(rd.result), f.name);
+    rd.readAsText(f);
+  };
+  drop.addEventListener('click', () => file.click());
+  file.addEventListener('change', () => readFile(file.files[0]));
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('over');
+    readFile(e.dataTransfer.files?.[0]);
+  });
+
+  // Paste — validate as they type (debounced)
+  let pt;
+  document.getElementById('sr-paste').addEventListener('input', e => {
+    clearTimeout(pt);
+    pt = setTimeout(() => srImpCandidate(e.target.value, 'pasted'), 300);
+  });
+
+  // Save
+  document.getElementById('sr-imp-save').addEventListener('click', async () => {
+    if (!SR_impHtml) return;
+    const btn = document.getElementById('sr-imp-save');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      const { id, replaced } = await srImportReport(SR_impHtml);
+      srCloseImportModal();
+      toast(replaced ? 'Report replaced ✓' : 'Report added ✓');
+      srOpenReport(id);                    // list + open, per the flow
+    } catch (e) {
+      toast('Import failed: ' + e.message);
+      console.warn('Report import failed', e);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save report';
+    }
+  });
+}
+
 // ── Public API ──────────────────────────────────────────
 
 function initStockReports() {
   // Data loads lazily on first tab open (keeps boot fast); nothing to hydrate
   // from the main dashboard doc — reports live in their own subcollection.
+  srInitImportUI();
 }
 
 function renderStockReports() {

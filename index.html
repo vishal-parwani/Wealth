@@ -253,6 +253,7 @@
   <div class="tab-panel" id="tab-reports">
     <div class="tab-toolbar">
       <span class="tab-title">Stock Reports</span>
+      <button class="btn btn-primary btn-sm" id="btn-add-report">+ Add Report</button>
     </div>
     <div id="sr-content">
       <div class="empty-state">Loading…</div>
@@ -1096,6 +1097,31 @@
     <div class="modal-footer">
       <button class="btn" id="silver-sell-cancel">Cancel</button>
       <button class="btn btn-primary" id="silver-sell-confirm">Record Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- Stock Report Import Modal -->
+<div id="sr-import-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:540px;max-height:90vh;overflow-y:auto">
+    <h3 id="sr-imp-title">Add Report</h3>
+    <div class="modal-sub">Import a research report exported from a Claude chat (standalone HTML, template v1.1).</div>
+    <div class="sr-imp-tabs">
+      <button type="button" class="sr-imp-tab active" data-mode="upload">Upload .html</button>
+      <button type="button" class="sr-imp-tab" data-mode="paste">Paste HTML</button>
+    </div>
+    <div id="sr-imp-upload">
+      <div class="sr-drop" id="sr-drop">Drop a report file here or <strong>browse…</strong><br>
+        <small id="sr-drop-name">accepts a single .html file</small></div>
+      <input type="file" id="sr-file" accept=".html,.htm,text/html" style="display:none">
+    </div>
+    <div id="sr-imp-paste" style="display:none">
+      <textarea id="sr-paste" rows="7" placeholder="Paste the full report HTML here (from <!doctype html> to </html>)…" spellcheck="false"></textarea>
+    </div>
+    <div id="sr-imp-preview"></div>
+    <div class="modal-footer">
+      <button class="btn" id="sr-imp-cancel">Cancel</button>
+      <button class="btn btn-primary" id="sr-imp-save" disabled>Save report</button>
     </div>
   </div>
 </div>
