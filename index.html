@@ -65,6 +65,7 @@
     <button class="tab-btn" data-tab="realestate">Real Estate</button>
     <button class="tab-btn" data-tab="epf">EPF</button>
     <button class="tab-btn" data-tab="nps">NPS</button>
+    <button class="tab-btn" data-tab="reports">Stock Reports</button>
     <button class="tab-btn" data-tab="prices">Live Gold &amp; Silver Prices</button>
   </div>
 </div>
@@ -244,6 +245,16 @@
       <span class="tab-title">NPS</span>
     </div>
     <div id="nps-content">
+      <div class="empty-state">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ STOCK REPORTS TAB ══════════════ -->
+  <div class="tab-panel" id="tab-reports">
+    <div class="tab-toolbar">
+      <span class="tab-title">Stock Reports</span>
+    </div>
+    <div id="sr-content">
       <div class="empty-state">Loading…</div>
     </div>
   </div>
@@ -640,6 +651,7 @@
         <label class="module-toggle"><input type="checkbox" id="mod-realestate"> Real Estate</label>
         <label class="module-toggle"><input type="checkbox" id="mod-epf"> EPF</label>
         <label class="module-toggle"><input type="checkbox" id="mod-nps"> NPS</label>
+        <label class="module-toggle"><input type="checkbox" id="mod-reports"> Stock Reports</label>
       </div>
       <label class="module-toggle-watchlist">
         <input type="checkbox" id="mod-watchlist">
@@ -1110,6 +1122,7 @@
 <script src="watchlist.js"></script>
 <script src="portfolio.js"></script>
 <script src="price-tracker.js"></script>
+<script src="stock-reports.js"></script>
 <script src="summary.js"></script>
 <script src="export.js"></script>
 
@@ -1126,6 +1139,7 @@ const ALL_MODULES = [
   { key: 'realestate', label: 'Real Estate' },
   { key: 'epf',        label: 'EPF' },
   { key: 'nps',        label: 'NPS' },
+  { key: 'reports',    label: 'Stock Reports' },
 ];
 
 function applyActiveModules(modules) {
@@ -1204,6 +1218,7 @@ function closeSettingsPanel() {
     realestate: () => renderRealEstate(),
     epf:        () => renderEPF(),
     nps:        () => renderNPS(),
+    reports:    () => renderStockReports(),
     watchlist:  () => {}
   };
 
@@ -1254,7 +1269,7 @@ function closeSettingsPanel() {
     const list = document.getElementById('nav-drawer-list');
     // Build list from currently-visible tabs (in tab-bar DOM order)
     const items = [{ key:'summary', label:'Summary', icon:'◐' }];
-    const iconMap = { watchlist:'★', mf:'∫', stocks:'$', prices:'⟳', gold:'◉', silver:'◎', realestate:'⌂', epf:'⊟', nps:'⊞' };
+    const iconMap = { watchlist:'★', mf:'∫', stocks:'$', prices:'⟳', gold:'◉', silver:'◎', realestate:'⌂', epf:'⊟', nps:'⊞', reports:'▤' };
     document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
       const key = btn.dataset.tab;
       if (key === 'summary') return;
@@ -1302,6 +1317,7 @@ function closeSettingsPanel() {
       // await live gold/silver rates BEFORE the first summary render — this avoids
       // both the stale-rate flash and any corrective re-render (zero visible flicker).
       const firstPriceTick = initPriceTracker(allData);
+      initStockReports();
       initSummary();
 
       let savedModules = allData?.config?.activeModules;
