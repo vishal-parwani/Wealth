@@ -150,6 +150,231 @@ function srIsStale(r) {
   return Number.isFinite(t) && (Date.now() - t) / 86400000 > SR_STALE_DAYS;
 }
 
+// ── View state ──────────────────────────────────────────
+
+let SR_view = { q: '', sector: '', family: '', verifyOnly: false, sortKey: 'generatedAt', sortDir: -1, openId: null };
+
+const SR_FAMILY_LABEL = { buy: 'Buy', accumulate: 'Accumulate', watch: 'Watch / Hold', speculative: 'Speculative', avoid: 'Avoid' };
+
+function srFmtDate(iso) {
+  const t = new Date(iso);
+  return Number.isFinite(t.getTime())
+    ? t.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: '2-digit' })
+    : esc(String(iso));
+}
+
+function srFmtPrice(n) {
+  return Number.isFinite(n) ? n.toLocaleString('en-IN', { maximumFractionDigits: n < 100 ? 2 : 0 }) : '—';
+}
+
+function srRatingBadge(r) {
+  return `<span class="sr-badge sr-badge-${esc(r.ratingFamily || 'watch')}" title="${esc(r.rating)}">${esc(r.rating)}</span>`;
+}
+
+function srFlags(r) {
+  return (r.hasGaps ? ' <span class="sr-dot" title="Report contains approximate data — verify before acting"></span>' : '')
+       + (srIsStale(r) ? ' <span class="sr-stale" title="Generated over 3 months ago — consider re-importing a fresh report">stale</span>' : '');
+}
+
+// Live prices land in phase 6 (Yahoo proxy). Until then this returns null → "—".
+function srLivePrice(r) {
+  return null;
+}
+
+function srDriftCells(r) {
+  const live = srLivePrice(r);
+  const gen  = `<span class="sr-gen">${srFmtPrice(r.genPrice)}</span>`;
+  if (live == null) return { genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-na">—</span>`, drift: '<span class="sr-na">—</span>' };
+  const pct = ((live - r.genPrice) / r.genPrice) * 100;
+  const cls = pct >= 0 ? 'sr-up' : 'sr-dn';
+  return {
+    genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-now">${srFmtPrice(live)}</span>`,
+    drift: `<span class="${cls}">${pct >= 0 ? '+' : ''}${pct.toFixed(1)}%</span>`,
+  };
+}
+
+function srFiltered() {
+  const q = SR_view.q.trim().toLowerCase();
+  let rows = SR_reports.filter(r =>
+    (!q || r.ticker.toLowerCase().includes(q) || String(r.name).toLowerCase().includes(q)) &&
+    (!SR_view.sector || r.sector === SR_view.sector) &&
+    (!SR_view.family || r.ratingFamily === SR_view.family) &&
+    (!SR_view.verifyOnly || r.hasGaps)
+  );
+  const k = SR_view.sortKey, dir = SR_view.sortDir;
+  rows.sort((a, b) => {
+    const av = a[k], bv = b[k];
+    const c = typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av ?? '').localeCompare(String(bv ?? ''));
+    return c * dir;
+  });
+  return rows;
+}
+
+// ── List ────────────────────────────────────────────────
+
+function srDrawList(wrap) {
+  if (SR_lastErr) {
+    wrap.innerHTML = `<div class="empty-state">Couldn't load reports: ${esc(SR_lastErr)}<br>
+      <small>If this mentions permissions, the Firestore rule for the reports subcollection may be missing.</small></div>`;
+    return;
+  }
+  if (!SR_reports.length) {
+    wrap.innerHTML = `<div class="empty-state">No reports yet.<br>
+      <small>Generate a report in a Claude research chat (template v1.1), then click <strong>+ Add Report</strong> to import its HTML.</small></div>`;
+    return;
+  }
+
+  const sectors  = [...new Set(SR_reports.map(r => r.sector).filter(s => s && s !== '—'))].sort();
+  const families = [...new Set(SR_reports.map(r => r.ratingFamily))];
+  const rows = srFiltered();
+  const arrow = k => SR_view.sortKey === k ? (SR_view.sortDir > 0 ? ' ▲' : ' ▼') : '';
+
+  const desktopRows = rows.map(r => {
+    const d = srDriftCells(r);
+    return `<tr class="sr-row" data-id="${esc(r.id)}">
+      <td class="left"><span class="sr-tik">${esc(r.ticker)}</span></td>
+      <td class="left"><div>${esc(r.name)}</div><div class="sr-sub">${esc(r.sector)}</div></td>
+      <td class="left">${srRatingBadge(r)}</td>
+      <td>${d.genNow}</td>
+      <td>${d.drift}</td>
+      <td class="left">${srFmtDate(r.generatedAt)}${srFlags(r)}</td>
+    </tr>`;
+  }).join('');
+
+  const cards = rows.map(r => {
+    const d = srDriftCells(r);
+    return `<div class="sr-card sr-row" data-id="${esc(r.id)}">
+      <div class="sr-card-top"><span class="sr-tik">${esc(r.ticker)}${srFlags(r)}</span>${srRatingBadge(r)}</div>
+      <div class="sr-card-mid">
+        <span class="sr-sub">${esc(r.name)} · ${esc(r.sector)} · ${srFmtDate(r.generatedAt)}</span>
+        <span>${d.genNow} ${d.drift}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div class="sr-filterbar">
+      <input type="text" id="sr-q" placeholder="Search ticker or name…" autocomplete="off" spellcheck="false" value="${esc(SR_view.q)}">
+      <select id="sr-sector">
+        <option value="">All sectors</option>
+        ${sectors.map(s => `<option value="${esc(s)}" ${SR_view.sector === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+      </select>
+      <select id="sr-family">
+        <option value="">All ratings</option>
+        ${families.map(f => `<option value="${esc(f)}" ${SR_view.family === f ? 'selected' : ''}>${SR_FAMILY_LABEL[f] || esc(f)}</option>`).join('')}
+      </select>
+      <label class="sr-verify-tgl"><input type="checkbox" id="sr-verify" ${SR_view.verifyOnly ? 'checked' : ''}> <span class="sr-dot"></span> verify only</label>
+    </div>
+    ${rows.length ? `
+    <div class="portfolio-table-wrap sr-table-wrap">
+      <table class="portfolio-table">
+        <thead><tr>
+          <th class="left sr-sort" data-k="ticker">Ticker${arrow('ticker')}</th>
+          <th class="left sr-sort" data-k="name">Name / Sector${arrow('name')}</th>
+          <th class="left sr-sort" data-k="ratingFamily">Rating${arrow('ratingFamily')}</th>
+          <th class="sr-sort" data-k="genPrice">Gen → Now${arrow('genPrice')}</th>
+          <th>Drift</th>
+          <th class="left sr-sort" data-k="generatedAt">Report${arrow('generatedAt')}</th>
+        </tr></thead>
+        <tbody>${desktopRows}</tbody>
+      </table>
+    </div>
+    <div class="sr-cards">${cards}</div>`
+    : '<div class="empty-state">No reports match these filters.</div>'}
+  `;
+
+  // Filters re-render; search keeps focus + caret position
+  const qEl = document.getElementById('sr-q');
+  qEl.addEventListener('input', () => {
+    SR_view.q = qEl.value;
+    const pos = qEl.selectionStart;
+    srDrawList(wrap);
+    const q2 = document.getElementById('sr-q');
+    q2.focus(); q2.setSelectionRange(pos, pos);
+  });
+  document.getElementById('sr-sector').addEventListener('change', e => { SR_view.sector = e.target.value; srDrawList(wrap); });
+  document.getElementById('sr-family').addEventListener('change', e => { SR_view.family = e.target.value; srDrawList(wrap); });
+  document.getElementById('sr-verify').addEventListener('change', e => { SR_view.verifyOnly = e.target.checked; srDrawList(wrap); });
+  wrap.querySelectorAll('.sr-sort').forEach(th => th.addEventListener('click', () => {
+    const k = th.dataset.k;
+    if (SR_view.sortKey === k) SR_view.sortDir *= -1; else { SR_view.sortKey = k; SR_view.sortDir = k === 'generatedAt' ? -1 : 1; }
+    srDrawList(wrap);
+  }));
+  wrap.querySelectorAll('.sr-row').forEach(el => el.addEventListener('click', () => srOpenReport(el.dataset.id)));
+}
+
+// ── Viewer ──────────────────────────────────────────────
+
+function srOpenReport(id) {
+  const r = SR_reports.find(x => x.id === id);
+  if (!r) return;
+  // Mobile: open the report in its own tab (full-screen, own dark theme)
+  if (window.matchMedia('(max-width:700px)').matches) {
+    const url = URL.createObjectURL(new Blob([r.html], { type: 'text/html' }));
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    return;
+  }
+  SR_view.openId = id;
+  renderStockReports();
+}
+
+function srCloseViewer() {
+  SR_view.openId = null;
+  renderStockReports();
+}
+
+function srDrawViewer(wrap, r) {
+  const d = srDriftCells(r);
+  const minis = srFiltered().map(x => `
+    <div class="sr-mini ${x.id === r.id ? 'on' : ''}" data-id="${esc(x.id)}">
+      <div><span class="sr-tik">${esc(x.ticker)}</span><div class="sr-sub">${esc(x.sector)}</div></div>
+      <div class="sr-mini-drift">${srDriftCells(x).drift}</div>
+    </div>`).join('');
+
+  wrap.innerHTML = `
+    <div class="sr-split">
+      <div class="sr-split-list">${minis}</div>
+      <div class="sr-viewer">
+        <div class="sr-viewer-hd">
+          <button class="btn btn-sm" id="sr-back">← List</button>
+          <span class="sr-viewer-name">${esc(r.name)}</span>
+          ${srRatingBadge(r)}
+          <span class="sr-viewer-drift">gen ₹${srFmtPrice(r.genPrice)}<span class="sr-arrow">→</span>${d.drift}</span>
+          ${srFlags(r)}
+          <span class="sr-viewer-spacer"></span>
+          <button class="btn btn-sm" id="sr-newtab">Open in new tab ↗</button>
+        </div>
+        <iframe class="sr-frame" sandbox="allow-scripts allow-popups" title="Research report: ${esc(r.name)}"></iframe>
+        <div class="sr-note">
+          <label for="sr-note-input">My note <span class="sr-sub">(private — kept when the report is replaced)</span></label>
+          <textarea id="sr-note-input" rows="2" placeholder="e.g. wait for Q1 results before adding…">${esc(r.personalNote || '')}</textarea>
+          <button class="btn btn-sm" id="sr-note-save">Save note</button>
+        </div>
+      </div>
+    </div>`;
+
+  // srcdoc via property assignment — avoids HTML-escaping the whole report in the template
+  wrap.querySelector('.sr-frame').srcdoc = r.html;
+
+  document.getElementById('sr-back').addEventListener('click', srCloseViewer);
+  document.getElementById('sr-newtab').addEventListener('click', () => {
+    const url = URL.createObjectURL(new Blob([r.html], { type: 'text/html' }));
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  });
+  document.getElementById('sr-note-save').addEventListener('click', async () => {
+    const val = document.getElementById('sr-note-input').value.trim();
+    try {
+      await srUpdateReport(r.id, { personalNote: val });
+      toast('Note saved ✓');
+    } catch (e) { toast('Could not save note: ' + e.message); }
+  });
+  wrap.querySelectorAll('.sr-mini').forEach(el => el.addEventListener('click', () => {
+    if (el.dataset.id !== r.id) srOpenReport(el.dataset.id);
+  }));
+}
+
 // ── Public API ──────────────────────────────────────────
 
 function initStockReports() {
@@ -161,18 +386,8 @@ function renderStockReports() {
   const wrap = document.getElementById('sr-content');
   if (!wrap) return;
   const draw = () => {
-    if (SR_lastErr) {
-      wrap.innerHTML = `<div class="empty-state">Couldn't load reports: ${esc(SR_lastErr)}<br>
-        <small>If this mentions permissions, the Firestore rule for the reports subcollection may be missing.</small></div>`;
-      return;
-    }
-    if (!SR_reports.length) {
-      wrap.innerHTML = `<div class="empty-state">No reports yet.<br>
-        <small>Generate a report in a Claude research chat (template v1.1), then import its HTML here.</small></div>`;
-      return;
-    }
-    // Phase 3 placeholder list — full table UI lands in phase 4
-    wrap.innerHTML = `<div class="empty-state">${SR_reports.length} report(s) loaded — list UI coming in the next phase.</div>`;
+    const open = SR_view.openId && SR_reports.find(x => x.id === SR_view.openId);
+    if (open) srDrawViewer(wrap, open); else { SR_view.openId = null; srDrawList(wrap); }
   };
   if (SR_loaded) { draw(); return; }
   wrap.innerHTML = '<div class="empty-state">Loading…</div>';
