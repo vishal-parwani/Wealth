@@ -1126,6 +1126,41 @@
   </div>
 </div>
 
+<!-- Stock Report Price Override Modal -->
+<div id="sr-ov-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:440px">
+    <h3 id="sr-ov-title">Price override</h3>
+    <div class="modal-sub">Some SME tickers don't resolve on Yahoo/Google Finance. Point this report at a custom Yahoo symbol, or pin a manual price.</div>
+    <div class="sr-ov-modes">
+      <label><input type="radio" name="sr-ov-mode" value="symbol" checked> Custom Yahoo symbol</label>
+      <label><input type="radio" name="sr-ov-mode" value="manual"> Manual price</label>
+    </div>
+    <div id="sr-ov-symbol-row">
+      <label>Yahoo symbol</label>
+      <input type="text" id="sr-ov-symbol" placeholder="e.g. AIMTRON.NS or 543399.BO" autocomplete="off" spellcheck="false">
+      <div class="sr-ov-hint">Include the exchange suffix — <strong>.NS</strong> for NSE, <strong>.BO</strong> for BSE (BSE uses the numeric scrip code).</div>
+    </div>
+    <div id="sr-ov-manual-row" style="display:none">
+      <div class="modal-grid">
+        <div>
+          <label>Price (₹)</label>
+          <input type="number" id="sr-ov-price" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div>
+          <label>As of</label>
+          <input type="date" id="sr-ov-asof">
+        </div>
+      </div>
+      <div class="sr-ov-hint">A manual price shows an <strong>M</strong> marker and won't auto-refresh.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="sr-ov-clear" style="display:none;margin-right:auto">Clear override</button>
+      <button class="btn" id="sr-ov-cancel">Cancel</button>
+      <button class="btn btn-primary" id="sr-ov-save">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- (settings modal removed — merged into #settings-panel) -->
 
 <!-- ══════════════════════════════════════════════════════

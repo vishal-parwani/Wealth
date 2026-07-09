@@ -176,19 +176,79 @@ function srFlags(r) {
        + (srIsStale(r) ? ' <span class="sr-stale" title="Generated over 3 months ago — consider re-importing a fresh report">stale</span>' : '');
 }
 
-// Live prices land in phase 6 (Yahoo proxy). Until then this returns null → "—".
+// ── Live price feed (Yahoo Finance via the shared CF_PROXY) ──
+// SR_prices[id] = { price, changePct, asOf, manual? , na? }.  Never stored on
+// the report record — fetched at view time and compared against genPrice, so
+// the report itself stays a clean snapshot as authored.
+let SR_prices    = {};
+let SR_pricesAsOf = null;
+let SR_pricesLoading = false;
+
+// Fetch a single Yahoo symbol (e.g. "COFORGE.NS"). Returns {price, changePct} or null.
+async function srFetchQuote(symbol) {
+  try {
+    const yf = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=5d`;
+    const r  = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yf)}`, { cache: 'no-store' });
+    if (!r.ok) return null;
+    const meta = (await r.json())?.chart?.result?.[0]?.meta;
+    const price = meta?.regularMarketPrice;
+    if (!Number.isFinite(price)) return null;
+    const prev = meta.chartPreviousClose ?? meta.previousClose ?? null;
+    return { price, changePct: prev ? ((price - prev) / prev) * 100 : null };
+  } catch (e) { return null; }
+}
+
+// Resolve one report's live price, honouring a manual/symbol override.
+async function srFetchReportPrice(r) {
+  const ov = r.priceOverride;
+  if (ov && Number.isFinite(ov.price)) {
+    return { price: ov.price, changePct: null, asOf: ov.asOf || null, manual: true };
+  }
+  // Candidate Yahoo symbols: explicit override symbol wins; else ticker on its
+  // own exchange first, then the other Indian exchange as a fallback.
+  const candidates = ov && ov.symbol
+    ? [ov.symbol]
+    : (r.exchange === 'BSE' ? [`${r.ticker}.BO`, `${r.ticker}.NS`] : [`${r.ticker}.NS`, `${r.ticker}.BO`]);
+  for (const sym of candidates) {
+    const q = await srFetchQuote(sym);
+    if (q) return { ...q, asOf: Date.now(), symbol: sym };
+  }
+  return { na: true };
+}
+
+// Refresh prices for every loaded report, then re-render the current view.
+async function srRefreshPrices() {
+  if (SR_pricesLoading || !SR_reports.length) return;
+  SR_pricesLoading = true;
+  const btn = document.getElementById('sr-refresh-prices');
+  if (btn) { btn.disabled = true; btn.classList.add('spin'); }
+  try {
+    await Promise.all(SR_reports.map(async r => { SR_prices[r.id] = await srFetchReportPrice(r); }));
+    SR_pricesAsOf = Date.now();
+  } finally {
+    SR_pricesLoading = false;
+    renderStockReports();
+  }
+}
+
 function srLivePrice(r) {
-  return null;
+  const p = SR_prices[r.id];
+  return p && Number.isFinite(p.price) ? p.price : null;
 }
 
 function srDriftCells(r) {
-  const live = srLivePrice(r);
-  const gen  = `<span class="sr-gen">${srFmtPrice(r.genPrice)}</span>`;
-  if (live == null) return { genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-na">—</span>`, drift: '<span class="sr-na">—</span>' };
-  const pct = ((live - r.genPrice) / r.genPrice) * 100;
+  const p = SR_prices[r.id];
+  const gen = `<span class="sr-gen">${srFmtPrice(r.genPrice)}</span>`;
+  const naCell = { genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-na">n/a</span>`, drift: '<span class="sr-na">—</span>' };
+  if (!p) {  // not fetched yet
+    return { genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-na">…</span>`, drift: '<span class="sr-na">—</span>' };
+  }
+  if (!Number.isFinite(p.price)) return naCell;
+  const pct = ((p.price - r.genPrice) / r.genPrice) * 100;
   const cls = pct >= 0 ? 'sr-up' : 'sr-dn';
+  const nowMark = p.manual ? ' <span class="sr-manual" title="Manual price override">M</span>' : '';
   return {
-    genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-now">${srFmtPrice(live)}</span>`,
+    genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-now">${srFmtPrice(p.price)}</span>${nowMark}`,
     drift: `<span class="${cls}">${pct >= 0 ? '+' : ''}${pct.toFixed(1)}%</span>`,
   };
 }
@@ -238,13 +298,14 @@ function srDrawList(wrap) {
       <td>${d.genNow}</td>
       <td>${d.drift}</td>
       <td class="left">${srFmtDate(r.generatedAt)}${srFlags(r)}</td>
+      <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
     </tr>`;
   }).join('');
 
   const cards = rows.map(r => {
     const d = srDriftCells(r);
     return `<div class="sr-card sr-row" data-id="${esc(r.id)}">
-      <div class="sr-card-top"><span class="sr-tik">${esc(r.ticker)}${srFlags(r)}</span>${srRatingBadge(r)}</div>
+      <div class="sr-card-top"><span class="sr-tik">${esc(r.ticker)}${srFlags(r)}</span><span class="sr-card-right">${srRatingBadge(r)}<button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></span></div>
       <div class="sr-card-mid">
         <span class="sr-sub">${esc(r.name)} · ${esc(r.sector)} · ${srFmtDate(r.generatedAt)}</span>
         <span>${d.genNow} ${d.drift}</span>
@@ -264,6 +325,8 @@ function srDrawList(wrap) {
         ${families.map(f => `<option value="${esc(f)}" ${SR_view.family === f ? 'selected' : ''}>${SR_FAMILY_LABEL[f] || esc(f)}</option>`).join('')}
       </select>
       <label class="sr-verify-tgl"><input type="checkbox" id="sr-verify" ${SR_view.verifyOnly ? 'checked' : ''}> <span class="sr-dot"></span> verify only</label>
+      <button class="btn btn-sm sr-refresh-btn" id="sr-refresh-prices" title="Re-fetch live prices">⟳ Prices</button>
+      <span class="sr-asof">${SR_pricesAsOf ? 'as of ' + new Date(SR_pricesAsOf).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) + ' · Yahoo Finance (~15 min delay)' : ''}</span>
     </div>
     ${rows.length ? `
     <div class="portfolio-table-wrap sr-table-wrap">
@@ -275,6 +338,7 @@ function srDrawList(wrap) {
           <th class="sr-sort" data-k="genPrice">Gen → Now${arrow('genPrice')}</th>
           <th>Drift</th>
           <th class="left sr-sort" data-k="generatedAt">Report${arrow('generatedAt')}</th>
+          <th></th>
         </tr></thead>
         <tbody>${desktopRows}</tbody>
       </table>
@@ -300,7 +364,78 @@ function srDrawList(wrap) {
     if (SR_view.sortKey === k) SR_view.sortDir *= -1; else { SR_view.sortKey = k; SR_view.sortDir = k === 'generatedAt' ? -1 : 1; }
     srDrawList(wrap);
   }));
-  wrap.querySelectorAll('.sr-row').forEach(el => el.addEventListener('click', () => srOpenReport(el.dataset.id)));
+  document.getElementById('sr-refresh-prices').addEventListener('click', srRefreshPrices);
+  wrap.querySelectorAll('.sr-menu-btn').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation();
+    srShowRowMenu(b, b.dataset.id);
+  }));
+  // Row/card body opens the report; the ⋯ button (its own handler) does not
+  wrap.querySelectorAll('.sr-row').forEach(el => el.addEventListener('click', e => {
+    if (e.target.closest('.sr-menu-btn, .sr-rowmenu')) return;
+    srOpenReport(el.dataset.id);
+  }));
+
+  // Auto-fetch prices the first time the list is shown after a load
+  if (!SR_pricesAsOf && !SR_pricesLoading && SR_reports.length) srRefreshPrices();
+}
+
+// ── Row actions menu (⋯) ────────────────────────────────
+
+function srCloseRowMenu() {
+  document.querySelector('.sr-rowmenu')?.remove();
+  document.removeEventListener('click', srCloseRowMenu);
+}
+
+function srShowRowMenu(btn, id) {
+  const open = document.querySelector('.sr-rowmenu');
+  srCloseRowMenu();
+  if (open && open.dataset.id === id) return;   // toggle off
+  const r = SR_reports.find(x => x.id === id);
+  if (!r) return;
+  const menu = document.createElement('div');
+  menu.className = 'sr-rowmenu';
+  menu.dataset.id = id;
+  const hasOverride = !!r.priceOverride;
+  menu.innerHTML = `
+    <button data-act="open">Open report</button>
+    <button data-act="replace">Replace report<small>re-import updated HTML · keeps your note</small></button>
+    <button data-act="override">Price override…<small>${hasOverride ? 'currently set — edit or clear' : 'custom Yahoo symbol or manual price'}</small></button>
+    <button data-act="note">Edit note</button>
+    <button data-act="delete" class="danger">Delete</button>`;
+  document.body.appendChild(menu);
+  const b = btn.getBoundingClientRect();
+  menu.style.top  = `${window.scrollY + b.bottom + 4}px`;
+  menu.style.left = `${window.scrollX + Math.min(b.left, window.innerWidth - 230)}px`;
+  menu.addEventListener('click', e => {
+    const act = e.target.closest('button')?.dataset.act;
+    if (!act) return;
+    srCloseRowMenu();
+    if (act === 'open')     srOpenReport(id);
+    if (act === 'replace')  srOpenImportModal(r.ticker);
+    if (act === 'override') srOpenOverrideModal(id);
+    if (act === 'note')     srOpenNoteEditor(id);
+    if (act === 'delete')   srConfirmDelete(id);
+  });
+  // Defer so this same click doesn't immediately close it
+  setTimeout(() => document.addEventListener('click', srCloseRowMenu), 0);
+}
+
+// Lightweight note editor (row menu entry) — reuses the viewer note field when open
+function srOpenNoteEditor(id) {
+  const r = SR_reports.find(x => x.id === id);
+  if (!r) return;
+  const val = window.prompt(`Note for ${r.ticker} (private, kept on replace):`, r.personalNote || '');
+  if (val === null) return;
+  srUpdateReport(id, { personalNote: val.trim() }).then(() => { toast('Note saved ✓'); renderStockReports(); })
+    .catch(e => toast('Could not save note: ' + e.message));
+}
+
+function srConfirmDelete(id) {
+  const r = SR_reports.find(x => x.id === id);
+  if (!r) return;
+  if (!window.confirm(`Delete the ${r.ticker} report? This removes the stored HTML and your note.`)) return;
+  srDeleteReport(id).then(() => { toast('Report deleted'); delete SR_prices[id]; if (SR_view.openId === id) SR_view.openId = null; renderStockReports(); })
+    .catch(e => toast('Delete failed: ' + e.message));
 }
 
 // ── Viewer ──────────────────────────────────────────────
@@ -502,12 +637,78 @@ function srInitImportUI() {
   });
 }
 
+// ── Price override modal (SME fallback) ─────────────────
+
+let SR_ovId = null;
+
+function srOpenOverrideModal(id) {
+  const r = SR_reports.find(x => x.id === id);
+  if (!r) return;
+  SR_ovId = id;
+  const ov = r.priceOverride || {};
+  const modal = document.getElementById('sr-ov-modal');
+  document.getElementById('sr-ov-title').textContent = `Price override — ${r.ticker}`;
+  const mode = Number.isFinite(ov.price) ? 'manual' : 'symbol';
+  modal.querySelector(`input[name="sr-ov-mode"][value="${mode}"]`).checked = true;
+  document.getElementById('sr-ov-symbol').value = ov.symbol || '';
+  document.getElementById('sr-ov-price').value  = Number.isFinite(ov.price) ? ov.price : '';
+  document.getElementById('sr-ov-asof').value   = ov.asOf && /^\d{4}-\d{2}-\d{2}$/.test(ov.asOf) ? ov.asOf : new Date().toISOString().slice(0, 10);
+  document.getElementById('sr-ov-clear').style.display = r.priceOverride ? '' : 'none';
+  srOvSyncMode();
+  modal.style.display = 'flex';
+}
+
+function srOvSyncMode() {
+  const manual = document.querySelector('input[name="sr-ov-mode"]:checked')?.value === 'manual';
+  document.getElementById('sr-ov-symbol-row').style.display = manual ? 'none' : '';
+  document.getElementById('sr-ov-manual-row').style.display = manual ? '' : 'none';
+}
+
+function srInitOverrideUI() {
+  const modal = document.getElementById('sr-ov-modal');
+  if (!modal) return;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+  document.getElementById('sr-ov-cancel').addEventListener('click', () => modal.style.display = 'none');
+  modal.querySelectorAll('input[name="sr-ov-mode"]').forEach(el => el.addEventListener('change', srOvSyncMode));
+
+  document.getElementById('sr-ov-clear').addEventListener('click', async () => {
+    if (!SR_ovId) return;
+    await srUpdateReport(SR_ovId, { priceOverride: null });
+    modal.style.display = 'none';
+    toast('Override cleared');
+    delete SR_prices[SR_ovId];
+    SR_prices[SR_ovId] = await srFetchReportPrice(SR_reports.find(r => r.id === SR_ovId));
+    renderStockReports();
+  });
+
+  document.getElementById('sr-ov-save').addEventListener('click', async () => {
+    if (!SR_ovId) return;
+    const manual = document.querySelector('input[name="sr-ov-mode"]:checked').value === 'manual';
+    let override;
+    if (manual) {
+      const price = parseFloat(document.getElementById('sr-ov-price').value);
+      if (!Number.isFinite(price) || price <= 0) { toast('Enter a valid price'); return; }
+      override = { price, asOf: document.getElementById('sr-ov-asof').value || null };
+    } else {
+      const symbol = document.getElementById('sr-ov-symbol').value.trim();
+      if (!symbol) { toast('Enter a Yahoo symbol (e.g. AIMTRON.NS)'); return; }
+      override = { symbol };
+    }
+    await srUpdateReport(SR_ovId, { priceOverride: override });
+    modal.style.display = 'none';
+    SR_prices[SR_ovId] = await srFetchReportPrice(SR_reports.find(r => r.id === SR_ovId));
+    toast('Override saved ✓');
+    renderStockReports();
+  });
+}
+
 // ── Public API ──────────────────────────────────────────
 
 function initStockReports() {
   // Data loads lazily on first tab open (keeps boot fast); nothing to hydrate
   // from the main dashboard doc — reports live in their own subcollection.
   srInitImportUI();
+  srInitOverrideUI();
 }
 
 function renderStockReports() {
