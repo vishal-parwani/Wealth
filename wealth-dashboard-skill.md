@@ -31,6 +31,7 @@ A personal wealth tracking dashboard for Vishal Parwani.
 | `watchlist.js` | Watchlist tab — MF + stock watchlist with return columns |
 | `nse-stocks.js` | Static Nifty 500 list `{ symbol, name, sector }` — search source for stock add |
 | `export.js` | Excel export via SheetJS (all asset classes → multi-sheet workbook) |
+| `stock-reports.js` | Stock Reports tab — imports/stores research-report HTML (v1.1 template) in a Firestore subcollection (`dashboards/{email}/reports`), parses its `<meta>` tags, lists/filters/opens them, live price + drift via the Yahoo proxy, SME price override, Stocks-tab cross-link. See `STOCK-REPORTS.md`. |
 | `utils.js` | Shared: `formatINR()`, `formatINRFull()`, `toast()`, `computeCAGR()`, `computeXIRR()`, proxy constants |
 
 ---

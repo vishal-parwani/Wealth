@@ -906,3 +906,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .sr-ov-modes label{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--text);cursor:pointer}
 .sr-ov-modes input{accent-color:var(--accent)}
 .sr-ov-hint{font-size:.72rem;color:var(--text3);margin-top:5px;line-height:1.4}
+
+/* cross-link pill (Stocks tab → research report) */
+.sr-xlink{display:inline-block;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:20px;cursor:pointer;vertical-align:middle;white-space:nowrap}
+.sr-xlink:hover{filter:brightness(.96);text-decoration:underline}

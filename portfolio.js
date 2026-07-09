@@ -596,6 +596,14 @@ async function renderStocks() {
   const el = document.getElementById('stocks-content');
   if (!el) return;
 
+  // Cross-link: ensure research reports are loaded once so the "research" pill
+  // can appear next to holdings we have a report on (re-renders when ready).
+  if (typeof srEnsureReportsLoaded === 'function') {
+    srEnsureReportsLoaded(() => {
+      if (document.getElementById('tab-stocks')?.classList.contains('active')) renderStocks();
+    });
+  }
+
   // Fetch prices
   await Promise.all(P.stocks.map(s=>fetchStockPrice(s.symbol,s.exchange)));
 
@@ -619,7 +627,7 @@ async function renderStocks() {
     if (current) totalCurrent += current;
     return `<tr>
       <td class="left fund-num">${i+1}</td>
-      <td class="left td-name"><strong>${esc(s.name)}</strong></td>
+      <td class="left td-name"><strong>${esc(s.name)}</strong>${typeof srCrossLinkBadge === 'function' ? srCrossLinkBadge(s.symbol) : ''}</td>
       <td data-label="Symbol"><span class="ticker-chip">${esc(s.symbol)}.${esc(s.exchange)}</span></td>
       <td data-label="Qty">${qty}</td>
       <td data-label="Avg Cost">${formatINR(avg, false)}</td>

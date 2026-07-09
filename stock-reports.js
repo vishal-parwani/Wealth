@@ -702,6 +702,41 @@ function srInitOverrideUI() {
   });
 }
 
+// ── Cross-link into the Stocks tab ──────────────────────
+// Lets the Stocks holdings table show a "research" pill for any ticker we
+// hold a report on, linking straight into the viewer. Kept dependency-free:
+// portfolio.js only calls these if they exist.
+
+let SR_ensureStarted = false;
+
+// Load reports once in the background (e.g. when Stocks renders before the
+// Reports tab was ever opened), then run onLoaded exactly once.
+function srEnsureReportsLoaded(onLoaded) {
+  if (SR_loaded || SR_ensureStarted) return;
+  SR_ensureStarted = true;
+  srLoadReports().then(() => { if (onLoaded) onLoaded(); });
+}
+
+function srReportFor(symbol) {
+  if (!symbol) return null;
+  const t = String(symbol).toUpperCase();
+  return SR_reports.find(r => r.ticker === t) || null;
+}
+
+// Small pill for the Stocks table; '' when no report exists for that symbol.
+function srCrossLinkBadge(symbol) {
+  const r = srReportFor(symbol);
+  if (!r) return '';
+  return ` <span class="sr-xlink sr-badge-${esc(r.ratingFamily)}" onclick="event.stopPropagation();srGotoReport('${esc(r.id)}')" title="Open research report — ${esc(r.rating)}">▤ research</span>`;
+}
+
+// Switch to the Reports tab and open a specific report.
+function srGotoReport(id) {
+  if (typeof window._switchTab === 'function') window._switchTab('reports');
+  SR_view.openId = id;
+  renderStockReports();
+}
+
 // ── Public API ──────────────────────────────────────────
 
 function initStockReports() {
