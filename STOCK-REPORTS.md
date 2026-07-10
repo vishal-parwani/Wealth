@@ -1,9 +1,53 @@
-# Stock Reports tab
+# Research tab (Stocks + Funds)
 
-A library + viewer for equity research reports. Reports are **authored elsewhere**
-(in a Claude chat, using the v1.1 template) and exported as standalone HTML. This tab
-stores them, lists them, renders them, and keeps a live price next to each one. No
-LLM call, no API key — the only external call is a stock price lookup.
+A library + viewer for research reports, split into two sub-tabs: **Stocks** and
+**Funds**. Reports are **authored elsewhere** (in a Claude chat, using the v1.1
+template) and exported as standalone HTML. This tab stores them, lists them, renders
+them, and keeps live market data next to each one. No LLM call, no API key — the only
+external calls are public price/NAV lookups.
+
+## Fund / NFO reports
+
+Fund reports evaluate a scheme — especially an **NFO**, where the fund itself has no
+track record yet, so the signal is the **fund manager's history**. A fund report carries
+`<meta name="type" content="fund">` plus fund meta (below). The app then:
+
+- Pulls **live trailing returns (1/3/5Y CAGR)** for the manager's existing funds from
+  `api.mfapi.in` (no key) — shown as a live panel in the viewer and a "Mgr track" column
+  in the list. This is the manager's performance history, always fresh.
+- Shows the fund's **live NAV vs its ₹10 launch** once it has an AMFI scheme code; until
+  then the row shows the **NFO status** (open / closes-date).
+- Reuses the same rating families with fund labels: Subscribe (buy) · SIP/Accumulate ·
+  Wait-for-track-record (watch) · Thematic (speculative) · Avoid.
+
+### Fund report meta tags
+
+```html
+<meta name="type"     content="fund">
+<meta name="ticker"   content="ICICIMAAFOF">     <!-- id slug; else derived from name -->
+<meta name="name"     content="ICICI Prudential Multi-Asset Active FoF">
+<meta name="amc"      content="ICICI Prudential Mutual Fund">
+<meta name="category" content="Multi-Asset FoF (Active)">
+<meta name="manager"  content="Dharmesh Kakkad, Manish Banthia, …">
+<meta name="rating"   content="Accumulate · SIP (FoF)">
+<meta name="generated" content="2026-07-10">
+<meta name="price"    content="10">              <!-- NFO NAV -->
+<meta name="scheme"   content="">                <!-- AMFI code for live NAV; empty for an NFO -->
+<meta name="nfoclose" content="2026-07-14">
+<meta name="benchmark" content="55% Nifty 200 TRI + 35% Debt + 7% Gold + 3% Silver">
+<!-- pipe-list of the manager's existing funds → live returns; "AMFIcode:Label" -->
+<meta name="managerfunds" content="120334:ICICI Pru Multi-Asset|120586:ICICI Pru Large Cap|…">
+```
+
+Find AMFI scheme codes at `https://api.mfapi.in/mf/search?q=<fund name>`. Once the NFO
+lists and gets its own code, add it to `scheme` and **Replace** the report to switch the
+row from NFO-status to live NAV.
+
+---
+
+## Stock reports
+
+Reports are authored elsewhere and keep a live price next to each one via a stock price lookup.
 
 ## What it does
 

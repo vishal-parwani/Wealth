@@ -27,15 +27,28 @@ function srColl() {
 
 // ── Rating → family (drives badge colour) ───────────────
 // Order matters: first match wins. "avoid"/"sell" checked before "buy"
-// so "Avoid — do not buy" lands in the avoid family.
+// so "Avoid — do not buy" lands in the avoid family. Fund verbs
+// (subscribe/sip/wait/thematic) map onto the same five families.
 function srRatingFamily(rating) {
   const r = String(rating || '').toLowerCase();
-  if (/\bavoid\b|\bsell\b|\bexit\b/.test(r))                return 'avoid';
-  if (/speculat/.test(r))                                   return 'speculative';
-  if (/\bwatch\b|\bhold\b|priced.for.perfection|neutral/.test(r)) return 'watch';
-  if (/accumulate/.test(r))                                 return 'accumulate';
-  if (/\bbuy\b/.test(r))                                    return 'buy';
+  if (/\bavoid\b|\bsell\b|\bexit\b/.test(r))                          return 'avoid';
+  if (/speculat|thematic/.test(r))                                    return 'speculative';
+  if (/\bwatch\b|\bhold\b|priced.for.perfection|neutral|\bwait\b/.test(r)) return 'watch';
+  if (/accumulate|\bsip\b/.test(r))                                   return 'accumulate';
+  if (/\bbuy\b|subscribe/.test(r))                                    return 'buy';
   return 'watch';
+}
+
+function srSlug(s) {
+  return String(s || '').replace(/[^a-z0-9]+/gi, '').toUpperCase().slice(0, 28) || 'FUND';
+}
+
+// Parse the pipe-separated managerfunds meta: "code:Name|code:Name" → [{code,name}]
+function srParseManagerFunds(raw) {
+  return String(raw || '').split('|').map(s => s.trim()).filter(Boolean).map(s => {
+    const i = s.indexOf(':');
+    return i < 0 ? { code: s.trim(), name: s.trim() } : { code: s.slice(0, i).trim(), name: s.slice(i + 1).trim() };
+  }).filter(x => x.code);
 }
 
 // ── Parse + validate a v1.1 report HTML ─────────────────
@@ -51,42 +64,60 @@ function srParseReportHtml(html) {
   }
   const meta = name => doc.querySelector(`meta[name="${name}"]`)?.getAttribute('content')?.trim() || '';
 
-  const ticker = meta('ticker').toUpperCase();
+  const type   = (meta('type') || 'stock').toLowerCase();
+  const isFund = type === 'fund';
+
+  // Name: prefer explicit meta, else <title>, else first <h1>
+  const name = meta('name') || meta('company')
+    || (doc.querySelector('title')?.textContent || '').split(/[|—–-]/)[0].trim()
+    || doc.querySelector('h1')?.textContent?.trim()
+    || meta('ticker').toUpperCase() || 'Untitled';
+
+  // Identifier: stocks require a ticker; funds accept ticker or slugified name.
+  const ticker = (meta('ticker').toUpperCase()) || (isFund ? srSlug(name) : '');
   if (!ticker) return { ok: false, error: 'Not a v1.1 research report — missing <meta name="ticker">.' };
 
   const generated = meta('generated');
   const priceRaw  = meta('price').replace(/[₹,\s]/g, '');
   const genPrice  = parseFloat(priceRaw);
   if (!generated) return { ok: false, error: 'Report is missing <meta name="generated"> (generation date).' };
-  if (!Number.isFinite(genPrice)) return { ok: false, error: 'Report is missing a numeric <meta name="price">.' };
-
-  // Company name: prefer explicit meta, else <title>, else first <h1>
-  const name = meta('name') || meta('company')
-    || (doc.querySelector('title')?.textContent || '').split(/[|—–-]/)[0].trim()
-    || doc.querySelector('h1')?.textContent?.trim()
-    || ticker;
+  if (!Number.isFinite(genPrice)) {
+    return { ok: false, error: isFund
+      ? 'Fund report is missing a numeric <meta name="price"> (NFO NAV, e.g. 10).'
+      : 'Report is missing a numeric <meta name="price">.' };
+  }
 
   const rating = meta('rating') || 'Unrated';
-  // hasGaps: explicit meta wins; else detect the template's verify markers
   const gapsMeta = meta('hasgaps') || meta('has-gaps') || meta('gaps');
   const hasGaps  = gapsMeta
     ? /^(true|yes|1)$/i.test(gapsMeta)
     : /data-verify|class="verify|⚠ verify/i.test(html);
 
-  return {
-    ok: true,
-    meta: {
-      ticker,
-      exchange: (meta('exchange') || 'NSE').toUpperCase(),
-      name,
-      sector: meta('sector') || '—',
-      rating,
-      ratingFamily: srRatingFamily(rating),
-      genPrice,
-      generatedAt: generated,       // ISO yyyy-mm-dd as authored
-      hasGaps,
-    },
+  const base = {
+    type,
+    ticker,
+    exchange: (meta('exchange') || 'NSE').toUpperCase(),
+    name,
+    sector: meta('category') || meta('sector') || '—',   // category is the fund's "sector"
+    rating,
+    ratingFamily: srRatingFamily(rating),
+    genPrice,
+    generatedAt: generated,       // ISO yyyy-mm-dd as authored
+    hasGaps,
   };
+
+  if (isFund) {
+    Object.assign(base, {
+      amc:          meta('amc') || '—',
+      manager:      meta('manager') || '—',
+      scheme:       meta('scheme') || '',            // AMFI code for live NAV ('' for an NFO)
+      benchmark:    meta('benchmark') || '',
+      nfoClose:     meta('nfoclose') || meta('nfo-close') || '',
+      managerFunds: srParseManagerFunds(meta('managerfunds') || meta('manager-funds')),
+    });
+  }
+
+  return { ok: true, meta: base };
 }
 
 // ── CRUD ────────────────────────────────────────────────
@@ -94,7 +125,7 @@ function srParseReportHtml(html) {
 async function srLoadReports() {
   try {
     const snap = await srColl().get();
-    SR_reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    SR_reports = snap.docs.map(d => ({ id: d.id, type: 'stock', ...d.data() }));  // legacy records = stock
     // Newest generated first
     SR_reports.sort((a, b) => String(b.generatedAt).localeCompare(String(a.generatedAt)));
     SR_loaded  = true;
@@ -152,7 +183,7 @@ function srIsStale(r) {
 
 // ── View state ──────────────────────────────────────────
 
-let SR_view = { q: '', sector: '', family: '', verifyOnly: false, sortKey: 'generatedAt', sortDir: -1, openId: null };
+let SR_view = { kind: 'stock', q: '', sector: '', family: '', verifyOnly: false, sortKey: 'generatedAt', sortDir: -1, openId: null };
 
 const SR_FAMILY_LABEL = { buy: 'Buy', accumulate: 'Accumulate', watch: 'Watch / Hold', speculative: 'Speculative', avoid: 'Avoid' };
 
@@ -216,19 +247,106 @@ async function srFetchReportPrice(r) {
   return { na: true };
 }
 
-// Refresh prices for every loaded report, then re-render the current view.
+// ── Fund live data (NAV + manager track record via mfapi.in, no key) ──
+// SR_navHist caches each AMFI scheme's full NAV history so a manager's funds
+// are fetched once and reused across reports.
+let SR_navHist = {};
+
+async function srFetchNavHistory(code) {
+  if (!code) return null;
+  if (SR_navHist[code]) return SR_navHist[code];
+  try {
+    const r = await fetch(`https://api.mfapi.in/mf/${encodeURIComponent(code)}`, { cache: 'no-store' });
+    if (!r.ok) return null;
+    const d = await r.json();
+    const pts = (d.data || [])
+      .map(x => [new Date(x.date.split('-').reverse().join('-')), parseFloat(x.nav)])
+      .filter(p => p[1] > 0 && !isNaN(p[0]))
+      .sort((a, b) => a[0] - b[0]);
+    if (!pts.length) return null;
+    SR_navHist[code] = { pts, name: d?.meta?.scheme_name || null };
+    return SR_navHist[code];
+  } catch (e) { return null; }
+}
+
+// Trailing CAGR (% p.a.) over `years`, using the closest NAV on/before the target date.
+function srCagr(pts, years) {
+  if (!pts || !pts.length) return null;
+  const [ld, ln] = pts[pts.length - 1];
+  const target = new Date(ld.getTime() - years * 365.25 * 86400000);
+  let base = null;
+  for (let i = pts.length - 1; i >= 0; i--) { if (pts[i][0] <= target) { base = pts[i]; break; } }
+  if (!base) return null;
+  const yrs = (ld - base[0]) / (365.25 * 86400000);
+  if (yrs < years * 0.6) return null;   // not enough history for this window
+  return (Math.pow(ln / base[1], 1 / yrs) - 1) * 100;
+}
+
+// Resolve a fund report's live data: current NAV (if the fund has an AMFI code
+// yet) + trailing returns for each of the manager's existing funds.
+async function srFetchFundData(r) {
+  let nav = null, navAsOf = null;
+  if (r.scheme) {
+    const h = await srFetchNavHistory(r.scheme);
+    if (h) { nav = h.pts[h.pts.length - 1][1]; navAsOf = h.pts[h.pts.length - 1][0].getTime(); }
+  }
+  const mgr = [];
+  for (const mf of (r.managerFunds || [])) {
+    const h = await srFetchNavHistory(mf.code);
+    const pts = h?.pts || null;
+    mgr.push({
+      name: mf.name || h?.name || mf.code, code: mf.code,
+      r1: srCagr(pts, 1), r3: srCagr(pts, 3), r5: srCagr(pts, 5),
+      nav: pts ? pts[pts.length - 1][1] : null,
+    });
+  }
+  const avg = win => {
+    const xs = mgr.map(m => m[win]).filter(Number.isFinite);
+    return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
+  };
+  return { fund: true, nav, navAsOf, mgr, avg5: avg('r5'), avg3: avg('r3'), na: !r.scheme && !mgr.length };
+}
+
+// Refresh live data for every loaded report (stocks → price, funds → NAV/returns).
 async function srRefreshPrices() {
   if (SR_pricesLoading || !SR_reports.length) return;
   SR_pricesLoading = true;
   const btn = document.getElementById('sr-refresh-prices');
   if (btn) { btn.disabled = true; btn.classList.add('spin'); }
   try {
-    await Promise.all(SR_reports.map(async r => { SR_prices[r.id] = await srFetchReportPrice(r); }));
+    await Promise.all(SR_reports.map(async r => {
+      SR_prices[r.id] = (r.type === 'fund') ? await srFetchFundData(r) : await srFetchReportPrice(r);
+    }));
     SR_pricesAsOf = Date.now();
   } finally {
     SR_pricesLoading = false;
     renderStockReports();
   }
+}
+
+// The manager-track signal for a fund row: avg 5Y (fallback 3Y) across manager funds.
+function srMgrTrackCell(r) {
+  const p = SR_prices[r.id];
+  if (!p) return '<span class="sr-na">…</span>';
+  const v = Number.isFinite(p.avg5) ? p.avg5 : p.avg3;
+  const win = Number.isFinite(p.avg5) ? '5Y' : '3Y';
+  if (!Number.isFinite(v)) return '<span class="sr-na">—</span>';
+  return `<span class="${v >= 0 ? 'sr-up' : 'sr-dn'}">${v >= 0 ? '+' : ''}${v.toFixed(1)}%</span> <span class="sr-sub">${win} avg</span>`;
+}
+
+// The status/NAV cell for a fund row.
+function srFundStatusCell(r) {
+  const p = SR_prices[r.id];
+  if (r.scheme && p && Number.isFinite(p.nav)) {
+    const drift = ((p.nav - r.genPrice) / r.genPrice) * 100;
+    return `<span class="sr-now">₹${p.nav.toFixed(2)}</span> <span class="${drift >= 0 ? 'sr-up' : 'sr-dn'}">${drift >= 0 ? '+' : ''}${drift.toFixed(1)}%</span>`;
+  }
+  if (r.nfoClose) {
+    const cd = new Date(r.nfoClose);
+    const open = Number.isFinite(cd.getTime()) && cd >= new Date(new Date().toDateString());
+    return `<span class="sr-nfo${open ? '' : ' closed'}">${open ? 'NFO · closes ' + srFmtDate(r.nfoClose) : 'NFO closed'}</span>`;
+  }
+  return '<span class="sr-nfo">NFO</span>';
 }
 
 function srLivePrice(r) {
@@ -256,7 +374,9 @@ function srDriftCells(r) {
 function srFiltered() {
   const q = SR_view.q.trim().toLowerCase();
   let rows = SR_reports.filter(r =>
-    (!q || r.ticker.toLowerCase().includes(q) || String(r.name).toLowerCase().includes(q)) &&
+    ((r.type || 'stock') === SR_view.kind) &&
+    (!q || r.ticker.toLowerCase().includes(q) || String(r.name).toLowerCase().includes(q)
+        || String(r.manager || '').toLowerCase().includes(q) || String(r.amc || '').toLowerCase().includes(q)) &&
     (!SR_view.sector || r.sector === SR_view.sector) &&
     (!SR_view.family || r.ratingFamily === SR_view.family) &&
     (!SR_view.verifyOnly || r.hasGaps)
@@ -273,63 +393,70 @@ function srFiltered() {
 // ── List ────────────────────────────────────────────────
 
 function srDrawList(wrap) {
+  const isFund = SR_view.kind === 'fund';
+  const subtabs = `
+    <div class="sr-subtabs">
+      <button class="sr-sub ${!isFund ? 'on' : ''}" data-kind="stock">Stocks</button>
+      <button class="sr-sub ${isFund ? 'on' : ''}" data-kind="fund">Funds</button>
+    </div>`;
+  const wireSubtabs = () => wrap.querySelectorAll('.sr-sub').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.kind === SR_view.kind) return;
+    SR_view.kind = b.dataset.kind;
+    SR_view.q = ''; SR_view.sector = ''; SR_view.family = ''; SR_view.verifyOnly = false;
+    SR_view.sortKey = 'generatedAt'; SR_view.sortDir = -1;
+    srDrawList(wrap);
+  }));
+  const addLabel = document.getElementById('btn-add-report');
+  if (addLabel) addLabel.textContent = isFund ? '+ Add Fund Report' : '+ Add Stock Report';
+
   if (SR_lastErr) {
-    wrap.innerHTML = `<div class="empty-state">Couldn't load reports: ${esc(SR_lastErr)}<br>
+    wrap.innerHTML = subtabs + `<div class="empty-state">Couldn't load reports: ${esc(SR_lastErr)}<br>
       <small>If this mentions permissions, the Firestore rule for the reports subcollection may be missing.</small></div>`;
-    return;
-  }
-  if (!SR_reports.length) {
-    wrap.innerHTML = `<div class="empty-state">No reports yet.<br>
-      <small>Generate a report in a Claude research chat (template v1.1), then click <strong>+ Add Report</strong> to import its HTML.</small></div>`;
+    wireSubtabs();
     return;
   }
 
-  const sectors  = [...new Set(SR_reports.map(r => r.sector).filter(s => s && s !== '—'))].sort();
-  const families = [...new Set(SR_reports.map(r => r.ratingFamily))];
+  const inKind = SR_reports.filter(r => (r.type || 'stock') === SR_view.kind);
+  const sectors  = [...new Set(inKind.map(r => r.sector).filter(s => s && s !== '—'))].sort();
+  const families = [...new Set(inKind.map(r => r.ratingFamily))];
   const rows = srFiltered();
   const arrow = k => SR_view.sortKey === k ? (SR_view.sortDir > 0 ? ' ▲' : ' ▼') : '';
 
-  const desktopRows = rows.map(r => {
-    const d = srDriftCells(r);
-    return `<tr class="sr-row" data-id="${esc(r.id)}">
-      <td class="left"><span class="sr-tik">${esc(r.ticker)}</span></td>
-      <td class="left"><div>${esc(r.name)}</div><div class="sr-sub">${esc(r.sector)}</div></td>
-      <td class="left">${srRatingBadge(r)}</td>
-      <td>${d.genNow}</td>
-      <td>${d.drift}</td>
-      <td class="left">${srFmtDate(r.generatedAt)}${srFlags(r)}</td>
-      <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
-    </tr>`;
-  }).join('');
-
-  const cards = rows.map(r => {
-    const d = srDriftCells(r);
-    return `<div class="sr-card sr-row" data-id="${esc(r.id)}">
-      <div class="sr-card-top"><span class="sr-tik">${esc(r.ticker)}${srFlags(r)}</span><span class="sr-card-right">${srRatingBadge(r)}<button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></span></div>
-      <div class="sr-card-mid">
-        <span class="sr-sub">${esc(r.name)} · ${esc(r.sector)} · ${srFmtDate(r.generatedAt)}</span>
-        <span>${d.genNow} ${d.drift}</span>
-      </div>
-    </div>`;
-  }).join('');
-
-  wrap.innerHTML = `
-    <div class="sr-filterbar">
-      <input type="text" id="sr-q" placeholder="Search ticker or name…" autocomplete="off" spellcheck="false" value="${esc(SR_view.q)}">
-      <select id="sr-sector">
-        <option value="">All sectors</option>
-        ${sectors.map(s => `<option value="${esc(s)}" ${SR_view.sector === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
-      </select>
-      <select id="sr-family">
-        <option value="">All ratings</option>
-        ${families.map(f => `<option value="${esc(f)}" ${SR_view.family === f ? 'selected' : ''}>${SR_FAMILY_LABEL[f] || esc(f)}</option>`).join('')}
-      </select>
-      <label class="sr-verify-tgl"><input type="checkbox" id="sr-verify" ${SR_view.verifyOnly ? 'checked' : ''}> <span class="sr-dot"></span> verify only</label>
-      <button class="btn btn-sm sr-refresh-btn" id="sr-refresh-prices" title="Re-fetch live prices">⟳ Prices</button>
-      <span class="sr-asof">${SR_pricesAsOf ? 'as of ' + new Date(SR_pricesAsOf).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) + ' · Yahoo Finance (~15 min delay)' : ''}</span>
-    </div>
-    ${rows.length ? `
-    <div class="portfolio-table-wrap sr-table-wrap">
+  let tableHtml, cardsHtml;
+  if (isFund) {
+    tableHtml = `
+      <table class="portfolio-table">
+        <thead><tr>
+          <th class="left sr-sort" data-k="name">Fund / AMC${arrow('name')}</th>
+          <th class="left sr-sort" data-k="sector">Category${arrow('sector')}</th>
+          <th class="left">Manager</th>
+          <th class="left sr-sort" data-k="ratingFamily">Rating${arrow('ratingFamily')}</th>
+          <th class="left">Mgr track*</th>
+          <th class="left">Status / NAV</th>
+          <th></th>
+        </tr></thead>
+        <tbody>${rows.map(r => `
+          <tr class="sr-row" data-id="${esc(r.id)}">
+            <td class="left"><div class="sr-tik">${esc(r.name)}</div><div class="sr-sub">${esc(r.amc || '')}</div></td>
+            <td class="left">${esc(r.sector)}</td>
+            <td class="left">${esc(r.manager || '—')}</td>
+            <td class="left">${srRatingBadge(r)}</td>
+            <td class="left">${srMgrTrackCell(r)}</td>
+            <td class="left">${srFundStatusCell(r)}${srFlags(r)}</td>
+            <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
+          </tr>`).join('')}</tbody>
+      </table>`;
+    cardsHtml = rows.map(r => `
+      <div class="sr-card sr-row" data-id="${esc(r.id)}">
+        <div class="sr-card-top"><span class="sr-tik">${esc(r.name)}${srFlags(r)}</span><span class="sr-card-right">${srRatingBadge(r)}<button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></span></div>
+        <div class="sr-card-mid">
+          <span class="sr-sub">${esc(r.amc || '')} · ${esc(r.sector)} · ${esc(r.manager || '')}</span>
+          <span>${srFundStatusCell(r)}</span>
+        </div>
+        <div class="sr-card-mid"><span class="sr-sub">Mgr track</span><span>${srMgrTrackCell(r)}</span></div>
+      </div>`).join('');
+  } else {
+    tableHtml = `
       <table class="portfolio-table">
         <thead><tr>
           <th class="left sr-sort" data-k="ticker">Ticker${arrow('ticker')}</th>
@@ -340,12 +467,60 @@ function srDrawList(wrap) {
           <th class="left sr-sort" data-k="generatedAt">Report${arrow('generatedAt')}</th>
           <th></th>
         </tr></thead>
-        <tbody>${desktopRows}</tbody>
-      </table>
+        <tbody>${rows.map(r => {
+          const d = srDriftCells(r);
+          return `<tr class="sr-row" data-id="${esc(r.id)}">
+            <td class="left"><span class="sr-tik">${esc(r.ticker)}</span></td>
+            <td class="left"><div>${esc(r.name)}</div><div class="sr-sub">${esc(r.sector)}</div></td>
+            <td class="left">${srRatingBadge(r)}</td>
+            <td>${d.genNow}</td>
+            <td>${d.drift}</td>
+            <td class="left">${srFmtDate(r.generatedAt)}${srFlags(r)}</td>
+            <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>`;
+    cardsHtml = rows.map(r => {
+      const d = srDriftCells(r);
+      return `<div class="sr-card sr-row" data-id="${esc(r.id)}">
+        <div class="sr-card-top"><span class="sr-tik">${esc(r.ticker)}${srFlags(r)}</span><span class="sr-card-right">${srRatingBadge(r)}<button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></span></div>
+        <div class="sr-card-mid">
+          <span class="sr-sub">${esc(r.name)} · ${esc(r.sector)} · ${srFmtDate(r.generatedAt)}</span>
+          <span>${d.genNow} ${d.drift}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  const refreshLabel = isFund ? '⟳ NAV' : '⟳ Prices';
+  const asOfLabel = SR_pricesAsOf
+    ? 'as of ' + new Date(SR_pricesAsOf).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) + (isFund ? ' · AMFI/mfapi.in' : ' · Yahoo Finance (~15 min delay)')
+    : '';
+
+  wrap.innerHTML = subtabs + (!inKind.length
+    ? `<div class="empty-state">No ${isFund ? 'fund' : 'stock'} reports yet.<br>
+        <small>Author one in a Claude chat (${isFund ? 'Fund' : 'Stock'} template v1.1), then click <strong>${isFund ? '+ Add Fund Report' : '+ Add Stock Report'}</strong> to import it.</small></div>`
+    : `
+    <div class="sr-filterbar">
+      <input type="text" id="sr-q" placeholder="${isFund ? 'Search fund, AMC or manager…' : 'Search ticker or name…'}" autocomplete="off" spellcheck="false" value="${esc(SR_view.q)}">
+      <select id="sr-sector">
+        <option value="">${isFund ? 'All categories' : 'All sectors'}</option>
+        ${sectors.map(s => `<option value="${esc(s)}" ${SR_view.sector === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+      </select>
+      <select id="sr-family">
+        <option value="">All ratings</option>
+        ${families.map(f => `<option value="${esc(f)}" ${SR_view.family === f ? 'selected' : ''}>${SR_FAMILY_LABEL[f] || esc(f)}</option>`).join('')}
+      </select>
+      <label class="sr-verify-tgl"><input type="checkbox" id="sr-verify" ${SR_view.verifyOnly ? 'checked' : ''}> <span class="sr-dot"></span> verify only</label>
+      <button class="btn btn-sm sr-refresh-btn" id="sr-refresh-prices" title="Re-fetch live data">${refreshLabel}</button>
+      <span class="sr-asof">${asOfLabel}</span>
     </div>
-    <div class="sr-cards">${cards}</div>`
-    : '<div class="empty-state">No reports match these filters.</div>'}
-  `;
+    ${rows.length ? `<div class="portfolio-table-wrap sr-table-wrap">${tableHtml}</div><div class="sr-cards">${cardsHtml}</div>`
+      : '<div class="empty-state">No reports match these filters.</div>'}
+  `);
+
+  wireSubtabs();
+  if (!inKind.length) return;
 
   // Filters re-render; search keeps focus + caret position
   const qEl = document.getElementById('sr-q');
@@ -396,10 +571,12 @@ function srShowRowMenu(btn, id) {
   menu.className = 'sr-rowmenu';
   menu.dataset.id = id;
   const hasOverride = !!r.priceOverride;
+  const overrideItem = r.type === 'fund' ? '' :
+    `<button data-act="override">Price override…<small>${hasOverride ? 'currently set — edit or clear' : 'custom Yahoo symbol or manual price'}</small></button>`;
   menu.innerHTML = `
     <button data-act="open">Open report</button>
     <button data-act="replace">Replace report<small>re-import updated HTML · keeps your note</small></button>
-    <button data-act="override">Price override…<small>${hasOverride ? 'currently set — edit or clear' : 'custom Yahoo symbol or manual price'}</small></button>
+    ${overrideItem}
     <button data-act="note">Edit note</button>
     <button data-act="delete" class="danger">Delete</button>`;
   document.body.appendChild(menu);
@@ -459,13 +636,39 @@ function srCloseViewer() {
   renderStockReports();
 }
 
+// Live manager-track panel (funds) — app-rendered from mfapi.in so it's always
+// fresh, sitting above the authored report snapshot.
+function srFundLivePanel(r) {
+  const p = SR_prices[r.id];
+  if (!p || !p.fund) return '<div class="sr-fund-live"><div class="sr-fl-hd">Fund manager — track record</div><div class="sr-sub" style="padding:8px 2px">Loading live NAV data…</div></div>';
+  const fmt = v => Number.isFinite(v) ? `<span class="${v >= 0 ? 'sr-up' : 'sr-dn'}">${v >= 0 ? '+' : ''}${v.toFixed(1)}%</span>` : '<span class="sr-na">—</span>';
+  const rowsHtml = (p.mgr || []).map(m => `
+    <tr><td class="left">${esc(m.name)}</td><td>${fmt(m.r1)}</td><td>${fmt(m.r3)}</td><td>${fmt(m.r5)}</td></tr>`).join('');
+  const avg = Number.isFinite(p.avg5) ? `${p.avg5.toFixed(1)}% (5Y)` : (Number.isFinite(p.avg3) ? `${p.avg3.toFixed(1)}% (3Y)` : '—');
+  return `
+    <div class="sr-fund-live">
+      <div class="sr-fl-hd">Fund manager — track record <span class="sr-live-chip">LIVE · mfapi.in</span></div>
+      <div class="sr-sub" style="margin-bottom:6px">${esc(r.manager || '')}${p.mgr?.length ? ` · trailing CAGR of ${p.mgr.length} existing fund(s) run by this team` : ''}</div>
+      ${p.mgr?.length ? `<div class="sr-fl-tablewrap"><table class="sr-fl-table">
+        <thead><tr><th class="left">Existing fund</th><th>1Y</th><th>3Y</th><th>5Y</th></tr></thead>
+        <tbody>${rowsHtml}</tbody>
+      </table></div>
+      <div class="sr-fl-foot">Avg across funds: <strong>${avg}</strong> · the fund itself is an NFO with no record yet — you're underwriting the manager.</div>`
+      : '<div class="sr-sub">No manager funds listed in this report.</div>'}
+    </div>`;
+}
+
 function srDrawViewer(wrap, r) {
-  const d = srDriftCells(r);
+  const isFund = r.type === 'fund';
   const minis = srFiltered().map(x => `
     <div class="sr-mini ${x.id === r.id ? 'on' : ''}" data-id="${esc(x.id)}">
-      <div><span class="sr-tik">${esc(x.ticker)}</span><div class="sr-sub">${esc(x.sector)}</div></div>
-      <div class="sr-mini-drift">${srDriftCells(x).drift}</div>
+      <div><span class="sr-tik">${esc(isFund ? x.name : x.ticker)}</span><div class="sr-sub">${esc(x.sector)}</div></div>
+      <div class="sr-mini-drift">${isFund ? srMgrTrackCell(x) : srDriftCells(x).drift}</div>
     </div>`).join('');
+
+  const headMetric = isFund
+    ? `<span class="sr-viewer-drift">NAV ₹${srFmtPrice(r.genPrice)} → ${srFundStatusCell(r)}</span>`
+    : `<span class="sr-viewer-drift">gen ₹${srFmtPrice(r.genPrice)}<span class="sr-arrow">→</span>${srDriftCells(r).drift}</span>`;
 
   wrap.innerHTML = `
     <div class="sr-split">
@@ -475,12 +678,13 @@ function srDrawViewer(wrap, r) {
           <button class="btn btn-sm" id="sr-back">← List</button>
           <span class="sr-viewer-name">${esc(r.name)}</span>
           ${srRatingBadge(r)}
-          <span class="sr-viewer-drift">gen ₹${srFmtPrice(r.genPrice)}<span class="sr-arrow">→</span>${d.drift}</span>
+          ${headMetric}
           ${srFlags(r)}
           <span class="sr-viewer-spacer"></span>
-          <button class="btn btn-sm" id="sr-replace" title="Import an updated HTML for this ticker — keeps your note">Replace</button>
+          <button class="btn btn-sm" id="sr-replace" title="Import an updated HTML — keeps your note">Replace</button>
           <button class="btn btn-sm" id="sr-newtab">Open in new tab ↗</button>
         </div>
+        ${isFund ? `<div id="sr-fund-live-slot">${srFundLivePanel(r)}</div>` : ''}
         <iframe class="sr-frame" sandbox="allow-scripts allow-popups" title="Research report: ${esc(r.name)}"></iframe>
         <div class="sr-note">
           <label for="sr-note-input">My note <span class="sr-sub">(private — kept when the report is replaced)</span></label>
@@ -492,6 +696,15 @@ function srDrawViewer(wrap, r) {
 
   // srcdoc via property assignment — avoids HTML-escaping the whole report in the template
   wrap.querySelector('.sr-frame').srcdoc = r.html;
+
+  // If a fund's live data isn't cached yet, fetch it and refresh just the panel.
+  if (isFund && !SR_prices[r.id]) {
+    srFetchFundData(r).then(d => {
+      SR_prices[r.id] = d;
+      const slot = document.getElementById('sr-fund-live-slot');
+      if (slot && SR_view.openId === r.id) slot.innerHTML = srFundLivePanel(r);
+    });
+  }
 
   document.getElementById('sr-back').addEventListener('click', srCloseViewer);
   document.getElementById('sr-replace').addEventListener('click', () => srOpenImportModal(r.ticker));
@@ -560,19 +773,28 @@ function srImpCandidate(html, sourceLabel) {
   }
   SR_impHtml = html; SR_impMeta = m;
   const existing = SR_reports.find(r => r.id === m.ticker.toLowerCase());
-  box.innerHTML = `
-    <div class="sr-imp-box sr-imp-ok">
-      <div class="sr-imp-okhdr">✓ Valid report${sourceLabel ? ' · ' + esc(sourceLabel) : ''}</div>
-      <table class="sr-imp-meta">
+  const isFund = m.type === 'fund';
+  const metaRows = isFund ? `
+        <tr><td>Fund</td><td><strong>${esc(m.name)}</strong></td></tr>
+        <tr><td>AMC / Category</td><td>${esc(m.amc || '—')} · ${esc(m.sector)}</td></tr>
+        <tr><td>Manager</td><td>${esc(m.manager || '—')}</td></tr>
+        <tr><td>Rating</td><td>${srRatingBadge(m)}</td></tr>
+        <tr><td>NFO NAV / scheme</td><td>₹${srFmtPrice(m.genPrice)} · ${m.scheme ? 'AMFI ' + esc(m.scheme) : 'NFO (no code yet)'}</td></tr>
+        <tr><td>Manager funds (live)</td><td>${m.managerFunds?.length ? m.managerFunds.length + ' scheme code(s) → live returns' : 'none'}</td></tr>
+        <tr><td>Data gaps</td><td>${m.hasGaps ? 'yes — will show the <span class="sr-dot"></span> verify dot' : 'none flagged'}</td></tr>`
+    : `
         <tr><td>Ticker</td><td><strong>${esc(m.ticker)}</strong> · ${esc(m.exchange)}</td></tr>
         <tr><td>Name</td><td>${esc(m.name)}</td></tr>
         <tr><td>Sector</td><td>${esc(m.sector)}</td></tr>
         <tr><td>Rating</td><td>${srRatingBadge(m)}</td></tr>
         <tr><td>Generated</td><td>${srFmtDate(m.generatedAt)} · gen price ₹${srFmtPrice(m.genPrice)}</td></tr>
-        <tr><td>Data gaps</td><td>${m.hasGaps ? 'yes — will show the <span class="sr-dot"></span> verify dot' : 'none flagged'}</td></tr>
-      </table>
+        <tr><td>Data gaps</td><td>${m.hasGaps ? 'yes — will show the <span class="sr-dot"></span> verify dot' : 'none flagged'}</td></tr>`;
+  box.innerHTML = `
+    <div class="sr-imp-box sr-imp-ok">
+      <div class="sr-imp-okhdr">✓ Valid ${isFund ? 'fund' : 'stock'} report${sourceLabel ? ' · ' + esc(sourceLabel) : ''}</div>
+      <table class="sr-imp-meta">${metaRows}</table>
     </div>
-    ${existing ? `<div class="sr-imp-box sr-imp-warn"><strong>Replace mode:</strong> a ${esc(m.ticker)} report from ${srFmtDate(existing.generatedAt)} already exists. Saving updates the report, rating, gen price &amp; date — your personal note is kept.</div>` : ''}`;
+    ${existing ? `<div class="sr-imp-box sr-imp-warn"><strong>Replace mode:</strong> a report for <strong>${esc(existing.name)}</strong> from ${srFmtDate(existing.generatedAt)} already exists. Saving updates the report — your personal note is kept.</div>` : ''}`;
   saveBtn.disabled = false;
 }
 

@@ -910,3 +910,22 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 /* cross-link pill (Stocks tab → research report) */
 .sr-xlink{display:inline-block;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:20px;cursor:pointer;vertical-align:middle;white-space:nowrap}
 .sr-xlink:hover{filter:brightness(.96);text-decoration:underline}
+
+/* ════ RESEARCH HUB — Funds sub-tab additions ════ */
+.sr-subtabs{display:inline-flex;background:var(--surface2);border-radius:10px;padding:3px;gap:2px;margin-bottom:14px}
+.sr-sub{padding:6px 16px;border-radius:8px;font-family:inherit;font-size:.8rem;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer}
+.sr-sub.on{background:var(--surface);color:var(--accent);box-shadow:var(--shadow)}
+.sr-nfo{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.64rem;font-weight:800;letter-spacing:.03em;background:var(--accent);color:#fff;white-space:nowrap}
+.sr-nfo.closed{background:var(--surface2);color:var(--text2)}
+/* fund live panel in the viewer */
+.sr-fund-live{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 14px}
+.sr-fl-hd{font-size:.82rem;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
+.sr-live-chip{font-size:.58rem;font-weight:800;letter-spacing:.04em;color:#fff;background:var(--green);border-radius:4px;padding:1px 6px}
+.sr-fl-tablewrap{overflow-x:auto;margin-top:6px}
+.sr-fl-table{width:100%;border-collapse:collapse;font-size:.8rem;min-width:360px}
+.sr-fl-table th{font-size:.64rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);text-align:right;padding:6px 10px;border-bottom:1px solid var(--border)}
+.sr-fl-table th.left,.sr-fl-table td.left{text-align:left}
+.sr-fl-table td{padding:6px 10px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums}
+.sr-fl-table tr:last-child td{border-bottom:none}
+.sr-fl-foot{font-size:.74rem;color:var(--text2);margin-top:7px}
+.sr-fl-foot strong{color:var(--text)}
