@@ -166,7 +166,10 @@ function saveSectionImmediate(section, data) {
     .catch(e => console.warn('Save failed:', section, e));
 }
 
-const NAV_KEY = 'mfd_nav';
+// v2: values cached under the old key were computed with the index-based (pre
+// date-lookup) return windows and must not be reused.
+const NAV_KEY = 'mfd_nav_v2';
+try { localStorage.removeItem('mfd_nav'); } catch(e) {}
 function getNavCache() {
   try { return JSON.parse(localStorage.getItem(NAV_KEY)) || {}; } catch(e) { return {}; }
 }
