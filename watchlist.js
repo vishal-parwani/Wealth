@@ -91,28 +91,39 @@ async function fetchNav(schemeCode) {
     if (d.status!=='SUCCESS'||!d.data?.length) return null;
     const data = d.data;
     const nav = parseFloat(data[0].nav);
-    function cagr(days){
-      const i=Math.min(days,data.length-1);
-      if(i<Math.round(days*0.85)) return null;
-      const old=parseFloat(data[i].nav);
+    // History is newest-first with one entry per *declared* NAV (business days for
+    // most funds), so windows must be located by date — indexing by array position
+    // stretches "1Y" to ~1.5 calendar years and inflates every annualised figure.
+    const parseDate=s=>{const p=s.split('-');return new Date(+p[2],p[1]-1,+p[0]);};
+    const latest=parseDate(data[0].date);
+    const MS_DAY=86400000;
+    function navOn(target){ // first (newest) entry on or before target date
+      let lo=0, hi=data.length-1, ans=-1;
+      while(lo<=hi){
+        const mid=(lo+hi)>>1;
+        if(parseDate(data[mid].date)<=target){ans=mid;hi=mid-1;} else lo=mid+1;
+      }
+      if(ans<0) return null;
+      const old=parseFloat(data[ans].nav);
       if(!old||old<=0) return null;
-      return (Math.pow(nav/old,365/days)-1)*100;
+      return {old, span:(latest-parseDate(data[ans].date))/MS_DAY};
+    }
+    function windowStart(days){
+      return navOn(new Date(latest.getTime()-days*MS_DAY));
+    }
+    function cagr(days){
+      const p=windowStart(days);
+      if(!p||p.span<=0) return null;
+      return (Math.pow(nav/p.old,365/p.span)-1)*100;
     }
     function pct(days){
-      if(data.length<=days) return null;
-      const old=parseFloat(data[days].nav);
-      if(!old||old<=0) return null;
-      return (nav/old-1)*100;
+      const p=windowStart(days);
+      if(!p) return null;
+      return (nav/p.old-1)*100;
     }
-    function totalRet(days){
-      const i=Math.min(days,data.length-1);
-      if(i<Math.round(days*0.85)) return null;
-      const old=parseFloat(data[i].nav);
-      if(!old||old<=0) return null;
-      return (nav/old-1)*100;
-    }
+    const totalRet=pct;
     const oldest=parseFloat(data[data.length-1].nav);
-    const totalDays=data.length-1;
+    const totalDays=(latest-parseDate(data[data.length-1].date))/MS_DAY;
     const navAllCagr=(oldest>0&&totalDays>30)?(Math.pow(nav/oldest,365/totalDays)-1)*100:null;
     const navAllTotal=(oldest>0&&totalDays>30)?(nav/oldest-1)*100:null;
     return {
