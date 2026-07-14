@@ -45,3 +45,9 @@ file and stub `fetch`).
   speculative / avoid — see `srRatingFamily`).
 - Commit style: short imperative subject prefixed by module, e.g.
   `Watchlist: fix NAV return windows`, `Fund report: Helios Mid Cap (HELIOSMID)`.
+- **Publishing reports to Firestore** (agent sessions): authenticate with the
+  service-account key. Resolution order: local path on the owner's Mac (documented in
+  private memory) → `/sessions/*/mnt/AI Oversight/Automations/wealth-service-account.json`
+  (mounted sessions) → `$WEALTH_SA_KEY` env var (cloud environments; write it to a temp
+  file and `gcloud auth activate-service-account --key-file=…`). The key itself is never
+  in this repo.
