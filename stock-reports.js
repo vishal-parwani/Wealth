@@ -187,6 +187,39 @@ let SR_view = { kind: 'stock', q: '', sector: '', family: '', verifyOnly: false,
 
 const SR_FAMILY_LABEL = { buy: 'Buy', accumulate: 'Accumulate', watch: 'Watch / Hold', speculative: 'Speculative', avoid: 'Avoid' };
 
+// ── Grouped list rendering ──────────────────────────────
+// Funds group by category (Mid Cap, Flexi Cap, Liquid, …); stocks group by
+// rating family in conviction order. Rows keep the active sort within a group.
+const SR_FAMILY_ORDER = ['buy', 'accumulate', 'watch', 'speculative', 'avoid'];
+
+function srGroups(rows, isFund) {
+  const keyOf = isFund
+    ? r => (r.sector && r.sector !== '—' ? r.sector : 'Uncategorised')
+    : r => r.ratingFamily || 'watch';
+  const map = new Map();
+  rows.forEach(r => {
+    const k = keyOf(r);
+    if (!map.has(k)) map.set(k, []);
+    map.get(k).push(r);
+  });
+  const keys = [...map.keys()].sort(isFund
+    ? (a, b) => a.localeCompare(b)
+    : (a, b) => SR_FAMILY_ORDER.indexOf(a) - SR_FAMILY_ORDER.indexOf(b));
+  return keys.map(k => ({
+    label: isFund ? k : (SR_FAMILY_LABEL[k] || k),
+    family: isFund ? null : k,
+    rows: map.get(k),
+  }));
+}
+
+function srGroupHeaderRow(g, cols) {
+  return `<tr class="sr-group-row${g.family ? ' sr-group-' + esc(g.family) : ''}"><td class="left" colspan="${cols}">${esc(g.label)}<span class="sr-group-n">${g.rows.length}</span></td></tr>`;
+}
+
+function srGroupCardHd(g) {
+  return `<div class="sr-group-hd${g.family ? ' sr-group-' + esc(g.family) : ''}">${esc(g.label)}<span class="sr-group-n">${g.rows.length}</span></div>`;
+}
+
 function srFmtDate(iso) {
   const t = new Date(iso);
   return Number.isFinite(t.getTime())
@@ -435,7 +468,7 @@ function srDrawList(wrap) {
           <th class="left">Status / NAV</th>
           <th></th>
         </tr></thead>
-        <tbody>${rows.map(r => `
+        <tbody>${srGroups(rows, true).map(g => srGroupHeaderRow(g, 7) + g.rows.map(r => `
           <tr class="sr-row" data-id="${esc(r.id)}">
             <td class="left"><div class="sr-tik">${esc(r.name)}</div><div class="sr-sub">${esc(r.amc || '')}</div></td>
             <td class="left">${esc(r.sector)}</td>
@@ -444,9 +477,9 @@ function srDrawList(wrap) {
             <td class="left">${srMgrTrackCell(r)}</td>
             <td class="left">${srFundStatusCell(r)}${srFlags(r)}</td>
             <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
-          </tr>`).join('')}</tbody>
+          </tr>`).join('')).join('')}</tbody>
       </table>`;
-    cardsHtml = rows.map(r => `
+    cardsHtml = srGroups(rows, true).map(g => srGroupCardHd(g) + g.rows.map(r => `
       <div class="sr-card sr-row" data-id="${esc(r.id)}">
         <div class="sr-card-top"><span class="sr-tik">${esc(r.name)}${srFlags(r)}</span><span class="sr-card-right">${srRatingBadge(r)}<button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></span></div>
         <div class="sr-card-mid">
@@ -454,7 +487,7 @@ function srDrawList(wrap) {
           <span>${srFundStatusCell(r)}</span>
         </div>
         <div class="sr-card-mid"><span class="sr-sub">Mgr track</span><span>${srMgrTrackCell(r)}</span></div>
-      </div>`).join('');
+      </div>`).join('')).join('');
   } else {
     tableHtml = `
       <table class="portfolio-table">
@@ -467,7 +500,7 @@ function srDrawList(wrap) {
           <th class="left sr-sort" data-k="generatedAt">Report${arrow('generatedAt')}</th>
           <th></th>
         </tr></thead>
-        <tbody>${rows.map(r => {
+        <tbody>${srGroups(rows, false).map(g => srGroupHeaderRow(g, 7) + g.rows.map(r => {
           const d = srDriftCells(r);
           return `<tr class="sr-row" data-id="${esc(r.id)}">
             <td class="left"><span class="sr-tik">${esc(r.ticker)}</span></td>
@@ -478,9 +511,9 @@ function srDrawList(wrap) {
             <td class="left">${srFmtDate(r.generatedAt)}${srFlags(r)}</td>
             <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
           </tr>`;
-        }).join('')}</tbody>
+        }).join('')).join('')}</tbody>
       </table>`;
-    cardsHtml = rows.map(r => {
+    cardsHtml = srGroups(rows, false).map(g => srGroupCardHd(g) + g.rows.map(r => {
       const d = srDriftCells(r);
       return `<div class="sr-card sr-row" data-id="${esc(r.id)}">
         <div class="sr-card-top"><span class="sr-tik">${esc(r.ticker)}${srFlags(r)}</span><span class="sr-card-right">${srRatingBadge(r)}<button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></span></div>
@@ -489,7 +522,7 @@ function srDrawList(wrap) {
           <span>${d.genNow} ${d.drift}</span>
         </div>
       </div>`;
-    }).join('');
+    }).join('')).join('');
   }
 
   const refreshLabel = isFund ? '⟳ NAV' : '⟳ Prices';
