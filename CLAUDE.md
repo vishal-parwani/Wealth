@@ -43,6 +43,9 @@ file and stub `fetch`).
 - Fund reports should carry the AMFI `scheme` code so the viewer shows live NAV, and
   ratings must map onto the app's rating families (buy / accumulate / watch /
   speculative / avoid — see `srRatingFamily`).
+- **Agent sessions: always merge completed work to `main`** (and push) — the app
+  deploys from `main` via GitHub Pages, so work left on a feature branch never goes
+  live. Don't wait for a PR or ask; merge once the change is done and verified.
 - Commit style: short imperative subject prefixed by module, e.g.
   `Watchlist: fix NAV return windows`, `Fund report: Helios Mid Cap (HELIOSMID)`.
 - **Publishing reports to Firestore** (agent sessions): authenticate with the
