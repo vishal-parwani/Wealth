@@ -835,6 +835,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .sr-badge-watch{background:var(--amber-bg);color:var(--amber)}
 .sr-badge-speculative{background:var(--accent-light);color:var(--accent)}
 .sr-badge-avoid{background:var(--red-bg);color:var(--red)}
+.sr-group-row td{background:var(--surface2);color:var(--text2);font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:6px 10px;border-bottom:1px solid var(--border2)}
+.sr-group-hd{margin:14px 0 8px;color:var(--text2);font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.sr-group-hd:first-child{margin-top:2px}
+.sr-group-n{display:inline-block;min-width:16px;text-align:center;background:var(--surface);border:1px solid var(--border2);border-radius:9px;padding:0 5px;font-size:.64rem;font-weight:700;color:var(--text3);margin-left:6px;vertical-align:middle}
+.sr-group-buy td,.sr-group-hd.sr-group-buy{color:var(--green)}
+.sr-group-accumulate td,.sr-group-hd.sr-group-accumulate{color:#4e8070}
+.sr-group-watch td,.sr-group-hd.sr-group-watch{color:var(--amber)}
+.sr-group-speculative td,.sr-group-hd.sr-group-speculative{color:var(--accent)}
+.sr-group-avoid td,.sr-group-hd.sr-group-avoid{color:var(--red)}
 .sr-gen{color:var(--text3);font-variant-numeric:tabular-nums}
 .sr-arrow{color:var(--text3);padding:0 3px}
 .sr-now{font-weight:700;font-variant-numeric:tabular-nums}
