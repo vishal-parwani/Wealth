@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- v1.1 machine-readable meta -->
+<meta name="ticker" content="OBSCP">
+<meta name="exchange" content="NSE">
+<meta name="name" content="OBSC Perfection Limited">
+<meta name="sector" content="Precision Engineering · Auto / Defence Components · SME">
+<meta name="rating" content="Speculative · Rich-Valuation SME">
+<meta name="generated" content="2026-07-23">
+<meta name="price" content="662.50">
+<meta name="hasgaps" content="true">
+<title>OBSCP — Stock Research</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f6f1e7;--surface:#fffdf8;--surface2:#efe8d9;--border:#e2d8c4;--accent:#8a6d1f;--accent2:#bc5b28;--green:#2c7a4b;--red:#b73a2a;--amber:#9c7210;--text:#2b2115;--muted:#857a67;--subtle:#cfc4ae;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;}
+  .header{padding:36px 40px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  .ticker{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px;}
+  .company-name{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;letter-spacing:-0.02em;}
+  .sector-tag{display:inline-block;background:var(--subtle);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.06em;padding:3px 9px;margin-top:8px;border-radius:2px;}
+  .price-block{text-align:right;}
+  .price-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:3px;}
+  .price-val{font-family:'Syne',sans-serif;font-size:34px;font-weight:700;color:var(--accent);line-height:1;}
+  .price-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;}
+  .sourcing{padding:12px 40px;background:var(--surface);border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);}
+  .sourcing b{color:var(--text);font-weight:500;}
+  .section{padding:30px 40px;border-bottom:1px solid var(--border);}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;}
+  .sec-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:0.1em;}
+  .sec-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.01em;}
+  p{margin-bottom:11px;}
+  p.muted{color:var(--muted);}
+  strong{color:var(--text);font-weight:600;}
+  .snap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+  .snap-cell{background:var(--surface);padding:14px 16px;}
+  .snap-k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+  .snap-v{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+  .snap-v small{font-family:'IBM Plex Sans';font-size:11px;font-weight:400;color:var(--muted);}
+  table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:12.5px;}
+  th{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;padding:9px 10px;border-bottom:1px solid var(--border);}
+  th:first-child,td:first-child{text-align:left;}
+  td{padding:9px 10px;border-bottom:1px solid var(--subtle);}
+  td.hl{color:var(--accent);font-weight:600;}
+  tr:last-child td{border-bottom:none;}
+  .pos{color:var(--green);}.neg{color:var(--red);}
+  .own{font-weight:600;}.own-col{background:rgba(232,116,71,0.06);}
+  .mix{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--surface2);border:1px solid var(--border);padding:5px 10px;border-radius:2px;}
+  .chip b{color:var(--accent);}
+  .callout{background:var(--surface);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 3px 3px 0;margin:12px 0;}
+  .callout .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+  .verify{border-left-color:var(--amber);}.verify .lbl{color:var(--amber);}
+  .ppl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:6px 0 14px;}
+  .pcard{border:1px solid var(--border);border-radius:3px;background:var(--surface);padding:16px 18px;}
+  .pname{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .prole{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--bg);background:var(--accent);padding:2px 7px;border-radius:2px;letter-spacing:0.05em;text-transform:uppercase;}
+  .prole.alt{background:var(--accent2);}
+  .pkv{margin-top:10px;font-size:12px;}
+  .pkv .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+  .pkv .v{color:var(--text);margin-bottom:8px;}
+  ul.flags{list-style:none;}
+  ul.flags li{padding:6px 0 6px 20px;position:relative;border-bottom:1px solid var(--subtle);font-size:12.5px;}
+  ul.flags li:last-child{border-bottom:none;}
+  ul.flags li::before{content:"\2691";position:absolute;left:0;color:var(--red);font-size:11px;top:7px;}
+  ul.flags li.clean::before{content:"\2713";color:var(--green);}
+  .src{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--subtle);margin-top:8px;}
+  .bb{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:8px 0 16px;}
+  .bb-card{border:1px solid var(--border);border-radius:3px;padding:16px 18px;background:var(--surface);}
+  .bb-card.bull{border-top:2px solid var(--green);}.bb-card.bear{border-top:2px solid var(--red);}
+  .bb-h{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:10px;}
+  .bb-card.bull .bb-h{color:var(--green);}.bb-card.bear .bb-h{color:var(--red);}
+  .bb-card ul{list-style:none;}
+  .bb-card li{padding:5px 0 5px 16px;position:relative;font-size:12px;line-height:1.5;border-bottom:1px solid var(--subtle);}
+  .bb-card li:last-child{border-bottom:none;}
+  .bb-card li::before{content:"—";position:absolute;left:0;color:var(--muted);}
+  .rating{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:18px 20px;margin:8px 0 14px;flex-wrap:wrap;}
+  .rating-badge{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--bg);background:var(--accent2);padding:8px 16px;border-radius:3px;}
+  .rating-txt{flex:1;min-width:220px;font-size:12.5px;color:var(--muted);}
+  .rating-txt b{color:var(--text);}
+  .note{border:1px dashed var(--subtle);border-radius:3px;padding:16px 18px;min-height:70px;}
+  .note .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+  .note .ph{color:var(--subtle);font-style:italic;font-size:12px;}
+  ul.plain{list-style:none;}
+  ul.plain li{padding:6px 0 6px 18px;position:relative;border-bottom:1px solid var(--subtle);font-size:12.5px;}
+  ul.plain li:last-child{border-bottom:none;}
+  ul.plain li::before{content:"▸";position:absolute;left:0;color:var(--accent2);font-size:10px;top:8px;}
+  .footer{padding:24px 40px 40px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--subtle);line-height:1.7;}
+  @media(max-width:720px){.header,.sourcing,.section,.footer{padding-left:22px;padding-right:22px;}.snap-grid{grid-template-columns:repeat(2,1fr);}.bb{grid-template-columns:1fr;}.ppl{grid-template-columns:1fr;}.company-name{font-size:24px;}.price-block{text-align:left;}th,td{padding:7px 6px;}}
+
+  /* ── v1.2 light theme overrides ── */
+  body{font-family:'Source Sans 3','IBM Plex Sans',sans-serif;font-size:13.5px;color:var(--text);}
+  .company-name,.sec-title,.bb-h,.pname{font-family:'Fraunces',serif;letter-spacing:-0.01em;}
+  .snap-v,.price-val,.rating-badge{font-family:'Fraunces',serif;}
+  .prole,.rating-badge{color:#fffdf8;}
+  .header{background:var(--surface);}
+  .snap-cell,.pcard,.bb-card,.rating{box-shadow:0 1px 3px rgba(80,60,30,.05);}
+  table tr:nth-child(even) td{background:rgba(90,70,40,.03);}
+  th{color:var(--muted);}
+  .footer{color:var(--muted);border-top:1px solid var(--border);}
+  .callout{box-shadow:0 1px 3px rgba(80,60,30,.05);}
+  .chip{background:var(--surface);}
+  .sector-tag{background:var(--surface2);}
+  .note .ph{color:var(--muted);}
+  .src{color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div>
+      <div class="ticker">NSE SME: OBSCP</div>
+      <div class="company-name">OBSC Perfection Limited</div>
+      <span class="sector-tag">PRECISION ENGINEERING · AUTO / DEFENCE COMPONENTS · NSE SME · SMALL-CAP</span>
+    </div>
+    <div class="price-block">
+      <div class="price-label">LAST CLOSE</div>
+      <div class="price-val">₹663</div>
+      <div class="price-sub" style="color:#b45309;margin-top:6px"><b>Update · 23 Jul 2026:</b> ~₹663 — hit an all-time high on 2 Jul. Momentum strong, valuation richer still. Rating unchanged (Speculative · Rich-Valuation SME).</div>
+      <div class="price-sub">52W: ₹270 – ₹648 &nbsp;|&nbsp; IPO ₹100 (Oct 2024) → ~6.4x</div>
+    </div>
+  </div>
+  <div class="sourcing">
+    <b>Price:</b> Screener / NSE (OBSCP-SM), 9 Jul 2026 &nbsp;·&nbsp; <b>Fundamentals:</b> Screener + IPO prospectus &nbsp;·&nbsp; <b>FY:</b> Apr–Mar &nbsp;·&nbsp; <b>Listed:</b> Oct 2024 (NSE SME) &nbsp;·&nbsp; <b>Template v1.1</b>
+  </div>
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">Snapshot</span></div>
+    <div class="snap-grid">
+      <div class="snap-cell"><div class="snap-k">Market Cap</div><div class="snap-v">₹1,635<small> Cr</small></div></div>
+      <div class="snap-cell"><div class="snap-k">P/E (TTM)</div><div class="snap-v">60.6<small>x</small></div></div>
+      <div class="snap-cell"><div class="snap-k">P/B</div><div class="snap-v">8.9<small>x</small></div></div>
+      <div class="snap-cell"><div class="snap-k">Div Yield</div><div class="snap-v">0.0<small>%</small></div></div>
+      <div class="snap-cell"><div class="snap-k">Rev FY26</div><div class="snap-v">₹220<small> Cr</small></div></div>
+      <div class="snap-cell"><div class="snap-k">PAT FY26</div><div class="snap-v">₹27<small> Cr</small></div></div>
+      <div class="snap-cell"><div class="snap-k">ROE (FY)</div><div class="snap-v">20<small>%</small></div></div>
+      <div class="snap-cell"><div class="snap-k">ROCE</div><div class="snap-v">19.5<small>%</small></div></div>
+    </div>
+    <p class="muted" style="margin-top:14px;">A fast-growing Pune-based precision-machining and investment-casting supplier — mostly automotive OEM components today, pushing into defence, marine and telecom-infra. Revenue has nearly doubled in two years (₹115 → ₹220 Cr) with PAT more than doubling, and the market has rewarded it richly: ~61x earnings, ~9x book, up ~6x from its Oct-2024 SME IPO. The tension: a genuinely capable, capacity-adding components maker, but priced like a structural compounder while still small, auto-cyclical and SME-illiquid.</p>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Business &amp; Qualitative</span></div>
+    <p><strong>Model.</strong> OBSC (the name traces to <em>Omega Bright Steel &amp; Components</em>) makes high-precision metal components and sub-assemblies to customer design — machining plus investment casting — primarily for <strong>automotive OEMs</strong>, and is actively diversifying into <strong>defence, marine and telecom-infrastructure</strong>. Footprint: Pune Unit I (machining, ~11.5 lakh units/yr, 2020), Unit II (investment casting, ~600 MT/yr, 2022), a Chennai machining unit (2023), and a new Chakan Unit IV (2025) — i.e. a real, multi-site capacity build, not a single shed.</p>
+    <p><strong>Moat.</strong> Process- and relationship-based rather than structural: OEM qualification, tight tolerances, investment-casting capability (a useful differentiator vs pure machining shops), and the switching friction of being designed-in. Against that, auto components is competitive and cyclical, customer concentration is a live risk, and the defence/marine diversification is still early-stage optionality rather than proven revenue.</p>
+    <p><strong>End-market mix (approx).</strong></p>
+    <div class="mix"><span class="chip">Automotive OEM <b>core*</b></span><span class="chip">Defence / Marine <b>emerging*</b></span><span class="chip">Telecom / other <b>small*</b></span></div>
+    <div class="callout verify">
+      <div class="lbl">Verify</div>
+      Exact customer/segment split, export share, order book and the defence/marine revenue ramp are not cleanly in secondary sources — confirm from the RHP and post-listing disclosures.
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Promoters &amp; Governance</span></div>
+    <p class="muted">Founder-promoter led, with a notably international promoter group (Leekha, Verma and Blum families + Omega Bright Steel). Details from the IPO prospectus and exchange disclosures.</p>
+    <div class="ppl">
+      <div class="pcard">
+        <div class="pname">Saksham Leekha <span class="prole">Managing Director</span></div>
+        <div class="pkv"><div class="k">Role</div><div class="v">Promoter &amp; MD; principal driver of the business and its capacity expansion. Detailed bio to confirm from RHP.*</div></div>
+      </div>
+      <div class="pcard">
+        <div class="pname">Sanjeev Verma <span class="prole alt">Exec. Director &amp; CFO</span></div>
+        <div class="pkv"><div class="k">Role</div><div class="v">Executive Director &amp; CFO. Ashwani Leekha also serves as Executive Director; promoter group includes the Blum family &amp; Omega Bright Steel and Components Pvt Ltd.</div></div>
+      </div>
+    </div>
+    <div class="callout verify">
+      <div class="lbl">Governance &amp; red flags</div>
+      <ul class="flags">
+        <li>Promoter holding ~69.8% (Mar-2026) — high control, typical thin SME float; watch post-lock-in selling.</li>
+        <li>Broad promoter group with foreign (Blum family) members and a group entity — read related-party transactions &amp; group structure carefully in the RHP.</li>
+        <li class="clean">No material governance issue found in public sources as of 9 Jul 2026 — not a clean chit; primary-filing review pending.</li>
+      </ul>
+      <div class="src">Source basis: IPO prospectus/RHP, exchange shareholding disclosures, credible media. Unverified items flagged with *.</div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Fundamentals</span></div>
+    <p><strong>Growth trajectory (full year).</strong></p>
+    <table>
+      <tr><th>Metric</th><th>FY24</th><th>FY25</th><th>FY26</th><th>2Y CAGR</th></tr>
+      <tr><td>Revenue (₹ Cr)</td><td>115</td><td>142</td><td class="hl">220</td><td class="pos">~38%</td></tr>
+      <tr><td>PAT (₹ Cr)</td><td>12</td><td>17</td><td class="hl">27</td><td class="pos">~50%</td></tr>
+      <tr><td>PAT margin</td><td>10%</td><td>12%</td><td>12%</td><td>—</td></tr>
+    </table>
+    <p style="margin-top:14px;"><strong>Latest quarter (Q4 FY26).</strong> Revenue ₹71.5 Cr (+77% YoY), PAT ₹8.7 Cr (+70% YoY) — a strong exit rate as new capacity (Chakan Unit IV) contributes. <strong>Read.</strong> Consistent ~40–50% top-and-bottom-line growth with steady ~12% margins and healthy returns (ROCE ~20%, ROE ~20–24%) on a modestly leveraged, capex-heavy base. The model is more capital-intensive than a pure machining shop (casting + multi-site plant), so ROCE is good-not-spectacular and capex/working-capital discipline is the thing to monitor.</p>
+    <div class="callout verify">
+      <div class="lbl">Verify</div>
+      FY26 figures are Screener aggregates for a company with a short (post-Oct-2024) public history — confirm against audited FY26 results, and check debt and cash-flow quality behind the capex ramp.
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">Valuation</span></div>
+    <p>At ₹637 the stock trades on ~<strong>61x trailing earnings</strong> and ~<strong>9x book</strong>, 0% yield — a full growth multiple for an auto-heavy components maker. From an Oct-2024 IPO around ₹100 it has compounded ~6.4x in ~20 months, so most of the return is re-rating layered on real growth. For context, larger, established auto-ancillary compounders often trade at 30–50x; a sub-₹250 Cr-revenue SME on 61x is pricing in years of sustained &gt;35% growth <em>and</em> a successful defence/marine diversification. The margin of safety is slim: any auto-cycle softness, margin slippage or capex disappointment can compress the multiple hard, amplified by SME liquidity.</p>
+  </div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">Ownership &amp; Dividends</span></div>
+    <p><strong>Holding (Mar-2026).</strong> Promoters ~69.8%, FII ~1.6%, DII ~1.3%, public ~27.3%. Institutional presence is modest (typical for a fresh SME). <strong>Dividend.</strong> None — 0% yield; cash retained to fund the multi-unit capacity build, appropriate at this stage.</p>
+    <div class="mix">
+      <span class="chip">Promoter <b>69.8%</b></span><span class="chip">FII <b>1.6%</b></span><span class="chip">DII <b>1.3%</b></span><span class="chip">Public <b>27.3%</b></span>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">07</span><span class="sec-title">Peer Comparison</span></div>
+    <p class="muted">Larger listed precision / auto-ancillary and casting peers, for scale &amp; multiple context — none is a size-matched SME comparable.</p>
+    <table>
+      <tr><th>Metric</th><th class="own-col">OBSC</th><th>Sundram Fasteners</th><th>Bharat Forge</th><th>Precision Camshafts</th></tr>
+      <tr><td>Mkt Cap (₹ Cr)</td><td class="own own-col">~1,635</td><td>~2,00,000*</td><td>~60,000*</td><td>~2,500*</td></tr>
+      <tr><td>P/E (x)</td><td class="own own-col hl">~61</td><td>~40*</td><td>~45*</td><td>~30*</td></tr>
+      <tr><td>Size vs OBSC</td><td class="own own-col">1x</td><td>~120x</td><td>~37x</td><td>~1.5x</td></tr>
+    </table>
+    <div class="callout verify">
+      <div class="lbl">Verify</div>
+      Peer caps/multiples are indicative* and move constantly. Takeaway is directional: OBSC trades at a premium multiple to far larger, more diversified auto-ancillary names — the market is paying up for growth and small size.
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">08</span><span class="sec-title">Recent News &amp; Catalysts</span></div>
+    <ul class="plain">
+      <li><strong>IPO (Oct 2024).</strong> ₹66 Cr SME issue (66.02 lakh shares, ₹10 FV). Proceeds toward capacity/working capital* — track Unit IV ramp.</li>
+      <li><strong>Chakan Unit IV (2025).</strong> New machining capacity commissioned — key driver of the FY26 growth step-up and Q4 exit rate.</li>
+      <li><strong>Re-rating.</strong> ~6.4x from IPO to ₹637, near its 52-week high — momentum- and liquidity-driven on a thin float.</li>
+      <li><strong>Watch next:</strong> audited FY26 results; evidence of defence/marine revenue converting from optionality to orders; capex funding &amp; debt trend; eventual NSE main-board migration.</li>
+    </ul>
+  </div>
+
+  <!-- 09 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">09</span><span class="sec-title">Risks</span></div>
+    <ul class="plain">
+      <li><strong>Valuation.</strong> ~61x earnings / ~9x book leaves no margin of safety after a 6x run.</li>
+      <li><strong>Auto cyclicality &amp; concentration.</strong> Core revenue tied to auto OEM demand; likely customer concentration; diversification unproven.</li>
+      <li><strong>Capital intensity.</strong> Multi-site casting + machining build needs continuous capex &amp; working capital — execution and funding risk.</li>
+      <li><strong>SME liquidity.</strong> Thin float, wide spreads, large lots; prices gap both ways and exits can be hard.</li>
+      <li><strong>Short public history &amp; data quality.</strong> Listed only Oct-2024; several figures here are approximate/secondary — confirm against primary filings.</li>
+    </ul>
+  </div>
+
+  <!-- 10 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">10</span><span class="sec-title">Verdict</span></div>
+    <div class="bb">
+      <div class="bb-card bull"><div class="bb-h">Bull case</div><ul>
+        <li>Real, ~40–50% growth with a multi-site capacity build already delivering (strong Q4 FY26).</li>
+        <li>Investment-casting + machining capability differentiates vs pure machining SMEs.</li>
+        <li>Optionality in defence/marine/telecom on top of the auto core.</li>
+        <li>Solid ~20% returns; credible, expanding promoter group.</li>
+      </ul></div>
+      <div class="bb-card bear"><div class="bb-h">Bear case</div><ul>
+        <li>~61x earnings on a small, auto-cyclical, capital-intensive base — priced for perfection.</li>
+        <li>Return so far is largely re-rating; SME liquidity risk on the way down.</li>
+        <li>Defence/marine still optionality, not proven revenue.</li>
+        <li>Short public track record; capex/debt discipline unproven as a public co.</li>
+      </ul></div>
+    </div>
+    <div class="rating">
+      <div class="rating-badge">SPECULATIVE · RICH-VALUATION SME</div>
+      <div class="rating-txt">A genuinely capable, fast-growing precision-components maker with real capacity behind the growth — but a ~61x SME multiple that prices in years of flawless execution plus a successful defence diversification. <b>High-risk watch, not a core buy at CMP.</b> Re-evaluate on: audited FY26 confirming growth/margins and capex funding; hard evidence of defence/marine revenue; a meaningful valuation reset (say toward 30–35x) or a clean multi-quarter public track record. Size as a small, speculative allocation only.</div>
+    </div>
+    <div class="note"><div class="lbl">Personal note</div><div class="ph">— your view, target entry, position sizing —</div></div>
+  </div>
+
+  <div class="footer">Stock Research Template v1.1 · OBSC Perfection Limited · Generated 9 Jul 2026 · Price: Screener / NSE (OBSCP-SM) · FY = Apr–Mar<br>NSE SME small-cap — figures marked * / "verify" are approximate and must be confirmed against primary filings (RHP + audited FY26 results). Personal research only. Not investment advice.</div>
+</div>
+</body>
+</html>
