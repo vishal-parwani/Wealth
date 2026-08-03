@@ -743,7 +743,8 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
 // Named fetchStockData (not fetchStockPrice) to avoid collision with portfolio.js's simpler version
 async function fetchStockData(symbol, exchange) {
   try {
-    const suffix = exchange === 'BSE' ? '.BO' : '.NS';
+    // 'US' = plain Yahoo ticker (no suffix), e.g. RBC / TKR. BSE = .BO, else NSE = .NS
+    const suffix = exchange === 'BSE' ? '.BO' : (exchange === 'US' ? '' : '.NS');
     const base = `${symbol}${suffix}`;
     // Run two calls in parallel: 5y weekly (returns + dividends) + 5d daily (1D return)
     const [rLong, rShort] = await Promise.all([
@@ -877,9 +878,9 @@ function doStockSearch(q) {
     <div class="sr-item">
       <div style="flex:1;min-width:0">
         <div class="sr-name">${esc(s.name)}</div>
-        <div class="sr-code">${esc(s.symbol)} · NSE · ${esc(s.sector)}</div>
+        <div class="sr-code">${esc(s.symbol)} · ${esc(s.exchange || 'NSE')} · ${esc(s.sector)}</div>
       </div>
-      <button class="btn-add-sr" data-sym="${esc(s.symbol)}" data-exch="NSE" data-name="${esc(s.name)}">+ Add</button>
+      <button class="btn-add-sr" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange || 'NSE')}" data-name="${esc(s.name)}">+ Add</button>
     </div>`).join('');
 
   elStockResults.querySelectorAll('.btn-add-sr').forEach(btn => {
