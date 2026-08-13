@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- v1.1 machine-readable meta -->
+<meta name="ticker" content="GENSOL">
+<meta name="exchange" content="NSE">
+<meta name="name" content="Gensol Engineering Limited">
+<meta name="sector" content="Solar EPC / EV · Distressed — Insolvency (CIRP)">
+<meta name="rating" content="Sell">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-08-03">
+<meta name="price" content="19.31">
+<meta name="hasgaps" content="true">
+<title>GENSOL — Stock Research</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f6f1e7;--surface:#fffdf8;--surface2:#efe8d9;--border:#e2d8c4;--accent:#8a6d1f;--accent2:#bc5b28;--green:#2c7a4b;--red:#b73a2a;--amber:#9c7210;--text:#2b2115;--muted:#857a67;--subtle:#cfc4ae;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;}
+  .header{padding:36px 40px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  .ticker{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px;}
+  .company-name{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;letter-spacing:-0.02em;}
+  .sector-tag{display:inline-block;background:var(--subtle);color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.06em;padding:3px 9px;margin-top:8px;border-radius:2px;}
+  .price-block{text-align:right;}
+  .price-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:3px;}
+  .price-val{font-family:'Syne',sans-serif;font-size:34px;font-weight:700;color:var(--red);line-height:1;}
+  .price-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;}
+  .sourcing{padding:12px 40px;background:var(--surface);border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);}
+  .sourcing b{color:var(--text);font-weight:500;}
+  .section{padding:30px 40px;border-bottom:1px solid var(--border);}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;}
+  .sec-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:0.1em;}
+  .sec-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.01em;}
+  p{margin-bottom:11px;}
+  p.muted{color:var(--muted);}
+  strong{color:var(--text);font-weight:600;}
+  .snap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+  .snap-cell{background:var(--surface);padding:14px 16px;}
+  .snap-k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+  .snap-v{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+  .snap-v small{font-family:'IBM Plex Sans';font-size:11px;font-weight:400;color:var(--muted);}
+  table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:12.5px;}
+  th{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;padding:9px 10px;border-bottom:1px solid var(--border);}
+  th:first-child,td:first-child{text-align:left;}
+  td{padding:9px 10px;border-bottom:1px solid var(--subtle);}
+  td.hl{color:var(--accent);font-weight:600;}
+  tr:last-child td{border-bottom:none;}
+  .pos{color:var(--green);}.neg{color:var(--red);}
+  .own{font-weight:600;}.own-col{background:rgba(232,116,71,0.06);}
+  .mix{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--surface2);border:1px solid var(--border);padding:5px 10px;border-radius:2px;}
+  .chip b{color:var(--accent);}
+  .callout{background:var(--surface);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 3px 3px 0;margin:12px 0;}
+  .callout .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+  .verify{border-left-color:var(--amber);}.verify .lbl{color:var(--amber);}
+  .danger{border-left-color:var(--red);}.danger .lbl{color:var(--red);}
+  .ppl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:6px 0 14px;}
+  .pcard{border:1px solid var(--border);border-radius:3px;background:var(--surface);padding:16px 18px;}
+  .pname{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .prole{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--bg);background:var(--red);padding:2px 7px;border-radius:2px;letter-spacing:0.05em;text-transform:uppercase;}
+  .prole.alt{background:var(--red);}
+  .pkv{margin-top:10px;font-size:12px;}
+  .pkv .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+  .pkv .v{color:var(--text);margin-bottom:8px;}
+  ul.flags{list-style:none;}
+  ul.flags li{padding:6px 0 6px 20px;position:relative;border-bottom:1px solid var(--subtle);font-size:12.5px;}
+  ul.flags li:last-child{border-bottom:none;}
+  ul.flags li::before{content:"\2691";position:absolute;left:0;color:var(--red);font-size:11px;top:7px;}
+  ul.flags li.clean::before{content:"\2713";color:var(--green);}
+  .src{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--subtle);margin-top:8px;}
+  .bb{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:8px 0 16px;}
+  .bb-card{border:1px solid var(--border);border-radius:3px;padding:16px 18px;background:var(--surface);}
+  .bb-card.bull{border-top:2px solid var(--green);}.bb-card.bear{border-top:2px solid var(--red);}
+  .bb-h{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:10px;}
+  .bb-card.bull .bb-h{color:var(--green);}.bb-card.bear .bb-h{color:var(--red);}
+  .bb-card ul{list-style:none;}
+  .bb-card li{padding:5px 0 5px 16px;position:relative;font-size:12px;line-height:1.5;border-bottom:1px solid var(--subtle);}
+  .bb-card li:last-child{border-bottom:none;}
+  .bb-card li::before{content:"—";position:absolute;left:0;color:var(--muted);}
+  .rating{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--red);border-radius:3px;padding:18px 20px;margin:8px 0 14px;flex-wrap:wrap;}
+  .rating-badge{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--bg);background:var(--red);padding:8px 16px;border-radius:3px;}
+  .rating-txt{flex:1;min-width:220px;font-size:12.5px;color:var(--muted);}
+  .rating-txt b{color:var(--text);}
+  .note{border:1px dashed var(--subtle);border-radius:3px;padding:16px 18px;min-height:70px;}
+  .note .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+  .note .ph{color:var(--subtle);font-style:italic;font-size:12px;}
+  ul.plain{list-style:none;}
+  ul.plain li{padding:6px 0 6px 18px;position:relative;border-bottom:1px solid var(--subtle);font-size:12.5px;}
+  ul.plain li:last-child{border-bottom:none;}
+  ul.plain li::before{content:"▸";position:absolute;left:0;color:var(--accent2);font-size:10px;top:8px;}
+  .footer{padding:24px 40px 40px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--subtle);line-height:1.7;}
+  @media(max-width:720px){.header,.sourcing,.section,.footer{padding-left:22px;padding-right:22px;}.snap-grid{grid-template-columns:repeat(2,1fr);}.bb{grid-template-columns:1fr;}.ppl{grid-template-columns:1fr;}.company-name{font-size:24px;}.price-block{text-align:left;}th,td{padding:7px 6px;}}
+
+  /* ── v1.2 light theme overrides ── */
+  body{font-family:'Source Sans 3','IBM Plex Sans',sans-serif;font-size:13.5px;color:var(--text);}
+  .company-name,.sec-title,.bb-h,.pname{font-family:'Fraunces',serif;letter-spacing:-0.01em;}
+  .snap-v,.price-val,.rating-badge{font-family:'Fraunces',serif;}
+  .prole,.rating-badge{color:#fffdf8;}
+  .header{background:var(--surface);}
+  .snap-cell,.pcard,.bb-card,.rating{box-shadow:0 1px 3px rgba(80,60,30,.05);}
+  table tr:nth-child(even) td{background:rgba(90,70,40,.03);}
+  th{color:var(--muted);}
+  .footer{color:var(--muted);border-top:1px solid var(--border);}
+  .callout{box-shadow:0 1px 3px rgba(80,60,30,.05);}
+  .chip{background:var(--surface);}
+  .sector-tag{background:var(--surface2);}
+  .note .ph{color:var(--muted);}
+  .src{color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div>
+      <div class="ticker">NSE: GENSOL &nbsp;·&nbsp; BSE: 542851</div>
+      <div class="company-name">Gensol Engineering Limited</div>
+      <span class="sector-tag">SOLAR EPC / EV · UNDER INSOLVENCY (CIRP) · DISTRESSED</span>
+    </div>
+    <div class="price-block">
+      <div class="price-label">LAST CLOSE</div>
+      <div class="price-val">₹19</div>
+      <div class="price-sub" style="color:#b45309;margin-top:6px"><b>Update · 3 Aug 2026:</b> <b>Insolvency grinding on.</b> CIRP continues after NCLT admitted the IREDA petition (₹510 cr default) and froze assets. Latest: a lessor has told <b>NCLAT that the IRP and Committee of Creditors are deliberately delaying</b> the process; SMAS Auto Leasing retained 152 e-vehicles, with a further hearing on remaining vehicles <b>28 Aug</b>. <b>Rating emphatically unchanged (Avoid · Insolvency / Governance Fraud).</b> Equity in a CIRP is last in line and frequently extinguished — treat any price move as noise, not recovery.</div>
+      <div class="price-sub">52W: ₹18 – ₹54 &nbsp;|&nbsp; down ~90%+ from 2024 highs</div>
+    </div>
+  </div>
+  <div class="sourcing">
+    <b>Price:</b> Google Finance / NSE, 9 Jul 2026 &nbsp;·&nbsp; <b>Status:</b> SEBI interim order + NCLT-admitted insolvency &nbsp;·&nbsp; <b>Financials:</b> pre-scandal, under forensic audit — treat as unreliable &nbsp;·&nbsp; <b>Template v1.1</b>
+  </div>
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">Snapshot</span></div>
+    <div class="callout danger">
+      <div class="lbl">Read this first</div>
+      This is <strong>not an investable business — it is a distressed, fraud-tainted shell in insolvency.</strong> SEBI has barred the promoters for fund diversion; the NCLT has admitted Gensol to the corporate insolvency resolution process (CIRP) over a ₹510 Cr default. Every "fundamental" below is pre-scandal, unaudited-for-fraud, and almost certainly overstated. The valuation ratios are meaningless in this context.
+    </div>
+    <div class="snap-grid">
+      <div class="snap-cell"><div class="snap-k">Market Cap</div><div class="snap-v">₹78<small> Cr</small></div></div>
+      <div class="snap-cell"><div class="snap-k">P/E (stated)</div><div class="snap-v">0.8<small>x*</small></div></div>
+      <div class="snap-cell"><div class="snap-k">P/B (stated)</div><div class="snap-v">0.13<small>x*</small></div></div>
+      <div class="snap-cell"><div class="snap-k">Promoter Pledge</div><div class="snap-v">95<small>%</small></div></div>
+      <div class="snap-cell"><div class="snap-k">Borrowings</div><div class="snap-v">₹1,372<small> Cr*</small></div></div>
+      <div class="snap-cell"><div class="snap-k">Status</div><div class="snap-v" style="color:var(--red);font-size:14px">CIRP</div></div>
+      <div class="snap-cell"><div class="snap-k">Promoters</div><div class="snap-v" style="color:var(--red);font-size:14px">SEBI-barred</div></div>
+      <div class="snap-cell"><div class="snap-k">Book Value</div><div class="snap-v">₹155<small>*</small></div></div>
+    </div>
+    <p class="muted" style="margin-top:14px;">Once a market-darling solar-EPC and EV-leasing play (tied to sister firm BluSmart), Gensol collapsed in 2025 after SEBI found the promoter-directors, brothers <strong>Anmol &amp; Puneet Singh Jaggi</strong>, had diverted a large part of ₹978 Cr of IREDA/PFC loans for personal use. The stock is down &gt;90%, the promoters have resigned and are barred from the markets, and the company is in insolvency. The "0.8x P/E / 0.13x P/B" screen is a textbook value trap — the assets and earnings behind those ratios are exactly what the forensic audit is unwinding.</p>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Business &amp; Qualitative</span></div>
+    <p><strong>What it was.</strong> Gensol operated two linked businesses: (i) <strong>solar EPC</strong> — engineering, procurement &amp; construction of solar power projects, plus advisory/O&amp;M; and (ii) <strong>EV leasing/manufacturing</strong> — financing and leasing electric vehicles, notably to ride-hailing affiliate <strong>BluSmart</strong> (also promoted by the Jaggis). The EV-leasing arm was debt-funded via green/renewable lenders IREDA and PFC.</p>
+    <p><strong>What broke it.</strong> The related-party web between Gensol, BluSmart and the promoters became the conduit for the alleged fraud: loans raised to buy EVs were, per SEBI, partly routed to related parties and promoter personal expenses (incl. high-end real estate) rather than deployed as represented. The "business" today is an insolvent entity run by an interim resolution professional, with frozen accounts and a leadership vacuum.</p>
+    <div class="mix"><span class="chip">Solar EPC <b>legacy</b></span><span class="chip">EV leasing (BluSmart) <b>defaulted</b></span></div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Promoters &amp; Governance</span></div>
+    <p class="muted">Governance is the entire story here. The two promoter-directors have been barred by SEBI and have resigned.</p>
+    <div class="ppl">
+      <div class="pcard">
+        <div class="pname">Anmol Singh Jaggi <span class="prole">Ex-MD · SEBI-barred</span></div>
+        <div class="pkv"><div class="k">Status</div><div class="v">Former Managing Director &amp; promoter. Restrained by SEBI from the securities market and from any director/KMP role at Gensol; resigned May 2025. A direct alleged beneficiary of the diverted funds.</div></div>
+      </div>
+      <div class="pcard">
+        <div class="pname">Puneet Singh Jaggi <span class="prole alt">Ex-WTD · SEBI-barred</span></div>
+        <div class="pkv"><div class="k">Status</div><div class="v">Former Whole-Time Director &amp; promoter. Same SEBI restraint and resignation. Brothers jointly ran the Gensol–BluSmart group.</div></div>
+      </div>
+    </div>
+    <div class="callout danger">
+      <div class="lbl">Governance &amp; red flags — severe</div>
+      <ul class="flags">
+        <li>SEBI interim order (Apr–May 2025): prima facie <strong>fraudulent diversion/misutilisation</strong> of company funds by promoter-directors; forensic audit ordered.</li>
+        <li>Alleged personal use of loan proceeds (₹978 Cr IREDA/PFC), including <strong>high-end real estate</strong> and transfers to promoter relatives/related parties.</li>
+        <li><strong>Promoter pledge ~95.1%</strong>; promoter holding collapsed from ~62.7% (Dec-2024) to ~35.9% as pledges were invoked.</li>
+        <li>NCLT permitted the government to <strong>freeze Gensol's and 10 subsidiaries' bank accounts</strong>; CRISIL flagged non-cooperation over preferential proceeds.</li>
+        <li>Alleged falsified documents/records around loan utilisation and EV orders.</li>
+      </ul>
+      <div class="src">Source basis: SEBI interim order, NCLT filings, IREDA petition, credible media (Business Standard, Bar &amp; Bench). Allegations are as reported; matters sub judice.</div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Fundamentals</span></div>
+    <p><strong>Pre-scandal figures — treat as unreliable.</strong> These are the last reported numbers before the fraud came to light; the forensic audit exists precisely because their integrity is in question.</p>
+    <table>
+      <tr><th>Metric</th><th>FY24</th><th>TTM*</th><th>Note</th></tr>
+      <tr><td>Revenue (₹ Cr)</td><td>963</td><td>1,452</td><td>quality suspect</td></tr>
+      <tr><td>PAT (₹ Cr)</td><td>53</td><td>87</td><td>quality suspect</td></tr>
+      <tr><td>Borrowings (₹ Cr)</td><td colspan="2">~1,372 (Sep-2024)</td><td>vs ₹78 Cr m-cap</td></tr>
+    </table>
+    <p style="margin-top:14px;"><strong>Read.</strong> Debt of ~₹1,372 Cr against an ₹78 Cr equity value tells the whole story: this is a heavily levered entity whose lenders (IREDA, PFC) have moved to insolvency to recover. In a CIRP, <strong>secured financial creditors rank far ahead of equity holders</strong> in the waterfall; the reported ₹155 book value per share is an accounting figure, not recoverable value, and is being re-examined for inflated/diverted assets.</p>
+    <div class="callout verify">
+      <div class="lbl">Verify</div>
+      All financials pre-date the forensic audit and may be materially restated. Do not rely on any pre-2025 P&amp;L, balance-sheet or ratio figure without the resolution professional's / auditor's findings.
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">Valuation</span></div>
+    <p>There is <strong>no meaningful valuation case</strong>. The optically cheap multiples (P/E ~0.8x, P/B ~0.13x) are artefacts of pre-fraud earnings and an unverified book value against a price that has already fallen &gt;90%. In insolvency, equity is the residual claim after ~₹1,372 Cr of debt and other creditors are settled — the realistic base case for equity holders is <strong>near-total or total loss</strong>, with a low-probability tail of some recovery only if a resolution applicant pays a premium that reaches equity (rare). This is a lottery ticket / gambling situation, not an investment.</p>
+  </div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">Ownership &amp; Dividends</span></div>
+    <p><strong>Holding.</strong> Promoter ~35.9% (down from ~62.7% in Dec-2024) with <strong>~95.1% of it pledged</strong> — i.e. lender-controlled and being invoked; effective promoter skin-in-the-game is gone. Retail holding has ballooned as the stock fell — classic falling-knife ownership. <strong>Dividend.</strong> None; irrelevant in CIRP.</p>
+    <div class="mix">
+      <span class="chip">Promoter <b>~35.9%</b></span><span class="chip">of which pledged <b>~95%</b></span><span class="chip">Dividend <b>nil</b></span>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">07</span><span class="sec-title">Peer Comparison</span></div>
+    <p class="muted">Not applicable in any useful sense — a solvent solar-EPC peer set (e.g. Sterling &amp; Wilson, Waaree, Premier Energies) is irrelevant to a company in insolvency. The only relevant "comparison" is to other listed CIRP cases, where equity holders were typically wiped out or heavily diluted (e.g. historical NCLT resolutions). Gensol should be assessed as a special-situation/distressed instrument, not as an EPC stock.</p>
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">08</span><span class="sec-title">Recent News &amp; Catalysts</span></div>
+    <ul class="plain">
+      <li><strong>Apr–May 2025:</strong> SEBI interim order bars the Jaggi brothers for fund diversion; orders forensic audit. Promoters resign; SAT allows Gensol to respond.</li>
+      <li><strong>May 2025:</strong> NCLT permits freezing of Gensol's and 10 subsidiaries' bank accounts.</li>
+      <li><strong>Jun 2025:</strong> IREDA files insolvency petition (₹510 Cr default); fresh NCLT notices to Gensol &amp; BluSmart.</li>
+      <li><strong>Jul 2025:</strong> NCLT (Ahmedabad) <strong>admits Gensol to CIRP</strong>; interim resolution professional appointed to run operations.</li>
+      <li><strong>Watch (not catalysts to buy on):</strong> forensic-audit findings, claims admitted, any resolution plan, delisting/suspension risk, further SEBI/enforcement action.</li>
+    </ul>
+  </div>
+
+  <!-- 09 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">09</span><span class="sec-title">Risks</span></div>
+    <ul class="plain">
+      <li><strong>Equity wipeout.</strong> In CIRP, equity ranks last; total loss is the base case.</li>
+      <li><strong>Fraud / restatement.</strong> Reported financials may be materially overstated; assets diverted.</li>
+      <li><strong>Delisting / suspension.</strong> Trading may be restricted, in surveillance (GSM/ASM), or suspended; liquidity to exit is unreliable.</li>
+      <li><strong>Legal overhang.</strong> SEBI, NCLT, lender and possible criminal proceedings ongoing; outcomes and timelines highly uncertain.</li>
+      <li><strong>Falling-knife dynamics.</strong> Price is disconnected from any fundamental anchor; volatility is driven by news and speculation.</li>
+    </ul>
+  </div>
+
+  <!-- 10 -->
+  <div class="section">
+    <div class="sec-head"><span class="sec-num">10</span><span class="sec-title">Verdict</span></div>
+    <div class="bb">
+      <div class="bb-card bull"><div class="bb-h">Bull case (speculative only)</div><ul>
+        <li>A resolution applicant could theoretically pay enough to leave a sliver for equity — low probability.</li>
+        <li>Underlying solar-EPC capability may have residual going-concern value in resolution.</li>
+        <li>Deeply beaten-down price ⇒ high-variance rebound trades on any positive headline.</li>
+      </ul></div>
+      <div class="bb-card bear"><div class="bb-h">Bear case (base case)</div><ul>
+        <li>Insolvency + confirmed governance fraud + ~₹1,372 Cr debt vs ₹78 Cr equity.</li>
+        <li>Promoters barred and gone; 95% pledge; frozen accounts; forensic audit underway.</li>
+        <li>Equity ranks last — realistic outcome is near-total loss.</li>
+        <li>Financials unreliable; legal/regulatory overhang open-ended.</li>
+      </ul></div>
+    </div>
+    <div class="rating">
+      <div class="rating-badge">SELL · HIGH RISK</div>
+      <div class="rating-txt">A <b>hard avoid</b> for any investment mandate. This is a fraud-tainted company in insolvency where equity holders sit at the very back of the queue behind ~₹1,372 Cr of creditors — the base case is a near-total loss. Only a speculator explicitly trading a special-situation lottery (with money they can fully lose) would touch it, and even then the odds and process risk are stacked against equity. Nothing here would move it off Avoid short of a confirmed resolution plan that unexpectedly reaches equity — which is not the way to bet. Keep it on the watchlist as a <b>cautionary case study</b>, not a position.</div>
+    </div>
+    <div class="note"><div class="lbl">Personal note</div><div class="ph">— your view, target entry, position sizing —</div></div>
+  </div>
+
+  <div class="footer">Stock Research Template v1.1 · Gensol Engineering Limited · Generated 9 Jul 2026 · Price: Google Finance / NSE · FY = Apr–Mar<br>Company under SEBI order and NCLT-admitted insolvency (CIRP). All pre-scandal financials are unreliable and under forensic audit; allegations are as reported and matters are sub judice. Figures marked * are approximate. Personal research only. Not investment advice.</div>
+</div>
+</body>
+</html>

@@ -26,17 +26,34 @@ function srColl() {
 }
 
 // ── Rating → family (drives badge colour) ───────────────
-// Order matters: first match wins. "avoid"/"sell" checked before "buy"
-// so "Avoid — do not buy" lands in the avoid family. Fund verbs
-// (subscribe/sip/wait/thematic) map onto the same five families.
+// Order matters: first match wins. "sell"/"avoid" is checked before "buy" so
+// "Avoid — do not buy" lands in sell, and "hold"/"watch" before "buy" so
+// "Hold, accumulate on weakness" stays a hold. Fund verbs (subscribe/sip/wait)
+// map onto the same three families.
+// Ratings are Buy / Hold / Sell only. Risk lives on its own axis (see srRisk):
+// a name can be a Buy and still be high-risk, which the old "speculative"
+// family conflated with a direction.
 function srRatingFamily(rating) {
   const r = String(rating || '').toLowerCase();
-  if (/\bavoid\b|\bsell\b|\bexit\b/.test(r))                          return 'avoid';
-  if (/speculat|thematic/.test(r))                                    return 'speculative';
-  if (/\bwatch\b|\bhold\b|priced.for.perfection|neutral|\bwait\b/.test(r)) return 'watch';
-  if (/accumulate|\bsip\b/.test(r))                                   return 'accumulate';
-  if (/\bbuy\b|subscribe/.test(r))                                    return 'buy';
-  return 'watch';
+  if (/\bsell\b|\bavoid\b|\bexit\b/.test(r))                              return 'sell';
+  if (/\bhold\b|\bwatch\b|priced.for.perfection|neutral|\bwait\b/.test(r)) return 'hold';
+  if (/\bbuy\b|accumulate|subscribe|\bsip\b/.test(r))                     return 'buy';
+  return 'hold';
+}
+
+// Legacy families from reports imported before the Buy/Hold/Sell change.
+const SR_LEGACY_FAMILY = { accumulate: 'buy', watch: 'hold', speculative: 'hold', avoid: 'sell' };
+
+function srNormFamily(f) {
+  const k = String(f || '').toLowerCase();
+  return SR_LEGACY_FAMILY[k] || (['buy', 'hold', 'sell'].includes(k) ? k : 'hold');
+}
+
+// Risk is read from an explicit <meta name="risk"> ("high"); falls back to the
+// old "speculative" wording so legacy reports keep their warning.
+function srRisk(riskMeta, rating) {
+  if (/^(high|elevated)$/i.test(String(riskMeta || '').trim())) return 'high';
+  return /speculat/i.test(String(rating || '')) ? 'high' : '';
 }
 
 function srSlug(s) {
@@ -101,6 +118,7 @@ function srParseReportHtml(html) {
     sector: meta('category') || meta('sector') || '—',   // category is the fund's "sector"
     rating,
     ratingFamily: srRatingFamily(rating),
+    risk: srRisk(meta('risk'), rating),
     genPrice,
     generatedAt: generated,       // ISO yyyy-mm-dd as authored
     hasGaps,
@@ -185,17 +203,17 @@ function srIsStale(r) {
 
 let SR_view = { kind: 'stock', q: '', sector: '', family: '', verifyOnly: false, sortKey: 'generatedAt', sortDir: -1, openId: null };
 
-const SR_FAMILY_LABEL = { buy: 'Buy', accumulate: 'Accumulate', watch: 'Watch / Hold', speculative: 'Speculative', avoid: 'Avoid' };
+const SR_FAMILY_LABEL = { buy: 'Buy', hold: 'Hold', sell: 'Sell' };
 
 // ── Grouped list rendering ──────────────────────────────
 // Funds group by category (Mid Cap, Flexi Cap, Liquid, …); stocks group by
 // rating family in conviction order. Rows keep the active sort within a group.
-const SR_FAMILY_ORDER = ['buy', 'accumulate', 'watch', 'speculative', 'avoid'];
+const SR_FAMILY_ORDER = ['buy', 'hold', 'sell'];
 
 function srGroups(rows, isFund) {
   const keyOf = isFund
     ? r => (r.sector && r.sector !== '—' ? r.sector : 'Uncategorised')
-    : r => r.ratingFamily || 'watch';
+    : r => srNormFamily(r.ratingFamily);
   const map = new Map();
   rows.forEach(r => {
     const k = keyOf(r);
@@ -232,7 +250,11 @@ function srFmtPrice(n) {
 }
 
 function srRatingBadge(r) {
-  return `<span class="sr-badge sr-badge-${esc(r.ratingFamily || 'watch')}" title="${esc(r.rating)}">${esc(r.rating)}</span>`;
+  const fam  = srNormFamily(r.ratingFamily);
+  const risk = srRisk(r.risk, r.rating) === 'high'
+    ? ` <span class="sr-risk" title="High risk — read the report before sizing">high risk</span>`
+    : '';
+  return `<span class="sr-badge sr-badge-${esc(fam)}" title="${esc(r.rating)}">${esc(r.rating)}</span>${risk}`;
 }
 
 function srFlags(r) {
@@ -411,7 +433,7 @@ function srFiltered() {
     (!q || r.ticker.toLowerCase().includes(q) || String(r.name).toLowerCase().includes(q)
         || String(r.manager || '').toLowerCase().includes(q) || String(r.amc || '').toLowerCase().includes(q)) &&
     (!SR_view.sector || r.sector === SR_view.sector) &&
-    (!SR_view.family || r.ratingFamily === SR_view.family) &&
+    (!SR_view.family || srNormFamily(r.ratingFamily) === SR_view.family) &&
     (!SR_view.verifyOnly || r.hasGaps)
   );
   const k = SR_view.sortKey, dir = SR_view.sortDir;
@@ -451,7 +473,7 @@ function srDrawList(wrap) {
 
   const inKind = SR_reports.filter(r => (r.type || 'stock') === SR_view.kind);
   const sectors  = [...new Set(inKind.map(r => r.sector).filter(s => s && s !== '—'))].sort();
-  const families = [...new Set(inKind.map(r => r.ratingFamily))];
+  const families = [...new Set(inKind.map(r => srNormFamily(r.ratingFamily)))];
   const rows = srFiltered();
   const arrow = k => SR_view.sortKey === k ? (SR_view.sortDir > 0 ? ' ▲' : ' ▼') : '';
 
@@ -982,7 +1004,7 @@ function srReportFor(symbol) {
 function srCrossLinkBadge(symbol) {
   const r = srReportFor(symbol);
   if (!r) return '';
-  return ` <span class="sr-xlink sr-badge-${esc(r.ratingFamily)}" onclick="event.stopPropagation();srGotoReport('${esc(r.id)}')" title="Open research report — ${esc(r.rating)}">▤ research</span>`;
+  return ` <span class="sr-xlink sr-badge-${esc(srNormFamily(r.ratingFamily))}" onclick="event.stopPropagation();srGotoReport('${esc(r.id)}')" title="Open research report — ${esc(r.rating)}">▤ research</span>`;
 }
 
 // Switch to the Reports tab and open a specific report.

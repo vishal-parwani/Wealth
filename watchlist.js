@@ -741,10 +741,33 @@ document.querySelectorAll('.subtab-btn').forEach(btn => {
 
 // ── STOCK PRICE FETCHING (Yahoo Finance via Cloudflare Worker proxy) ──
 // Named fetchStockData (not fetchStockPrice) to avoid collision with portfolio.js's simpler version
+// Yahoo symbols to try, in order. Indian SME lines carry a -SM suffix and some
+// names only resolve on BSE, so probe a few variants rather than showing a blank.
+function yahooCandidates(symbol, exchange) {
+  if (exchange === 'US')  return [symbol];                       // bare ticker, e.g. RBC
+  if (exchange === 'BSE') return [`${symbol}.BO`, `${symbol}.NS`];
+  const out = [`${symbol}.NS`];
+  if (/-SM$/i.test(symbol)) out.push(`${symbol.replace(/-SM$/i, '')}.NS`); // SME -> mainboard
+  else                      out.push(`${symbol}-SM.NS`);                   // mainboard -> SME
+  out.push(`${symbol}.BO`);
+  return out;
+}
+// Remembers which variant actually worked, so we probe only once per session.
+const WL_SYM_CACHE = {};
+
 async function fetchStockData(symbol, exchange) {
+  const cacheKey = `${symbol}|${exchange}`;
+  const candidates = WL_SYM_CACHE[cacheKey] ? [WL_SYM_CACHE[cacheKey]] : yahooCandidates(symbol, exchange);
+  for (const base of candidates) {
+    const out = await fetchStockDataFor(base, symbol);
+    if (out) { WL_SYM_CACHE[cacheKey] = base; return out; }
+  }
+  console.warn('fetchStockData: no Yahoo symbol resolved for', symbol, exchange, 'tried', candidates);
+  return null;
+}
+
+async function fetchStockDataFor(base, symbol) {
   try {
-    const suffix = exchange === 'BSE' ? '.BO' : '.NS';
-    const base = `${symbol}${suffix}`;
     // Run two calls in parallel: 5y weekly (returns + dividends) + 5d daily (1D return)
     const [rLong, rShort] = await Promise.all([
       fetch(`${CF_PROXY}?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${base}?interval=1wk&range=5y&events=div`)}`),
@@ -755,6 +778,7 @@ async function fetchStockData(symbol, exchange) {
     const res = dLong.chart?.result?.[0];
     if (!res) return null;
     const meta = res.meta;
+    if (meta.regularMarketPrice == null) return null;   // resolved but no price -> try next variant
     const cmp = meta.regularMarketPrice;
     const w52high = meta.fiftyTwoWeekHigh || null;
     const w52low  = meta.fiftyTwoWeekLow  || null;
@@ -808,9 +832,11 @@ async function fetchStockData(symbol, exchange) {
       cagr1y: cagrAtDays(365), cagr3y: cagrAtDays(1095),
       ttmDiv: ttmDiv ? Math.round(ttmDiv * 100) / 100 : null,
       divYield,
+      yahooSymbol: base,
+      currency: meta.currency || null,
       date: new Date().toISOString()
     };
-  } catch(e) { console.warn('fetchStockData failed', symbol, e); return null; }
+  } catch(e) { console.warn('fetchStockData failed', symbol, base, e); return null; }
 }
 
 function allWlStocks() {
@@ -877,9 +903,9 @@ function doStockSearch(q) {
     <div class="sr-item">
       <div style="flex:1;min-width:0">
         <div class="sr-name">${esc(s.name)}</div>
-        <div class="sr-code">${esc(s.symbol)} · NSE · ${esc(s.sector)}</div>
+        <div class="sr-code">${esc(s.symbol)} · ${esc(s.exchange || 'NSE')} · ${esc(s.sector)}</div>
       </div>
-      <button class="btn-add-sr" data-sym="${esc(s.symbol)}" data-exch="NSE" data-name="${esc(s.name)}">+ Add</button>
+      <button class="btn-add-sr" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange || 'NSE')}" data-name="${esc(s.name)}">+ Add</button>
     </div>`).join('');
 
   elStockResults.querySelectorAll('.btn-add-sr').forEach(btn => {
