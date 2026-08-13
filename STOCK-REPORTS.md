@@ -17,8 +17,9 @@ track record yet, so the signal is the **fund manager's history**. A fund report
   in the list. This is the manager's performance history, always fresh.
 - Shows the fund's **live NAV vs its ₹10 launch** once it has an AMFI scheme code; until
   then the row shows the **NFO status** (open / closes-date).
-- Reuses the same rating families with fund labels: Subscribe (buy) · SIP/Accumulate ·
-  Wait-for-track-record (watch) · Thematic (speculative) · Avoid.
+- Uses the same three ratings as stocks: `Buy` / `Hold` / `Sell`. Fund-specific
+  nuance (SIP vs lump sum, wait-for-track-record) belongs in the report body, not
+  the rating.
 
 ### Fund report meta tags
 
@@ -29,7 +30,7 @@ track record yet, so the signal is the **fund manager's history**. A fund report
 <meta name="amc"      content="ICICI Prudential Mutual Fund">
 <meta name="category" content="Multi-Asset FoF (Active)">
 <meta name="manager"  content="Dharmesh Kakkad, Manish Banthia, …">
-<meta name="rating"   content="Accumulate · SIP (FoF)">
+<meta name="rating"   content="Buy">
 <meta name="generated" content="2026-07-10">
 <meta name="price"    content="10">              <!-- NFO NAV -->
 <meta name="scheme"   content="">                <!-- AMFI code for live NAV; empty for an NFO -->
@@ -77,7 +78,8 @@ The importer reads these machine-readable tags from the report's `<head>`:
 <meta name="ticker"    content="COFORGE">
 <meta name="exchange"  content="NSE">
 <meta name="sector"    content="IT Services">
-<meta name="rating"    content="Watch / Accumulate on Weakness">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">   <!-- optional; omit for ordinary risk -->
 <meta name="generated" content="2026-06-25">   <!-- YYYY-MM-DD -->
 <meta name="price"     content="1480.40">       <!-- price at generation -->
 <meta name="name"      content="Coforge Limited"> <!-- optional; else <title> -->
@@ -121,7 +123,8 @@ Reports live in a Firestore subcollection, one doc per report:
 | field | notes |
 |-------|-------|
 | `ticker`, `exchange`, `name`, `sector`, `rating` | parsed from meta |
-| `ratingFamily` | `buy` \| `accumulate` \| `watch` \| `speculative` \| `avoid` → badge colour |
+| `ratingFamily` | `buy` \| `hold` \| `sell` → badge colour |
+| `risk` | `high` \| `''` → renders a separate "high risk" tag beside the badge |
 | `genPrice` | price embedded in the report at generation |
 | `generatedAt` | YYYY-MM-DD from meta |
 | `hasGaps` | drives the amber "verify" dot |

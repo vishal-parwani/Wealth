@@ -40,9 +40,18 @@ file and stub `fetch`).
   (spec in `STOCK-REPORTS.md`). Authored copies are archived under `Stock Reports/`;
   the app itself reads them from Firestore, so committing alone does NOT make a report
   appear in the app.
-- Fund reports should carry the AMFI `scheme` code so the viewer shows live NAV, and
-  ratings must map onto the app's rating families (buy / accumulate / watch /
-  speculative / avoid — see `srRatingFamily`).
+- Fund reports should carry the AMFI `scheme` code so the viewer shows live NAV.
+- **Ratings are `Buy` / `Hold` / `Sell` — nothing else.** Use those exact words in
+  `<meta name="rating">`; no qualifiers appended ("Accumulate on dips", "Watch /
+  Great Story" and similar are retired). Rationale: if a price is worth accumulating
+  at, it is worth buying at, so buy and accumulate were never distinct decisions.
+- **Risk is a separate axis** from the rating, via `<meta name="risk" content="high">`.
+  A name can be a `Buy` and still be high-risk — the retired "speculative" family
+  wrongly conflated risk with direction. The app renders risk as its own tag beside
+  the badge (`srRisk`); omit the meta for ordinary risk.
+- In "What would change the rating", use the same three words — "Upgrade to Buy",
+  "Downgrade to Hold", "Downgrade to Sell". For a report already rated Buy, the
+  stronger-conviction trigger is "Add more aggressively", not "Upgrade to Buy".
 - **Agent sessions: always merge completed work to `main`** (and push) — the app
   deploys from `main` via GitHub Pages, so work left on a feature branch never goes
   live. Don't wait for a PR or ask; merge once the change is done and verified.
