@@ -930,6 +930,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .sr-nfo.closed{background:var(--surface2);color:var(--text2)}
 /* fund live panel in the viewer */
 .sr-fund-live{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 14px}
+/* app-rendered 1Y price chart above a stock report (mirrors .sr-fund-live) */
+.sr-chart{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 14px}
+.sr-chart-svg{width:100%;height:auto;max-height:210px;display:block;margin-top:6px}
+.sr-chart-svg text{font-family:inherit}
 .sr-fl-hd{font-size:.82rem;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
 .sr-live-chip{font-size:.58rem;font-weight:800;letter-spacing:.04em;color:#fff;background:var(--green);border-radius:4px;padding:1px 6px}
 .sr-fl-tablewrap{overflow-x:auto;margin-top:6px}

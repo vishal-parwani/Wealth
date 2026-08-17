@@ -153,3 +153,27 @@ match /dashboards/{docId}/reports/{reportId} {
   price feed, override modal, Stocks cross-link.
 - `index.html` — tab button, panel, import + override modals, module registration.
 - `styles.css` — everything under the `STOCK REPORTS TAB` comment.
+
+## Template v2 (current — start from `Stock Reports/_TEMPLATE-v2.html`)
+
+Fixed section order:
+
+1. **Key data grid** — share price, 52W range, market cap, dividend yield, TTM P/E,
+   P/BV, net debt, debt/equity
+2. **Verdict** — the sentence that decides the call, then evidence, then counter-argument
+3. **Broker estimates** — named brokers, targets, % vs spot, date; plus forward P/E
+4. **Share price — 1 year** — placeholder only; the app draws the live chart
+5. **Financials** — an *annual* table (2–3 years) and a *separate* last-4-quarters table.
+   Annual-only hides sequential margin reversals, which is usually where the story is.
+6. **Latest news** — last 3 months, top 5, each with a date and why it matters
+7. **Corporate governance** — 5-quarter promoter / FII / DII / public shareholding table
+   (read the *direction*, not the level), then promoter, management and board profiles
+8. **Business** — nature, peer table, moat (or plainly: none), confirmed order book
+9. **Risks** → 10. **What would change the rating** → 11. **Sources**
+
+Conventions: superscript `d` marks a derived figure, an "unreconciled" chip marks
+conflicting sources, grey `n/a` marks data that could not be sourced. Never invent a
+number to fill a cell.
+
+Styling: light paper (`#fcfcfa`), serif headings, system sans body, tabular numerals,
+all system fonts — the report renders inside a sandboxed iframe with no network.
