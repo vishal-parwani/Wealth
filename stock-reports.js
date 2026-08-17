@@ -302,6 +302,128 @@ async function srFetchReportPrice(r) {
   return { na: true };
 }
 
+// ── Stock price history (1Y) → app-rendered chart above the report ────
+// Authored reports deliberately carry no chart: one baked in at authoring
+// time goes stale the next day. The viewer draws it live instead, the same
+// way funds get srFundLivePanel.
+let SR_hist = {};   // id -> { closes:[], t0, t1 } | { na:true }
+
+function srSymbolCandidates(r) {
+  const ov = r.priceOverride;
+  if (ov && ov.symbol) return [ov.symbol];
+  return r.exchange === 'BSE' ? [`${r.ticker}.BO`, `${r.ticker}.NS`]
+                              : [`${r.ticker}.NS`, `${r.ticker}.BO`];
+}
+
+async function srFetchHistory(r) {
+  for (const sym of srSymbolCandidates(r)) {
+    try {
+      const yf = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=1y`;
+      const res = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yf)}`, { cache: 'no-store' });
+      if (!res.ok) continue;
+      const j = (await res.json())?.chart?.result?.[0];
+      const ts = j?.timestamp || [];
+      const cl = (j?.indicators?.quote?.[0]?.close || []).map(Number);
+      const pts = [];
+      for (let i = 0; i < ts.length; i++) if (Number.isFinite(cl[i])) pts.push({ t: ts[i] * 1000, c: cl[i] });
+      if (pts.length > 20) return { closes: pts, symbol: sym };
+    } catch (e) { /* try next symbol */ }
+  }
+  return { na: true };
+}
+
+// Inline SVG line chart. Marks the 52W high/low and the price the report was
+// written at, so drift since authoring is visible at a glance.
+function srSparkline(pts, genPrice) {
+  const W = 720, H = 200, PL = 46, PR = 74, PT = 26, PB = 24;
+  const vals = pts.map(p => p.c);
+  const rawHi = Math.max(...vals), rawLo = Math.min(...vals);
+  let lo = rawLo, hi = rawHi;
+  const hasGen = Number.isFinite(genPrice);
+  if (hasGen) { lo = Math.min(lo, genPrice); hi = Math.max(hi, genPrice); }
+  const pad = (hi - lo) * 0.12 || 1;
+  lo -= pad; hi += pad;
+  const x = i => PL + (i / (pts.length - 1)) * (W - PL - PR);
+  const y = v => PT + (1 - (v - lo) / (hi - lo)) * (H - PT - PB);
+  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.c).toFixed(1)}`).join('');
+  const area = `${line}L${x(pts.length - 1).toFixed(1)},${H - PB}L${PL},${H - PB}Z`;
+  const first = vals[0], last = vals[vals.length - 1];
+  const up = last >= first;
+  const stroke = up ? '#12734f' : '#b3261e';
+  const fill   = up ? 'rgba(18,115,79,.10)' : 'rgba(179,38,30,.10)';
+  const iHi = vals.indexOf(rawHi), iLo = vals.indexOf(rawLo), iLast = pts.length - 1;
+
+  // Label collision control: every label is placed, then suppressed if it would
+  // sit within MINGAP px of one already placed. The last-price label is pinned
+  // first because it is the one the reader looks for.
+  const MINGAP = 15, placed = [];
+  const free = (px, py) => !placed.some(q => Math.abs(q.x - px) < 46 && Math.abs(q.y - py) < MINGAP);
+  const claim = (px, py) => placed.push({ x: px, y: py });
+
+  let out = '';
+  // 1. last price — pinned in the right gutter, always drawn
+  const lx = x(iLast), ly = y(last);
+  claim(W - PR + 34, ly);
+  out += `<circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.6" fill="${stroke}"/>`
+       + `<text x="${(W - PR + 6).toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="12" font-weight="700" fill="${stroke}">₹${srFmtPrice(last)}</text>`;
+
+  // 2. gen-price reference — skipped when it would sit on the last-price label
+  if (hasGen) {
+    const gy = y(genPrice);
+    out += `<line x1="${PL}" x2="${(W - PR).toFixed(1)}" y1="${gy.toFixed(1)}" y2="${gy.toFixed(1)}" stroke="#7b8694" stroke-width="1" stroke-dasharray="4 3" opacity=".6"/>`;
+    if (free(W - PR + 34, gy)) {
+      claim(W - PR + 34, gy);
+      out += `<text x="${(W - PR + 6).toFixed(1)}" y="${(gy + 4).toFixed(1)}" font-size="10.5" fill="#7b8694">gen ₹${srFmtPrice(genPrice)}</text>`;
+    }
+  }
+
+  // 3. 52W high / low — label above the high, below the low; anchor pulled in
+  //    at the edges so text never runs outside the viewBox.
+  for (const [idx, val, above] of [[iHi, rawHi, true], [iLo, rawLo, false]]) {
+    const px = x(idx), py = y(val), ty = py + (above ? -10 : 17);
+    const nearR = px > W - PR - 52, nearL = px < PL + 52;
+    const anchor = nearR ? 'end' : nearL ? 'start' : 'middle';
+    const tx = nearR ? Math.min(px, W - PR) : nearL ? Math.max(px, PL) : px;
+    out += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="2.8" fill="${stroke}" opacity=".75"/>`;
+    if (free(tx, ty)) {
+      claim(tx, ty);
+      out += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="${anchor}" font-size="10.5" fill="#5b6472">₹${srFmtPrice(val)}</text>`;
+    }
+  }
+
+  const fmtD = ms => new Date(ms).toLocaleDateString('en-IN', { month: 'short', year: '2-digit' });
+  return `
+  <svg class="sr-chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img"
+       aria-label="One-year share price chart">
+    <path d="${area}" fill="${fill}"/>
+    <path d="${line}" fill="none" stroke="${stroke}" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>
+    ${out}
+    <text x="${PL}" y="${H - 6}" font-size="10.5" fill="#7b8694">${fmtD(pts[0].t)}</text>
+    <text x="${(W - PR).toFixed(1)}" y="${H - 6}" font-size="10.5" fill="#7b8694" text-anchor="end">${fmtD(pts[iLast].t)}</text>
+  </svg>`;
+}
+
+function srStockChartPanel(r) {
+  const h = SR_hist[r.id];
+  if (!h) return `<div class="sr-chart"><div class="sr-fl-hd">Share price — 1 year</div>
+    <div class="sr-sub" style="padding:8px 2px">Loading price history…</div></div>`;
+  if (h.na || !h.closes) return `<div class="sr-chart"><div class="sr-fl-hd">Share price — 1 year</div>
+    <div class="sr-sub" style="padding:8px 2px">No price history for this symbol. Set a price override to a Yahoo symbol that resolves.</div></div>`;
+  const v = h.closes.map(p => p.c);
+  const first = v[0], last = v[v.length - 1];
+  const chg = ((last - first) / first) * 100;
+  const cls = chg >= 0 ? 'sr-up' : 'sr-dn';
+  return `
+    <div class="sr-chart">
+      <div class="sr-fl-hd">Share price — 1 year
+        <span class="sr-live-chip">LIVE · ${esc(h.symbol || '')}</span>
+        <span class="${cls}" style="margin-left:8px;font-weight:700">${chg >= 0 ? '+' : ''}${chg.toFixed(1)}%</span>
+        <span class="sr-sub" style="margin-left:10px">52W ₹${srFmtPrice(Math.min(...v))} – ₹${srFmtPrice(Math.max(...v))}</span>
+      </div>
+      ${srSparkline(h.closes, r.genPrice)}
+    </div>`;
+}
+
 // ── Fund live data (NAV + manager track record via mfapi.in, no key) ──
 // SR_navHist caches each AMFI scheme's full NAV history so a manager's funds
 // are fetched once and reused across reports.
@@ -739,7 +861,8 @@ function srDrawViewer(wrap, r) {
           <button class="btn btn-sm" id="sr-replace" title="Import an updated HTML — keeps your note">Replace</button>
           <button class="btn btn-sm" id="sr-newtab">Open in new tab ↗</button>
         </div>
-        ${isFund ? `<div id="sr-fund-live-slot">${srFundLivePanel(r)}</div>` : ''}
+        ${isFund ? `<div id="sr-fund-live-slot">${srFundLivePanel(r)}</div>`
+                 : `<div id="sr-chart-slot">${srStockChartPanel(r)}</div>`}
         <iframe class="sr-frame" sandbox="allow-scripts allow-popups" title="Research report: ${esc(r.name)}"></iframe>
         <div class="sr-note">
           <label for="sr-note-input">My note <span class="sr-sub">(private — kept when the report is replaced)</span></label>
@@ -751,6 +874,15 @@ function srDrawViewer(wrap, r) {
 
   // srcdoc via property assignment — avoids HTML-escaping the whole report in the template
   wrap.querySelector('.sr-frame').srcdoc = r.html;
+
+  // Stocks: fetch 1Y history once per report, then refresh just the chart panel.
+  if (!isFund && !SR_hist[r.id]) {
+    srFetchHistory(r).then(h => {
+      SR_hist[r.id] = h;
+      const slot = document.getElementById('sr-chart-slot');
+      if (slot && SR_view.openId === r.id) slot.innerHTML = srStockChartPanel(r);
+    });
+  }
 
   // If a fund's live data isn't cached yet, fetch it and refresh just the panel.
   if (isFund && !SR_prices[r.id]) {
