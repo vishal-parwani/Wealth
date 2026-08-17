@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coforge Limited (NSE: COFORGE) | Stock Research</title>
+
+<meta name="type"      content="stock">
+<meta name="ticker"    content="COFORGE">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Coforge Limited">
+<meta name="sector"    content="IT Services">
+<meta name="rating"    content="Buy">
+<meta name="generated" content="2026-08-17">
+<meta name="price"     content="1806.00">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Chart slot ───────────────────────────────────────────────────── */
+  .chart-slot{border:1px dashed var(--line);border-radius:10px;background:var(--card);padding:18px;
+              text-align:center;color:var(--ink3);font-size:.86rem;margin-bottom:1.4em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · IT SERVICES · 17 Aug 2026</div>
+  <h1>Coforge Limited <span class="tik">· NSE: COFORGE</span></h1>
+  <div class="subline">Mid-cap IT services now materially larger after the Encora acquisition — 49% revenue growth and a $2.23 bn executable order book, bought at 41x while large-cap IT stagnates.</div>
+  <div class="rating-row">
+    <span class="badge badge-buy">Buy</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹1,806</span></div>
+    <div><span class="k">52W range</span><span class="v">₹1,008 – ₹1,990</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹79,640 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.66%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">41.5x</span></div>
+    <div><span class="k">P/BV</span><span class="v">6.4x<sup>d</sup></span></div>
+    <div><span class="k">Borrowings</span><span class="v">₹728 cr</span></div>
+    <div><span class="k">ROCE FY26</span><span class="v">23.5%</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <div class="callout">
+    <p><strong>Buy — reaffirmed.</strong> The prior note rated this Buy at ₹1,777 on 6 Aug 2026;
+    the price has moved 1.6% since and nothing in Q1 FY27 argues against the call. Revenue of
+    ₹5,527.7 cr was up 49% year on year (33% in dollars), PAT up 110% to ₹518.6 cr, EBITDA up 74%
+    with margin at 20.3%. Order intake was $691 mn TCV and the twelve-month executable order book
+    reached $2.23 bn, up 44%.</p>
+    <p><strong>Read the growth correctly.</strong> Encora closed 1 May 2026, so roughly two months
+    of an acquired business sits in this quarter. Organic growth is a fraction of the headline 49%,
+    and the year-on-year comparison stays flattered until Q1 FY28. That is not a reason to
+    discount the result — the order book is up 44% and that is a forward measure — but anyone
+    underwriting 49% as a run-rate is misreading it.</p>
+    <p>At 41.5x trailing, Coforge is not cheap against Indian large-cap IT. It is growing several
+    times faster than any of them, with AI-led services at 86% of revenue and a book that gives
+    twelve months of visibility. Borrowings fell from ₹1,070 cr to ₹728 cr even while funding an
+    acquisition. The multiple is defensible; it is not a bargain.</p>
+  </div>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <p>Consensus estimates were not obtainable from an openable source; rather than quote a
+  secondary aggregator the forward table is left at <span style="color:var(--ink3)">n/a</span>.
+  The order book below is the harder number.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th></th><th>FY27E</th><th>FY28E</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue (₹ cr)</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>EPS (₹)</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>Forward P/E</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Order book as the substitute.</strong> $2.23 bn executable over twelve months is
+  roughly ₹19,500 cr at ₹87.5/$ — against FY26 revenue of ₹16,403 cr. That alone implies growth
+  before any new intake, and Q1 intake was $691 mn.</p>
+
+  <!-- ── 4. PRICE CHART ───────────────────────────────────────────── -->
+  <h2>Share price — 1 year</h2>
+  <div class="chart-slot">The app draws a live 1-year chart above this report.
+    Dashed line marks ₹1806.00, the price this note was written at.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY23</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>8,015</td><td>9,009</td><td>12,073</td><td>16,403</td></tr>
+      <tr><th>Growth</th><td>—</td><td>+12%</td><td>+34%</td><td>+36%</td></tr>
+      <tr><th>EBITDA</th><td>1,282</td><td>1,447</td><td>1,694</td><td>2,936</td></tr>
+      <tr><th>EBITDA margin</th><td>16%</td><td>16%</td><td>14%</td><td>18%</td></tr>
+      <tr><th>PAT</th><td>745</td><td>836</td><td>936</td><td>1,745</td></tr>
+      <tr><th>Growth</th><td>—</td><td>+12%</td><td>+12%</td><td>+86%</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>22.72</td><td>26.14</td><td>24.29</td><td>46.33</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3>Quarterly — last 4</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>3,986</td><td>4,232</td><td>4,450</td><td>5,528</td></tr>
+      <tr><th>YoY growth</th><td>+32%</td><td>+30%</td><td>+30%</td><td>+49%</td></tr>
+      <tr><th>EBITDA</th><td>732</td><td>723</td><td>876</td><td>1,058</td></tr>
+      <tr><th>EBITDA margin</th><td>18%</td><td>17%</td><td>20%</td><td>19%</td></tr>
+      <tr><th>PAT</th><td>425</td><td>297</td><td>666</td><td>532</td></tr>
+      <tr><th>YoY growth</th><td>+82%</td><td>+16%</td><td>+117%</td><td>+49%</td></tr>
+      <tr class="total"><th>Net margin</th><td>11%</td><td>7%</td><td>15%</td><td>10%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>Unreconciled.</strong> Coforge reported Q1 FY27 PAT of ₹518.6 cr in its own release;
+    the aggregated consolidated figure reads ₹532 cr. The ~₹13 cr gap is most likely minority
+    interest or a continuing-operations definition, but the reconciliation could not be confirmed
+    from a primary filing. Both are shown; neither has been adjusted.</p>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Jul 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>282 schemes</strong> hold the stock, together <strong>₹23,235 cr</strong> — the
+    broadest institutional ownership of the six names reviewed, and by a wide margin. Domestic
+    funds own more of Coforge than foreign investors do.</p>
+  </div>
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Value held<br>₹ cr</th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th></tr></thead>
+    <tbody>
+      <tr><th>HDFC Mid Cap</th><td>Mid Cap</td><td>2,688.3</td><td>2.56%</td><td>1,05,012</td></tr>
+      <tr><th>Motilal Oswal Midcap</th><td>Mid Cap</td><td>2,235.4</td><td>5.58%</td><td>40,061</td></tr>
+      <tr><th>SBI Equity Hybrid</th><td>Hybrid</td><td>1,699.5</td><td>1.93%</td><td>88,056</td></tr>
+      <tr><th>UTI Flexi Cap</th><td>Flexi Cap</td><td>853.6</td><td>3.55%</td><td>24,046</td></tr>
+      <tr><th>DSP Midcap</th><td>Mid Cap</td><td>826.9</td><td>4.03%</td><td>20,518</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Scheme AUM is <sup>d</sup>derived as value held ÷ percent of scheme.
+  Motilal Oswal Midcap has 5.58% of the entire scheme in this one name — the highest conviction
+  position among the five. Own holdings overlap: check the portfolio for HDFC Mid Cap and
+  UTI Flexi Cap, both common core holdings.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">24 Jul 26</span><span><strong>Q1 FY27 — revenue ₹5,527.7 cr (+49%), PAT ₹518.6 cr (+110%).</strong> EBITDA ₹1,123.3 cr, margin 20.3%. Shares fell 6% on the print despite the beat.</span></li>
+    <li><span class="date">24 Jul 26</span><span><strong>Order intake $691 mn TCV; executable order book $2.23 bn.</strong> Up 44% YoY — the strongest forward indicator in the result.</span></li>
+    <li><span class="date">1 May 26</span><span><strong>Encora acquisition effective.</strong> Two months of contribution in Q1 FY27; comparisons stay inflated until Q1 FY28.</span></li>
+    <li><span class="date">24 Jul 26</span><span><strong>Interim dividend of ₹4 per share declared.</strong> Record date 3 Aug 2026.</span></li>
+    <li><span class="date">Jul 26</span><span><strong>AI-led services reported at 86% of revenue.</strong> Company's own classification — the mix claim is not independently verifiable.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+      <tr><th>FIIs</th><td>37.42</td><td>34.09</td><td>34.53</td><td>30.66</td><td>24.31</td></tr>
+      <tr><th>DIIs</th><td>52.32</td><td>54.87</td><td>53.67</td><td>56.18</td><td>42.62</td></tr>
+      <tr><th>Public</th><td>10.25</td><td>11.03</td><td>11.80</td><td>13.16</td><td>33.07</td></tr>
+      <tr><th>Shareholders (no.)</th><td>1,85,865</td><td>2,23,492</td><td>2,43,366</td><td>2,93,510</td><td>3,40,980</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>Unreconciled — read the Jun 2026 column with care.</strong> FII falls 6.4 points and
+    DII 13.6 points in a single quarter while Public jumps 19.9 points. A shift that large in one
+    quarter is far more likely a classification change than actual selling of a fifth of the
+    register. Two sources give conflicting mutual-fund aggregates for the same quarter — one
+    reports MF holding falling 40.48% → 30.00%, another reports 37.9% → 38.66%. Neither could be
+    reconciled against the filing itself. The direction of FII/DII here should not be traded on
+    until the filing is read directly.</p>
+  </div>
+  <p><strong>No promoter.</strong> Coforge has had zero promoter holding since Hulst BV (Baring)
+  exited fully. That removes promoter-pledge and related-party risk entirely, and equally removes
+  a committed anchor shareholder — the register is institutions and retail only. Shareholder
+  count has grown 83% in five quarters to 3.4 lakh.</p>
+
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <h2>Business</h2>
+  <p><strong>Nature.</strong> Mid-cap IT services concentrated in three verticals — banking and
+  financial services, insurance, and travel and transportation. The model is offshore-led delivery
+  against multi-year contracts, so the executable order book is a genuine forward indicator rather
+  than a pipeline estimate.</p>
+  <p><strong>Encora.</strong> Closed 1 May 2026 and is the single largest change to the business in
+  years. It adds scale and engineering capability, and it is the reason FY27 growth optics are what
+  they are. Integration risk is the live question: acquisitions of this relative size in IT services
+  have a mixed record on margin retention and key-person attrition.</p>
+  <p><strong>Peers.</strong> Persistent Systems, LTIMindtree, Mphasis in the Indian mid-cap tier;
+  EPAM and Globant internationally. Coforge's growth rate currently leads the domestic set, which
+  is what the premium multiple is paying for.</p>
+  <p><strong>Moat.</strong> Moderate. Vertical depth in insurance and travel creates switching cost
+  and domain pricing power, but IT services is a business where scale and delivery consistency, not
+  proprietary technology, do the defending.</p>
+
+  <!-- ── 10. RISKS ────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <ul>
+    <li><strong>Encora integration.</strong> The dominant near-term risk. Margin dilution or
+    attrition would undo the case quickly, and two months of contribution is too little to judge.</li>
+    <li><strong>Comparison inflation.</strong> Headline growth stays acquisition-flattered until
+    Q1 FY28. Organic deceleration could be masked for three more quarters.</li>
+    <li><strong>Multiple.</strong> 41.5x trailing against large-cap IT at roughly half that. The
+    premium requires growth to persist; the stock fell 6% on a quarter that beat on both lines,
+    which shows how little tolerance is priced in.</li>
+    <li><strong>Client concentration by vertical.</strong> BFSI and travel are both cyclical and
+    both sensitive to US discretionary technology budgets.</li>
+    <li><strong>Currency.</strong> Rupee revenue growth of 49% against 33% in dollars — a
+    meaningful part of the reported number is translation, and it reverses if the rupee firms.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Add more aggressively</strong> — Encora margins holding above 18% through two full
+    quarters, with organic constant-currency growth disclosed separately and above 15%.</li>
+    <li><strong>Downgrade to Hold</strong> — order intake falling below $500 mn TCV in a quarter,
+    EBITDA margin slipping under 17%, or evidence of integration attrition.</li>
+    <li><strong>Downgrade to Sell</strong> — organic growth turning negative once the acquisition
+    laps, or the multiple exceeding 55x without a matching step in the order book.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in — consolidated financials, quarterly results, shareholding (fetched 17 Aug 2026).</li>
+    <li>Coforge Q1 FY27 press release and results coverage, 24 Jul 2026 — revenue, PAT, EBITDA, TCV, order book, dividend.</li>
+    <li>Trendlyne monthly mutual-fund holdings — Jul 2026 disclosure, fetched 17 Aug 2026.</li>
+    <li>All figures are current as at 17 Aug 2026. Mutual fund data is the <strong>Jul 2026</strong>
+    disclosure; shareholding is the <strong>Jun 2026</strong> quarter filing. Nothing in this note
+    is more than three months old.</li>
+  </ul>
+
+  <div class="foot">Generated 17 Aug 2026 · Price basis ₹1806.00 (NSE, 17 Aug 2026) · ⚠ Q1 PAT and Jun-26 shareholding carry unreconciled source conflicts, flagged inline; scheme AUM derived <sup>d</sup>. Not investment advice.</div>
+</div>
+</body>
+</html>

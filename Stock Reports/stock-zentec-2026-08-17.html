@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zen Technologies Limited (NSE: ZENTEC) | Stock Research</title>
+
+<meta name="type"      content="stock">
+<meta name="ticker"    content="ZENTEC">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Zen Technologies Limited">
+<meta name="sector"    content="Defence / Simulators &amp; Anti-drone">
+<meta name="rating"    content="Sell">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-08-17">
+<meta name="price"     content="1864.00">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Chart slot ───────────────────────────────────────────────────── */
+  .chart-slot{border:1px dashed var(--line);border-radius:10px;background:var(--card);padding:18px;
+              text-align:center;color:var(--ink3);font-size:.86rem;margin-bottom:1.4em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · DEFENCE · 17 Aug 2026</div>
+  <h1>Zen Technologies Limited <span class="tik">· NSE: ZENTEC</span></h1>
+  <div class="subline">Simulator and anti-drone maker whose earnings have fallen for five straight quarters while the multiple has not — 93x trailing on a business earning less than it did two years ago.</div>
+  <div class="rating-row">
+    <span class="badge badge-sell">Sell</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹1,864</span></div>
+    <div><span class="k">52W range</span><span class="v">₹1,223 – ₹2,024</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹16,824 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.05%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">92.6x</span></div>
+    <div><span class="k">P/BV</span><span class="v">8.9x<sup>d</sup></span></div>
+    <div><span class="k">Net cash</span><span class="v">₹19 cr borrowings</span></div>
+    <div><span class="k">ROCE FY26</span><span class="v">16.2%</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <div class="callout warn">
+    <p><strong>Downgrade to Sell.</strong> This is a rating change, and it rests on one fact:
+    the earnings base has shrunk while the price has not. FY26 revenue fell 29% to ₹688 cr and
+    PAT fell 27% to ₹218 cr. Q1 FY27 continued it — revenue ₹141.6 cr, down 10% year on year and
+    down 20% sequentially; EBITDA margin 27.3% against 40.9% a year ago. That is five quarters of
+    deterioration, not one soft print.</p>
+    <p>Management calls it revenue timing and points to a ₹1,239 cr order book. The order book is
+    real. But at ₹1,864 the stock trades on 92.6x trailing earnings that are themselves 27% below
+    FY25 — so the multiple on normalised earnings is higher still, and the buyer is paying a
+    growth price for two years of contraction. ROCE has halved, from 37% in FY25 to 16% in FY26.</p>
+    <p>The balance sheet is where it gets uncomfortable. Working capital days ran to 543 in FY26
+    and inventory days to 415 — over a year of production sitting in stock. Cash conversion cycle
+    is 425 days. A defence business with lumpy government orders will always carry inventory, but
+    this is inventory growing into falling revenue, which is the combination that precedes a
+    write-down rather than a recovery.</p>
+  </div>
+  <p>The previous note rated this <strong>Hold</strong> at ₹1,805 on 13 Aug 2026. Since then the
+  price is up 3.3% and Q1 FY27 has confirmed the deterioration rather than arrested it. Holding
+  required believing the decline was one or two quarters of timing; five quarters in, with the
+  multiple unchanged, that belief no longer has support. The order book argues the company
+  survives and probably grows again — it does not argue that 93x is the right price to wait at.</p>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <p>No broker consensus was obtainable from an openable source at the time of writing;
+  the estimate table below is left as <span style="color:var(--ink3)">n/a</span> rather than
+  filled from a secondary quote.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th></th><th>FY27E</th><th>FY28E</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue (₹ cr)</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>EPS (₹)</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>Forward P/E</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>What can be said without an estimate: the order book of ₹1,239 cr as at 30 Jun 2026, plus the
+  ₹177.5 cr simulator order announced in July, is ₹1,417 cr against FY26 revenue of ₹688 cr. If the
+  whole book converted inside twelve months revenue would roughly double — it will not, since
+  ₹318 cr of it is multi-year AMC. Execution, not demand, is the binding constraint.</p>
+
+  <!-- ── 4. PRICE CHART ───────────────────────────────────────────── -->
+  <h2>Share price — 1 year</h2>
+  <div class="chart-slot">The app draws a live 1-year chart above this report.
+    Dashed line marks ₹1864.00, the price this note was written at.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY23</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>219</td><td>440</td><td>974</td><td>688</td></tr>
+      <tr><th>Growth</th><td>—</td><td>+101%</td><td>+121%</td><td>−29%</td></tr>
+      <tr><th>EBITDA</th><td>73</td><td>181</td><td>382</td><td>245</td></tr>
+      <tr><th>EBITDA margin</th><td>33%</td><td>41%</td><td>39%</td><td>36%</td></tr>
+      <tr><th>PAT</th><td>50</td><td>130</td><td>299</td><td>218</td></tr>
+      <tr><th>Growth</th><td>—</td><td>+160%</td><td>+130%</td><td>−27%</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>5.38</td><td>15.22</td><td>31.04</td><td>21.43</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3>Quarterly — last 4</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>174</td><td>178</td><td>178</td><td>142</td></tr>
+      <tr><th>YoY growth</th><td>−28%</td><td>+17%</td><td>−45%</td><td>−10%</td></tr>
+      <tr><th>EBITDA</th><td>65</td><td>67</td><td>50</td><td>38</td></tr>
+      <tr><th>EBITDA margin</th><td>37%</td><td>37%</td><td>28%</td><td>27%</td></tr>
+      <tr><th>PAT</th><td>62</td><td>56</td><td>47</td><td>32</td></tr>
+      <tr><th>YoY growth</th><td>−2%</td><td>+30%</td><td>−59%</td><td>−40%</td></tr>
+      <tr class="total"><th>Net margin</th><td>36%</td><td>31%</td><td>26%</td><td>23%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Q1 FY27 carried a ₹3.4 cr exceptional loss from a fire. Excluding it, PAT is
+  ~₹35 cr — still down 34% year on year, so the exceptional does not explain the trend.
+  Reported consolidated PAT of ₹31.8 cr differs slightly from the ₹32 cr aggregated figure;
+  both are shown as filed.</div>
+  <h3>Working capital — the pressure point</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Days</th><th>FY23</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Inventory days</th><td>305</td><td>523</td><td>118</td><td>415</td></tr>
+      <tr><th>Debtor days</th><td>142</td><td>153</td><td>154</td><td>119</td></tr>
+      <tr><th>Cash conversion cycle</th><td>406</td><td>577</td><td>247</td><td>425</td></tr>
+      <tr><th>Working capital days</th><td>115</td><td>158</td><td>435</td><td>543</td></tr>
+      <tr class="total"><th>ROCE</th><td>23%</td><td>46%</td><td>37%</td><td>16%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Jul 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>58 schemes</strong> hold the stock, together <strong>₹1,093 cr</strong>. MF holding
+    rose from 6.72% to 7.55% over the Jun 2026 quarter and the scheme count went from 16 to 21 —
+    funds were adding into the decline.</p>
+    <p><strong>The concentration is the story.</strong> Motilal Oswal alone accounts for roughly
+    ₹933 cr of the ₹1,093 cr — about 85%. Three of the top five holders are Motilal Oswal vehicles,
+    and two of those are passive defence-index products that must hold it regardless of price.
+    This is not broad institutional conviction; it is one house plus index mechanics.</p>
+  </div>
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Value held<br>₹ cr</th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th></tr></thead>
+    <tbody>
+      <tr><th>Motilal Oswal Large &amp; Midcap</th><td>Large &amp; Midcap</td><td>614.4</td><td>3.33%</td><td>18,450</td></tr>
+      <tr><th>Motilal Oswal ELSS Tax Saver</th><td>ELSS</td><td>193.3</td><td>4.04%</td><td>4,784</td></tr>
+      <tr><th>Motilal Oswal Nifty India Defence Index</th><td>Index</td><td>100.2</td><td>1.94%</td><td>5,166</td></tr>
+      <tr><th>Motilal Oswal Nifty India Defence ETF</th><td>ETF</td><td>25.4</td><td>1.93%</td><td>1,313</td></tr>
+      <tr><th>Aditya BSL Nifty India Defence Index</th><td>Index</td><td>24.8</td><td>1.93%</td><td>1,287</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Scheme AUM is <sup>d</sup>derived as value held ÷ percent of scheme; Trendlyne
+  publishes the first two columns, not the scheme total. Own holdings overlap: none of these five
+  appear in the portfolio.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">11 Aug 26</span><span><strong>Q1 FY27 — revenue ₹141.6 cr, PAT ₹31.8 cr.</strong> Revenue −10% YoY, EBITDA −40%, margin 27.3% vs 40.9%. Shares fell 9% on the print.</span></li>
+    <li><span class="date">11 Aug 26</span><span><strong>Order book ₹1,239.02 cr disclosed.</strong> ₹920.59 cr equipment plus ₹318.43 cr AMC as at 30 Jun 2026.</span></li>
+    <li><span class="date">Jul 26</span><span><strong>Simulator order worth ₹177.50 cr received.</strong> Lands after the quarter close, so it sits outside the ₹1,239 cr above.</span></li>
+    <li><span class="date">11 Aug 26</span><span><strong>Exceptional loss of ₹3.4 cr from a fire incident.</strong> One-off; excluding it PAT is ~₹35 cr, still down 34% YoY.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>Management targets ₹4,000 cr combined revenue and $100 mn US sales.</strong> A multi-year ambition against ₹688 cr FY26 revenue — treat as direction, not guidance.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>49.05</td><td>48.51</td><td>48.51</td><td>48.51</td><td>48.51</td></tr>
+      <tr><th>FIIs</th><td>6.04</td><td>5.94</td><td>5.54</td><td>5.99</td><td>6.47</td></tr>
+      <tr><th>DIIs</th><td>8.75</td><td>7.93</td><td>7.86</td><td>10.06</td><td>10.42</td></tr>
+      <tr><th>Public</th><td>35.72</td><td>37.20</td><td>37.67</td><td>35.04</td><td>34.22</td></tr>
+      <tr><th>Shareholders (no.)</th><td>3,11,948</td><td>3,25,978</td><td>3,30,378</td><td>3,14,092</td><td>2,90,771</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Promoter holding has been flat at 48.51% for four quarters — no further selling after the
+  step down from 57.45% (Sep 2023) to 49.05% (Dec 2024). Institutions have been adding through the
+  earnings decline: DII from 7.86% to 10.42% over two quarters. Retail count has fallen ~40,000
+  from the peak, which usually marks retail exiting into institutional accumulation.</p>
+  <div class="callout warn">
+    <p><strong>Governance watch item.</strong> The promoter stake fell roughly 9 percentage points
+    across FY24–FY25 — through the period when revenue and the share price were peaking. That is
+    not itself improper, and it was disclosed. It is worth holding in view alongside the subsequent
+    29% revenue decline.</p>
+  </div>
+
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <h2>Business</h2>
+  <p><strong>Nature.</strong> Zen Technologies designs and manufactures military training
+  simulators — small-arms, driving, tank and air-defence trainers — and anti-drone systems. The
+  customer is overwhelmingly the Indian armed forces and paramilitary, so revenue arrives as
+  lumpy tenders rather than a subscription-like stream. Roughly a quarter of the order book is
+  annual maintenance, which is the steadier part.</p>
+  <p><strong>Moat.</strong> Genuine but narrow. Simulator supply to Indian defence requires
+  qualification and trials measured in years, and Zen has a long installed base to service. That
+  is a real barrier to a new entrant. It is not a barrier to the customer simply ordering less,
+  which is what has happened.</p>
+  <p><strong>Order book.</strong> ₹1,239.02 cr as at 30 Jun 2026 — ₹920.59 cr equipment, ₹318.43 cr
+  AMC — plus a ₹177.5 cr simulator order in July 2026. Gross margin held at 72.9% in Q1, which
+  supports management's claim that pricing has not deteriorated; the problem is volume and
+  conversion, not unit economics.</p>
+
+  <!-- ── 10. RISKS ────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <ul>
+    <li><strong>Inventory.</strong> 415 inventory days and a 425-day cash conversion cycle against
+    falling revenue. If orders slip further, a write-down becomes hard to avoid.</li>
+    <li><strong>Multiple.</strong> 92.6x trailing leaves no room for another weak quarter. A
+    de-rating to even 50x on FY26 earnings implies roughly ₹1,000 — a 46% fall with no change
+    to the business.</li>
+    <li><strong>Single customer.</strong> Government defence procurement can pause for budgetary
+    or process reasons entirely outside the company's control, as it evidently has.</li>
+    <li><strong>Passive flows.</strong> Two of the top five holders are defence-index funds. Index
+    money that arrived on the way up leaves on the way down, and it is price-insensitive both ways.</li>
+    <li><strong>Execution promises.</strong> Management guided to stronger Q2 and Q3 FY27. Similar
+    framing accompanied earlier quarters that then disappointed.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Hold</strong> — two consecutive quarters of year-on-year revenue growth
+    with EBITDA margin back above 35%, or the price falling far enough that trailing P/E is under
+    ~45x.</li>
+    <li><strong>Upgrade to Buy</strong> — the above plus working capital days back below 300 and
+    order-book conversion demonstrated, not promised.</li>
+    <li><strong>Stays a Sell</strong> — while inventory days sit above 400 and the multiple above
+    80x on declining earnings.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in — consolidated financials, quarterly results, shareholding, ratios (fetched 17 Aug 2026).</li>
+    <li>Q1 FY27 results and earnings call coverage, 11 Aug 2026 — revenue, PAT, EBITDA, order book, exceptional item.</li>
+    <li>Trendlyne monthly mutual-fund holdings — Jul 2026 disclosure, fetched 17 Aug 2026.</li>
+    <li>Mutual fund holdings reflect the <strong>Jul 2026</strong> disclosure month, roughly one
+    month old at the time of writing. Shareholding is the Jun 2026 quarter filing.</li>
+  </ul>
+
+  <div class="foot">Generated 17 Aug 2026 · Price basis ₹1864.00 (NSE, 17 Aug 2026) · ⚠ Broker estimates unavailable and shown as n/a; scheme AUM is derived, marked <sup>d</sup>. Not investment advice.</div>
+</div>
+</body>
+</html>
