@@ -213,7 +213,40 @@
   </table>
   </div>
 
-  <!-- ── 6. LATEST NEWS (last 3 months, top 5) ────────────────────── -->
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────────
+       Top 5 holders ranked by value of THIS stock held (₹ cr), not by the
+       fund's own size — a giant fund with a token position is less of a
+       signal than a mid-size fund with conviction. Fund AUM is carried as a
+       column so the position can be read in proportion.
+       If no fund holds it, delete the table and keep only the .callout,
+       which is the honest and common answer for small caps.
+       As-of date matters: disclosures are monthly and lag ~10-15 days. ──── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· as of 31 Jul 26</span></h2>
+
+  <div class="callout">
+    <p><strong>00 schemes</strong> across <strong>00 AMCs</strong> hold the stock, together
+    <strong>0.0%</strong> of equity (₹0,000 cr). <em>Or, when none do:</em> No mutual fund
+    scheme discloses a position — the register is promoter plus retail, so there is no
+    institutional floor under the price.</p>
+  </div>
+
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Value held<br>₹ cr</th><th>% of scheme</th><th>Scheme AUM<br>₹ cr</th><th>Chg 3M</th></tr></thead>
+    <tbody>
+      <tr><th>Fund Name — Direct Growth</th><td>Mid Cap</td><td>000</td><td>0.00%</td><td>00,000</td><td class="up">+0.0%</td></tr>
+      <tr><th>Fund Name — Direct Growth</th><td>Flexi Cap</td><td>000</td><td>0.00%</td><td>00,000</td><td class="dn">−0.0%</td></tr>
+      <tr><th>Fund Name — Direct Growth</th><td>Small Cap</td><td>000</td><td>0.00%</td><td>00,000</td><td>unch</td></tr>
+      <tr><th>Fund Name — Direct Growth</th><td>Sectoral</td><td>000</td><td>0.00%</td><td>00,000</td><td class="up">new</td></tr>
+      <tr><th>Fund Name — Direct Growth</th><td>ELSS</td><td>000</td><td>0.00%</td><td>00,000</td><td class="dn">−0.0%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Own holdings overlap: none / <strong>Fund Name</strong> (held in portfolio) — flag when a
+  scheme already in the portfolio is among the holders, since that is indirect exposure to the same name.</div>
+
+  <!-- ── 7. LATEST NEWS (last 3 months, top 5) ────────────────────── -->
   <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
   <ul class="news">
     <li><span class="date">12 Aug 26</span><span><strong>Headline.</strong> Why it matters in one clause.</span></li>
@@ -223,7 +256,7 @@
     <li><span class="date">19 Jun 26</span><span><strong>Headline.</strong> Why it matters in one clause.</span></li>
   </ul>
 
-  <!-- ── 7. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
   <h2>Corporate governance</h2>
   <h3>Shareholding — last 5 quarters</h3>
   <div class="tablewrap">
@@ -257,7 +290,7 @@
     <li><strong>Notable</strong> — any related-party concentration, litigation, or auditor changes.</li>
   </ul>
 
-  <!-- ── 8. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
   <h2>Business</h2>
   <h3>Nature of business</h3>
   <p>What it makes or does, for whom, with what revenue mix and geography.</p>
@@ -277,24 +310,26 @@
   <h3>Order book</h3>
   <p><strong>₹0,000 cr</strong> as at DD Mon YY, ≈ 0.0x trailing revenue. Only <em>confirmed</em> orders; note explicitly if a figure is an L1/pipeline number rather than a firm book, and omit this section entirely where an order book is not a meaningful concept.</p>
 
-  <!-- ── 9. RISKS ─────────────────────────────────────────────────── -->
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
   <h2>Risks</h2>
   <div class="callout warn"><strong>The one that matters most.</strong> Lead with the risk that would actually break the thesis, quantified.</div>
   <ul>
     <li><strong>Risk.</strong> Why, and what it would cost.</li>
   </ul>
 
-  <!-- ── 10. RATING TRIGGERS ──────────────────────────────────────── -->
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
   <h2>What would change the rating</h2>
   <ul>
     <li><strong>Upgrade to Buy:</strong> the specific, observable condition. <em>(For a report already rated Buy, use "Add more aggressively".)</em></li>
     <li><strong>Downgrade to Sell:</strong> the specific, observable condition.</li>
   </ul>
 
-  <!-- ── 11. SOURCES ──────────────────────────────────────────────── -->
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
   <h2>Sources</h2>
   <ul>
     <li>Primary filings first (RHP, annual report, investor presentation), then media and aggregators, each with a date.</li>
+    <li>Mutual fund holdings: cite the disclosure month, not the fetch date — AMC portfolio
+        disclosures are monthly and publish ~10–15 days in arrears.</li>
   </ul>
 
   <div class="foot">Generated DD Mon YYYY · Price basis ₹0,000 (NSE close, DD Mon YYYY) · ⚠ verify: list anything derived, estimated or unsourced. Not investment advice.</div>

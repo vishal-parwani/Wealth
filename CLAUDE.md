@@ -90,9 +90,18 @@ file and stub `fetch`).
   Light paper background, serif headings + system sans body (no webfonts: the report
   renders inside a sandboxed iframe and must work offline). Section order is fixed:
   key-data grid → verdict → broker estimates & forward P/E → price chart → financials
-  (annual *and* a separate last-4-quarters table) → last-3-months news → corporate
-  governance (5-quarter promoter/FII/DII shareholding, then people) → business
-  (nature, peers, moat, confirmed order book) → risks → rating triggers → sources.
+  (annual *and* a separate last-4-quarters table) → **mutual fund holdings** →
+  last-3-months news → corporate governance (5-quarter promoter/FII/DII shareholding,
+  then people) → business (nature, peers, moat, confirmed order book) → risks →
+  rating triggers → sources.
+- **Mutual fund holdings** sits directly below financials. Rank the top 5 by **value of
+  this stock held (₹ cr)**, not by the fund's own AUM — a large fund with a token
+  position says less than a mid-size fund with conviction — and carry scheme AUM as a
+  column so the position reads in proportion. "No fund holds it" is a real and common
+  finding for small caps: keep the callout, drop the table, don't pad it with a
+  near-miss. Cite the **disclosure month** (monthly, ~10–15 days in arrears), not the
+  fetch date. Flag any holder that is itself in the portfolio — that's indirect
+  exposure to the same name.
 - **Reports carry no chart.** The app draws a live 1-year price chart above the report
   in the viewer (`srStockChartPanel` / `srSparkline`), mirroring `srFundLivePanel` for
   funds. A chart baked in at authoring time is stale the next day. The dashed line marks
