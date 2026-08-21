@@ -49,13 +49,19 @@ def parse_report(path):
         "name":        meta["name"],
         "sector":      meta.get("sector", ""),
         "rating":      rating,
+        # The app reads ratingFamily as a STORED field (srNormFamily(r.ratingFamily))
+        # and never recomputes it on load, so it must be written here — mirrors
+        # srRatingFamily() in stock-reports.js. Ratings are validated Buy/Hold/Sell
+        # above, so the lower-cased rating is already the family.
+        "ratingFamily": rating.lower(),
+        # Always written, like srImportReport: a maskless Firestore PATCH replaces
+        # the whole document, so an omitted key is a deleted field, not a kept one.
+        "risk":        meta.get("risk", ""),
         "generatedAt": meta["generated"],
         "genPrice":    float(meta["price"]),
         "hasGaps":     meta.get("hasgaps", "").lower() == "true",
         "html":        src,
     }
-    if meta.get("risk"):
-        rec["risk"] = meta["risk"]
     if meta.get("scheme"):
         rec["scheme"] = meta["scheme"]
     return meta["ticker"].lower(), rec
@@ -81,10 +87,10 @@ def from_value(v):
         return {k: from_value(x) for k, x in v["mapValue"].get("fields", {}).items()}
     return None
 
-def request(url, data=None, token=None, method=None):
+def request(url, data=None, token=None, method=None, content_type="application/json"):
     req = urllib.request.Request(url, data=data, method=method)
     if token: req.add_header("Authorization", "Bearer " + token)
-    if data:  req.add_header("Content-Type", "application/json")
+    if data:  req.add_header("Content-Type", content_type)
     try:
         with urllib.request.urlopen(req, timeout=45) as r:
             return json.loads(r.read() or b"{}")
@@ -113,7 +119,8 @@ def mint_token(key):
     body = urllib.parse.urlencode({
         "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
         "assertion": assertion.decode()}).encode()
-    return request(TOKEN_URL, data=body)["access_token"]
+    return request(TOKEN_URL, data=body,
+                   content_type="application/x-www-form-urlencoded")["access_token"]
 
 
 def load_key(explicit):
@@ -149,8 +156,9 @@ def main():
         tk, rec = parse_report(p)
         parsed.append((p, tk, rec))
         stale = "" if not rec["hasGaps"] else "  [hasGaps]"
-        print(f"  {tk:12s} {rec['rating']:5s} ₹{rec['genPrice']:<10.2f} "
-              f"{rec['generatedAt']}  {len(rec['html'])//1024}KB{stale}")
+        risk = "  [high risk]" if rec["risk"] else ""
+        print(f"  {tk:12s} {rec['rating']:5s} ({rec['ratingFamily']:4s}) ₹{rec['genPrice']:<10.2f} "
+              f"{rec['generatedAt']}  {len(rec['html'])//1024}KB{stale}{risk}")
 
     ids = [t for _, t, _ in parsed]
     dupes = {t for t in ids if ids.count(t) > 1}
