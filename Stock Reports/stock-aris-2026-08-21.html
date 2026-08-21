@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArisInfra Solutions Limited (NSE: ARIS) | Stock Research</title>
+
+<meta name="type"      content="stock">
+<meta name="ticker"    content="ARIS">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="ArisInfra Solutions Limited">
+<meta name="sector"    content="Industrials / B2B Construction Materials">
+<meta name="rating"    content="Buy">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-08-21">
+<meta name="price"     content="143.41">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Chart slot ───────────────────────────────────────────────────── */
+  .chart-slot{border:1px dashed var(--line);border-radius:10px;background:var(--card);padding:18px;
+              text-align:center;color:var(--ink3);font-size:.86rem;margin-bottom:1.4em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · B2B CONSTRUCTION MATERIALS · 21 Aug 2026</div>
+  <h1>ArisInfra Solutions Limited <span class="tik">· NSE: ARIS</span></h1>
+  <div class="subline">The cash-burn worry that dominated the last note is answered: FY26 operating cash flow was +₹142 cr against ₹60 cr of profit and the cash cycle halved. Institutions left anyway.</div>
+  <div class="rating-row">
+    <span class="badge badge-buy">Buy</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹143.41</span></div>
+    <div><span class="k">52W range</span><span class="v">₹82 – ₹179</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹1,173 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">17.8x</span></div>
+    <div><span class="k">P/BV</span><span class="v">1.6x<sup>d</sup></span></div>
+    <div><span class="k">Borrowings</span><span class="v">₹70 cr</span></div>
+    <div><span class="k">ROCE</span><span class="v">15.6%</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <div class="callout">
+    <p><strong>Buy — unchanged, and the central objection has been resolved.</strong> The prior note
+    rated this Buy at ₹136.40 on 13 Aug 2026 with a clear caveat: "a working-capital model that
+    quietly eats the profit it reports". The stock is ₹143.41, up 5.1%. The FY26 cash flow statement
+    says the caveat no longer applies.</p>
+    <p><strong>FY26 operating cash flow was positive ₹142 cr, against reported PAT of ₹60 cr.</strong>
+    That is cash conversion above 200%, after four years of negative or negligible operating cash
+    (−₹269 cr, −₹14 cr, +₹3 cr, −₹21 cr). At the same time the cash conversion cycle fell from 118
+    days to <strong>71</strong>, debtor days from 155 to 140, and days payable rose from 39 to 71 —
+    the company is now collecting sooner and paying later. The last note argued growth pre-funds
+    developers' balance sheets. In FY26 it stopped doing so.</p>
+    <p><strong>Trading performance is intact.</strong> FY26 revenue ₹1,067 cr, up 39%, with PAT of
+    ₹60 cr against ₹6 cr. Q1 FY27 revenue ₹291 cr, up 37%, PAT ₹20 cr against ₹5 cr, operating margin
+    11% against 9%. The turn from three straight years of losses (FY22–FY24) to ₹75 cr of trailing
+    profit is genuine.</p>
+    <p><strong>What keeps the high-risk tag.</strong> Institutions have gone — FII from 9.79% to
+    1.94% over the year, DII from 5.77% to 1.09% in a single quarter, and no mutual fund holds a
+    share. Some of that is mechanical post-IPO lock-up expiry, but not all of it, and it leaves no
+    institutional support under a stock that still trades on a thin, largely retail register.</p>
+  </div>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <p>No broker coverage was obtainable; shown as <span style="color:var(--ink3)">n/a</span>.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th></th><th>FY27E</th><th>FY28E</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue (₹ cr)</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>EPS (₹)</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>Forward P/E</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Arithmetic instead of an estimate.</strong> Q1 FY27 EPS was ₹2.06. Four flat quarters
+  give ₹8.24 and a forward multiple of about <strong>17.4x</strong> — essentially the trailing
+  number, because Q1 was in line with the run rate rather than ahead of it. Note the sequential
+  step-down from March's ₹343 cr of revenue to June's ₹291 cr; construction materials are seasonal
+  and the March quarter is the strongest, so read the year-on-year comparison, not the sequential.</p>
+
+  <!-- ── 4. PRICE CHART ───────────────────────────────────────────── -->
+  <h2>Share price — 1 year</h2>
+  <div class="chart-slot">The app draws a live 1-year chart above this report.
+    Dashed line marks ₹143.41, the price this note was written at.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore · consolidated</th><th>FY22</th><th>FY23</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>452</td><td>746</td><td>697</td><td>768</td><td>1,067</td></tr>
+      <tr><th>Growth</th><td>—</td><td>+65.0%</td><td>−6.6%</td><td>+10.2%</td><td>+38.9%</td></tr>
+      <tr><th>PAT</th><td class="dn">−6</td><td class="dn">−15</td><td class="dn">−17</td><td>6</td><td>60</td></tr>
+      <tr><th>Reserves</th><td>139</td><td>104</td><td>140</td><td>219</td><td>723</td></tr>
+      <tr><th>Borrowings</th><td>156</td><td>224</td><td>276</td><td>343</td><td>70</td></tr>
+      <tr class="total"><th>Total assets</th><td>334</td><td>395</td><td>493</td><td>697</td><td>1,041</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3>Working capital — the key table</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Days</th><th>FY22</th><th>FY23</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Debtor days</th><td>211</td><td>135</td><td>168</td><td>155</td><td>140</td></tr>
+      <tr><th>Days payable</th><td>23</td><td>16</td><td>27</td><td>39</td><td>71</td></tr>
+      <tr><th>Cash conversion cycle</th><td>189</td><td>119</td><td>142</td><td>118</td><td>71</td></tr>
+      <tr class="total"><th>Operating cash flow (₹ cr)</th><td class="dn">−269</td><td class="dn">−14</td><td>3</td><td class="dn">−21</td><td>142</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3>Quarterly — last 5</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Sales</th><td>212</td><td>241</td><td>271</td><td>343</td><td>291</td></tr>
+      <tr><th>Operating profit</th><td>18</td><td>23</td><td>30</td><td>30</td><td>31</td></tr>
+      <tr><th>Operating margin</th><td>9%</td><td>9%</td><td>11%</td><td>9%</td><td>11%</td></tr>
+      <tr><th>PAT</th><td>5</td><td>15</td><td>18</td><td>22</td><td>20</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>0.41</td><td>1.76</td><td>1.88</td><td>2.43</td><td>2.06</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>A correction to the previous note.</strong> It stated debtor days "ran from 102 in
+    FY22 to 137 by FY24", implying a deteriorating trend. The aggregator series used here shows 211
+    in FY22 falling to 140 in FY26 — a different basis and the opposite direction. The two cannot
+    both be right. What is not in doubt is the cash flow line, which is a reported figure rather than
+    a derived ratio: FY26 operating cash flow was <strong>+₹142 cr</strong>. Treat the ratio levels as
+    approximate and the direction of travel as improving.</p>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· none</span></h2>
+  <div class="callout warn">
+    <p><strong>No mutual fund holds this stock.</strong> The monthly fund-holding page carries no
+    table at all. Total DII holding is 1.09%, and with mutual funds at zero that residue is insurance
+    and alternative-investment vehicles.</p>
+    <p><strong>The exit was fast.</strong> DII holding was 5.77% in March 2026 and 1.09% in June —
+    4.68 points in one quarter. FII holding was 9.79% in June 2025 and is 1.94% now.</p>
+    <p><strong>The likely explanation, and its limits.</strong> ArisInfra listed in 2025; the June
+    2025 FII figure of 9.79% is anchor-investor money, and the collapse to 2.58% in the September
+    quarter lines up with standard anchor lock-up expiry. That is mechanical selling, not a verdict.
+    But it does not explain the DII exit a full year later, in the same quarter the company reported
+    its best-ever cash flow. This note cannot reconcile that, and flags it rather than explaining it
+    away.</p>
+  </div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">Aug 26</span><span><strong>Q1 FY27 — revenue ₹291 cr (+37% YoY), PAT ₹20 cr against ₹5 cr.</strong> Operating margin 11% against 9%. Fourth consecutive profitable quarter.</span></li>
+    <li><span class="date">FY26</span><span><strong>Operating cash flow +₹142 cr, against −₹21 cr in FY25.</strong> The first year of substantial cash generation in the company's published history.</span></li>
+    <li><span class="date">FY26</span><span><strong>Borrowings cut from ₹343 cr to ₹70 cr; reserves up from ₹219 cr to ₹723 cr.</strong> IPO proceeds applied to debt repayment — the company is now effectively net cash.</span></li>
+    <li><span class="date">Jun 26</span><span><strong>DII holding falls from 5.77% to 1.09%.</strong> A 4.68-point exit in a single quarter, alongside the best results the company has reported.</span></li>
+    <li><span class="date">2026</span><span><strong>Share capital reclassification and new board appointments announced.</strong> Reported via exchange filing; details not examined for this note.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>37.93</td><td>37.93</td><td>37.73</td><td>37.59</td><td>37.57</td></tr>
+      <tr><th>FIIs</th><td>9.79</td><td>2.58</td><td>1.30</td><td>2.07</td><td class="dn">1.94</td></tr>
+      <tr><th>DIIs</th><td>6.27</td><td>3.75</td><td>3.72</td><td>5.77</td><td class="dn">1.09</td></tr>
+      <tr><th>Public</th><td>45.99</td><td>55.74</td><td>57.23</td><td>54.57</td><td>59.40</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>42,706</td><td>37,750</td><td>34,066</td><td>32,716</td><td>32,633</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Promoter holding is 37.57% and drifting down very slightly</strong> — 0.36 points over
+  four quarters, small enough to be ESOP dilution rather than selling. At under 40% there is no
+  controlling shareholder, and public holding is now 59.40%.</p>
+  <p><strong>The shareholder count fell 24%</strong>, from 42,706 to 32,633 over the year, while
+  public holding <em>rose</em> from 45.99% to 59.40%. Fewer holders owning more of the company means
+  the register is consolidating into larger individual positions — which tightens the float and makes
+  the price more sensitive in both directions.</p>
+
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <h2>Business</h2>
+  <p><strong>Nature.</strong> ArisInfra is a B2B technology-enabled distributor of construction
+  materials — aggregates, cement, steel and related inputs — sold to developers and contractors. It
+  is a margin-thin, volume-heavy intermediation business: buy materials, finance the customer, deliver,
+  collect.</p>
+  <p><strong>Where the money is made.</strong> Operating margin is around 11%, which is respectable
+  for distribution and is the number that improved most over the last two years, from 4.5% in the
+  March 2025 quarter. Scale gives purchasing power; technology is meant to give route density and
+  working-capital control. FY26's cash conversion suggests the second part is starting to work.</p>
+  <p><strong>The structural risk in the model.</strong> This business finances its customers. It
+  extends materially more credit than it receives, so growth consumes cash unless payable terms
+  improve in step — which is exactly what happened in FY26, with days payable going from 39 to 71.
+  Whether the company can hold those supplier terms while continuing to grow 35%+ is the single
+  question that determines whether the last two years were a turnaround or a good patch.</p>
+  <p><strong>End-market dependence.</strong> Revenue tracks Indian real-estate and infrastructure
+  construction. A developer credit squeeze would hit volumes and receivables at the same moment.</p>
+
+  <!-- ── 10. RISKS ────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <ul>
+    <li><strong>Customer credit.</strong> 140 debtor days on ~11% margins. Improving, but still means
+    every rupee of growth carries roughly five months of financing.</li>
+    <li><strong>Supplier terms may not hold.</strong> Days payable nearly doubled to 71 in FY26. Much
+    of the cash-flow improvement comes from that. If suppliers pull terms back, the cycle re-widens.</li>
+    <li><strong>No institutional ownership.</strong> Zero mutual funds, DII at 1.09%, FII at 1.94%.
+    Nobody professional is underwriting this price.</li>
+    <li><strong>Short profitable history.</strong> Three consecutive loss years to FY24. Four
+    profitable quarters is not yet a record.</li>
+    <li><strong>Real-estate cycle.</strong> A downturn in developer activity hits volume and
+    collections together — the worst combination for this model.</li>
+    <li><strong>Thin margins.</strong> At ~11% operating margin, small moves in input cost or price
+    competition swing profit sharply.</li>
+    <li><strong>Data conflict.</strong> The debtor-days series here disagrees with the previous note's
+    figures. The direction is favourable on this basis, but the levels should be checked against the
+    annual report before relying on them.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Stays a Buy</strong> — 17.8x for 37% revenue growth, positive operating cash flow, a
+    halved cash cycle and a net-cash balance sheet.</li>
+    <li><strong>Raise conviction</strong> — a second year of positive operating cash flow, or the
+    first mutual fund taking a position. Either would confirm FY26 was structural.</li>
+    <li><strong>Downgrade to Hold</strong> — operating cash flow turning negative again, debtor days
+    rising back above 160, or days payable falling under 50.</li>
+    <li><strong>Downgrade to Sell</strong> — a return to losses, or a developer credit event hitting
+    receivables.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in — consolidated annual and quarterly financials, the working-capital ratio series,
+    cash flow from operations, balance sheet and the five-quarter shareholding series; price ₹143
+    (fetched 21 Aug 2026).</li>
+    <li>Trendlyne — live price ₹143.41 on 21 Aug 2026; the monthly fund-holding page carries no
+    table, confirming no scheme holds the stock (fetched 21 Aug 2026).</li>
+    <li>FY26 and Q1 FY27 headline figures cross-checked against the 13 Aug 2026 note in this library.</li>
+    <li><strong>Inference, not fact:</strong> attributing the September 2025 FII drop to anchor
+    lock-up expiry is this note's reading of the timing, not a disclosed explanation.</li>
+    <li><strong>Age of data:</strong> price is live, shareholding is the Jun 2026 filing, earnings are
+    Q1 FY27. Nothing here is more than three months old.</li>
+  </ul>
+
+  <div class="foot">Generated 21 Aug 2026 · Price basis ₹143.41 (NSE, 21 Aug 2026) · ⚠ No institutional ownership at all; only four profitable quarters after three loss years; cash-flow improvement leans on supplier terms doubling; debtor-day series conflicts with the previous note. P/BV derived <sup>d</sup>. Not investment advice.</div>
+</div>
+</body>
+</html>
