@@ -837,6 +837,19 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .sr-badge-accumulate{background:var(--green-bg);color:var(--green)}
 .sr-badge-watch,.sr-badge-speculative{background:var(--amber-bg);color:var(--amber)}
 .sr-badge-avoid{background:var(--red-bg);color:var(--red)}
+/* manual rating override — the report's call struck through, yours beneath */
+.sr-ov{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;vertical-align:middle}
+.sr-badge-struck{opacity:.55;text-decoration:line-through;text-decoration-thickness:1.5px;font-size:.64rem;padding:1px 7px}
+.sr-ov-line{display:inline-flex;align-items:center;gap:5px}
+.sr-ov-tag{font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+.sr-ov-q{width:16px;height:16px;padding:0;line-height:14px;text-align:center;border-radius:50%;border:1px solid var(--amber);background:var(--amber-bg);color:var(--amber);font-family:inherit;font-size:.66rem;font-weight:800;cursor:pointer}
+.sr-ov-q:hover{background:var(--amber);color:#fff}
+.sr-rt-current{margin:12px 0 14px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.sr-rt-choices{display:flex;gap:16px;margin:6px 0 10px}
+.sr-rt-choices label{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--text);cursor:pointer}
+.sr-rt-choices input{accent-color:var(--accent)}
+/* a baseline that fell back to the report's own price, for want of a tracking date */
+.sr-gen-fallback{opacity:.7;border-bottom:1px dotted var(--text3)}
 /* risk sits on its own axis: a Buy can still be high risk */
 .sr-risk{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.66rem;font-weight:700;background:var(--accent-light);color:var(--accent);vertical-align:middle;white-space:nowrap}
 .sr-group-row td{background:var(--surface2);color:var(--text2);font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:6px 10px;border-bottom:1px solid var(--border2)}
@@ -924,14 +937,16 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 /* ════ RESEARCH HUB — Funds sub-tab additions ════ */
 .sr-subtabs{display:inline-flex;background:var(--surface2);border-radius:10px;padding:3px;gap:2px;margin-bottom:14px}
-.sr-sub{padding:6px 16px;border-radius:8px;font-family:inherit;font-size:.8rem;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer}
-.sr-sub.on{background:var(--surface);color:var(--accent);box-shadow:var(--shadow)}
+.sr-kindtab{padding:6px 16px;border-radius:8px;font-family:inherit;font-size:.8rem;font-weight:700;color:var(--text2);background:none;border:none;cursor:pointer}
+.sr-kindtab.on{background:var(--surface);color:var(--accent);box-shadow:var(--shadow)}
 .sr-nfo{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.64rem;font-weight:800;letter-spacing:.03em;background:var(--accent);color:#fff;white-space:nowrap}
 .sr-nfo.closed{background:var(--surface2);color:var(--text2)}
 /* fund live panel in the viewer */
 .sr-fund-live{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 14px}
 /* app-rendered 1Y price chart above a stock report (mirrors .sr-fund-live) */
 .sr-chart{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 14px}
+.sr-liq{margin-top:6px;font-size:.78rem;color:var(--text2)}
+.sr-liq strong{color:var(--text);font-weight:700}
 .sr-chart-svg{width:100%;height:auto;max-height:210px;display:block;margin-top:6px}
 .sr-chart-svg text{font-family:inherit}
 .sr-fl-hd{font-size:.82rem;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}

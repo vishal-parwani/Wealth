@@ -10,6 +10,16 @@ const ASSET_COLORS  = ['#5b7fa6','#82a882','#c8a882','#b0b0b0','#8295a8','#a882a
 const ASSET_KEYS    = ['mf','stocks','gold','silver','real_estate','epf','nps'];
 const ASSET_TABS    = ['mf','stocks','gold','silver','realestate','epf','nps'];
 
+// Axis/tooltip label for a snapshot timestamp. Short form on the axis
+// ("Apr 26"), full date in the tooltip.
+function histDateLabel(ms, full) {
+  const d = new Date(ms);
+  if (!Number.isFinite(d.getTime())) return '';
+  return full
+    ? d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+    : d.toLocaleDateString('en-IN', { month: 'short', year: '2-digit' });
+}
+
 async function renderSummary() {
   const el = document.getElementById('summary-content');
   if (!el) return;
@@ -278,29 +288,57 @@ async function renderSummary() {
     const histCtx = document.getElementById('history-chart')?.getContext('2d');
     if (histCtx) {
       if (historyChart) historyChart.destroy();
-      const labels = snapshots.map(s=>s.date);
+      // Snapshots are irregular in time (one a month, and only if the app was
+      // opened) — plot against real dates so gaps read as gaps, not as even steps.
+      const xs = snapshots.map(s => new Date(s.date + 'T00:00:00').getTime());
+      // At most ~12 labels, always including the first and last snapshot.
+      const step = Math.max(1, Math.ceil(xs.length / 12));
+      const tickStops = xs.filter((_, i) => i % step === 0 || i === xs.length - 1);
+      const pt = (s, k) => ({ x: new Date(s.date + 'T00:00:00').getTime(), y: k === 'total' ? s.total : (s[k] || 0) });
       const datasets = [
-        { label:'Total', data: snapshots.map(s=>s.total), borderColor:'#5b7fa6', backgroundColor:'rgba(91,127,166,.12)', fill:true, tension:.3, pointRadius:3 },
-        ...keys.map((k,i)=>({
-          label: labels[i],
-          data: snapshots.map(s=>s[k]||0),
+        {
+          label: 'Total',
+          data: snapshots.map(s => pt(s, 'total')),
+          borderColor: '#5b7fa6', backgroundColor: 'rgba(91,127,166,.12)',
+          fill: true, tension: .3, pointRadius: 3, borderWidth: 2, order: 0
+        },
+        ...keys.map((k, i) => ({
+          label: labels[i],                       // asset name, not the snapshot date
+          data: snapshots.map(s => pt(s, k)),
           borderColor: colors[i],
           backgroundColor: 'transparent',
-          tension:.3, pointRadius:2,
-          borderWidth: 1.5
+          tension: .3, pointRadius: 2,
+          borderWidth: 1.5, order: i + 1
         }))
       ];
       historyChart = new Chart(histCtx, {
         type: 'line',
-        data: { labels, datasets },
+        data: { datasets },
         options: {
           responsive: true,
+          interaction: { mode: 'index', intersect: false },
+          parsing: false,
           plugins: {
-            legend: { position: 'bottom', labels: { font:{ size:10 }, boxWidth:10 } },
-            tooltip: { callbacks: { label: ctx => ' '+ctx.dataset.label+': '+formatINR(ctx.raw) } }
+            legend: { position: 'bottom', labels: { font:{ size:10 }, boxWidth:10, usePointStyle:true, pointStyle:'line' } },
+            tooltip: {
+              callbacks: {
+                title: items => histDateLabel(items[0]?.parsed?.x, true),
+                label: ctx => ' ' + ctx.dataset.label + ': ' + formatINR(ctx.parsed.y)
+              }
+            }
           },
           scales: {
-            y: { ticks: { callback: v=>formatINR(v) } }
+            // Linear (not category) so a two-month gap is twice as wide as a
+            // one-month gap. Chart.js' time scale needs a date adapter we don't
+            // load, so ticks are placed on the snapshot dates by hand.
+            x: {
+              type: 'linear',
+              min: xs[0], max: xs[xs.length - 1],
+              grid: { display: false },
+              afterBuildTicks: a => { a.ticks = tickStops.map(v => ({ value: v })); },
+              ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: false, callback: v => histDateLabel(v) }
+            },
+            y: { beginAtZero: true, ticks: { callback: v=>formatINR(v) } }
           }
         }
       });
@@ -327,7 +365,9 @@ async function renderSummary() {
 async function loadSnapshots() {
   try {
     const snap = await DASH_REF.get();
-    return snap.exists ? (snap.data().snapshots || []) : [];
+    const list = snap.exists ? (snap.data().snapshots || []) : [];
+    // Chronological — the chart plots them on a real date axis
+    return list.filter(s => s && s.date).sort((a, b) => a.date.localeCompare(b.date));
   } catch(e) { return []; }
 }
 

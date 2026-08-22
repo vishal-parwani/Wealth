@@ -49,6 +49,28 @@ function srNormFamily(f) {
   return SR_LEGACY_FAMILY[k] || (['buy', 'hold', 'sell'].includes(k) ? k : 'hold');
 }
 
+// ── Manual rating override ──────────────────────────────
+// You can overrule a report's own call. The report's rating is never rewritten
+// — the override sits beside it, so the list always shows both.
+// `forGeneratedAt` records which version of the report you confirmed it
+// against; when the report is replaced, the override survives but shows a "?"
+// until you re-confirm it against the newer facts.
+
+function srOverrideRating(r) {
+  const o = r.ratingOverride;
+  return o && /^(buy|hold|sell)$/i.test(String(o.rating || '')) ? srNormFamily(o.rating) : null;
+}
+
+// The rating that drives filtering, grouping and sorting: yours if set.
+function srEffFamily(r) {
+  return srOverrideRating(r) || srNormFamily(r.ratingFamily);
+}
+
+function srOverrideNeedsConfirm(r) {
+  const o = r.ratingOverride;
+  return !!o && o.forGeneratedAt !== r.generatedAt;
+}
+
 // Risk is read from an explicit <meta name="risk"> ("high"); falls back to the
 // old "speculative" wording so legacy reports keep their warning.
 function srRisk(riskMeta, rating) {
@@ -164,18 +186,44 @@ async function srImportReport(html) {
   const m  = parsed.meta;
   const id = m.ticker.toLowerCase();
   const existing = SR_reports.find(r => r.id === id);
+  const nowIso = new Date().toISOString();
   const rec = {
     ...m,
     personalNote:  existing?.personalNote  || '',
     priceOverride: existing?.priceOverride || null,   // { symbol } or { price, asOf }
-    importedAt: new Date().toISOString(),
+    // A manual rating call survives a re-import, but is marked unconfirmed
+    // against the new report so it has to be re-affirmed on fresh information.
+    ratingOverride: existing?.ratingOverride || null, // { rating, at, forGeneratedAt }
+    // When this name first entered the dashboard, and what it cost that day.
+    // `importedAt` is the *latest* import; these two never move once set.
+    trackedFrom: existing?.trackedFrom || nowIso,
+    trackPrice:  Number.isFinite(existing?.trackPrice) ? existing.trackPrice : null,
+    importedAt: nowIso,
     html,
   };
+  if (!Number.isFinite(rec.trackPrice)) {
+    rec.trackPrice = await srPriceNow({ ...rec, id }).catch(() => null);
+  }
   await srColl().doc(id).set(rec);
   const i = SR_reports.findIndex(r => r.id === id);
   if (i >= 0) SR_reports[i] = { id, ...rec }; else SR_reports.unshift({ id, ...rec });
   SR_reports.sort((a, b) => String(b.generatedAt).localeCompare(String(a.generatedAt)));
   return { id, replaced: !!existing };
+}
+
+// Price (stock) or NAV (fund) right now — used to stamp the baseline the first
+// time a report is imported. Falls back to the report's own gen price.
+async function srPriceNow(r) {
+  try {
+    if (r.type === 'fund') {
+      const d = await srFetchFundData(r);
+      if (d && Number.isFinite(d.nav)) return d.nav;
+    } else {
+      const q = await srFetchReportPrice(r);
+      if (q && Number.isFinite(q.price)) return q.price;
+    }
+  } catch (e) { /* offline or symbol unresolved — fall through */ }
+  return Number.isFinite(r.genPrice) ? r.genPrice : null;
 }
 
 // Patch small fields (note, price override) without rewriting the HTML
@@ -213,7 +261,7 @@ const SR_FAMILY_ORDER = ['buy', 'hold', 'sell'];
 function srGroups(rows, isFund) {
   const keyOf = isFund
     ? r => (r.sector && r.sector !== '—' ? r.sector : 'Uncategorised')
-    : r => srNormFamily(r.ratingFamily);
+    : r => srEffFamily(r);
   const map = new Map();
   rows.forEach(r => {
     const k = keyOf(r);
@@ -254,7 +302,17 @@ function srRatingBadge(r) {
   const risk = srRisk(r.risk, r.rating) === 'high'
     ? ` <span class="sr-risk" title="High risk — read the report before sizing">high risk</span>`
     : '';
-  return `<span class="sr-badge sr-badge-${esc(fam)}" title="${esc(r.rating)}">${esc(r.rating)}</span>${risk}`;
+  const ov = srOverrideRating(r);
+  if (!ov) return `<span class="sr-badge sr-badge-${esc(fam)}" title="${esc(r.rating)}">${esc(r.rating)}</span>${risk}`;
+
+  const when = r.ratingOverride?.at ? srFmtDate(r.ratingOverride.at) : '';
+  const stale = srOverrideNeedsConfirm(r)
+    ? ` <button class="sr-ov-q" data-ovq="${esc(r.id)}" title="The report has been updated since you set this. Click to review and confirm.">?</button>`
+    : '';
+  return `<span class="sr-ov">
+      <span class="sr-badge sr-badge-${esc(fam)} sr-badge-struck" title="Report's own call: ${esc(r.rating)}">${esc(r.rating)}</span>
+      <span class="sr-ov-line"><span class="sr-badge sr-badge-${esc(ov)}" title="Your call${when ? ', set ' + when : ''}">${esc(SR_FAMILY_LABEL[ov] || ov)}</span><span class="sr-ov-tag">mine</span>${stale}</span>
+    </span>${risk}`;
 }
 
 function srFlags(r) {
@@ -278,7 +336,7 @@ async function srFetchQuote(symbol) {
     if (!r.ok) return null;
     const meta = (await r.json())?.chart?.result?.[0]?.meta;
     const price = meta?.regularMarketPrice;
-    if (!Number.isFinite(price)) return null;
+    if (!(price > 0)) return null;   // Yahoo sometimes answers 0 — treat as no quote
     const prev = meta.chartPreviousClose ?? meta.previousClose ?? null;
     return { price, changePct: prev ? ((price - prev) / prev) * 100 : null };
   } catch (e) { return null; }
@@ -323,9 +381,15 @@ async function srFetchHistory(r) {
       if (!res.ok) continue;
       const j = (await res.json())?.chart?.result?.[0];
       const ts = j?.timestamp || [];
-      const cl = (j?.indicators?.quote?.[0]?.close || []).map(Number);
+      const q  = j?.indicators?.quote?.[0] || {};
+      const cl = (q.close || []).map(Number);
+      const vol = (q.volume || []).map(Number);
       const pts = [];
-      for (let i = 0; i < ts.length; i++) if (Number.isFinite(cl[i])) pts.push({ t: ts[i] * 1000, c: cl[i] });
+      // `> 0`, not just Number.isFinite — Yahoo intermittently returns a 0
+      // close, which used to plot as a spike down to ₹0 (and a −100% "last").
+      for (let i = 0; i < ts.length; i++) {
+        if (cl[i] > 0) pts.push({ t: ts[i] * 1000, c: cl[i], v: Number.isFinite(vol[i]) ? vol[i] : null });
+      }
       if (pts.length > 20) return { closes: pts, symbol: sym };
     } catch (e) { /* try next symbol */ }
   }
@@ -403,6 +467,32 @@ function srSparkline(pts, genPrice) {
   </svg>`;
 }
 
+// Average daily traded volume over the last 6 months (or the whole listed
+// history if that's shorter — newly listed names have less than 6 months).
+function srLiquidity(h) {
+  if (!h || h.na || !h.closes) return null;
+  const cutoff = Date.now() - 183 * 86400000;
+  let pts = h.closes.filter(p => p.t >= cutoff && Number.isFinite(p.v) && p.v > 0);
+  const partial = pts.length < 100;   // ~126 trading days in 6 months
+  if (pts.length < 10) {
+    pts = h.closes.filter(p => Number.isFinite(p.v) && p.v > 0);
+    if (pts.length < 5) return null;
+  }
+  const shares = pts.reduce((a, p) => a + p.v, 0) / pts.length;
+  const turnover = pts.reduce((a, p) => a + p.v * p.c, 0) / pts.length;   // ₹/day
+  const days = pts.length;
+  const spanDays = Math.round((pts[pts.length - 1].t - pts[0].t) / 86400000);
+  return { shares, turnover, days, spanDays, partial };
+}
+
+function srFmtShares(n) {
+  if (!Number.isFinite(n)) return '—';
+  if (n >= 1e7) return (n / 1e7).toFixed(2) + ' cr';
+  if (n >= 1e5) return (n / 1e5).toFixed(2) + ' L';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+  return Math.round(n).toLocaleString('en-IN');
+}
+
 function srStockChartPanel(r) {
   const h = SR_hist[r.id];
   if (!h) return `<div class="sr-chart"><div class="sr-fl-hd">Share price — 1 year</div>
@@ -421,7 +511,21 @@ function srStockChartPanel(r) {
         <span class="sr-sub" style="margin-left:10px">52W ₹${srFmtPrice(Math.min(...v))} – ₹${srFmtPrice(Math.max(...v))}</span>
       </div>
       ${srSparkline(h.closes, r.genPrice)}
+      ${srLiquidityLine(h)}
     </div>`;
+}
+
+// One-line liquidity read under the chart: how much of this actually trades.
+function srLiquidityLine(h) {
+  const L = srLiquidity(h);
+  if (!L) return '';
+  const cr = L.turnover / 1e7;
+  const money = cr >= 1 ? `₹${cr.toFixed(cr >= 10 ? 0 : 1)} cr` : `₹${(L.turnover / 1e5).toFixed(1)} L`;
+  const window = L.partial
+    ? `${L.days} sessions (listed ~${L.spanDays}d — under 6 months)`
+    : `${L.days} sessions, 6 months`;
+  return `<div class="sr-liq">Avg daily volume <strong>${srFmtShares(L.shares)}</strong> shares
+    · <strong>${money}</strong>/day traded <span class="sr-sub">· ${window}</span></div>`;
 }
 
 // ── Fund live data (NAV + manager track record via mfapi.in, no key) ──
@@ -515,7 +619,8 @@ function srMgrTrackCell(r) {
 function srFundStatusCell(r) {
   const p = SR_prices[r.id];
   if (r.scheme && p && Number.isFinite(p.nav)) {
-    const drift = ((p.nav - r.genPrice) / r.genPrice) * 100;
+    const b = srBaseline(r);
+    const drift = b.price > 0 ? ((p.nav - b.price) / b.price) * 100 : 0;
     return `<span class="sr-now">₹${p.nav.toFixed(2)}</span> <span class="${drift >= 0 ? 'sr-up' : 'sr-dn'}">${drift >= 0 ? '+' : ''}${drift.toFixed(1)}%</span>`;
   }
   if (r.nfoClose) {
@@ -531,19 +636,40 @@ function srLivePrice(r) {
   return p && Number.isFinite(p.price) ? p.price : null;
 }
 
+// The baseline a report's drift is measured from: the price on the day the
+// name was first added to the dashboard — not the day the report was written.
+// Reports imported before tracking dates existed fall back to the gen price.
+function srBaseline(r) {
+  if (Number.isFinite(r.trackPrice) && r.trackPrice > 0) {
+    return { price: r.trackPrice, since: r.trackedFrom || null, isGen: false };
+  }
+  return { price: r.genPrice, since: r.generatedAt || null, isGen: true };
+}
+
+function srBaselineLabel(r) {
+  const b = srBaseline(r);
+  const when = b.since ? srFmtDate(b.since) : '';
+  return b.isGen
+    ? `report price ₹${srFmtPrice(b.price)}${when ? ' · written ' + when : ''} — no tracking date on this report`
+    : `tracked from ${when} at ₹${srFmtPrice(b.price)}`;
+}
+
 function srDriftCells(r) {
   const p = SR_prices[r.id];
-  const gen = `<span class="sr-gen">${srFmtPrice(r.genPrice)}</span>`;
-  const naCell = { genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-na">n/a</span>`, drift: '<span class="sr-na">—</span>' };
+  const b = srBaseline(r);
+  const base = `<span class="sr-gen${b.isGen ? ' sr-gen-fallback' : ''}" title="${esc(srBaselineLabel(r))}">${srFmtPrice(b.price)}</span>`;
+  const naCell = { genNow: `${base}<span class="sr-arrow">→</span><span class="sr-na">n/a</span>`, drift: '<span class="sr-na">—</span>' };
   if (!p) {  // not fetched yet
-    return { genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-na">…</span>`, drift: '<span class="sr-na">—</span>' };
+    return { genNow: `${base}<span class="sr-arrow">→</span><span class="sr-na">…</span>`, drift: '<span class="sr-na">—</span>' };
   }
   if (!Number.isFinite(p.price)) return naCell;
-  const pct = ((p.price - r.genPrice) / r.genPrice) * 100;
+  if (!(b.price > 0)) return naCell;
+  const pct = ((p.price - b.price) / b.price) * 100;
   const cls = pct >= 0 ? 'sr-up' : 'sr-dn';
   const nowMark = p.manual ? ' <span class="sr-manual" title="Manual price override">M</span>' : '';
+  const since = b.since ? `<div class="sr-sub">since ${srFmtDate(b.since)}</div>` : '';
   return {
-    genNow: `${gen}<span class="sr-arrow">→</span><span class="sr-now">${srFmtPrice(p.price)}</span>${nowMark}`,
+    genNow: `${base}<span class="sr-arrow">→</span><span class="sr-now">${srFmtPrice(p.price)}</span>${nowMark}${since}`,
     drift: `<span class="${cls}">${pct >= 0 ? '+' : ''}${pct.toFixed(1)}%</span>`,
   };
 }
@@ -555,12 +681,17 @@ function srFiltered() {
     (!q || r.ticker.toLowerCase().includes(q) || String(r.name).toLowerCase().includes(q)
         || String(r.manager || '').toLowerCase().includes(q) || String(r.amc || '').toLowerCase().includes(q)) &&
     (!SR_view.sector || r.sector === SR_view.sector) &&
-    (!SR_view.family || srNormFamily(r.ratingFamily) === SR_view.family) &&
+    (!SR_view.family || srEffFamily(r) === SR_view.family) &&
     (!SR_view.verifyOnly || r.hasGaps)
   );
   const k = SR_view.sortKey, dir = SR_view.sortDir;
+  // The rating column sorts by your call when you've made one; the price column
+  // sorts by the tracking baseline, which not every record carries as a field.
+  const val = (r) => k === 'trackPrice' ? srBaseline(r).price
+                   : k === 'ratingFamily' ? SR_FAMILY_ORDER.indexOf(srEffFamily(r))
+                   : r[k];
   rows.sort((a, b) => {
-    const av = a[k], bv = b[k];
+    const av = val(a), bv = val(b);
     const c = typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av ?? '').localeCompare(String(bv ?? ''));
     return c * dir;
   });
@@ -573,10 +704,13 @@ function srDrawList(wrap) {
   const isFund = SR_view.kind === 'fund';
   const subtabs = `
     <div class="sr-subtabs">
-      <button class="sr-sub ${!isFund ? 'on' : ''}" data-kind="stock">Stocks</button>
-      <button class="sr-sub ${isFund ? 'on' : ''}" data-kind="fund">Funds</button>
+      <button class="sr-kindtab ${!isFund ? 'on' : ''}" data-kind="stock">Stocks</button>
+      <button class="sr-kindtab ${isFund ? 'on' : ''}" data-kind="fund">Funds</button>
     </div>`;
-  const wireSubtabs = () => wrap.querySelectorAll('.sr-sub').forEach(b => b.addEventListener('click', () => {
+  // `.sr-kindtab`, not `.sr-sub` — the latter is also the muted-subtitle class,
+  // so wiring it here bound this handler to every subtitle in every row and
+  // blanked the list (kind became undefined) on the way back from a report.
+  const wireSubtabs = () => wrap.querySelectorAll('.sr-kindtab').forEach(b => b.addEventListener('click', () => {
     if (b.dataset.kind === SR_view.kind) return;
     SR_view.kind = b.dataset.kind;
     SR_view.q = ''; SR_view.sector = ''; SR_view.family = ''; SR_view.verifyOnly = false;
@@ -595,7 +729,7 @@ function srDrawList(wrap) {
 
   const inKind = SR_reports.filter(r => (r.type || 'stock') === SR_view.kind);
   const sectors  = [...new Set(inKind.map(r => r.sector).filter(s => s && s !== '—'))].sort();
-  const families = [...new Set(inKind.map(r => srNormFamily(r.ratingFamily)))];
+  const families = [...new Set(inKind.map(r => srEffFamily(r)))];
   const rows = srFiltered();
   const arrow = k => SR_view.sortKey === k ? (SR_view.sortDir > 0 ? ' ▲' : ' ▼') : '';
 
@@ -639,8 +773,8 @@ function srDrawList(wrap) {
           <th class="left sr-sort" data-k="ticker">Ticker${arrow('ticker')}</th>
           <th class="left sr-sort" data-k="name">Name / Sector${arrow('name')}</th>
           <th class="left sr-sort" data-k="ratingFamily">Rating${arrow('ratingFamily')}</th>
-          <th class="sr-sort" data-k="genPrice">Gen → Now${arrow('genPrice')}</th>
-          <th>Drift</th>
+          <th class="sr-sort" data-k="trackPrice">Tracked → Now${arrow('trackPrice')}</th>
+          <th>Move</th>
           <th class="left sr-sort" data-k="generatedAt">Report${arrow('generatedAt')}</th>
           <th></th>
         </tr></thead>
@@ -721,9 +855,13 @@ function srDrawList(wrap) {
     e.stopPropagation();
     srShowRowMenu(b, b.dataset.id);
   }));
-  // Row/card body opens the report; the ⋯ button (its own handler) does not
+  wrap.querySelectorAll('.sr-ov-q').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation();
+    srConfirmOverride(b.dataset.ovq);
+  }));
+  // Row/card body opens the report; the ⋯ and ? buttons have their own handlers
   wrap.querySelectorAll('.sr-row').forEach(el => el.addEventListener('click', e => {
-    if (e.target.closest('.sr-menu-btn, .sr-rowmenu')) return;
+    if (e.target.closest('.sr-menu-btn, .sr-rowmenu, .sr-ov-q')) return;
     srOpenReport(el.dataset.id);
   }));
 
@@ -754,6 +892,7 @@ function srShowRowMenu(btn, id) {
     <button data-act="open">Open report</button>
     <button data-act="replace">Replace report<small>re-import updated HTML · keeps your note</small></button>
     ${overrideItem}
+    <button data-act="rating">My rating…<small>${srOverrideRating(r) ? 'currently ' + (SR_FAMILY_LABEL[srOverrideRating(r)]) + ' — edit or remove' : 'overrule the report\'s call'}</small></button>
     <button data-act="note">Edit note</button>
     <button data-act="delete" class="danger">Delete</button>`;
   document.body.appendChild(menu);
@@ -767,6 +906,7 @@ function srShowRowMenu(btn, id) {
     if (act === 'open')     srOpenReport(id);
     if (act === 'replace')  srOpenImportModal(r.ticker);
     if (act === 'override') srOpenOverrideModal(id);
+    if (act === 'rating')   srOpenRatingModal(id);
     if (act === 'note')     srOpenNoteEditor(id);
     if (act === 'delete')   srConfirmDelete(id);
   });
@@ -799,7 +939,7 @@ function srOpenReport(id) {
   if (!r) return;
   // Mobile: open the report in its own tab (full-screen, own dark theme)
   if (window.matchMedia('(max-width:700px)').matches) {
-    const url = URL.createObjectURL(new Blob([r.html], { type: 'text/html' }));
+    const url = URL.createObjectURL(new Blob([srStripInlineChart(r.html)], { type: 'text/html' }));
     window.open(url, '_blank');
     setTimeout(() => URL.revokeObjectURL(url), 60000);
     return;
@@ -835,6 +975,100 @@ function srFundLivePanel(r) {
     </div>`;
 }
 
+// Reports written before the chart moved into the app still carry a
+// "Share price — 1 year" heading and an empty chart slot halfway down the page
+// — a second, staler copy of what the viewer already draws above. Strip it at
+// display time so older reports get the fix without being re-authored.
+function srStripInlineChart(html) {
+  return String(html)
+    .replace(/<h2[^>]*>\s*Share price[^<]*<\/h2>\s*(<div class="chart-slot"[\s\S]*?<\/div>)?/i, '')
+    .replace(/<div class="chart-slot"[\s\S]*?<\/div>/i, '');
+}
+
+// ── PDF download ────────────────────────────────────────
+// The report is rendered into a hidden, same-origin iframe (no sandbox, so we
+// can reach into it) and html2pdf is loaded *inside* that iframe — keeping the
+// report's own CSS from touching the app. The PDF comes back as a blob so the
+// download is started by the top-level page, which browsers allow; a download
+// started from inside a hidden iframe often gets blocked.
+const SR_PDF_CDN = 'https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js';
+
+const SR_PDF_CSS = `
+  <style id="sr-pdf-css">
+    html,body{background:#fff !important;margin:0 !important}
+    body{padding:18px 22px !important}
+    .chart-slot,.sr-pdf-hide{display:none !important}
+    h1,h2,h3,tr,.kd>div{page-break-inside:avoid}
+    details{display:block !important}
+    details>summary{display:none !important}
+  </style>`;
+
+function srPdfName(r) {
+  const who = (r.type === 'fund' ? srSlug(r.name) : r.ticker) || 'report';
+  const d = new Date(r.generatedAt);
+  const stamp = Number.isFinite(d.getTime()) ? d.toISOString().slice(0, 10) : 'report';
+  return `${who}-${stamp}.pdf`;
+}
+
+async function srDownloadPdf(r) {
+  const btn = document.getElementById('sr-pdf');
+  const label = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Building PDF…'; }
+  let ifr = null;
+  try {
+    ifr = document.createElement('iframe');
+    ifr.setAttribute('aria-hidden', 'true');
+    // Rendered at a fixed A4-ish width so the layout doesn't depend on the window
+    ifr.style.cssText = 'position:fixed;left:-10000px;top:0;width:820px;height:1200px;border:0;visibility:hidden';
+    document.body.appendChild(ifr);
+
+    await new Promise((res, rej) => {
+      ifr.onload = res;
+      ifr.onerror = () => rej(new Error('could not render the report'));
+      // Details blocks are forced open by SR_PDF_CSS so a printed copy carries
+      // the full mutual-fund holdings list, not just the top five.
+      ifr.srcdoc = srStripInlineChart(r.html).replace(/<\/head>/i, SR_PDF_CSS + '</head>');
+      setTimeout(res, 4000);   // srcdoc load event is unreliable in some browsers
+    });
+
+    const doc = ifr.contentDocument, win = ifr.contentWindow;
+    if (!doc || !win) throw new Error('report could not be opened for printing');
+    if (!doc.getElementById('sr-pdf-css')) doc.head.insertAdjacentHTML('beforeend', SR_PDF_CSS);
+
+    await new Promise((res, rej) => {
+      const sc = doc.createElement('script');
+      sc.src = SR_PDF_CDN;
+      sc.onload = res;
+      sc.onerror = () => rej(new Error('PDF library could not be loaded — check the connection'));
+      doc.head.appendChild(sc);
+    });
+    if (typeof win.html2pdf !== 'function') throw new Error('PDF library did not load');
+
+    const blob = await win.html2pdf().set({
+      margin:      8,          // mm, all round — html2pdf rejects a 4-value array
+      filename:    srPdfName(r),
+      // Rasterised at 2x and JPEG 0.85: sharp on a retina screen, ~2 MB for a
+      // seven-page report. Quality 0.96 was 60% bigger for no visible gain.
+      image:       { type: 'jpeg', quality: 0.85 },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: 820 },
+      jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak:   { mode: ['css', 'legacy'] },
+    }).from(doc.body).outputPdf('blob');
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = srPdfName(r);
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    toast('PDF downloaded ✓');
+  } catch (e) {
+    toast('Could not build the PDF: ' + e.message);
+  } finally {
+    if (ifr) ifr.remove();
+    if (btn) { btn.disabled = false; btn.textContent = label; }
+  }
+}
+
 function srDrawViewer(wrap, r) {
   const isFund = r.type === 'fund';
   const minis = srFiltered().map(x => `
@@ -843,9 +1077,11 @@ function srDrawViewer(wrap, r) {
       <div class="sr-mini-drift">${isFund ? srMgrTrackCell(x) : srDriftCells(x).drift}</div>
     </div>`).join('');
 
+  const b = srBaseline(r);
+  const baseWord = b.isGen ? 'report' : 'tracked';
   const headMetric = isFund
-    ? `<span class="sr-viewer-drift">NAV ₹${srFmtPrice(r.genPrice)} → ${srFundStatusCell(r)}</span>`
-    : `<span class="sr-viewer-drift">gen ₹${srFmtPrice(r.genPrice)}<span class="sr-arrow">→</span>${srDriftCells(r).drift}</span>`;
+    ? `<span class="sr-viewer-drift" title="${esc(srBaselineLabel(r))}">NAV ₹${srFmtPrice(b.price)} → ${srFundStatusCell(r)}</span>`
+    : `<span class="sr-viewer-drift" title="${esc(srBaselineLabel(r))}">${baseWord} ₹${srFmtPrice(b.price)}<span class="sr-arrow">→</span>${srDriftCells(r).drift}</span>`;
 
   wrap.innerHTML = `
     <div class="sr-split">
@@ -858,7 +1094,9 @@ function srDrawViewer(wrap, r) {
           ${headMetric}
           ${srFlags(r)}
           <span class="sr-viewer-spacer"></span>
+          <button class="btn btn-sm" id="sr-rating" title="Overrule the report's rating">My rating</button>
           <button class="btn btn-sm" id="sr-replace" title="Import an updated HTML — keeps your note">Replace</button>
+          <button class="btn btn-sm" id="sr-pdf" title="Download this report as a PDF">⬇ PDF</button>
           <button class="btn btn-sm" id="sr-newtab">Open in new tab ↗</button>
         </div>
         ${isFund ? `<div id="sr-fund-live-slot">${srFundLivePanel(r)}</div>`
@@ -873,7 +1111,7 @@ function srDrawViewer(wrap, r) {
     </div>`;
 
   // srcdoc via property assignment — avoids HTML-escaping the whole report in the template
-  wrap.querySelector('.sr-frame').srcdoc = r.html;
+  wrap.querySelector('.sr-frame').srcdoc = srStripInlineChart(r.html);
 
   // Stocks: fetch 1Y history once per report, then refresh just the chart panel.
   if (!isFund && !SR_hist[r.id]) {
@@ -894,9 +1132,15 @@ function srDrawViewer(wrap, r) {
   }
 
   document.getElementById('sr-back').addEventListener('click', srCloseViewer);
+  document.getElementById('sr-rating').addEventListener('click', () => srOpenRatingModal(r.id));
+  document.getElementById('sr-pdf').addEventListener('click', () => srDownloadPdf(r));
+  wrap.querySelectorAll('.sr-ov-q').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation();
+    srConfirmOverride(b.dataset.ovq);
+  }));
   document.getElementById('sr-replace').addEventListener('click', () => srOpenImportModal(r.ticker));
   document.getElementById('sr-newtab').addEventListener('click', () => {
-    const url = URL.createObjectURL(new Blob([r.html], { type: 'text/html' }));
+    const url = URL.createObjectURL(new Blob([srStripInlineChart(r.html)], { type: 'text/html' }));
     window.open(url, '_blank');
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   });
@@ -1073,6 +1317,75 @@ function srOvSyncMode() {
   document.getElementById('sr-ov-manual-row').style.display = manual ? '' : 'none';
 }
 
+// ── Rating override (my call vs the report's) ───────────
+
+let SR_rtId = null;
+
+function srOpenRatingModal(id) {
+  const r = SR_reports.find(x => x.id === id);
+  if (!r) return;
+  SR_rtId = id;
+  const modal = document.getElementById('sr-rt-modal');
+  const fam = srNormFamily(r.ratingFamily);
+  const ov  = srOverrideRating(r);
+  document.getElementById('sr-rt-title').textContent = `My rating — ${r.type === 'fund' ? r.name : r.ticker}`;
+  document.getElementById('sr-rt-current').innerHTML =
+    `<span class="sr-sub">Report says</span> <span class="sr-badge sr-badge-${esc(fam)}">${esc(r.rating)}</span>
+     <span class="sr-sub">· ${srFmtDate(r.generatedAt)}</span>`;
+  modal.querySelectorAll('input[name="sr-rt-rating"]').forEach(el => { el.checked = el.value === (ov || fam); });
+  document.getElementById('sr-rt-clear').style.display = ov ? '' : 'none';
+  modal.style.display = 'flex';
+}
+
+// The "?" on a stale override: shown after the report was replaced, so the
+// call is re-affirmed against what the new version says.
+async function srConfirmOverride(id) {
+  const r = SR_reports.find(x => x.id === id);
+  if (!r || !r.ratingOverride) return;
+  const mine = SR_FAMILY_LABEL[srOverrideRating(r)] || r.ratingOverride.rating;
+  const ok = confirm(
+    `This report was updated on ${srFmtDate(r.generatedAt)} and now rates ${r.ticker || r.name} "${r.rating}".\n\n` +
+    `Your override says ${mine}. Keep it?\n\nOK = keep my ${mine} call · Cancel = drop it and use the report's rating.`);
+  if (ok) {
+    await srUpdateReport(id, { ratingOverride: { ...r.ratingOverride, forGeneratedAt: r.generatedAt } });
+    toast(`Kept your ${mine} call ✓`);
+  } else {
+    await srUpdateReport(id, { ratingOverride: null });
+    toast('Override removed');
+  }
+  renderStockReports();
+}
+
+function srInitRatingUI() {
+  const modal = document.getElementById('sr-rt-modal');
+  if (!modal) return;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+  document.getElementById('sr-rt-cancel').addEventListener('click', () => modal.style.display = 'none');
+
+  document.getElementById('sr-rt-clear').addEventListener('click', async () => {
+    if (!SR_rtId) return;
+    await srUpdateReport(SR_rtId, { ratingOverride: null });
+    modal.style.display = 'none';
+    toast('Override removed');
+    renderStockReports();
+  });
+
+  document.getElementById('sr-rt-save').addEventListener('click', async () => {
+    if (!SR_rtId) return;
+    const r = SR_reports.find(x => x.id === SR_rtId);
+    const pick = modal.querySelector('input[name="sr-rt-rating"]:checked')?.value;
+    if (!r || !pick) return;
+    // Picking exactly what the report already says is the same as no override
+    const patch = pick === srNormFamily(r.ratingFamily)
+      ? { ratingOverride: null }
+      : { ratingOverride: { rating: pick, at: new Date().toISOString(), forGeneratedAt: r.generatedAt } };
+    await srUpdateReport(SR_rtId, patch);
+    modal.style.display = 'none';
+    toast(patch.ratingOverride ? `Your call: ${SR_FAMILY_LABEL[pick]} ✓` : 'Override removed');
+    renderStockReports();
+  });
+}
+
 function srInitOverrideUI() {
   const modal = document.getElementById('sr-ov-modal');
   if (!modal) return;
@@ -1153,6 +1466,7 @@ function initStockReports() {
   // from the main dashboard doc — reports live in their own subcollection.
   srInitImportUI();
   srInitOverrideUI();
+  srInitRatingUI();
 }
 
 function renderStockReports() {

@@ -85,6 +85,9 @@ def from_value(v):
     if "nullValue"    in v: return None
     if "mapValue"     in v:
         return {k: from_value(x) for k, x in v["mapValue"].get("fields", {}).items()}
+    if "arrayValue"   in v:
+        return [from_value(x) for x in v["arrayValue"].get("values", [])]
+    if "timestampValue" in v: return v["timestampValue"]
     return None
 
 def request(url, data=None, token=None, method=None, content_type="application/json"):
@@ -181,7 +184,11 @@ def main():
     for _, tk, rec in parsed:
         url = f"{coll}/{tk}"
         # Preserve owner-entered fields, exactly as srImportReport does.
-        keep = {"personalNote": "", "priceOverride": None}
+        # trackedFrom/trackPrice are the tracking baseline (first added to the
+        # dashboard) — they must never move once set, or the "since tracked"
+        # move on the list would silently reset on every refresh.
+        keep = {"personalNote": "", "priceOverride": None, "ratingOverride": None,
+                "trackedFrom": None, "trackPrice": None}
         try:
             cur = request(url, token=token)
             for k in keep:
@@ -191,7 +198,12 @@ def main():
         except SystemExit:
             existed = False
 
-        doc = {**rec, **keep, "importedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+        now_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        if not keep["trackedFrom"]:
+            keep["trackedFrom"] = now_iso
+        if keep["trackPrice"] is None:
+            keep["trackPrice"] = rec["genPrice"]
+        doc = {**rec, **keep, "importedAt": now_iso}
         payload = json.dumps({"fields": {k: to_value(v) for k, v in doc.items()}}).encode()
         request(url, data=payload, token=token, method="PATCH")
         note = "replaced" if existed else "created"

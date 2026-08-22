@@ -102,6 +102,14 @@ file and stub `fetch`).
   near-miss. Cite the **disclosure month** (monthly, ~10–15 days in arrears), not the
   fetch date. Flag any holder that is itself in the portfolio — that's indirect
   exposure to the same name.
+- **Report record fields the app owns, not the HTML**: `trackedFrom` / `trackPrice`
+  (the day a name first entered the dashboard and its price that day — the baseline
+  the "Tracked → Now" column measures from; recovered for old reports from the
+  Firestore document `createTime` by `tools/backfill-tracking.py`), `ratingOverride`
+  (a manual Buy/Hold/Sell that overrules the report's own call and drives filtering,
+  grouping and sorting; shown as the report's rating struck through with yours
+  beneath), `personalNote` and `priceOverride`. All five must be preserved on
+  re-import — `tools/publish-reports.py` reads them back before it writes.
 - **Reports carry no chart.** The app draws a live 1-year price chart above the report
   in the viewer (`srStockChartPanel` / `srSparkline`), mirroring `srFundLivePanel` for
   funds. A chart baked in at authoring time is stale the next day. The dashed line marks
@@ -128,6 +136,15 @@ file and stub `fetch`).
   live. Don't wait for a PR or ask; merge once the change is done and verified.
 - Commit style: short imperative subject prefixed by module, e.g.
   `Watchlist: fix NAV return windows`, `Fund report: Helios Mid Cap (HELIOSMID)`.
+- **Monthly net-worth snapshot** runs server-side: `.github/workflows/monthly-snapshot.yml`
+  fires `tools/monthly-snapshot.py` on the 1st at 05:00 UTC. It re-implements
+  `getPortfolioValues()` against the same price sources (mfapi, Yahoo via the
+  worker proxy, TradingView for XAU/XAG/USDINR) and PATCHes only the `snapshots`
+  field. Needs repo secrets `WEALTH_SA_KEY` (service-account JSON) and
+  `WEALTH_EMAIL`. Idempotent — a month already saved is left alone.
+- **Holdings live under a `portfolio` map** on `dashboards/{email}`; `snapshots` and
+  `price_settings` sit at the top level of the same document. Firestore REST
+  `from_value` must handle `arrayValue`, or every list silently reads as `None`.
 - **Publishing reports to Firestore** (agent sessions): authenticate with the
   service-account key. Resolution order: local path on the owner's Mac (documented in
   private memory) → `/sessions/*/mnt/AI Oversight/Automations/wealth-service-account.json`

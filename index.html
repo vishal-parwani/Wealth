@@ -1161,6 +1161,27 @@
   </div>
 </div>
 
+<!-- Stock Report Rating Override Modal -->
+<div id="sr-rt-modal" class="modal-overlay" style="display:none">
+  <div class="modal" style="max-width:460px">
+    <h3 id="sr-rt-title">My rating</h3>
+    <div class="modal-sub">Overrule the report's call. The report keeps its own rating — the list shows it struck through with yours beneath, so you always see both.</div>
+    <div id="sr-rt-current" class="sr-rt-current"></div>
+    <label>My call</label>
+    <div class="sr-rt-choices">
+      <label><input type="radio" name="sr-rt-rating" value="buy"> Buy</label>
+      <label><input type="radio" name="sr-rt-rating" value="hold"> Hold</label>
+      <label><input type="radio" name="sr-rt-rating" value="sell"> Sell</label>
+    </div>
+    <div class="sr-ov-hint">Your call drives the rating filter, grouping and sort. If the report is later replaced with a fresh version, the override stays but is marked <strong>?</strong> until you confirm it against the new report.</div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="sr-rt-clear" style="display:none;margin-right:auto">Remove override</button>
+      <button class="btn" id="sr-rt-cancel">Cancel</button>
+      <button class="btn btn-primary" id="sr-rt-save">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- (settings modal removed — merged into #settings-panel) -->
 
 <!-- ══════════════════════════════════════════════════════

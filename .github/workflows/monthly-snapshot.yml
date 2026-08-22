@@ -1,0 +1,46 @@
+# Writes the net-worth snapshot on the 1st of every month, whether or not the
+# dashboard has been opened in a browser. The in-app auto-save only fires when
+# a tab happens to be open on the 1st, which left holes in the history.
+name: Monthly net-worth snapshot
+
+on:
+  schedule:
+    # 05:00 UTC = 10:30 IST on the 1st. GitHub can delay scheduled runs by up
+    # to ~an hour under load; the script is idempotent, so a late run is fine.
+    - cron: '0 5 1 * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Snapshot date (YYYY-MM-DD). Blank = today.'
+        required: false
+      force:
+        description: 'Overwrite an existing snapshot for that month'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --quiet cryptography certifi
+
+      - name: Write snapshot
+        env:
+          # Repository secrets: the service-account JSON and the dashboard doc
+          # id. Never echo these — this repo is public.
+          WEALTH_SA_KEY: ${{ secrets.WEALTH_SA_KEY }}
+          WEALTH_EMAIL:  ${{ secrets.WEALTH_EMAIL }}
+        run: |
+          python3 tools/monthly-snapshot.py \
+            ${{ inputs.date && format('--date {0}', inputs.date) || '' }} \
+            ${{ inputs.force && '--force' || '' }}

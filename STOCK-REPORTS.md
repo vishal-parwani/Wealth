@@ -159,10 +159,14 @@ match /dashboards/{docId}/reports/{reportId} {
 Fixed section order:
 
 1. **Key data grid** — share price, 52W range, market cap, dividend yield, TTM P/E,
-   P/BV, net debt, debt/equity
+   P/BV, net debt, debt/equity, and 6-month average daily volume + turnover.
+   For a company listed less than six months, use the whole listed history and
+   say so — the app shows a live version of the same figure under its chart.
 2. **Verdict** — the sentence that decides the call, then evidence, then counter-argument
 3. **Broker estimates** — named brokers, targets, % vs spot, date; plus forward P/E
-4. **Share price — 1 year** — placeholder only; the app draws the live chart
+4. *(no price-chart section)* — the app draws a live 1-year chart directly above
+   the report. v1 and early-v2 reports carry a "Share price — 1 year" heading and
+   an empty slot; the viewer strips both at display time, so don't add one.
 5. **Financials** — an *annual* table (2–3 years) and a *separate* last-4-quarters table.
    Annual-only hides sequential margin reversals, which is usually where the story is.
 6. **Latest news** — last 3 months, top 5, each with a date and why it matters
@@ -170,6 +174,12 @@ Fixed section order:
    (read the *direction*, not the level), then promoter, management and board profiles
 8. **Business** — nature, peer table, moat (or plainly: none), confirmed order book
 9. **Risks** → 10. **What would change the rating** → 11. **Sources**
+
+Mutual fund holdings carry the **top 5 by value held**, then every remaining
+holder inside a collapsed `<details class="fundlist">` block — one click opens the
+full list without burying the page. Drop the block entirely when there are five
+holders or fewer. The PDF export forces every `<details>` open, so a downloaded
+report always carries the complete list.
 
 Conventions: superscript `d` marks a derived figure, an "unreconciled" chip marks
 conflicting sources, grey `n/a` marks data that could not be sourced. Never invent a
