@@ -937,15 +937,13 @@ function srConfirmDelete(id) {
 function srOpenReport(id) {
   const r = SR_reports.find(x => x.id === id);
   if (!r) return;
-  // Mobile: open the report in its own tab (full-screen, own dark theme)
-  if (window.matchMedia('(max-width:700px)').matches) {
-    const url = URL.createObjectURL(new Blob([srStripInlineChart(r.html)], { type: 'text/html' }));
-    window.open(url, '_blank');
-    setTimeout(() => URL.revokeObjectURL(url), 60000);
-    return;
-  }
+  // The in-app viewer is used on every width. It used to hand the report to a
+  // new tab on narrow screens, which meant no chart, no liquidity, no PDF and
+  // no rating override on a phone. "Open in new tab" is still there for
+  // full-screen reading.
   SR_view.openId = id;
   renderStockReports();
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function srCloseViewer() {

@@ -167,8 +167,11 @@ file and stub `fetch`).
    is refreshed rather than mass-rewriting, since v2 needs per-name data that would
    otherwise be filled with unverified aggregator figures. The allowlist reason for
    deferring is gone; the per-name-effort reason stands.
-4. **Mobile** — `srOpenReport` opens a blob in a new tab on narrow screens, so the
-   app-rendered chart panel does not appear there. Not yet addressed.
+4. ~~**Mobile**~~ — **done, 22 Aug 2026.** `srOpenReport` no longer diverts to a new
+   tab on narrow screens; the in-app viewer renders at every width (side list hidden,
+   header wraps, iframe sized to the viewport), so the chart, liquidity line, PDF and
+   rating override are all reachable on a phone. "Open in new tab" remains for
+   full-screen reading.
 
 ## Session log — what changed and why
 

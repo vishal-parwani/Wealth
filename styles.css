@@ -892,6 +892,20 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   .sr-table-wrap{display:none}
   .sr-cards{display:block}
   .sr-filterbar input[type=text]{max-width:none}
+
+  /* Viewer on a phone: one column, no side list — the report itself is
+     responsive inside the iframe, so it gets the full width. */
+  .sr-split{grid-template-columns:1fr;gap:0}
+  .sr-split-list{display:none}
+  .sr-viewer-hd{gap:7px 8px;padding:9px 10px}
+  .sr-viewer-hd .btn{padding:5px 9px;font-size:.72rem}
+  .sr-viewer-name{flex-basis:100%;order:-1}
+  #sr-back{order:-2}
+  .sr-viewer-spacer{display:none}
+  /* Tall enough to read without the page itself scrolling underneath it */
+  .sr-frame{height:calc(100vh - 260px);min-height:60vh}
+  .sr-chart,.sr-fund-live{padding:10px}
+  .sr-chart-svg{min-width:0}
 }
 
 /* import modal */
