@@ -23,6 +23,17 @@ owner typed in the UI.
 """
 import argparse, glob, html as htmllib, json, os, re, sys, time, urllib.request, urllib.parse
 
+# The python.org build on macOS ships without a CA bundle, so every HTTPS call
+# here dies with CERTIFICATE_VERIFY_FAILED. Point urllib at certifi's when it is
+# available; a no-op where the system trust store already works.
+try:
+    import ssl as _ssl, certifi as _certifi
+    _CTX = _ssl.create_default_context(cafile=_certifi.where())
+    _orig_urlopen = urllib.request.urlopen
+    urllib.request.urlopen = lambda *a, **kw: _orig_urlopen(*a, **{**kw, "context": _CTX})
+except Exception:
+    pass
+
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 FS = "https://firestore.googleapis.com/v1"
 SCOPE = "https://www.googleapis.com/auth/datastore"
