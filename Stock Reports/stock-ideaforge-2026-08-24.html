@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ideaForge Technology Limited (NSE: IDEAFORGE) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="IDEAFORGE">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="ideaForge Technology Limited">
+<meta name="sector"    content="Defence · UAV / Drones">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-08-24">
+<meta name="price"     content="812">
+<meta name="hasgaps"   content="false">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Defence · UAV / Drones · 24 Aug 2026</div>
+  <h1>ideaForge Technology Limited <span class="tik">· NSE: IDEAFORGE</span></h1>
+  <div class="subline">Two years of losses, a quarter that swung from −₹34 cr to +₹60 cr and back, and a ₹500 cr placement in July that finally put real institutions on the register.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹812</span></div>
+    <div><span class="k">52W range</span><span class="v">₹366 – ₹997</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹4,039 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">n/m<sup>d</sup></span></div>
+    <div><span class="k">P/BV</span><span class="v">5.89x<sup>d</sup></span></div>
+    <div><span class="k">Net cash <span style="font-weight:400;color:var(--ink3)">· post-QIP</span></span><span class="v">≈₹560 cr<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.14x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">11.9 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹75.6 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>The company has stopped burning and has just been handed ₹500 cr; what it has not done is prove it can earn.</strong> Trailing twelve-month net profit is ₹4 cr on ₹282 cr of revenue. FY25 lost ₹62 cr and FY26 lost ₹17 cr. Return on capital is negative. A price-to-earnings ratio is not meaningful here and quoting the 1,028x that appears on screens would be false precision — the honest measure is 5.9x book and ₹4,039 cr of market value for a business that has never sustainably made money.</p>
+  <p>Q1 FY27 was genuinely encouraging. Revenue ₹68.6 cr, up 436% year on year, EBITDA positive at ₹4.3 cr against a ₹15.1 cr loss a year earlier, and more than 20% of the opening order book delivered in the first quarter. Management is targeting delivery of the whole FY27 opening order book — over ₹300 cr — by the December quarter.</p>
+  <p>The July QIP changes the shareholder register more than it changes the business. ₹500 cr raised at ₹795 a share on 10 July, near the market price. Domestic institutions went from 2.69% to 10.98% of the company in one month and foreign institutions from 4.89% to 8.27%; fifteen mutual fund schemes bought, eleven of them opening a position from nothing. For the first time this company has professional owners.</p>
+  <p>Set against that: quarterly operating margin over the last four quarters was −28%, −84%, +44%, +3%. Revenue by quarter was ₹41 cr, ₹32 cr, ₹141 cr, ₹69 cr. Defence orders land when they land. Cash from operations has been negative two years running and pre-QIP cash had fallen from ₹274 cr to ₹39 cr. The QIP refills the tank; it does not answer whether the engine works. Hold, high risk.</p>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="callout">
+    <p><strong>No usable consensus.</strong> No published price target or forward EPS could be sourced for this name. That is unsurprising: with the company only now returning to profitability, any forward multiple would be an estimate resting on an estimate. The company's own guidance — delivery of the FY27 opening order book of over ₹300 cr by Q3 — is the only forward commitment on the record, and it is the number to hold management to.</p>
+  </div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>PBT</th><th>Net profit</th><th>EPS ₹</th></tr></thead>
+    <tbody>
+      <tr><th>FY24</th><td>314</td><td>57</td><td>18%</td><td>61</td><td>45</td><td>10.56</td></tr>
+      <tr><th>FY25</th><td class="dn">161</td><td class="dn">−52</td><td class="dn">−32%</td><td>−62</td><td class="dn">−62</td><td>−14.46</td></tr>
+      <tr><th>FY26</th><td>226</td><td>6</td><td>2.6%</td><td>−20</td><td class="dn">−17</td><td>−3.94</td></tr>
+      <tr class="total"><th>TTM</th><td>282</td><td>26</td><td>9%</td><td>−7</td><td>4</td><td>0.89</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">FY24 is the high-water mark the company has been trying to get back to ever since: ₹314 cr of revenue and ₹45 cr of profit. FY25 halved revenue and produced a ₹62 cr loss. Trailing revenue is now ₹282 cr and profit ₹4 cr — nearly back to FY24 on the top line, nowhere near it on the bottom. Note the trailing PBT is still negative at −₹7 cr; the positive net profit comes from tax credits, not from trading.</div>
+
+  <h3>Last four quarters · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Quarter</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>Other income</th><th>Interest</th><th>Depreciation</th><th>Net profit</th><th>EPS ₹</th></tr></thead>
+    <tbody>
+      <tr><th>Sep 25</th><td>40.8</td><td class="dn">−11.3</td><td class="dn">−27.7%</td><td>3.3</td><td>0.9</td><td>10.6</td><td class="dn">−19.6</td><td>−4.54</td></tr>
+      <tr><th>Dec 25</th><td>31.6</td><td class="dn">−26.5</td><td class="dn">−84.1%</td><td>2.6</td><td>1.1</td><td>11.0</td><td class="dn">−33.9</td><td>−7.83</td></tr>
+      <tr><th>Mar 26</th><td class="up">141.0</td><td class="up">61.7</td><td class="up">43.8%</td><td>12.5</td><td>1.6</td><td>11.8</td><td class="up">60.0</td><td>13.86</td></tr>
+      <tr><th>Jun 26</th><td>68.6</td><td>2.3</td><td>3.4%</td><td>2.0</td><td>2.0</td><td>14.2</td><td>−2.6</td><td>−0.60</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>₹41 cr, ₹32 cr, ₹141 cr, ₹69 cr of revenue in four consecutive quarters.</strong> The March quarter alone was half the year. This is defence procurement — orders are delivered against government timelines and the revenue lands in whichever quarter the acceptance happens. Judging this company on any single quarter, in either direction, is a mistake.</p>
+    <p>Depreciation is the quiet problem: ₹14.2 cr in the June quarter against ₹2.3 cr of operating profit. The company capitalises development spend, and that amortisation now exceeds what the business earns operationally in an ordinary quarter.</p>
+  </div>
+
+  <h3>Balance sheet &amp; cash · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Cash</th><th>Investments</th><th>Net cash<sup>d</sup></th><th>Equity</th><th>Op. cash flow</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>14</td><td>274</td><td>88</td><td class="up">348</td><td>661</td><td>76</td></tr>
+      <tr><th>Mar 25</th><td>16</td><td>97</td><td>120</td><td>201</td><td>609</td><td class="dn">−77</td></tr>
+      <tr><th>Mar 26</th><td>84</td><td class="dn">39</td><td>105</td><td>60</td><td>599</td><td class="dn">−63</td></tr>
+      <tr class="total"><th>Post-QIP<sup>d</sup></th><td>84</td><td colspan="2">+₹500 cr raised 10 Jul 26</td><td class="up">≈560</td><td>≈1,099</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Read the net cash column down the page: ₹348 cr, ₹201 cr, ₹60 cr. Two years of negative operating cash flow drained the IPO money almost completely, and borrowings went from ₹14 cr to ₹84 cr to cover the gap. The July QIP arrives with the tank nearly empty — which is both why it was needed and why the timing, at ₹795 into a stock that had tripled off its low, was good for the company. The post-QIP line is arithmetic on the March balance sheet plus the announced raise, not a filed figure.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Jul 2026 disclosure</span></h2>
+
+  <div class="callout">
+    <p><strong>16 schemes hold 46.6 lakh shares — ₹379 cr, about 9.4% of the company — and almost all of it arrived in July.</strong> Fifteen funds bought and two sold, a net addition of 38.8 lakh shares in a single month. Eleven of the sixteen opened a position from zero. This is the QIP being placed, visible in the fund register.</p>
+  </div>
+
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Shares</th><th>Value held<br>₹ cr<sup>d</sup></th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th><th>Chg Jul</th></tr></thead>
+    <tbody>
+      <tr><th>HDFC Defence</th><td>Sectoral · Defence</td><td>12,14,539</td><td>99</td><td>0.99%</td><td>9,968</td><td class="up">+8,96,226</td></tr>
+      <tr><th>Franklin India Small Cap</th><td>Small Cap</td><td>10,36,844</td><td>84</td><td>0.63%</td><td>13,372</td><td class="up">new</td></tr>
+      <tr><th>Mahindra Manulife Small Cap</th><td>Small Cap</td><td>7,13,082</td><td>58</td><td>1.23%</td><td>4,710</td><td class="up">+3,49,553</td></tr>
+      <tr><th>Bandhan Small Cap</th><td>Small Cap</td><td>6,03,775</td><td>49</td><td>0.17%</td><td>28,857</td><td class="up">new</td></tr>
+      <tr><th>HDFC Innovation</th><td>Thematic</td><td>2,98,742</td><td>24</td><td>0.88%</td><td>2,758</td><td class="up">new</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <details class="fundlist">
+    <summary>Show all 16 schemes holding this stock</summary>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Scheme</th><th>Shares</th><th>% of scheme</th><th>Chg Jul 2026</th></tr></thead>
+      <tbody>
+<tr><th>HDFC Defence Reg Gr</th><td>12,14,539</td><td>0.99%</td><td class="up">+8,96,226</td></tr>
+        <tr><th>Franklin India Small Cap Gr</th><td>10,36,844</td><td>0.63%</td><td class="up">new</td></tr>
+        <tr><th>Mahindra Manulife Small Cap Reg Gr</th><td>7,13,082</td><td>1.23%</td><td class="up">+3,49,553</td></tr>
+        <tr><th>Bandhan Small Cap Reg Gr</th><td>6,03,775</td><td>0.17%</td><td class="up">new</td></tr>
+        <tr><th>HDFC Innovation Reg Gr</th><td>2,98,742</td><td>0.88%</td><td class="up">new</td></tr>
+        <tr><th>Helios Small Cap Reg Gr</th><td>1,88,679</td><td>1.13%</td><td class="up">new</td></tr>
+        <tr><th>Bandhan Innovation Reg Gr</th><td>1,80,523</td><td>0.60%</td><td class="up">+1,06,290</td></tr>
+        <tr><th>TrustMF Flexi Cap Reg Gr</th><td>94,340</td><td>0.82%</td><td class="up">new</td></tr>
+        <tr><th>Bandhan Infrastructure Gr</th><td>62,893</td><td>0.37%</td><td class="up">new</td></tr>
+        <tr><th>Bandhan Business Cycle Reg Gr</th><td>62,893</td><td>0.47%</td><td class="up">new</td></tr>
+        <tr><th>Bandhan Aggressive Hybrid Reg Gr</th><td>56,603</td><td>0.21%</td><td class="up">new</td></tr>
+        <tr><th>TrustMF Multi Cap Reg Gr</th><td>50,314</td><td>0.65%</td><td class="up">new</td></tr>
+        <tr><th>Mahindra Manulife Manufacturing Reg Gr</th><td>44,043</td><td>0.57%</td><td class="up">new</td></tr>
+        <tr><th>TrustMF Mid Cap Reg Gr</th><td>44,025</td><td>0.90%</td><td class="up">new</td></tr>
+        <tr><th>Mirae Asset BSE India Defence ETF</th><td>11,757</td><td>0.70%</td><td class="up">+1,369</td></tr>
+        <tr><th>Motilal Oswal BSE 1000 Index Reg Gr</th><td>82</td><td>0.01%</td><td class="dn">−2</td></tr>
+        <tr><th>Axis Innovation Reg Gr</th><td>exited</td><td>—</td><td class="dn">−20,141</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <div class="delta">The conviction weights are small — the largest position is 1.23% of Mahindra Manulife Small Cap. HDFC Defence, the natural holder, has it at 0.99% of the scheme. Nobody has made this a large bet. <strong>Own holdings overlap: none</strong> — your Motilal Oswal Large &amp; Midcap is not a holder, though Helios Small Cap, whose sibling funds you track in this research list, opened a position in July.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">10 Aug 26</span><span><strong>Q1 FY27: revenue ₹68.6 cr, up 436%; EBITDA positive at ₹4.3 cr</strong> against a ₹15.1 cr loss a year earlier. Over 20% of the FY27 opening order book delivered in the quarter.</span></li>
+    <li><span class="date">10 Jul 26</span><span><strong>₹500 cr QIP at ₹795 a share</strong> — 62,89,308 shares allotted. The register changed more in that week than in the previous two years.</span></li>
+    <li><span class="date">2026</span><span><strong>Government LoI worth up to ₹151 cr</strong> under the Research, Development and Innovation scheme, to build YETI — a middle-mile logistics drone carrying up to 200 kg to 200 km.</span></li>
+    <li><span class="date">2026</span><span><strong>Deployed fleet passes one million customer missions</strong>, with a drone taking off every two minutes somewhere in the world.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>Order book over ₹300 cr entering FY27</strong>, with management targeting full delivery by the December quarter.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 disclosures</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Jul 26 <span class="sub">post-QIP</span></th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>28.97</td><td>28.97</td><td>29.04</td><td>28.96</td><td class="dn">25.26</td></tr>
+      <tr><th>FIIs</th><td>0.25</td><td>0.20</td><td>0.73</td><td class="up">4.89</td><td class="up">8.27</td></tr>
+      <tr><th>DIIs</th><td>1.49</td><td>1.49</td><td>1.50</td><td>2.69</td><td class="up">10.98</td></tr>
+      <tr><th>Public</th><td>69.31</td><td>69.36</td><td>68.75</td><td>63.46</td><td class="dn">55.49</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>1,89,030</td><td>1,84,735</td><td>1,83,339</td><td>1,65,675</td><td>1,64,872</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The last column is a July snapshot rather than a quarter-end, because the QIP fell mid-quarter and the change is too material to leave out. Institutions went from 4.19% combined at March to 19.25% in July. Promoter holding fell from 28.96% to 25.26% purely through dilution — there is no promoter sale in this table, they were simply not issued new shares.</div>
+  <p><strong>Promoter holding of 25.26% is low</strong> and was low before the QIP. ideaForge is a professionalised company that grew out of IIT Bombay rather than a family business, and the public has held roughly two-thirds of it since listing — which is why the register was so retail-heavy and why the arrival of fifteen institutional buyers matters. Retail shareholder count has fallen from 1.89 lakh to 1.65 lakh over the year, so the float is consolidating.</p>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>What it does</h3>
+  <p>ideaForge designs and manufactures unmanned aircraft systems — surveillance and mapping drones sold principally to the Indian armed forces, central and state police, and paramilitary organisations, with a growing enterprise mapping and survey business. It is the domestic market leader by deployed fleet, and the moat, such as it is, comes from being an approved supplier on Indian defence procurement lists. The new direction is logistics: YETI, a 200 kg-payload middle-mile platform, backed by a government letter of intent worth up to ₹151 cr.</p>
+
+  <h3>Peers</h3>
+  <div class="callout">
+    <p>No fair listed peer table can be built. The other listed Indian drone names are either far smaller, differently positioned, or valued on order books rather than earnings, and ideaForge has no earnings to compare. A table putting a loss-making company beside profitable defence manufacturers on P/E and ROCE would mislead rather than inform, so it is omitted. The relevant comparison is against its own FY24: ₹314 cr of revenue and ₹45 cr of profit is what this business has already proved it can do, and getting back there is the case.</p>
+  </div>
+
+  <h3>Moat</h3>
+  <p>Modest and policy-dependent. Being on Indian defence procurement lists, having flown a million missions and holding indigenous-content certification are real barriers to a foreign competitor, and drone procurement rules favour domestic manufacture. They are not barriers to another well-funded Indian entrant, and they do not confer pricing power — government tenders are competitive and margins are set by the buyer. The technology lead is genuine today and needs continuous R&amp;D spend to stay that way, which is exactly why capitalised development costs now carry ₹14 cr a quarter of depreciation.</p>
+
+  <h3>Order book</h3>
+  <p><strong>Over ₹300 cr</strong> at the start of FY27, of which more than 20% was delivered in the June quarter, with full delivery targeted by Q3. Against ₹282 cr of trailing revenue that is a little over one year of work. The ₹151 cr government letter of intent for YETI is separate and is an intent to fund development, not a purchase order.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>₹4,039 cr of market value for a company whose trailing profit before tax is still negative.</strong> Two of the last three years were losses. The valuation rests entirely on FY27 execution and on the drone market being what everyone hopes it is.</div>
+  <ul>
+    <li><strong>Revenue is entirely lumpy.</strong> ₹32 cr in one quarter, ₹141 cr in the next. Government acceptance timing, not demand, decides which quarter revenue lands in.</li>
+    <li><strong>Cash burn until the QIP.</strong> Operating cash flow was −₹77 cr and −₹63 cr in the last two years and net cash had fallen from ₹348 cr to ₹60 cr. If FY27 does not convert, the ₹500 cr goes the same way.</li>
+    <li><strong>Depreciation exceeds operating profit</strong> in a normal quarter — ₹14.2 cr against ₹2.3 cr in June — because development spend is capitalised.</li>
+    <li><strong>Single-customer-type concentration.</strong> Indian government and security forces dominate the order book; a procurement pause stops the company.</li>
+    <li><strong>The new institutional holders bought at ₹795</strong> in a placement. They are not long-standing owners and have no cost-base loyalty at these levels.</li>
+    <li><strong>Trailing profit is a tax artefact</strong> — profit before tax is −₹7 cr while net profit is +₹4 cr.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> two consecutive quarters of positive profit before tax with positive operating cash flow, or delivery of the full ₹300 cr opening order book by Q3 as guided with the FY27 exit run rate above FY24's ₹314 cr.</li>
+    <li><strong>Downgrade to Sell:</strong> a return to operating losses once the order book is delivered, the QIP money being consumed by working capital rather than capacity, or the FY27 order book failing to be replaced with new orders of similar size.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in consolidated financials, balance sheet, cash flow and shareholding series — fetched 24 Aug 2026. Cash and borrowings from the expanded balance-sheet schedule; investments from the balance sheet.</li>
+    <li>Q1 FY27 results, 10 Aug 2026 (company release via BSE) for revenue, EBITDA and order-book delivery.</li>
+    <li>QIP allotment of 62,89,308 shares at ₹795, 10 Jul 2026 — company announcement.</li>
+    <li>Government RDI-scheme letter of intent for YETI (up to ₹151 cr) and the one-million-mission milestone: company announcements, 2026.</li>
+    <li>Mutual fund holdings: Trendlyne monthly scheme disclosure, <strong>July 2026</strong> — monthly, published ~10–15 days in arrears.</li>
+    <li>Liquidity: Yahoo Finance daily volume, 121 sessions to 21 Aug 2026.</li>
+  </ul>
+
+  <div class="foot">Generated 24 Aug 2026 · Price basis ₹812 (NSE, 24 Aug 2026) · Derived <sup>d</sup>: P/BV, net cash, debt/equity, post-QIP cash and equity, fund value held and scheme AUM. TTM P/E is shown as not meaningful rather than as the 1,028x that screens report on ₹4 cr of trailing profit. Not investment advice.</div>
+</div>
+</body>
+</html>
