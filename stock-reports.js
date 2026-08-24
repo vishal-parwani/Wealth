@@ -373,25 +373,45 @@ function srSymbolCandidates(r) {
                               : [`${r.ticker}.NS`, `${r.ticker}.BO`];
 }
 
+// Windows to try, longest first. A recently listed or thinly traded name may
+// have no year of history — better a one-month chart than an empty panel, so
+// fall back through shorter ranges and let the panel say which one it drew.
+const SR_RANGES = [
+  { range: '1y',  label: '1 year',   min: 60 },
+  { range: '6mo', label: '6 months', min: 30 },
+  { range: '3mo', label: '3 months', min: 15 },
+  { range: '1mo', label: '1 month',  min: 5  },
+];
+
+async function srFetchRange(sym, range) {
+  const yf = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=${range}`;
+  const res = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yf)}`, { cache: 'no-store' });
+  if (!res.ok) return null;
+  const j = (await res.json())?.chart?.result?.[0];
+  const ts = j?.timestamp || [];
+  const q  = j?.indicators?.quote?.[0] || {};
+  const cl = (q.close || []).map(Number);
+  const vol = (q.volume || []).map(Number);
+  const pts = [];
+  // `> 0`, not just Number.isFinite — Yahoo intermittently returns a 0
+  // close, which used to plot as a spike down to ₹0 (and a −100% "last").
+  for (let i = 0; i < ts.length; i++) {
+    if (cl[i] > 0) pts.push({ t: ts[i] * 1000, c: cl[i], v: Number.isFinite(vol[i]) ? vol[i] : null });
+  }
+  return pts;
+}
+
 async function srFetchHistory(r) {
   for (const sym of srSymbolCandidates(r)) {
-    try {
-      const yf = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=1y`;
-      const res = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yf)}`, { cache: 'no-store' });
-      if (!res.ok) continue;
-      const j = (await res.json())?.chart?.result?.[0];
-      const ts = j?.timestamp || [];
-      const q  = j?.indicators?.quote?.[0] || {};
-      const cl = (q.close || []).map(Number);
-      const vol = (q.volume || []).map(Number);
-      const pts = [];
-      // `> 0`, not just Number.isFinite — Yahoo intermittently returns a 0
-      // close, which used to plot as a spike down to ₹0 (and a −100% "last").
-      for (let i = 0; i < ts.length; i++) {
-        if (cl[i] > 0) pts.push({ t: ts[i] * 1000, c: cl[i], v: Number.isFinite(vol[i]) ? vol[i] : null });
-      }
-      if (pts.length > 20) return { closes: pts, symbol: sym };
-    } catch (e) { /* try next symbol */ }
+    for (const w of SR_RANGES) {
+      try {
+        const pts = await srFetchRange(sym, w.range);
+        if (pts && pts.length >= w.min) {
+          const spanDays = Math.round((pts[pts.length - 1].t - pts[0].t) / 86400000);
+          return { closes: pts, symbol: sym, window: w.label, range: w.range, spanDays };
+        }
+      } catch (e) { /* try the next window, then the next symbol */ }
+    }
   }
   return { na: true };
 }
@@ -458,7 +478,7 @@ function srSparkline(pts, genPrice) {
   const fmtD = ms => new Date(ms).toLocaleDateString('en-IN', { month: 'short', year: '2-digit' });
   return `
   <svg class="sr-chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img"
-       aria-label="One-year share price chart">
+       aria-label="Share price chart">
     <path d="${area}" fill="${fill}"/>
     <path d="${line}" fill="none" stroke="${stroke}" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>
     ${out}
@@ -495,20 +515,23 @@ function srFmtShares(n) {
 
 function srStockChartPanel(r) {
   const h = SR_hist[r.id];
-  if (!h) return `<div class="sr-chart"><div class="sr-fl-hd">Share price — 1 year</div>
+  if (!h) return `<div class="sr-chart"><div class="sr-fl-hd">Share price</div>
     <div class="sr-sub" style="padding:8px 2px">Loading price history…</div></div>`;
-  if (h.na || !h.closes) return `<div class="sr-chart"><div class="sr-fl-hd">Share price — 1 year</div>
-    <div class="sr-sub" style="padding:8px 2px">No price history for this symbol. Set a price override to a Yahoo symbol that resolves.</div></div>`;
+  if (h.na || !h.closes) return `<div class="sr-chart"><div class="sr-fl-hd">Share price</div>
+    <div class="sr-sub" style="padding:8px 2px">No price history for this symbol at any window from one year down to one month. Set a price override to a Yahoo symbol that resolves.</div></div>`;
+  const win = h.window || '1 year';
+  const short = win !== '1 year';
   const v = h.closes.map(p => p.c);
   const first = v[0], last = v[v.length - 1];
   const chg = ((last - first) / first) * 100;
   const cls = chg >= 0 ? 'sr-up' : 'sr-dn';
   return `
     <div class="sr-chart">
-      <div class="sr-fl-hd">Share price — 1 year
+      <div class="sr-fl-hd">Share price — ${esc(win)}
         <span class="sr-live-chip">LIVE · ${esc(h.symbol || '')}</span>
         <span class="${cls}" style="margin-left:8px;font-weight:700">${chg >= 0 ? '+' : ''}${chg.toFixed(1)}%</span>
-        <span class="sr-sub" style="margin-left:10px">52W ₹${srFmtPrice(Math.min(...v))} – ₹${srFmtPrice(Math.max(...v))}</span>
+        <span class="sr-sub" style="margin-left:10px">${short ? 'Range' : '52W'} ₹${srFmtPrice(Math.min(...v))} – ₹${srFmtPrice(Math.max(...v))}</span>
+        ${short ? `<span class="sr-stale" title="A full year of daily prices was not available for this symbol — this is the longest window that returned data">${esc(win)} only</span>` : ''}
       </div>
       ${srSparkline(h.closes, r.genPrice)}
       ${srLiquidityLine(h)}

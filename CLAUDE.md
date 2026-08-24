@@ -110,11 +110,15 @@ file and stub `fetch`).
   grouping and sorting; shown as the report's rating struck through with yours
   beneath), `personalNote` and `priceOverride`. All five must be preserved on
   re-import — `tools/publish-reports.py` reads them back before it writes.
-- **Reports carry no chart.** The app draws a live 1-year price chart above the report
+- **Reports carry no chart.** The app draws a live price chart above the report
   in the viewer (`srStockChartPanel` / `srSparkline`), mirroring `srFundLivePanel` for
   funds. A chart baked in at authoring time is stale the next day. The dashed line marks
   `genPrice` so drift since authoring is visible. Label placement is collision-checked —
   last price is pinned first, anything landing within 15px of a placed label is dropped.
+  **The window falls back**: 1y → 6mo → 3mo → 1mo (`SR_RANGES`), each with a minimum
+  point count, so a recently listed or thinly traded name gets the longest chart its
+  history supports instead of an empty panel. The heading names the window drawn and a
+  chip flags anything shorter than a year.
 - **Mark derived numbers.** Superscript `d` for anything computed rather than filed
   (e.g. a quarter backed out of the annual less the other three), and a small
   "unreconciled" chip where sources disagree and neither could be opened. Grey `n/a`
