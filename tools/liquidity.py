@@ -73,11 +73,22 @@ def main():
     turnover = sum(c * v for _, c, v in win) / len(win)
     closes = [c for _, c, _ in pts]
     meta = res.get("meta", {})
+    # Yahoo's regularMarketPrice goes stale on some SME symbols while the daily
+    # closes stay correct (AIMTRON quoted 545 against a 1,675 last close). Trust
+    # the series when the two disagree by more than a quarter.
+    last_close = closes[-1] if closes else None
+    quote = meta.get("regularMarketPrice")
+    price, price_src = quote, "quote"
+    if not (isinstance(quote, (int, float)) and quote > 0):
+        price, price_src = last_close, "last close"
+    elif last_close and abs(quote / last_close - 1) > 0.25:
+        price, price_src = last_close, "last close (quote %.2f rejected as stale)" % quote
 
     span = int((win[-1][0] - win[0][0]) / 86400)
     print(json.dumps({
         "symbol": sym,
-        "price": meta.get("regularMarketPrice"),
+        "price": price,
+        "price_source": price_src,
         "52w_low": round(min(closes), 2),
         "52w_high": round(max(closes), 2),
         "sessions": len(win),

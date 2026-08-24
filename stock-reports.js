@@ -334,11 +334,24 @@ async function srFetchQuote(symbol) {
     const yf = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=5d`;
     const r  = await fetch(`${CF_PROXY}?url=${encodeURIComponent(yf)}`, { cache: 'no-store' });
     if (!r.ok) return null;
-    const meta = (await r.json())?.chart?.result?.[0]?.meta;
-    const price = meta?.regularMarketPrice;
+    const res  = (await r.json())?.chart?.result?.[0];
+    const meta = res?.meta;
+    // Cross-check the quoted price against the daily series. On some thinly
+    // traded SME symbols Yahoo's regularMarketPrice is stale by a corporate
+    // action the daily closes already reflect — AIMTRON quoted 545 against a
+    // 1,675 last close, which the list would have shown as a 67% collapse.
+    const closes = (res?.indicators?.quote?.[0]?.close || []).filter(c => c > 0);
+    const lastClose = closes.length ? closes[closes.length - 1] : null;
+    let price = meta?.regularMarketPrice;
+    let stale = false;
+    if (!(price > 0)) price = lastClose;
+    else if (lastClose && Math.abs(price / lastClose - 1) > 0.25) { price = lastClose; stale = true; }
     if (!(price > 0)) return null;   // Yahoo sometimes answers 0 — treat as no quote
-    const prev = meta.chartPreviousClose ?? meta.previousClose ?? null;
-    return { price, changePct: prev ? ((price - prev) / prev) * 100 : null };
+    let prev = meta?.chartPreviousClose ?? meta?.previousClose ?? null;
+    if (stale || !(prev > 0) || (lastClose && Math.abs(prev / lastClose - 1) > 0.25)) {
+      prev = closes.length > 1 ? closes[closes.length - 2] : null;
+    }
+    return { price, changePct: prev > 0 ? ((price - prev) / prev) * 100 : null, stale };
   } catch (e) { return null; }
 }
 
