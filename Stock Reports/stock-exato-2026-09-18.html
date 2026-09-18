@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exato Technologies Limited (BSE: EXATO) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="EXATO">
+<meta name="exchange"  content="BSE">
+<meta name="name"      content="Exato Technologies Limited">
+<meta name="sector"    content="IT / AI-CX Software">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-09-18">
+<meta name="price"     content="721">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · IT / AI-CX Software · 18 Sep 2026</div>
+  <h1>Exato Technologies Limited <span class="tik">· BSE SME: EXATO (544626)</span></h1>
+  <div class="subline">Q1 revenue up 50% and profit doubled. That confirms the growth story. But the cash is lagging the profit, ₹1.7 cr of stock trades a day, and the price is now 68% above what Kedia paid.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹721</span></div>
+    <div><span class="k">52W range</span><span class="v">₹279 – ₹777</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹726 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">38.2x</span></div>
+    <div><span class="k">P/BV</span><span class="v">8.22x<sup>d</sup></span></div>
+    <div><span class="k">Net debt</span><span class="v up">−₹20 cr<sup>d</sup> <small>net cash</small></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.24x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">0.34 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹1.7 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>The business is doing what the bulls said. It's the price and the cash that keep this at Hold.</strong> The June quarter was the best yet. Revenue was ₹43.7 cr, up 50%. Operating margin was 18%. Profit was ₹5.6 cr, up 104%. The company says its order book rose ₹60 cr to ₹660 cr, over 3.5x trailing revenue. Return on capital is 27%. For a ₹726 cr company, those are strong numbers.</p>
+  <p>Two things hold it back. First, profit is not turning into cash. FY26 operating profit was ₹24 cr but operating cash flow was only ₹2 cr. Free cash flow was −₹12 cr. Customers owed ₹43 cr at March, 93 days of sales. For a software company, that looks more like project services than product licensing. Second, the price. The July note said wait for the stock to settle after Vijay Kedia's buying. It didn't. At ₹721 it is 18% higher than then and 68% above Kedia's ₹429 purchase. About ₹1.7 cr of stock trades a day, so a small amount of selling can move the price a lot.</p>
+  <p>Stays <strong>Hold</strong>, high risk. What changed is that the growth now looks real. What hasn't changed is that the entry price is poor and the cash hasn't followed.</p>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="callout">
+    <p><strong>No broker coverage.</strong> No brokerage publishes on this SME listing, so there is no consensus or forward P/E. The only outside views are IPO reviews from late 2025 and Vijay Kedia's own buying, which is a signal of conviction, not a valuation.</p>
+  </div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>PBT</th><th>Net profit</th><th>EPS ₹</th><th>Payout</th></tr></thead>
+    <tbody>
+      <tr><th>FY24</th><td>114</td><td>8</td><td>7%</td><td>8</td><td>5</td><td style="color:var(--ink3)">n/a</td><td>0%</td></tr>
+      <tr><th>FY25</th><td>124</td><td>14</td><td>11%</td><td>14</td><td>10</td><td style="color:var(--ink3)">n/a</td><td>0%</td></tr>
+      <tr><th>FY26</th><td>168</td><td>24</td><td>14%</td><td>23</td><td>16</td><td>15.99</td><td>0%</td></tr>
+      <tr class="total"><th>TTM</th><td>183</td><td>28</td><td>15%</td><td>27</td><td>19</td><td>20.30</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Margin has doubled in two years, from 7% to 15%. That operating leverage is the real story. EPS before FY26 isn't comparable, because the pre-IPO share count was tiny and Screener's per-share figures for those years are meaningless.</div>
+
+  <h3>Last four quarters · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Quarter</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>Interest</th><th>Depreciation</th><th>Tax %</th><th>Net profit</th><th>EPS ₹</th></tr></thead>
+    <tbody>
+      <tr><th>Sep 25</th><td>42.0</td><td>6.8</td><td>16%</td><td>0.5</td><td>0.2</td><td>28%</td><td>4.5</td><td>5.92</td></tr>
+      <tr><th>Dec 25</th><td>35.9</td><td>6.9</td><td>19%</td><td>0.6</td><td>0.2</td><td>27%</td><td>4.6</td><td>4.57</td></tr>
+      <tr><th>Mar 26</th><td>61.1</td><td>6.4</td><td>10%</td><td>0.3</td><td>0.2</td><td>33%</td><td>4.2</td><td>4.21</td></tr>
+      <tr><th>Jun 26</th><td>43.7</td><td>7.9</td><td>18%</td><td>0.2</td><td>0.2</td><td>27%</td><td>5.6</td><td>5.60</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">March is the big-revenue, low-margin quarter, as year-end hardware and pass-through deliveries land. The other three run at 16–19%. Profit has been ₹4–6 cr every quarter, so the trend is steadier than revenue suggests. Compared with June 2025 (₹29.1 cr revenue, ₹2.8 cr profit), Q1 is a clear step up. The company reports quarterly by choice. SME rules require only half-yearly results.</div>
+
+  <h3>Balance sheet &amp; cash · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Cash</th><th>Net debt<sup>d</sup></th><th>Equity</th><th>Receivables</th><th>Op. cash flow</th><th>Free cash flow</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>17</td><td>11.5</td><td>5.5</td><td>27</td><td>25.5</td><td class="dn">−14</td><td class="dn">−20</td></tr>
+      <tr><th>Mar 25</th><td>32</td><td>32.2</td><td>−0.2</td><td>42</td><td>33.7</td><td>13</td><td>0</td></tr>
+      <tr><th>Mar 26</th><td>21</td><td>41.3</td><td class="up">−20</td><td>88</td><td>42.9</td><td>2</td><td class="dn">−12</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>Three years: ₹46 cr of operating profit, ₹1 cr of operating cash.</strong> Over FY24–FY26 the company earned ₹46 cr of operating profit and produced only about ₹1 cr of operating cash. Growing receivables and working capital took the rest. Equity doubled in FY26 because of the December 2025 IPO, which also paid for ₹25 cr of spending on fixed assets and an office. The net cash balance is IPO money, not cash the business generated. If the ₹660 cr order book is real and paying, operating cash should start to follow profit. That is the main thing to check in the H1 FY27 cash-flow statement.</p>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Aug 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>No mutual fund scheme holds this stock.</strong> That is normal for an SME listing. The institutional money on the register at March 2026 (7.88% DII) is from alternative investment funds and IPO anchors, not mutual funds. The main outside holder that matters is Vijay Kedia, whose family and company held 9.68% after the July purchases.</p>
+  </div>
+  <div class="delta">Overlap with your own funds: none.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">Sep 26</span><span><strong>AGM set for 28 September.</strong> The company also presented at an SME investor event on 6 September.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>Orders worth ₹22.4 cr won in July–August</strong>, for customer-experience and telephony solutions: ₹17 cr in India, ₹5.4 cr abroad. That is a normal flow for a company with ₹183 cr of annual revenue, not a big win.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>Q1 FY27: revenue ₹43.7 cr (+50%), profit ₹5.6 cr (+104%).</strong> Order book up ₹60 cr to ₹660 cr (company figure). Earnings call held on 19 August.</span></li>
+    <li><span class="date">Jul–Aug 26</span><span><strong>Enrolled as an HPE partner</strong> under the HPE Partner Ready Program. The stock hit its upper circuit. No revenue has been linked to it yet.</span></li>
+    <li><span class="date">9–13 Jul 26</span><span><strong>Kedia Securities buys 3.56%</strong>, taking the Kedia group to 9.68%, including a bulk deal at ₹429.20. The stock rose about 68% in five sessions.</span></li>
+    <li><span class="date">1 Jul 26</span><span><strong>US$479k export software-licence order.</strong></span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — since listing</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Dec 25</th><th>Mar 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>54.73</td><td>54.73</td></tr>
+      <tr><th>FIIs</th><td>2.20</td><td class="dn">0.00</td></tr>
+      <tr><th>DIIs</th><td>10.49</td><td class="dn">7.88</td></tr>
+      <tr><th>Public / other</th><td>32.59</td><td class="up">37.39</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>736</td><td>469</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <p><strong>Institutions sold after the IPO and a well-known private investor bought.</strong> Foreign holders sold out completely and domestic institutions cut by 2.6 points in the first quarter after listing. The public share rose, and much of that is the Kedia family (5.45% at March, 9.68% after July). The June 2026 shareholding isn't on Screener yet. It will show whether the July buying came from institutions leaving. Only 469 shareholders at March, which is typical for SME lots but shows how narrow the market in this stock is. Promoters have not sold.</p>
+  </div>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>What it does</h3>
+  <p>Exato provides "customer experience as a service" and AI tools to companies with large customer-contact operations: diallers, call-compliance, speech analytics and AI agents. Its own platforms are ExatoIQ, Prompt Base Dialer, UAM and CompliCall. It also resells and integrates telephony and hardware, which is why March-quarter revenue jumps while margin falls. Exports were 25% of FY26 revenue, with a stated target of 60% in two to three years. It has subsidiaries in the US, Singapore and (since March 2026) Australia.</p>
+
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Market cap<br>₹ cr</th><th>TTM P/E</th><th>ROCE</th><th>ROE</th><th>Latest OPM</th><th>Div yield</th></tr></thead>
+    <tbody>
+      <tr><th>Exato Technologies</th><td>726</td><td>38.2</td><td>26.8%</td><td>24.6%</td><td>18%</td><td>0.00%</td></tr>
+      <tr><th>eClerx Services</th><td>18,002</td><td>24.7</td><td>34.4%</td><td>28.4%</td><td>23%</td><td>0.05%</td></tr>
+      <tr><th>Firstsource Solutions</th><td>19,337</td><td>24.2</td><td>16.8%</td><td>17.6%</td><td>17%</td><td>2.01%</td></tr>
+      <tr><th>Tanla Platforms</th><td>6,487</td><td>12.2</td><td>26.3%</td><td>21.4%</td><td>16%</td><td>2.45%</td></tr>
+      <tr><th>Route Mobile</th><td>2,923</td><td>8.3</td><td>17.4%</td><td>12.6%</td><td>9%</td><td>2.37%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Exato's returns and margins are in line with the listed customer-engagement and communications-platform companies. Its P/E is 1.5 to 4 times theirs. eClerx earns more on capital at two-thirds the multiple. The premium is for the growth rate and the AI label.</div>
+
+  <h3>Moat</h3>
+  <p>Narrow. Once a dialler or compliance platform is running in a client's contact centre, switching is annoying, so there is some stickiness. But this is a crowded market with global software vendors and many Indian integrators. The 15–18% margin looks like a services business, not software. A real moat would show up as rising margin and faster cash collection. So far only the margin is rising.</p>
+
+  <h3>Order book</h3>
+  <p><strong>₹660 cr, company-stated</strong> (up from ₹600 cr at the FY26 results), against ₹183 cr of trailing revenue. How it is counted (multi-year contract values, renewals, telephony pass-through) and when it will turn into revenue are not disclosed. Orders announced since then (₹22.4 cr in July–August, US$479k on 1 July) are much smaller than the headline suggests. Treat the figure as unverified.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Being unable to sell.</strong> ₹1.7 cr trades a day, SME lots are large, and the price has doubled since the IPO on a well-known investor's buying. If sentiment turns, SME stocks can hit lower circuits several days in a row, and you can't sell at any price.</div>
+  <ul>
+    <li><strong>Profit not turning into cash:</strong> ₹1 cr of operating cash against ₹46 cr of operating profit over three years.</li>
+    <li><strong>The order book can't be checked.</strong> The company announces it but gives no breakdown, and announced wins are small next to it.</li>
+    <li><strong>Relying on one investor's reputation.</strong> Much of the rerating came from Kedia's buying. If he reduces his stake, it would hit the price hard.</li>
+    <li><strong>Limited disclosure:</strong> SME reporting, no broker coverage, no mutual funds, 469 shareholders.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> H1 FY27 operating cash flow of at least half of operating profit, with growth above 30%. Or a pullback to ₹480–520, about 25x trailing earnings.</li>
+    <li><strong>Downgrade to Sell:</strong> receivables keep growing faster than revenue, the Kedia group or promoters sell, or two quarters of growth below 15%.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in consolidated financials, balance sheet, cash flow and shareholding (BSE 544626), fetched 18 Sep 2026. Peer ratios from Screener the same day.</li>
+    <li>Q1 FY27 results and order book (Multibagg results summary; company release). Order announcements Jul–Aug 2026 (Whalesbook). AGM and events (exchange filings).</li>
+    <li>Kedia holdings: DSIJ and Business Standard, Jul 2026. HPE partnership: company announcement, cited in the 3 Aug 2026 update.</li>
+    <li>Mutual fund holdings: Trendlyne monthly scheme disclosure, <strong>August 2026</strong>, which shows no holdings.</li>
+    <li>Liquidity and 52-week range: Yahoo Finance daily data for EXATO.BO, 123 sessions to 18 Sep 2026.</li>
+  </ul>
+
+  <div class="foot">Generated 18 Sep 2026 · Price basis ₹721 (BSE, 18 Sep 2026) · Derived <sup>d</sup>: P/BV, net debt, debt/equity. ⚠ Order book is a company-stated figure with no breakdown. Live price uses Yahoo symbol EXATO.BO. The numeric code 544626.BO returns no data. Not investment advice.</div>
+</div>
+</body>
+</html>
