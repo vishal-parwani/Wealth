@@ -379,11 +379,18 @@ async function srFetchReportPrice(r) {
 // way funds get srFundLivePanel.
 let SR_hist = {};   // id -> { closes:[], t0, t1 } | { na:true }
 
+// History only — the live quote keeps using the override alone (srFetchReportPrice).
+// An override symbol can quote correctly yet carry no usable daily series: NSE SME
+// "-SM.NS" symbols return a single session, so the chart fell through every window.
+// For Indian listings, fall back to the ticker's own exchange symbols after the
+// override. Not for foreign listings, where TICKER.NS could be an unrelated stock.
 function srSymbolCandidates(r) {
+  const ex = r.exchange === 'BSE' ? [`${r.ticker}.BO`, `${r.ticker}.NS`]
+                                  : [`${r.ticker}.NS`, `${r.ticker}.BO`];
   const ov = r.priceOverride;
-  if (ov && ov.symbol) return [ov.symbol];
-  return r.exchange === 'BSE' ? [`${r.ticker}.BO`, `${r.ticker}.NS`]
-                              : [`${r.ticker}.NS`, `${r.ticker}.BO`];
+  if (!(ov && ov.symbol)) return ex;
+  const indian = !r.exchange || r.exchange === 'NSE' || r.exchange === 'BSE';
+  return indian ? [ov.symbol, ...ex.filter(s => s !== ov.symbol)] : [ov.symbol];
 }
 
 // Windows to try, longest first. A recently listed or thinly traded name may
@@ -531,9 +538,12 @@ function srStockChartPanel(r) {
   if (!h) return `<div class="sr-chart"><div class="sr-fl-hd">Share price</div>
     <div class="sr-sub" style="padding:8px 2px">Loading price history…</div></div>`;
   if (h.na || !h.closes) return `<div class="sr-chart"><div class="sr-fl-hd">Share price</div>
-    <div class="sr-sub" style="padding:8px 2px">No price history for this symbol at any window from one year down to one month. Set a price override to a Yahoo symbol that resolves.</div></div>`;
+    <div class="sr-sub" style="padding:8px 2px">No daily price history on Yahoo at any window from one year down to one month (tried ${esc(srSymbolCandidates(r).join(', '))}). ${r.priceOverride?.symbol
+      ? 'This is common for NSE SME listings — the live price still comes from the override.'
+      : 'Set a price override to a Yahoo symbol that resolves.'}</div></div>`;
   const win = h.window || '1 year';
   const short = win !== '1 year';
+  const ovSym = r.priceOverride?.symbol;
   const v = h.closes.map(p => p.c);
   const first = v[0], last = v[v.length - 1];
   const chg = ((last - first) / first) * 100;
@@ -541,7 +551,7 @@ function srStockChartPanel(r) {
   return `
     <div class="sr-chart">
       <div class="sr-fl-hd">Share price — ${esc(win)}
-        <span class="sr-live-chip">LIVE · ${esc(h.symbol || '')}</span>
+        <span class="sr-live-chip"${ovSym && h.symbol !== ovSym ? ` title="The price override (${esc(ovSym)}) has no usable daily history, so the chart uses ${esc(h.symbol)}. The live price still comes from the override."` : ''}>LIVE · ${esc(h.symbol || '')}</span>
         <span class="${cls}" style="margin-left:8px;font-weight:700">${chg >= 0 ? '+' : ''}${chg.toFixed(1)}%</span>
         <span class="sr-sub" style="margin-left:10px">${short ? 'Range' : '52W'} ₹${srFmtPrice(Math.min(...v))} – ₹${srFmtPrice(Math.max(...v))}</span>
         ${short ? `<span class="sr-stale" title="A full year of daily prices was not available for this symbol — this is the longest window that returned data">${esc(win)} only</span>` : ''}

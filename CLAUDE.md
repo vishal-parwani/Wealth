@@ -197,8 +197,9 @@ file and stub `fetch`).
   but carry `trackedFrom`/`trackPrice` across so "Tracked → Now" keeps the issue-price
   baseline. Numeric BSE-code overrides (`544626.BO`, `544844.BO`) return nothing on Yahoo
   — use `TICKER.BO`; NYSE names need an explicit `{symbol}` override or the app looks
-  up `.NS`. SME `-SM.NS` symbols give a live quote but one session of history, so their
-  charts are empty (open).
+  up `.NS`. SME `-SM.NS` symbols give a live quote but one session of history — the chart
+  now falls back to TICKER.NS/.BO for history only (`srSymbolCandidates`), quote stays
+  on the override. APSISAERO, OBSCP and TECHD have no history under any symbol.
 - **Two tickers share one Firestore doc id**: `stock-sbi-funds-management-ipo-*.html` and
   `stock-sbiamc-*.html` both resolve to `sbiamc`. The listed report supersedes the
   pre-listing IPO note — skip the latter when bulk-uploading.
