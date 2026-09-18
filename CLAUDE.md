@@ -101,7 +101,10 @@ file and stub `fetch`).
   finding for small caps: keep the callout, drop the table, don't pad it with a
   near-miss. Cite the **disclosure month** (monthly, ~10–15 days in arrears), not the
   fetch date. Flag any holder that is itself in the portfolio — that's indirect
-  exposure to the same name.
+  exposure to the same name. Source: `tools/mf-holdings.py SYMBOL --month Aug-2026 |
+  tools/fundtable.py --price P --month "Aug 2026"` (Trendlyne's monthly disclosure,
+  fetched with curl; index funds included). Broker targets come from Trendlyne's
+  research-report page for the same stock id — ignore rows marked "Pre-Bonus/Split".
 - **Report record fields the app owns, not the HTML**: `trackedFrom` / `trackPrice`
   (the day a name first entered the dashboard and its price that day — the baseline
   the "Tracked → Now" column measures from; recovered for old reports from the
@@ -156,7 +159,7 @@ file and stub `fetch`).
   file and `gcloud auth activate-service-account --key-file=…`). The key itself is never
   in this repo.
 
-## Open items (as of 17 Aug 2026)
+## Open items (as of 18 Sep 2026)
 
 1. ~~**Network allowlist**~~ — **done, 17 Aug 2026.** Screener, mfapi and Yahoo are open
    (NSE still self-blocks). Still to do: re-visit the reports whose gaps were purely
@@ -167,10 +170,9 @@ file and stub `fetch`).
    net cash, ICRA expects net debt/OPBITDA 1.3–1.6x with capex), FY24 financials,
    Q3 FY26 (currently derived), and Jun-25→Dec-25 shareholding. Dividend yield is
    **settled: 0.08%** — Screener confirms it at ₹4,002 on 17 Aug; the 0.19% was stale.
-3. **Backfill** — the other 45 reports are still v1. Deliberate decision: migrate as each
-   is refreshed rather than mass-rewriting, since v2 needs per-name data that would
-   otherwise be filled with unverified aggregator figures. The allowlist reason for
-   deferring is gone; the per-name-effort reason stands.
+3. ~~**Backfill**~~ — **done, 18 Sep 2026.** The last 15 v1 stock reports were rebuilt
+   in v2 on fresh data, and the 5 July fund notes refreshed in place. Every stock
+   report is now v2. Oldest reports are the 19–24 Aug batch — refresh those next.
 4. ~~**Mobile**~~ — **done, 22 Aug 2026.** `srOpenReport` no longer diverts to a new
    tab on narrow screens; the in-app viewer renders at every width (side list hidden,
    header wraps, iframe sized to the viewport), so the chart, liquidity line, PDF and
@@ -188,6 +190,15 @@ file and stub `fetch`).
   a SyntaxError that would have killed the whole tab) because the same commits existed
   under different hashes after a rebase. Always diff the merge result against the branch
   tree and run `node --check` on every `.js` before pushing.
+- **18 Sep 2026 refresh.** Publishing a *fund* through `publish-reports.py` used to
+  drop `managerFunds`/`amc`/`manager`/`benchmark` (maskless PATCH replaces the doc), which
+  blanked the live manager-track panel for the five funds republished on 21 Aug — fixed
+  and republished. A listed IPO note changes ticker (DHOOT → DHOOTTRANS): re-key the doc
+  but carry `trackedFrom`/`trackPrice` across so "Tracked → Now" keeps the issue-price
+  baseline. Numeric BSE-code overrides (`544626.BO`, `544844.BO`) return nothing on Yahoo
+  — use `TICKER.BO`; NYSE names need an explicit `{symbol}` override or the app looks
+  up `.NS`. SME `-SM.NS` symbols give a live quote but one session of history, so their
+  charts are empty (open).
 - **Two tickers share one Firestore doc id**: `stock-sbi-funds-management-ipo-*.html` and
   `stock-sbiamc-*.html` both resolve to `sbiamc`. The listed report supersedes the
   pre-listing IPO note — skip the latter when bulk-uploading.
