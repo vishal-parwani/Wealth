@@ -58,7 +58,8 @@ def parse_report(path):
         "ticker":      meta["ticker"],
         "exchange":    meta.get("exchange", "NSE"),
         "name":        meta["name"],
-        "sector":      meta.get("sector", ""),
+        # A fund's category is its "sector" — mirrors srParseReportHtml().
+        "sector":      meta.get("category") or meta.get("sector", ""),
         "rating":      rating,
         # The app reads ratingFamily as a STORED field (srNormFamily(r.ratingFamily))
         # and never recomputes it on load, so it must be written here — mirrors
@@ -75,7 +76,32 @@ def parse_report(path):
     }
     if meta.get("scheme"):
         rec["scheme"] = meta["scheme"]
+    if rec["type"] == "fund":
+        # The fund fields srParseReportHtml() stores. Without them a maskless
+        # PATCH deletes managerFunds, and the viewer's live "manager track"
+        # panel goes blank.
+        rec.update({
+            "amc":          meta.get("amc") or "—",
+            "manager":      meta.get("manager") or "—",
+            "scheme":       meta.get("scheme", ""),
+            "benchmark":    meta.get("benchmark", ""),
+            "nfoClose":     meta.get("nfoclose") or meta.get("nfo-close", ""),
+            "managerFunds": parse_manager_funds(meta.get("managerfunds") or meta.get("manager-funds", "")),
+        })
     return meta["ticker"].lower(), rec
+
+
+def parse_manager_funds(raw):
+    """'code:Name|code:Name' → [{code, name}] — srParseManagerFunds() in the app."""
+    out = []
+    for part in (p.strip() for p in raw.split("|")):
+        if not part:
+            continue
+        code, sep, name = part.partition(":")
+        code = code.strip()
+        if code:
+            out.append({"code": code, "name": name.strip() if sep else code})
+    return out
 
 
 # ── Firestore REST plumbing ──────────────────────────────────────────────────
@@ -86,6 +112,8 @@ def to_value(v):
     if v is None:            return {"nullValue": None}
     if isinstance(v, dict):
         return {"mapValue": {"fields": {k: to_value(x) for k, x in v.items()}}}
+    if isinstance(v, (list, tuple)):
+        return {"arrayValue": {"values": [to_value(x) for x in v]}}
     return {"stringValue": str(v)}
 
 def from_value(v):
