@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raymond Limited (NSE: RAYMOND) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="RAYMOND">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Raymond Limited">
+<meta name="sector"    content="Aerospace, Defence &amp; Precision Engineering">
+<meta name="rating"    content="Sell">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-09-24">
+<meta name="price"     content="1203.85">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Aerospace, Defence &amp; Precision Engineering · 24 Sep 2026</div>
+  <h1>Raymond Limited <span class="tik">· NSE: RAYMOND</span></h1>
+  <div class="subline">The suiting company is now an engineering company, and the market has repriced it as a defence stock: up 89% in September on a ₹33 cr order. Foreign investors have halved their stake while it happened.</div>
+  <div class="rating-row">
+    <span class="badge badge-sell">Sell</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹1,203.85</span></div>
+    <div><span class="k">52W range</span><span class="v">₹322 – ₹1,204</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹8,013 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">P/E on TTM profit<sup>d</sup></span><span class="v">~125x</span></div>
+    <div><span class="k">P/E on Q1 run rate<sup>d</sup></span><span class="v">~65x</span></div>
+    <div><span class="k">EV / EBITDA<sup>d</sup></span><span class="v">~35x</span></div>
+    <div><span class="k">Warrant issue price</span><span class="v dn">₹645 <small>46% below market</small></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">17.0 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹134 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>A real, improving engineering business priced as though the defence story has already been delivered. Sell.</strong> After demerging Lifestyle (September 2024) and Realty (July 2025), what remains of Raymond is auto components, tools and hardware, and a growing aerospace and defence arm. That business is doing fine: Q1 FY27 income ₹628 cr, up 13%, EBITDA ₹100 cr at a 15.9% margin, and aerospace revenue up 40% to ₹123 cr. Operating margin across the company has climbed from 1.6% in FY24 to 11% trailing. Nothing here is broken.</p>
+  <p>The price is the problem, and so is who is buying it. The stock is up about 89% in September alone, 212% in six months, and sits at its 52-week high. The trigger was an aerospace order worth about <strong>₹33 cr a year</strong> — roughly 1.4% of annual revenue — announced into a defence-sector rally. On trailing profit of ₹64 cr the stock is on about <strong>125x</strong><sup>d</sup>. Even annualising the much better June quarter it's about <strong>65x</strong>, and 35x EV/EBITDA. Aerospace is still only a fifth of revenue.</p>
+  <p>Two things make this worse than an ordinary expensive stock. First, the register: foreign investors have cut from 15.64% to 7.89% over five quarters and domestic institutions from 6.84% to 3.81%, while the public holding rose from 28.6% to 39.4%. Professionals have been selling all the way up; only one mutual fund of size still holds it. Second, the company is issuing 33.28 lakh convertible warrants to Minerva Ventures Fund at <strong>₹645</strong>, raising ₹214.7 cr — a 46% discount to today's price, about 5% dilution<sup>d</sup>, with the shareholder vote on 2 October. A board that priced new capital at ₹645 a few weeks ago is telling you something about ₹1,204.</p>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Source</th><th>Rating</th><th>Target</th><th>vs spot</th><th>Dated</th></tr></thead>
+    <tbody>
+      <tr><th>Consensus <span class="sub">(Trendlyne)</span></th><td>Buy</td><td>₹1,230</td><td>+2.2%</td><td>24 Sep 26</td></tr>
+      <tr><th>Warrant issue to Minerva Ventures</th><td>—</td><td>₹645</td><td class="dn">−46.4%</td><td>Sep 26</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The consensus target is effectively at the market price, and the named broker notes in the tracker are all from 2023–24, before both demergers, so they refer to a completely different company. <span class="chip">unreconciled</span> Screener shows a P/E of 47.6x where the reported trailing profit of ₹64 cr implies about 125x; the difference is probably exceptional items from the demergers being treated differently. Neither figure is cheap.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>Other income</th><th>Reported net profit</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><th>FY24</th><td>973</td><td>16</td><td>1.6%</td><td>1,719</td><td>1,643</td><td>Lifestyle demerger year</td></tr>
+      <tr><th>FY25</th><td>1,947</td><td>132</td><td>7%</td><td>7,741</td><td>7,636</td><td>Realty demerger gains</td></tr>
+      <tr><th>FY26</th><td>2,212</td><td>232</td><td>10%</td><td>5,206</td><td>5,361</td><td>Restructuring gains again</td></tr>
+      <tr class="total"><th>TTM</th><td>2,293</td><td>254</td><td>11%</td><td class="dn">−110</td><td>64</td><td>First clean-ish view</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Ignore the reported profit for FY24–FY26 entirely: it is demerger accounting, not trading. The line that matters is operating profit, which has gone from ₹16 cr to ₹254 cr as the company shed low-margin textiles and kept engineering. Revenue figures across years aren't comparable either, because different businesses sit inside each one.</div>
+
+  <h3>Last four quarters · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Quarter</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>Other income</th><th>Interest</th><th>Depreciation</th><th>Net profit</th></tr></thead>
+    <tbody>
+      <tr><th>Sep 25</th><td>528</td><td>43</td><td>8%</td><td class="dn">−131</td><td>22</td><td>38</td><td>14</td></tr>
+      <tr><th>Dec 25</th><td>557</td><td>60</td><td>11%</td><td>9</td><td>21</td><td>38</td><td>7</td></tr>
+      <tr><th>Mar 26</th><td>603</td><td>74</td><td>12%</td><td class="dn">−10</td><td>23</td><td>37</td><td>12</td></tr>
+      <tr><th>Jun 26</th><td>606</td><td>77</td><td class="up">13%</td><td>22</td><td>20</td><td>38</td><td>31</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The operating trend is genuinely good: revenue up 15% over four quarters and margin from 8% to 13%. But look at the scale. The best quarter in the company's new life earned ₹31 cr. Annualised, that's ₹124 cr of profit supporting an ₹8,013 cr market value. The company reports total income of ₹628 cr for the quarter against Screener's ₹606 cr of revenue; the difference is other income.</div>
+
+  <h3>Balance sheet &amp; cash · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Cash</th><th>Net debt<sup>d</sup></th><th>Equity</th><th>Op. cash flow</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>4,181</td><td>526</td><td>3,655</td><td>4,618</td><td>533</td><td>Pre-demerger group</td></tr>
+      <tr><th>Mar 25</th><td>740</td><td>299</td><td>441</td><td>3,717</td><td>233</td><td>Lifestyle gone</td></tr>
+      <tr><th>Mar 26</th><td>1,055</td><td>182</td><td>873</td><td>2,844</td><td class="dn">42</td><td>Realty gone</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>Operating cash flow collapsed to ₹42 cr in FY26 against ₹232 cr of operating profit.</strong> Some of that is the mechanics of splitting a group apart, but it is the opposite of what the share price implies. <span class="chip">unreconciled</span> The company describes itself as "completely debt-free" with a ₹129 cr net cash surplus, while the consolidated balance sheet at March 2026 shows ₹1,055 cr of borrowings against ₹182 cr of cash. The difference may be treasury investments Screener counts separately, or a standalone-versus-consolidated gap. Until that is reconciled from the annual report, treat the debt-free claim with caution — and note that a genuinely debt-free company with ₹129 cr of net cash would not normally need ₹215 cr of warrant money at a 46% discount.</p>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Aug 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>Effectively one fund.</strong> Nippon India Small Cap holds 12.38 lakh shares (1.9% of the company<sup>d</sup>, 0.09% of that fund) and didn't move in August. The only other holder is a Motilal Oswal index fund with 99 shares. For a company with a household name and a ₹8,000 cr market value, that is a striking absence — and it matches the fall in domestic institutional holding from 6.84% to 3.81% over five quarters.</p>
+  </div>
+  <div class="delta">Overlap with your own funds: none. Your Motilal Oswal Large &amp; Midcap is not a holder.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">22 Sep 26</span><span><strong>Shares gain up to 10% intraday</strong>; the stock is up about 89% in September and 212% in six months, moving with the defence index, which hit a record on 9 September.</span></li>
+    <li><span class="date">Sep 26</span><span><strong>Aerospace subsidiary wins multi-programme orders worth about ₹33 cr a year</strong> from an unnamed Indian aerospace and defence major: 300+ part numbers, 37,000+ components a year, including wing and fuselage structures, produced progressively through 2026 and 2027.</span></li>
+    <li><span class="date">Sep 26</span><span><strong>Board approves 33.28 lakh convertible warrants at ₹645 to Minerva Ventures Fund, raising ₹214.71 cr.</strong> Shareholder vote set for 2 October 2026. The stock rose about 33% in the four sessions after the approval.</span></li>
+    <li><span class="date">7 Aug 26</span><span><strong>Q1 FY27: total income ₹628 cr (+13.1%), EBITDA ₹100 cr (+14.3%), margin 15.9%.</strong> Aerospace and defence revenue ₹123 cr, up 40%. The company describes itself as net cash ₹129 cr and debt-free.</span></li>
+    <li><span class="date">Jul 25</span><span><strong>Raymond Realty demerged and listed separately</strong>, following Raymond Lifestyle in September 2024. Price history before those dates is not comparable.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>48.87</td><td>48.87</td><td>48.87</td><td>48.87</td><td>48.87</td></tr>
+      <tr><th>FIIs</th><td>13.79</td><td>13.61</td><td>11.01</td><td>9.74</td><td class="dn">7.89</td></tr>
+      <tr><th>DIIs</th><td>4.80</td><td>3.53</td><td>3.43</td><td>3.61</td><td>3.81</td></tr>
+      <tr><th>Public / other</th><td>32.53</td><td>33.98</td><td>36.67</td><td>37.76</td><td class="up">39.41</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>2,91,118</td><td>2,96,886</td><td>2,93,612</td><td>2,88,616</td><td>2,72,532</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>Foreign investors have halved their holding over five quarters, from 15.64% in March 2025 to 7.89%, and individuals have taken the other side.</strong> That is the clearest signal on this page. Institutions who could model the post-demerger company reduced; the public share rose almost 11 points. Promoter holding (the Singhania family) has been steady at 48.87%, and the warrant issue to Minerva Ventures will dilute everyone, promoters included, unless they participate. <span class="chip">unreconciled</span> The relationship between Minerva Ventures Fund and the promoter group was not established from public filings — worth checking the postal-ballot notice before the 2 October vote.</p>
+  </div>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>What it does</h3>
+  <p>What's left inside Raymond Limited after two demergers is the engineering group: <strong>auto components</strong> (ring gears, water-pump bearings, shafts) sold to Indian and global carmakers, <strong>tools and hardware</strong> (files, drills, power-tool accessories) sold under the Raymond and JK brands, and <strong>aerospace and defence</strong> — precision machining, castings and structural assemblies for aircraft programmes. Aerospace is about ₹123 cr of a ₹628 cr quarter, roughly a fifth, and is growing 40%. The consumer-facing Raymond you know — suiting, retail, apparel — is now Raymond Lifestyle, a separately listed company. Real estate is Raymond Realty, also separately listed.</p>
+
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Market cap<br>₹ cr</th><th>TTM P/E</th><th>ROCE</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><th>Raymond</th><td>8,013</td><td>~125<sup>d</sup></td><td>3.1%</td><td>Aerospace ~20% of revenue</td></tr>
+      <tr><th>Paras Defence</th><td>11,082</td><td>120</td><td>17.2%</td><td>Rated Hold, high risk in this library</td></tr>
+      <tr><th>Apollo Micro Systems</th><td>13,777</td><td>114</td><td>14.5%</td><td>Rated Hold, high risk</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Raymond is being valued alongside the small defence names in this library, which trade at 114–120x. The difference is that Paras and Apollo earn 14–17% on capital from businesses that are wholly defence; Raymond earns 3.1% on capital and only a fifth of its revenue is aerospace. It is the most expensive way in this group to buy defence exposure.</div>
+
+  <h3>Moat</h3>
+  <p>Modest and mostly in the old businesses. Auto components and tools are competitive markets where Raymond has long customer relationships and a known brand. The aerospace arm needs customer qualification, which takes years and is a genuine barrier — but the company is early in building it, and the orders announced so far are small.</p>
+
+  <h3>Order book</h3>
+  <p>No total order book is disclosed. The only disclosed forward number is the ₹33 cr a year of aerospace orders announced in September, running through 2026 and 2027. Set against ₹2,293 cr of trailing revenue, this is not yet a material contract — which is the heart of the disagreement between the share price and the filings.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· to the Sell call</span></h2>
+  <div class="callout warn"><strong>Defence re-ratings can run for a long time.</strong> If the aerospace arm wins a genuinely large programme, or the group announces a bigger defence strategy, the stock can keep moving regardless of current earnings. Selling a momentum stock early is uncomfortable and often looks wrong for months.</div>
+  <ul>
+    <li><strong>For holders:</strong> 125x trailing earnings, 65x even on the best quarter annualised, with aerospace a fifth of revenue.</li>
+    <li><strong>Dilution at ₹645</strong>, about 5%, voted on 2 October.</li>
+    <li><strong>Institutions leaving</strong>: FIIs halved, one real mutual fund holder left.</li>
+    <li><strong>Weak cash conversion</strong>: ₹42 cr of operating cash on ₹232 cr of operating profit in FY26.</li>
+    <li><strong>Accounting complexity</strong>: three years of demerger gains make trailing comparisons unreliable, and the "debt-free" claim doesn't match the consolidated balance sheet.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Hold:</strong> a price back near ₹700 (about 38x the June quarter annualised, in line with better-quality defence suppliers). Or aerospace revenue passing 35% of the total with margin above 16%, showing this is genuinely becoming a defence company.</li>
+    <li><strong>Upgrade to Buy:</strong> the above plus a disclosed multi-year order book of meaningful size (₹1,000 cr or more) and operating cash flow back above 70% of operating profit.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in consolidated financials, balance sheet, cash flow and shareholding, fetched 24 Sep 2026. Peer figures for Paras and Apollo from their reports in this library (19 and 24 Aug 2026).</li>
+    <li>Q1 FY27 results, 7 Aug 2026: total income, EBITDA, aerospace revenue, net cash claim (Investing.com slides summary; Outlook Business).</li>
+    <li>September order win and warrant issue: Kotak Neo and 5paisa coverage of company announcements; Business Standard on the 21 Sep volume spike.</li>
+    <li>Demerger dates: Raymond Lifestyle (Sep 2024) and Raymond Realty (Jul 2025), per company and Business Standard.</li>
+    <li>Broker targets: Trendlyne research-report tracker, fetched 24 Sep 2026.</li>
+    <li>Mutual fund holdings: Trendlyne monthly scheme disclosure, <strong>August 2026</strong>.</li>
+    <li>Liquidity and 52-week range: Yahoo Finance daily data, 123 sessions to 24 Sep 2026. Note the range spans both demergers, so the low is not comparable with today's price.</li>
+  </ul>
+
+  <div class="foot">Generated 24 Sep 2026 · Price basis ₹1,203.85 (NSE, 24 Sep 2026) · Derived <sup>d</sup>: P/E on TTM profit (₹64 cr, sum of four quarters) and on the June quarter annualised (₹124 cr), EV/EBITDA, net debt, dilution from 33.28 lakh warrants on 6.66 cr shares, fund share of equity. ⚠ Screener's 47.6x P/E, the company's debt-free claim and Minerva Ventures' relationship to the promoters are all unreconciled. Not investment advice.</div>
+</div>
+</body>
+</html>
