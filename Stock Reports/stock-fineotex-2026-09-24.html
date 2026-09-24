@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fineotex Chemical Limited (NSE: FCL) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="FCL">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Fineotex Chemical Limited">
+<meta name="sector"    content="Specialty Chemicals">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-09-24">
+<meta name="price"     content="56.07">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Specialty Chemicals · 24 Sep 2026</div>
+  <h1>Fineotex Chemical Limited <span class="tik">· NSE: FCL</span></h1>
+  <div class="subline">A textile-chemicals company that bought its way into US oilfield chemicals and is now two-thirds oil and gas. Revenue tripled, margin fell, and last year it consumed cash for the first time.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹56.07</span></div>
+    <div><span class="k">52W range <small>split/bonus-adj.</small></span><span class="v">₹19.2 – ₹58.7</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹6,531 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.23%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">53.4x</span></div>
+    <div><span class="k">P/BV</span><span class="v">7.40x<sup>d</sup></span></div>
+    <div><span class="k">Net cash</span><span class="v up">₹38 cr<sup>d</sup></span></div>
+    <div><span class="k">Broker target</span><span class="v dn">₹39.50 <small>−29.6%</small></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">193 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹79.1 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>A genuine transformation, bought rather than built, at a price that assumes it works. Hold, high risk.</strong> Fineotex made textile auxiliaries and cleaning chemicals — a steady ₹533–569 cr business earning 24–26% operating margins. In FY26 it spent about US$26 mn buying CrudeChem Technologies, a US oilfield-chemicals group in Texas, and the company is now something else entirely: <strong>oil and gas was roughly 65% of the June quarter's revenue</strong>. Quarterly revenue has gone ₹120 cr → ₹137 cr → ₹138 cr → ₹184 cr → ₹314 cr → ₹377 cr in six quarters.</p>
+  <p>The growth is real and so is the cost of it. Operating margin fell from 18–23% to 15.7%, because oilfield chemicals is a service-led business with people and delivery costs the textile business never carried. Return on capital fell from 39% (FY24) to 18%. Most importantly, <strong>FY26 operating cash flow was −₹24 cr</strong> against ₹135 cr of operating profit, and free cash flow −₹49 cr. Receivables went from ₹116 cr to ₹290 cr and inventory from ₹64 cr to ₹155 cr. The cash cycle stretched from 64 days to 133.</p>
+  <p>At ₹56 the stock is up 191% from its 52-week low on 53x trailing earnings. The only house that covers it, Deven Choksey, has a target of <strong>₹39.50 — 30% below the market</strong>, after three raises in nine months (₹28 → ₹36 → ₹45.80 → ₹48), each one passed by the price within weeks. Management guides the oilfield platform to US$100 mn of revenue in FY27 and US$200 mn in FY28, which if delivered makes 53x look different. Nothing in the filings yet shows the cash arriving. <strong>Hold</strong>: the September-quarter cash flow statement is the thing that decides this, not the next announcement.</p>
+  <div class="callout warn">
+    <p><strong>On the tweet that prompted this report.</strong> On 24 September the company incorporated <strong>Fineotex America Inc.</strong> in Delaware, a wholly owned step-down subsidiary, to target water-treatment solutions for data centres and semiconductor manufacturing. The filing states it has <em>no turnover and no acquisition cost</em>. It is a registered shell with an intention attached — the second Delaware entity in a month, after Fineotex Holdings Inc. on 8 September. The underlying idea is reasonable (cooling and process water chemistry is adjacent to what it already does), but "data centre" and "semiconductor" in a headline should not move a valuation until there is a customer, a contract or a capex number. There is none of that today.</p>
+  </div>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Source</th><th>Rating</th><th>Target</th><th>vs spot</th><th>Dated</th></tr></thead>
+    <tbody>
+      <tr><th>Consensus <span class="sub">(Trendlyne)</span></th><td>Buy</td><td>₹39.50</td><td class="dn">−29.6%</td><td>24 Sep 26</td></tr>
+      <tr><th>Deven Choksey</th><td>Buy</td><td>₹48.00</td><td class="dn">−14.4%</td><td>27 Jul 26</td></tr>
+      <tr><th>Deven Choksey</th><td>Accumulate</td><td>₹45.80</td><td style="color:var(--ink3)">passed</td><td>23 Jul 26</td></tr>
+      <tr><th>Deven Choksey</th><td>Accumulate</td><td>₹36.00</td><td style="color:var(--ink3)">passed</td><td>21 May 26</td></tr>
+      <tr><th>Deven Choksey</th><td>Buy</td><td>₹28.00</td><td style="color:var(--ink3)">passed</td><td>19 Nov 25</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">One house, three target raises in nine months, each passed by the price within weeks. Read it two ways: the analyst has been consistently behind a stock that kept running, or the price is consistently ahead of anyone's modelled value. Either way the gap today is 30%, and there is no second opinion to check it against. Targets are on the post-split, post-bonus basis.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>Other income</th><th>PBT</th><th>Net profit</th><th>Op. cash flow</th><th>ROCE</th></tr></thead>
+    <tbody>
+      <tr><th>FY24</th><td>569</td><td>148</td><td class="up">26%</td><td>17</td><td>158</td><td>121</td><td>97</td><td>39%</td></tr>
+      <tr><th>FY25</th><td>533</td><td>127</td><td>24%</td><td>24</td><td>141</td><td>109</td><td>69</td><td>24%</td></tr>
+      <tr><th>FY26</th><td>772</td><td>135</td><td class="dn">17%</td><td>33</td><td>153</td><td>125</td><td class="dn">−24</td><td>18%</td></tr>
+      <tr class="total"><th>TTM</th><td>1,012</td><td>169</td><td>17%</td><td>34</td><td>186</td><td>148</td><td style="color:var(--ink3)">n/a</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Three numbers tell the story. Revenue is up 78% in two years. Operating margin is down nine points. And operating cash flow went from ₹97 cr to −₹24 cr. FY25 was already a weak year (revenue fell 6%) before the acquisition changed the shape of the company. Profit has grown, but less than revenue, and none of FY26's profit came through as cash.</div>
+
+  <h3>Last four quarters · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Quarter</th><th>Revenue</th><th>Growth YoY</th><th>Operating profit</th><th>OPM</th><th>Other income</th><th>Tax %</th><th>Net profit</th></tr></thead>
+    <tbody>
+      <tr><th>Sep 25</th><td>138</td><td style="color:var(--ink3)">—</td><td>31</td><td>23%</td><td>8</td><td>26%</td><td>26</td></tr>
+      <tr><th>Dec 25</th><td>184</td><td style="color:var(--ink3)">—</td><td>35</td><td>19%</td><td>7</td><td>21%</td><td>30</td></tr>
+      <tr><th>Mar 26</th><td>314</td><td style="color:var(--ink3)">—</td><td>44</td><td class="dn">14%</td><td>9</td><td class="dn">9%</td><td>44</td></tr>
+      <tr><th>Jun 26</th><td>377</td><td class="up">+175%</td><td>59</td><td>16%</td><td>10</td><td>26%</td><td>48</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Year-on-year growth is shown only where the comparison quarter is available; Screener's series starts at Mar 2025. The step-change from December to March is CrudeChem consolidating. Gross margin actually improved in the June quarter (35.4% against 33.5%), so the margin fall is below the gross line — people, freight and field service that come with oilfield work. The March quarter's profit was also helped by a 9% tax rate. Management declined to give a margin target, citing more than 100 product categories.</div>
+
+  <h3>The transformation in one table · Q1 FY27</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Business</th><th>Share of revenue</th><th>Approx. ₹ cr<sup>d</sup></th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><th>Oil &amp; gas chemicals</th><td class="up">~65%</td><td>~245</td><td>CrudeChem, Texas — drilling and production chemicals, service-led</td></tr>
+      <tr><th>Textile, cleaning, water treatment</th><td>~35%</td><td>~132</td><td>The original business: auxiliaries, FMCG hygiene, water chemicals</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Management commentary, not audited segment disclosure. US capacity was expanded by about 70,000 tonnes a year to roughly 148,000, running at about 63% utilisation. Guidance for the oilfield platform is US$100 mn of revenue in FY27 and US$200 mn in FY28 — about ₹880 cr and ₹1,760 cr. Against ₹1,012 cr of trailing group revenue, hitting the FY28 figure would mean the acquired business alone is larger than the whole company is today.</div>
+
+  <h3>Balance sheet &amp; working capital · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Cash</th><th>Equity</th><th>Receivables</th><th>Inventory</th><th>Goodwill</th><th>Cash cycle</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>5</td><td>40</td><td>447</td><td>139</td><td>50</td><td>6</td><td>64 days</td></tr>
+      <tr><th>Mar 25</th><td>0</td><td>42</td><td>731</td><td>116</td><td>64</td><td>6</td><td>88 days</td></tr>
+      <tr><th>Mar 26</th><td>8</td><td>46</td><td>882</td><td class="dn">290</td><td class="dn">155</td><td>74</td><td class="dn">133 days</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>The balance sheet is safe; the working capital is not yet under control.</strong> There is effectively no debt and ₹46 cr of cash, so this is not a solvency question. It is a quality-of-growth question. Receivables rose ₹174 cr and inventory ₹91 cr in one year — together more than the ₹125 cr of profit reported. Goodwill went from ₹6 cr to ₹74 cr with the acquisition, which is modest and not a red flag by itself. Management quotes a 72-day working-capital cycle against the 133 days the filed figures imply; that gap is unexplained. <span class="chip">unreconciled</span></p>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Aug 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>Three schemes, and only two that matter.</strong> Nippon India Small Cap holds 1.48 cr shares (₹75 cr, but just 0.09% of that fund) and JM Small Cap 0.35 cr shares (₹18 cr, 1.89% of a much smaller fund, and it added 3 lakh shares in August). The third is an index fund with 1,278 shares. Together they own about <strong>1.6%</strong> of the company<sup>d</sup>. Domestic institutional holding has fallen from 3.71% to 1.35% over five quarters while the stock tripled.</p>
+  </div>
+  <div class="delta">Overlap with your own funds: none. Your Motilal Oswal Large &amp; Midcap is not a holder.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">24 Sep 26</span><span><strong>Fineotex America Inc. incorporated in Delaware</strong>, targeting water-treatment solutions for data centres and semiconductor manufacturing. No turnover, no acquisition cost — a new entity, not a new business.</span></li>
+    <li><span class="date">8 Sep 26</span><span><strong>Fineotex Holdings Inc. incorporated in Delaware</strong> under the same FZE subsidiary, "to explore specialty chemicals and other growth opportunities".</span></li>
+    <li><span class="date">11 Sep 26</span><span><strong>Investor and analyst plant visit at Ambernath</strong>, Maharashtra.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>Q1 FY27: revenue ₹376.6 cr (+175%), EBITDA ₹59.1 cr, margin 15.7% against 18.4%, PAT ₹48.2 cr (+93%).</strong> Gross margin improved to 35.4%. Oil and gas about 65% of revenue.</span></li>
+    <li><span class="date">Jun 26</span><span><strong>Texas capacity expanded by about 70,000 tonnes a year</strong> through CrudeChem, taking the total to roughly 148,000 tonnes at about 63% utilisation.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>62.89</td><td>62.89</td><td>62.57</td><td>62.30</td><td>62.30</td></tr>
+      <tr><th>FIIs</th><td>2.51</td><td>2.35</td><td>2.53</td><td>2.92</td><td class="up">3.16</td></tr>
+      <tr><th>DIIs</th><td>3.17</td><td class="dn">1.63</td><td>1.28</td><td>1.27</td><td>1.35</td></tr>
+      <tr><th>Public</th><td>31.44</td><td>33.13</td><td>33.62</td><td>33.50</td><td>33.18</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>1,36,842</td><td>1,46,522</td><td>1,64,466</td><td>1,62,276</td><td>1,80,711</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <p><strong>Domestic institutions more than halved their holding while the stock tripled; retail holders grew by 44,000.</strong> DII holding went from 3.17% to 1.35% across five quarters. Promoters (the Tibrewala family) have held steady around 62.3%, easing 0.59 points. In October–November 2025 the company did a <strong>1:2 stock split and a 4:1 bonus</strong>, taking the share count up tenfold to about 116 cr shares — presentationally this made a ₹560 stock a ₹56 stock, and it coincided with the jump in shareholder numbers. Splits and bonuses create no value; they do reliably attract retail buyers.</p>
+  </div>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>What it does</h3>
+  <p>Two businesses now. The original one, founded 1979 and run from Mumbai with plants at Ambernath and in Malaysia, makes <strong>textile auxiliaries</strong> (chemicals used in dyeing and finishing cloth), cleaning and hygiene chemicals, and water-treatment chemicals. The new one, <strong>CrudeChem Technologies</strong> in Texas, makes specialty chemicals for oil and gas drilling and production and sells them as a service, with field support and last-mile delivery. That second business is now about two-thirds of revenue and all of the growth. A separate Delaware entity was registered on 24 September to chase water treatment for data centres and semiconductor plants; it has no operations yet.</p>
+
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Market cap<br>₹ cr</th><th>TTM P/E</th><th>ROCE</th><th>ROE</th><th>Latest OPM</th><th>Div yield</th></tr></thead>
+    <tbody>
+      <tr><th>Fineotex Chemical</th><td>6,531</td><td>53.4</td><td>18.3%</td><td>13.5%</td><td>16%</td><td>0.23%</td></tr>
+      <tr><th>Vishnu Chemicals</th><td>4,738</td><td>31.6</td><td>16.4%</td><td>14.3%</td><td>15%</td><td>0.04%</td></tr>
+      <tr><th>Balaji Amines</th><td>7,217</td><td>35.4</td><td>11.0%</td><td>8.7%</td><td>25%</td><td>0.49%</td></tr>
+      <tr><th>Chembond Chemicals</th><td>261</td><td>17.2</td><td>10.8%</td><td>8.8%</td><td>4.1%</td><td>1.04%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Fineotex earns the best return on capital of this group and trades at the highest multiple, roughly 1.5–1.7x the other mid-size specialty chemical makers. None of them is a clean comparison any more, because none has two-thirds of revenue in US oilfield services. On that basis the closer read-across is to oilfield chemicals companies, which are cyclical and rarely earn 50x.</div>
+
+  <h3>Moat</h3>
+  <p>Modest, and now in two different places. In textile auxiliaries it has long-standing customers and formulation know-how in a competitive Indian market that management itself calls intense. In oilfield chemicals the moat is service: being near the well, delivering on time and solving production problems. That is a real barrier in a local market, but it is also why the margin is lower — you are paying people, not just selling litres.</p>
+
+  <h3>Order book</h3>
+  <p>None disclosed, and not typical for the industry. The forward commitments are the oilfield revenue targets (US$100 mn FY27, US$200 mn FY28) and the Texas capacity now in place at 63% utilisation. Management explicitly links the oil and gas guidance to customer demand and visibility rather than to crude prices.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Profit that hasn't become cash, at 53x.</strong> FY26 turned ₹135 cr of operating profit into −₹24 cr of operating cash. For an acquisition-led scale-up, the first thing to check is whether the acquired revenue collects. The September-quarter statement is the test.</div>
+  <ul>
+    <li><strong>The multiple against the only published view</strong>: 53x trailing, with the sole covering broker at ₹39.50, 30% below.</li>
+    <li><strong>Margin reset</strong>: 26% operating margin in FY24 to 16% now, with no margin guidance from management.</li>
+    <li><strong>US oil and gas exposure</strong>: drilling activity is cyclical and tied to American shale spending, a very different risk from Indian textile chemicals.</li>
+    <li><strong>Announcement flow</strong>: two Delaware shells in a month, both announced, neither with revenue. Watch whether announcements keep outpacing results.</li>
+    <li><strong>Thin institutional ownership</strong>: 1.6% held by mutual funds, DII holding falling, 1.8 lakh retail holders and ₹79 cr traded a day.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> H1 FY27 operating cash flow at or above 60% of operating profit with receivable days back under 100 — proof the acquired revenue collects. A price near ₹40 (about 38x trailing, and level with the broker target) would do it on valuation alone.</li>
+    <li><strong>Downgrade to Sell:</strong> a second year of negative operating cash flow, EBITDA margin below 14%, the FY27 US$100 mn oilfield target being walked back, or a further acquisition funded with new shares.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in consolidated financials, balance sheet, cash flow, ratios and shareholding (symbol FCL), fetched 24 Sep 2026. Peer ratios from Screener the same day.</li>
+    <li>Q1 FY27 results and management commentary: segment mix, margins, Texas capacity and utilisation, US$100 mn/US$200 mn targets, goodwill and working-capital figures (Multibagg Q1 review; Sahi; Angel One).</li>
+    <li>CrudeChem acquisition (about US$26 mn) and the Texas expansion: Indian Chemical News, ChemIndigest, Jun 2026.</li>
+    <li>Delaware incorporations of 8 and 24 Sep 2026: ScanX exchange-filing feed. The 24 Sep filing is the subject of the tweet captured in your knowledge base that day (@Tvaasu1).</li>
+    <li>Stock split (1:2) and bonus (4:1), record date 31 Oct 2025: Angel One, HDFC Sky, Business Today.</li>
+    <li>Broker targets: Trendlyne research-report tracker, fetched 24 Sep 2026.</li>
+    <li>Mutual fund holdings: Trendlyne monthly scheme disclosure, <strong>August 2026</strong>. Liquidity and 52-week range: Yahoo Finance daily data for FCL.NS, 123 sessions to 24 Sep 2026.</li>
+  </ul>
+
+  <div class="foot">Generated 24 Sep 2026 · Price basis ₹56.07 (NSE, 24 Sep 2026) · Derived <sup>d</sup>: P/BV, net cash, quarterly year-on-year growth, segment rupee split from management percentages, fund share of equity. ⚠ Management's 72-day working-capital cycle does not reconcile with the 133 days implied by the filed figures; segment split is commentary, not audited disclosure. Live price uses FCL.NS — "FINEOTEX" does not resolve on Yahoo. Not investment advice.</div>
+</div>
+</body>
+</html>
