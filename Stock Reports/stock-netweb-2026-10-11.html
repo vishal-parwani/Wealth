@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netweb Technologies India Limited (NSE: NETWEB) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="NETWEB">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Netweb Technologies India Limited">
+<meta name="sector"    content="IT Hardware / High-End Computing and AI Systems">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-11">
+<meta name="price"     content="4723.10">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · IT Hardware / High-End Computing &amp; AI Systems · 11 Oct 2026</div>
+  <h1>Netweb Technologies India Limited <span class="tik">· NSE: NETWEB</span></h1>
+  <div class="subline">India's sovereign-AI server builder: revenue up 172% in a quarter and a ₹2,507 cr book, but five customers are now 81% of sales, the margin is a hardware assembler's, and the stock sits below the price institutions paid in August.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹4,723</span></div>
+    <div><span class="k">52W range</span><span class="v">₹2,920 – ₹5,813</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹28,069 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.06%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">108x</span></div>
+    <div><span class="k">P/BV</span><span class="v">14.6x<sup>d</sup> <small>(post-QIP)</small></span></div>
+    <div><span class="k">Net debt</span><span class="v">−₹83 cr <small>(Mar 26, net cash)</small></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.15x<sup>d</sup> <small>(post-QIP)</small></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">16.95 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹781.7 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>Exceptional growth with fragile foundations, at a full price. Hold, high risk.</strong> Netweb designs and assembles high-performance computers, AI GPU servers, storage and private-cloud systems in India. It is the main domestic beneficiary of the government's sovereign-AI compute build-out. Revenue went from ₹445 cr in FY23 to ₹2,184 cr in FY26, a 70% compound rate, and Q1 FY27 revenue of ₹820 cr was up 172%. AI systems were 62% of it. The confirmed order book is ₹2,507 cr, with another ₹848 cr where Netweb is the lowest bidder (L1).</p>
+  <p><strong>Three things keep this from a Buy.</strong> First, <strong>concentration</strong>: the top five customers went from 62% to 81% of revenue in one quarter. Big sovereign-AI contracts are lumpy, and one delayed tender shows up directly in a quarter. Second, <strong>economics</strong>: operating margin of 12–15% and net margin of about 10% are those of a systems integrator passing through expensive GPUs, not a technology owner. Inventory days went from 91 to 170 in FY26 and borrowings from ₹8 cr to ₹282 cr. Third, <strong>price</strong>: 108x trailing and 71x FY27 consensus.</p>
+  <div class="callout">
+    <p><strong>Where the name came from.</strong> It was on @TheAlpha10X's 20 September 2026 list of 63 "high growth + high quality" stocks for buying the dip. <strong>High growth: confirmed</strong>, emphatically: a 70% three-year compound rate, accelerating. <strong>High quality: half-confirmed.</strong> ROCE of 37% and RoE of 33% are excellent, and FY26 operating cash flow was ₹790 cr. But that cash came from a ₹894 cr jump in other liabilities, customer advances and supplier credit, not from margin. The 81% customer concentration is the opposite of quality in the usual sense. <strong>The dip: confirmed.</strong> At ₹4,723 the stock is 19% below its ₹5,813 high and 1.4% below the ₹4,790 at which institutions bought ₹1,200 cr of new shares in August.</p>
+  </div>
+  <p>The counter-argument is real. Consensus expects FY27 revenue of ₹4,168 cr, 91% growth and far above the 35–40% management guided in May, and FY28 EPS of ₹85.65. On that, the stock is 55x FY28, and the order book plus L1, about ₹3,355 cr, roughly equals the ₹3,348 cr of revenue that consensus still needs for FY27 after Q1.<sup>d</sup> If Q2, due about 30 October, holds an ₹800 cr+ run-rate, the case strengthens quickly.</p>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Broker</th><th>Rating</th><th>Target</th><th>vs spot</th><th>Dated</th></tr></thead>
+    <tbody>
+      <tr><th>ICICI Securities</th><td>Buy</td><td>₹5,360</td><td class="up">+13.5%</td><td>30 Jul 26</td></tr>
+      <tr><th>Consensus high</th><td>—</td><td>₹5,698</td><td class="up">+20.6%</td><td>Oct 26</td></tr>
+      <tr><th>Consensus low</th><td>—</td><td>₹5,250</td><td class="up">+11.2%</td><td>Oct 26</td></tr>
+      <tr class="total"><th>Consensus (n=4)</th><td>—</td><td>₹5,424</td><td class="up">+14.9%</td><td>Oct 26</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v">70.9x<sup>d</sup></span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v">55.1x<sup>d</sup></span></div>
+    <div><span class="k">Consensus EPS FY27E / FY28E</span><span class="v">₹66.62 / ₹85.65</span></div>
+  </div>
+  <div class="delta">Four analysts, all positive, all within 11–21% of spot. ICICI Securities is the only house with a recent named report on Trendlyne, and it has raised its target three times in a year: ₹4,110, then ₹4,500, then ₹5,360. Some consensus EPS estimates may predate the 4.4% QIP dilution, which would flatter the forward multiples slightly.</div>
+
+  <!-- ── 4. PRICE CHART — deliberately absent ───────────────────────── -->
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · standalone, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Revenue</th><th>Growth</th><th>Operating profit</th><th>OPM</th><th>PBT</th><th>Net profit</th><th>EPS ₹</th></tr></thead>
+    <tbody>
+      <tr><th>FY24</th><td>724</td><td>+62.7%</td><td>103</td><td>14%</td><td>102</td><td>76</td><td>13.47</td></tr>
+      <tr><th>FY25</th><td>1,149</td><td>+58.7%</td><td>159</td><td>14%</td><td>153</td><td>114</td><td>20.08</td></tr>
+      <tr><th>FY26</th><td>2,184</td><td>+90.1%</td><td>285</td><td>13%</td><td>277</td><td>206</td><td>36.15</td></tr>
+      <tr class="total"><th>TTM Jun 26</th><td>2,702</td><td>—</td><td>360</td><td>13%</td><td>349</td><td>261</td><td>45.87</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Growth has stayed above 55% for three years and accelerated in FY26, at a margin that has drifted down one point. The AI mix is GPU-heavy, and GPUs are bought in and passed through. Netweb has no meaningful subsidiaries, so Screener shows standalone figures.</div>
+
+  <h3>Last four quarters · standalone, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Quarter</th><th>Revenue</th><th>YoY</th><th>Operating profit</th><th>OPM</th><th>Interest</th><th>Net profit</th><th>YoY</th><th>Net margin</th></tr></thead>
+    <tbody>
+      <tr><th>Sep 25</th><td>304</td><td class="up">+21.1%</td><td>45</td><td>15%</td><td>1</td><td>31</td><td class="up">+19.2%</td><td>10.2%</td></tr>
+      <tr><th>Dec 25</th><td>805</td><td class="up">+141.0%</td><td>98</td><td>12%</td><td>3</td><td>73</td><td class="up">+143.3%</td><td>9.1%</td></tr>
+      <tr><th>Mar 26</th><td>774</td><td class="up">+86.5%</td><td>97</td><td>12%</td><td>8</td><td>71</td><td class="up">+65.1%</td><td>9.2%</td></tr>
+      <tr><th>Jun 26</th><td>820</td><td class="up">+172.4%</td><td>121</td><td>15%</td><td class="dn">12</td><td>85</td><td class="up">+183.3%</td><td>10.4%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Revenue stepped from about ₹300 cr a quarter to about ₹800 cr in December and has held there for three quarters. That is a new base, not a one-off spike. Margin recovered to 15% in June. The line to watch is interest: ₹1 cr a quarter a year ago, ₹12 cr now, as working capital for GPU inventory is funded with debt. The August QIP should bring that down.</div>
+
+  <h3>Balance sheet &amp; cash · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Equity</th><th>Other liabilities</th><th>Op. cash flow</th><th>Free cash flow</th><th>Inventory days</th><th>Debtor days</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>10</td><td>422</td><td>180</td><td>18</td><td>0</td><td>77</td><td>93</td></tr>
+      <tr><th>Mar 25</th><td>8</td><td>529</td><td>355</td><td class="dn">−13</td><td class="dn">−36</td><td>91</td><td>115</td></tr>
+      <tr><th>Mar 26</th><td class="dn">282</td><td>723</td><td>1,249</td><td>790</td><td>779</td><td class="dn">170</td><td>112</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>FY26's ₹790 cr operating cash flow is a balance-sheet event, not an earnings one.</strong> Other liabilities rose ₹894 cr, mostly advances from customers and credit from suppliers, while inventory nearly doubled in days. That is typical of a large project being stocked ahead of delivery. It reverses when the project ships and the advance is used up. The company reported net free cash of ₹83 cr at 31 March 2026, with standalone cash of about ₹366 cr against ₹282 cr of borrowings. The ₹1,200 cr QIP in August has since been added. Equity after the QIP is about ₹1,923 cr<sup>d</sup>, which is the basis for the P/BV and debt/equity above.</p>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Aug 2026 disclosure</span></h2>
+
+  <div class="callout">
+    <p><strong>79 schemes</strong> hold 37.9 lakh shares, about <strong>6.4%</strong> of equity and ₹1,788 cr at the current price. August was a buying month: 56 schemes added and 13 sold, a net +9.25 lakh shares, and thirteen schemes opened new positions. Much of this likely came through the QIP allotted on 20–21 August.</p>
+  </div>
+
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Shares</th><th>Value held<br>₹ cr<sup>d</sup></th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th><th>Chg Aug</th></tr></thead>
+    <tbody>
+      <tr><th>ICICI Pru Balanced Adv Gr</th><td>Balanced Advantage</td><td>7,18,195</td><td>339</td><td>0.49%</td><td>69,227</td><td class="dn">−7,282</td></tr>
+      <tr><th>HSBC Midcap Gr</th><td>Mid Cap</td><td>6,98,436</td><td>330</td><td>2.11%</td><td>15,634</td><td>unch</td></tr>
+      <tr><th>ICICI Pru Flexi Cap Reg Gr</th><td>Flexi Cap</td><td>5,64,734</td><td>267</td><td>1.13%</td><td>23,604</td><td class="up">+1,92,709</td></tr>
+      <tr><th>ICICI Pru Technology Gr</th><td>Sectoral (Technology)</td><td>2,70,222</td><td>128</td><td>1.03%</td><td>12,391</td><td>unch</td></tr>
+      <tr><th>ICICI Prudential Small Cap Gr</th><td>Small Cap</td><td>2,14,244</td><td>101</td><td>1.13%</td><td>8,955</td><td class="dn">−3,678</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">ICICI Prudential is the dominant fund house, with four of the top five schemes and nine holders in all. It was also a buyer in the August 2024 promoter block deal. HSBC Midcap's 2.11% is the highest-conviction position among large holders. ICICI Pru Flexi Cap added 1.9 lakh shares in August. The new holders are almost all innovation, digital and flexi-cap funds: thematic money, which tends to leave as fast as it arrives.</div>
+
+  <details class="fundlist">
+    <summary>Show all 79 schemes holding this stock</summary>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Scheme</th><th>Shares</th><th>% of scheme</th><th>Chg Aug 2026</th></tr></thead>
+      <tbody>
+        <tr><th>ICICI Pru Balanced Adv Gr</th><td>7,18,195</td><td>0.49%</td><td class="dn">−7,282</td></tr>
+        <tr><th>HSBC Midcap Gr</th><td>6,98,436</td><td>2.11%</td><td>unch</td></tr>
+        <tr><th>ICICI Pru Flexi Cap Reg Gr</th><td>5,64,734</td><td>1.13%</td><td class="up">+1,92,709</td></tr>
+        <tr><th>ICICI Pru Technology Gr</th><td>2,70,222</td><td>1.03%</td><td>unch</td></tr>
+        <tr><th>ICICI Prudential Small Cap Gr</th><td>2,14,244</td><td>1.13%</td><td class="dn">−3,678</td></tr>
+        <tr><th>Tata Digital India Reg Gr</th><td>1,90,751</td><td>0.96%</td><td class="up">+20,876</td></tr>
+        <tr><th>Edelweiss Mid Cap Gr</th><td>1,79,741</td><td>0.47%</td><td class="up">+58,455</td></tr>
+        <tr><th>Invesco India Flexi Cap Reg Gr</th><td>1,56,577</td><td>1.42%</td><td class="up">new</td></tr>
+        <tr><th>HDFC Innovation Reg Gr</th><td>1,04,385</td><td>1.70%</td><td class="up">new</td></tr>
+        <tr><th>ICICI Pru Innovt Reg Gr</th><td>88,325</td><td>0.57%</td><td class="up">new</td></tr>
+        <tr><th>ICICI Pru Exports and Services Gr</th><td>71,563</td><td>2.40%</td><td class="up">+16,471</td></tr>
+        <tr><th>TrustMF Small Cap Reg Gr</th><td>64,943</td><td>0.98%</td><td class="up">new</td></tr>
+        <tr><th>Bank of India Flexi Cap Fund Reg Gr</th><td>55,753</td><td>0.98%</td><td class="up">+41,753</td></tr>
+        <tr><th>Helios Mid Cap Reg Gr</th><td>35,074</td><td>0.82%</td><td class="up">new</td></tr>
+        <tr><th>JM Flexi Cap Gr</th><td>31,890</td><td>0.31%</td><td class="up">new</td></tr>
+        <tr><th>Nippon India Nifty Smallcap 250 I Reg Gr</th><td>30,044</td><td>0.44%</td><td class="up">+367</td></tr>
+        <tr><th>iSIF Hybrid Long-Short Reg Gr</th><td>28,997</td><td>1.14%</td><td class="up">+16,059</td></tr>
+        <tr><th>Helios Small Cap Reg Gr</th><td>27,557</td><td>0.82%</td><td class="up">new</td></tr>
+        <tr><th>Invesco India Technology Reg Gr</th><td>26,149</td><td>3.97%</td><td>unch</td></tr>
+        <tr><th>Altiva Hybrid Long-Short Reg Gr</th><td>25,210</td><td>0.14%</td><td class="up">new</td></tr>
+        <tr><th>HDFC Nifty Smallcap 250 ETF</th><td>22,976</td><td>0.44%</td><td class="up">+185</td></tr>
+        <tr><th>Edelweiss Flexi Cap Reg Gr</th><td>22,965</td><td>0.32%</td><td class="up">new</td></tr>
+        <tr><th>Edelweiss Small Cap Reg Gr</th><td>20,877</td><td>0.15%</td><td class="up">new</td></tr>
+        <tr><th>SBI Nifty Smallcap 250 Index Reg Gr</th><td>15,269</td><td>0.44%</td><td class="up">+171</td></tr>
+        <tr><th>Edelweiss ELSS Tax saver Gr</th><td>13,900</td><td>1.56%</td><td class="dn">−222</td></tr>
+        <tr><th>Nippon Ind Nifty 500 Momt 50 IdxRgGr</th><td>13,176</td><td>0.52%</td><td class="up">+194</td></tr>
+        <tr><th>Motilal Oswal Nifty Smcp 250 Idx Reg Gr</th><td>11,069</td><td>0.44%</td><td class="up">+101</td></tr>
+        <tr><th>iSIF Equity Long-Short Reg Gr</th><td>10,229</td><td>0.89%</td><td class="up">new</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Momt 50 IdxRegGr</th><td>8,205</td><td>0.52%</td><td class="dn">−47</td></tr>
+        <tr><th>ICICI Pru Nifty SmCp 250 Idx Reg Gr</th><td>6,728</td><td>0.44%</td><td class="up">+130</td></tr>
+        <tr><th>HDFC Nifty Smallcap 250 Index Reg Gr</th><td>6,642</td><td>0.44%</td><td class="up">+270</td></tr>
+        <tr><th>Kotak Quant Reg Gr</th><td>6,121</td><td>0.64%</td><td class="dn">−83</td></tr>
+        <tr><th>Samco Multi Asset Allocation Reg Gr</th><td>4,747</td><td>0.62%</td><td>unch</td></tr>
+        <tr><th>The Wealth Company Small Cap Reg Gr</th><td>4,000</td><td>1.61%</td><td class="dn">−400</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Momentum 50 ETF</th><td>3,950</td><td>0.52%</td><td class="dn">−170</td></tr>
+        <tr><th>JioBlackRock Nifty SmCp 250 Idx Dir Gr</th><td>3,456</td><td>0.44%</td><td class="up">+29</td></tr>
+        <tr><th>The Wealth Company Ethical Reg Gr</th><td>3,020</td><td>3.81%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Reg Gr</th><td>3,005</td><td>0.05%</td><td class="up">+103</td></tr>
+        <tr><th>Edelweiss Nifty SmCp 250 Idx Reg Gr</th><td>2,431</td><td>0.44%</td><td class="up">+138</td></tr>
+        <tr><th>Nippon Ind Nifty 500 Eql Wtd Idx Rg Gr</th><td>2,391</td><td>0.23%</td><td class="up">+1</td></tr>
+        <tr><th>Motilal Oswal Nifty Smallcap 250 ETF</th><td>2,163</td><td>0.44%</td><td class="dn">−117</td></tr>
+        <tr><th>Axis Nifty500 Momentum 50 Index Reg Gr</th><td>1,780</td><td>0.51%</td><td class="up">+51</td></tr>
+        <tr><th>Tata Nifty India Digital ETF</th><td>1,758</td><td>0.52%</td><td class="up">+3</td></tr>
+        <tr><th>HDFC Nifty India Digital Index Reg Gr</th><td>1,575</td><td>0.52%</td><td class="dn">−20</td></tr>
+        <tr><th>Zerodha Nifty Smallcap 100 ETF</th><td>1,570</td><td>0.81%</td><td class="up">+167</td></tr>
+        <tr><th>Groww Nifty Smallcap 250 Idx Reg Gr</th><td>1,190</td><td>0.44%</td><td class="up">+6</td></tr>
+        <tr><th>Aditya BSL BSE 500 Momt 50 Idx Reg Gr</th><td>1,034</td><td>0.66%</td><td class="up">+35</td></tr>
+        <tr><th>Bandhan Nifty SmCp 250 Idx Reg Gr</th><td>849</td><td>0.44%</td><td class="dn">−3</td></tr>
+        <tr><th>SBI Nifty 500 Index Reg Gr</th><td>732</td><td>0.05%</td><td class="dn">−4</td></tr>
+        <tr><th>Kotak Nifty Smallcap 250 Idx Reg Gr</th><td>726</td><td>0.44%</td><td class="up">+150</td></tr>
+        <tr><th>Mirae Asset Nifty Smallcap 250 ETF</th><td>713</td><td>0.44%</td><td class="up">+29</td></tr>
+        <tr><th>Bandhan Nifty 500 Momentum 50 Idx Reg Gr</th><td>374</td><td>0.52%</td><td class="dn">−19</td></tr>
+        <tr><th>JioBlackRock Sector Rotation Dir Gr</th><td>372</td><td>0.12%</td><td class="up">+59</td></tr>
+        <tr><th>ICICI Prudential BSE 500 ETF</th><td>337</td><td>0.05%</td><td class="up">+3</td></tr>
+        <tr><th>Groww Nifty Total Market Idx Reg Gr</th><td>335</td><td>0.05%</td><td class="up">+1</td></tr>
+        <tr><th>Axis Nifty 500 Index Reg Gr</th><td>303</td><td>0.05%</td><td class="up">+1</td></tr>
+        <tr><th>HDFC BSE 500 Index Reg Gr</th><td>300</td><td>0.05%</td><td class="up">+3</td></tr>
+        <tr><th>Groww Nifty 500 Momentum 50 ETF</th><td>299</td><td>0.52%</td><td class="up">+10</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 ETF</th><td>280</td><td>0.05%</td><td class="up">+5</td></tr>
+        <tr><th>UTI Nifty500 Shariah Index Re Gr</th><td>272</td><td>0.16%</td><td class="dn">−9</td></tr>
+        <tr><th>Kotak Nifty500 Momentum 50 Idx Reg Gr</th><td>263</td><td>0.52%</td><td class="up">+8</td></tr>
+        <tr><th>Mirae Asset Nifty500 Mltcp 50:25:25 ETF</th><td>190</td><td>0.11%</td><td class="up">+4</td></tr>
+        <tr><th>Groww Nifty Smallcap 250 ETF</th><td>149</td><td>0.44%</td><td class="up">+7</td></tr>
+        <tr><th>DSP Nifty SmallCap 250 Index Reg Gr</th><td>149</td><td>0.44%</td><td class="up">+15</td></tr>
+        <tr><th>HDFC BSE 500 ETF</th><td>134</td><td>0.05%</td><td class="up">+79</td></tr>
+        <tr><th>UTI Nifty 500 Index Reg Gr</th><td>104</td><td>0.05%</td><td class="up">new</td></tr>
+        <tr><th>ICICI Prudential Nifty 500 Idx Reg Gr</th><td>98</td><td>0.05%</td><td class="up">+8</td></tr>
+        <tr><th>SBI Nifty Smallcap 250 ETF</th><td>72</td><td>0.44%</td><td class="up">+3</td></tr>
+        <tr><th>Zerodha Nifty MidSmCp400 50:50 Idx DirGr</th><td>72</td><td>0.22%</td><td class="up">+18</td></tr>
+        <tr><th>DSP Nifty Smallcap 250 ETF</th><td>71</td><td>0.44%</td><td class="up">+7</td></tr>
+        <tr><th>Navi Nifty 500 Multicap 50 25 25IdxRegGr</th><td>60</td><td>0.11%</td><td class="up">+2</td></tr>
+        <tr><th>Angel One Nifty Total Market Idx Reg Gr</th><td>56</td><td>0.05%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal BSE 1000 Index Reg Gr</th><td>54</td><td>0.04%</td><td>unch</td></tr>
+        <tr><th>Mirae Asset Nifty Total Mkt Idx Reg Gr</th><td>46</td><td>0.05%</td><td>unch</td></tr>
+        <tr><th>Bandhan Nifty Total Market Index Reg Gr</th><td>41</td><td>0.05%</td><td>unch</td></tr>
+        <tr><th>Navi Nifty MidSmallcap 400 Index Reg Gr</th><td>39</td><td>0.15%</td><td class="up">+4</td></tr>
+        <tr><th>Angel One Nifty Total Market ETF</th><td>39</td><td>0.05%</td><td>unch</td></tr>
+        <tr><th>DSP Nifty 500 Index Reg Gr</th><td>15</td><td>0.05%</td><td class="up">+1</td></tr>
+        <tr><th>UTI Nifty 500 Exchange Traded Fund</th><td>9</td><td>0.05%</td><td class="up">new</td></tr>
+        <tr><th>Samco Dynamic Asset Allc Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Small Cap Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Digital India Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Samco Small Cap Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>DynaSIF Equity Long - Short Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>DynaSIF Active Ast Allctr L-S Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <div class="delta">Own holdings overlap: none. Your Motilal Oswal Large &amp; Midcap is not a holder. <strong>Helios Mid Cap</strong>, whose sibling funds you track in your research list, opened a new position in August at 0.82% of the scheme.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">19 Sep 26</span><span><strong>27th AGM; final dividend ₹3 a share.</strong> Routine. An analyst meeting was reported for 25 September but is not confirmed in exchange filings.</span></li>
+    <li><span class="date">20 Aug 26</span><span><strong>₹1,200 cr QIP allotted: 25.05 lakh shares at ₹4,790</strong>, 2% below the ₹4,886 floor. Share count rises 4.4% to 5.94 cr. It rose 3% on allotment, then fell for two days, and is now below the issue price.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>Q1 FY27: revenue +172% to ₹820 cr, profit +180% to ₹85 cr</strong>, AI systems 62% of revenue. Order book ₹2,507 cr plus ₹848 cr L1. Management guides about 60% conversion of the pipeline over 18–24 months, with GPU lead times stretching from 8–12 weeks to 16–20.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>Top-five customer share jumps to 81.2% from 62.2%.</strong> Disclosed alongside Q1. This is the clearest single risk in the story.</span></li>
+    <li><span class="date">30 Jul 26</span><span><strong>ICICI Securities raises target to ₹5,360</strong> ("record performance across multiple fronts"), its third increase in a year.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoter</th><td>71.03</td><td>71.00</td><td>71.00</td><td class="dn">66.98</td><td>66.98</td></tr>
+      <tr><th>FII</th><td>9.54</td><td>10.82</td><td>9.55</td><td>9.29</td><td>9.27</td></tr>
+      <tr><th>DII</th><td>4.23</td><td>3.57</td><td>3.30</td><td>4.68</td><td class="up">5.91</td></tr>
+      <tr><th>Public</th><td>15.20</td><td>14.62</td><td>16.14</td><td>19.03</td><td>17.84</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>1,81,134</td><td>1,82,013</td><td>2,19,350</td><td>2,43,292</td><td>2,46,932</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>Promoters have sold twice in 18 months.</strong> In August 2024 the four Lodha promoters sold 20.5 lakh shares at about ₹2,232 in a block deal, taking the promoter stake from 75.04% to about 71.4%. In February 2026 Sanjay Lodha and others disclosed the sale of a further 20.8 lakh shares, and the stake fell four points to 66.98% in the March quarter. The August 2026 QIP dilutes it further, to about 64.2%.<sup>d</sup> The September 2026 shareholding was not yet on Screener at writing. Selling into a 108x multiple is rational for founders. It is also a data point on what they think the multiple is worth.</p>
+  </div>
+  <p class="delta">Retail took the other side: public holding rose from 14.6% to 19.0% across the promoter sale. Domestic institutions have rebuilt from 3.3% to 5.9%. FIIs have been flat at about 9.3% for three quarters. No pledge is reported.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Shares outstanding</span><span class="v">5.94 cr <small>(post-QIP)</small></span></div>
+    <div><span class="k">Promoter pledge</span><span class="v">nil reported</span></div>
+    <div><span class="k">MF share of equity</span><span class="v">6.4%<sup>d</sup></span></div>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Promoter · Chairman &amp; Managing Director</div><div class="nm">Sanjay Lodha</div>
+      Co-founder (1999) with other Lodha family members. He leads the company's positioning as India's end-to-end high-end-computing manufacturer and its government and sovereign-AI relationships. He was the largest single seller in the August 2024 block, 8.2 lakh shares, and among the February 2026 sellers.</div>
+    <div class="person"><div class="rl">Promoter group</div><div class="nm">Navin, Niraj &amp; Vivek Lodha</div>Co-promoters who sold alongside Sanjay Lodha in the August 2024 block. The promoter group acts as a single block in both disclosed sales.</div>
+  </div>
+  <h3>Board</h3>
+  <ul>
+    <li><strong>Control</strong>: a family-founder company with about 64% promoter ownership after the QIP, and a founder as executive chairman.</li>
+    <li><strong>Notable</strong>: two promoter sales and a QIP in 26 months, all at or near highs. There are no pledges or auditor flags on record in the sources reviewed.</li>
+  </ul>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>The company designs and assembles supercomputers (HPC clusters), AI GPU servers and "AI factories", private-cloud and hyper-converged infrastructure, enterprise workstations, storage and data-centre servers. Manufacturing is in India. Customers are government and research institutions, defence, the India AI Mission's sovereign-compute build-out, hyperscale and enterprise data centres, and universities. AI systems were 62% of Q1 FY27 revenue. The company partners with the major GPU and CPU makers rather than designing chips itself. Its value-add is system design, integration, software stack and local manufacturing.</p>
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Mkt cap<br>₹ cr</th><th>TTM P/E</th><th>OPM Jun 26</th><th>ROCE</th><th>RoE</th></tr></thead>
+    <tbody>
+      <tr><th>Netweb Technologies</th><td>28,069</td><td>108x</td><td>15%</td><td>37.5%</td><td>32.8%</td></tr>
+      <tr><th>E2E Networks <span style="color:var(--ink3);font-size:.8rem">(GPU cloud)</span></th><td>14,484</td><td>465x</td><td>75%</td><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>Kaynes Technology <span style="color:var(--ink3);font-size:.8rem">(EMS)</span></th><td>21,941</td><td>63.2x</td><td>16%</td><td>12.7%</td><td>8.7%</td></tr>
+      <tr><th>Dixon Technologies <span style="color:var(--ink3);font-size:.8rem">(EMS)</span></th><td>78,139</td><td>41.6x</td><td>3.0%</td><td>29.2%</td><td>18.9%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">There is no listed like-for-like peer, and that scarcity is part of the premium. Against the electronics manufacturers, Netweb earns far better returns and margins than Dixon or Kaynes. It is priced at 1.7–2.6x their multiples, and it is far more concentrated.</div>
+  <h3>Moat</h3>
+  <p><strong>Narrow, built on position more than technology.</strong> Netweb is the incumbent domestic supplier for government HPC and sovereign-AI work, where local manufacture, security clearance and a track record on national supercomputers matter. That is a genuine barrier against foreign OEMs in public tenders. It is weaker in enterprise and hyperscale, where global server makers compete directly. The core components, GPUs and CPUs, are bought from partners who hold the pricing power.</p>
+  <h3>Order book</h3>
+  <p><strong>₹2,507 cr</strong> confirmed at 30 Jun 2026, ≈ 0.93x trailing revenue, plus <strong>₹848 cr L1</strong>, which is lowest bidder and not yet contracted. Reports describe the wider pipeline as above ₹10,000 cr, but the figure is quoted as both ₹1,040 cr and ₹10,410 cr <span style="font-size:.72rem;color:var(--ink3);border:1px solid var(--line);border-radius:3px;padding:0 4px">unreconciled</span>, so it is not relied on here. Management guides about 60% conversion over 18–24 months.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Customer concentration at 81%.</strong> Five customers, likely including large sovereign-AI and government programmes, account for four-fifths of revenue. A single tender delayed by a quarter could take revenue back toward the ₹300 cr base of a year ago. At 108x, the stock would not survive that intact.</div>
+  <ul>
+    <li><strong>GPU supply and pass-through economics.</strong> Lead times have doubled to 16–20 weeks. Margin depends on component pricing Netweb does not control, and export-control changes on advanced GPUs are a tail risk.</li>
+    <li><strong>Working capital.</strong> Inventory at 170 days and borrowings up 35x in a year. Rising interest is already visible in the P&amp;L.</li>
+    <li><strong>Promoter selling.</strong> Two sales in 18 months at successively higher prices.</li>
+    <li><strong>Policy dependence.</strong> India AI Mission funding and procurement timing drive a large share of the book.</li>
+    <li><strong>Thematic ownership.</strong> New fund holders are innovation and digital funds that rotate quickly.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> Q2 and Q3 FY27 both above ₹800 cr revenue with top-five concentration falling back below 70% and the order book growing; or the price reaching about ₹3,850, 45x FY28 consensus.</li>
+    <li><strong>Downgrade to Sell:</strong> a quarter below ₹500 cr revenue, the confirmed order book falling below ₹1,500 cr, operating cash flow turning negative as advances unwind, or a further promoter sale.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in: standalone annual and quarterly financials, balance sheet, cash flow, ratios and shareholding to Jun 2026, fetched 11 Oct 2026. Sep 2026 shareholding not yet published there. Peer ratios from Screener the same day.</li>
+    <li>Q1 FY27 results and earnings-call coverage, Aug 2026 (Investywise, ScanX, CompoundingAI, LetsDataScience): revenue, AI share, order book, L1, conversion guidance and customer concentration.</li>
+    <li>FY26 results summary (ScanX): net free cash ₹83.3 cr and cash ₹365.5 cr at 31 Mar 2026; FY27 growth guidance of 35–40%.</li>
+    <li>QIP: Business Today, 21 and 25 Aug 2026; Sahi / FilingReader: 25,05,219 shares at ₹4,790, paid-up 5,94,45,906 shares.</li>
+    <li>Promoter sales: Business Standard, Aug 2024 block deal; BSE SAST filing, Aug 2024; Trendlyne SAST disclosure of 12 Feb 2026 (20,79,935 shares).</li>
+    <li>Trendlyne research reports (ICICI Securities) and consensus estimates: 4 analysts, target ₹5,424, EPS FY27E ₹66.62, FY28E ₹85.65. Fetched 11 Oct 2026.</li>
+    <li>@TheAlpha10X tweet of 20 Sep 2026, as captured in your knowledge base.</li>
+    <li>Mutual fund holdings: Trendlyne monthly scheme disclosure, <strong>August 2026</strong>. The September disclosure was only partly published at fetch, with 4 schemes reported. Value held and scheme AUM are derived at ₹4,723.</li>
+    <li>Liquidity: Yahoo Finance daily volume, 124 sessions to 9 Oct 2026.</li>
+  </ul>
+
+  <div class="foot">Generated 11 Oct 2026 · Price basis ₹4,723.10 (NSE close, 9 Oct 2026) · Derived <sup>d</sup>: post-QIP P/BV and debt/equity (Mar-26 equity + ₹1,200 cr), post-QIP promoter %, forward P/E, fund value held and scheme AUM. ⚠ Sep 2026 shareholding not yet available; pipeline figure unreconciled; customer identities not disclosed. Not investment advice.</div>
+</div>
+</body>
+</html>
