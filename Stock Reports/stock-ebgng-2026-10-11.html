@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GNG Electronics Limited (NSE: EBGNG) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="EBGNG">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="GNG Electronics Limited">
+<meta name="sector"    content="Consumer Electronics / Device Refurbishment">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-11">
+<meta name="price"     content="685.50">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Consumer Electronics / Device Refurbishment · 11 Oct 2026</div>
+  <h1>GNG Electronics Limited <span class="tik">· NSE: EBGNG</span></h1>
+  <div class="subline">India's largest laptop and desktop refurbisher (brand: Electronics Bazaar). Profit doubled in FY26, but inventory takes 180 days to turn, operating cash flow was −₹215 cr, and a promoter has sold twice in four months.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹685.50</span></div>
+    <div><span class="k">52W range</span><span class="v">₹239 – ₹741</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹7,809 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">54.9x</span></div>
+    <div><span class="k">P/BV</span><span class="v">10.3x<sup>d</sup></span></div>
+    <div><span class="k">Net debt · Mar 26</span><span class="v">₹327 cr<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.59x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">7.42 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹41.4 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>Growth and margins are moving the right way, but a business whose cash is tied up in 180 days of inventory, priced at 55x trailing earnings while its promoters keep selling, is a Hold and not a Buy.</strong></p>
+  <p><strong>For.</strong> FY26 revenue was ₹1,891 cr, up 34%. EBITDA was ₹196 cr, up 68%, and PAT ₹132 cr, up 91%. EBITDA margin has climbed every year, from 6.9% in FY24 to 10.4% in FY26 and 11.9% in Q1 FY27. After Q1, management raised FY27 revenue-growth guidance from 25% to 30%. It is adding national distribution through Ingram Micro and Supertron (February) and Redington (July). Refurbished devices are a real and under-penetrated category in India, and GNG is the scale player in it, with operations in India, the UAE and the US.</p>
+  <p><strong>Against.</strong> The quality of earnings is weak. Operating cash flow was −₹114 cr in FY25 and −₹215 cr in FY26. Inventory days went from 115 to 153 to 180, and the cash conversion cycle is 213 days. Most of the IPO money has gone into working capital. The effective tax rate is about 10%, because much of the profit is booked in the UAE subsidiary. That is legal, but it makes reported profit more flattering than a domestic peer's would be. In August the board sought approval for related-party limits of up to about ₹2,000 cr with step-down subsidiaries, plus personal guarantees of up to ₹200 cr each from the two promoters. And on 30 September promoter Vidhi Khandelwal sold another 34.2 lakh shares (3.0% of equity). Her June sale of 44.9 lakh shares at ₹390 was needed to bring promoter holding down to the 75% minimum-public-shareholding limit. The September sale was not needed for that, because the promoter group was already at 74.78%.</p>
+  <div class="callout">
+    <p><strong>Testing the tweet.</strong> On 20 Sep 2026 @TheAlpha10X listed GNG among 63 "High Growth + High Quality" names to buy on a dip. <em>High growth:</em> confirmed. Revenue grew 34% and PAT 91% in FY26, and Q1 FY27 revenue grew 32%. <em>High quality:</em> refuted on cash. ROE is 27% and ROCE 20%, but two years of heavily negative operating cash flow and 180 inventory days are the opposite of quality. <em>The dip:</em> the stock is ₹685.50, 2.5% below ₹703.00 on 18 Sep and 7% below its ₹741 high. It is still 2.9x the ₹237 IPO price.</p>
+  </div>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Broker</th><th>Rating</th><th>Target</th><th>vs spot</th><th>Dated</th></tr></thead>
+    <tbody>
+      <tr><th>Motilal Oswal <span style="color:var(--ink3);font-weight:400">(Q1 FY27 update)</span></th><td>Buy</td><td>₹700</td><td class="up">+2.1%</td><td>30 Jul 26</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v">~45x<sup>d</sup></span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v"><span style="color:var(--ink3)">n/a</span></span></div>
+    <div><span class="k">Implied EPS FY27E</span><span class="v">~₹15.1<sup>d</sup></span></div>
+  </div>
+  <div class="delta">There is one published target, and it has been reached: Motilal's ₹700 was set at ₹556 and the stock is ₹685.50. Motilal's EPS estimates could not be obtained. The forward figures above are this note's own arithmetic. They assume management's 30% growth guidance (FY27 revenue of about ₹2,458 cr) and Q1's 7.0% PAT margin, which gives PAT of about ₹172 cr over 11.39 cr shares. Treat them as a sense-check rather than a consensus.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY24</th><th>FY25</th><th>FY26</th><th>TTM</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>1,138</td><td>1,411</td><td>1,891</td><td>1,991</td></tr>
+      <tr><th>Growth</th><td>+72%</td><td>+24%</td><td>+34%</td><td>—</td></tr>
+      <tr><th>EBITDA</th><td>79</td><td>117</td><td>196</td><td>213</td></tr>
+      <tr><th>EBITDA margin</th><td>6.9%</td><td>8.3%</td><td>10.4%</td><td>10.7%</td></tr>
+      <tr><th>PAT</th><td>52</td><td>69</td><td>132</td><td>142</td></tr>
+      <tr><th>Growth</th><td>+58%</td><td>+33%</td><td>+91%</td><td>—</td></tr>
+      <tr><th>EPS (₹)</th><td><span style="color:var(--ink3)">n/a</span></td><td>7.09</td><td>11.55</td><td>12.49</td></tr>
+      <tr><th>Op. cash flow</th><td class="up">97</td><td class="dn">−114</td><td class="dn">−215</td><td>—</td></tr>
+      <tr class="total"><th>Inventory days</th><td>115</td><td>153</td><td>180</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">FY24 EPS is n/a because Screener prints it on the pre-split share count. Working-capital days went from 18 to 112 in two years. The July 2025 IPO raised ₹400 cr of fresh capital, yet net debt at March 2026 was still ₹327 cr (₹445 cr borrowed, ₹118 cr cash): the inventory build absorbed the proceeds. The tax rate ran at 9–12% for FY24–FY26, then rose to 19% in Q1 FY27.</div>
+
+  <h3>Last four quarters · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Q2 FY26<br>Sep 25</th><th>Q3 FY26<br>Dec 25</th><th>Q4 FY26<br>Mar 26</th><th>Q1 FY27<br>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>440</td><td>487</td><td>652</td><td>412</td></tr>
+      <tr><th>YoY growth</th><td>+25%</td><td>+40%</td><td>+43%</td><td>+32%</td></tr>
+      <tr><th>EBITDA</th><td>47</td><td>54</td><td>63</td><td>49</td></tr>
+      <tr><th>EBITDA margin</th><td>10.7%</td><td>11.1%</td><td>9.7%</td><td>11.9%</td></tr>
+      <tr><th>PAT</th><td>33</td><td>39</td><td>42</td><td>29</td></tr>
+      <tr><th>YoY growth</th><td>+43%</td><td>+105%</td><td>+180%</td><td>+53%</td></tr>
+      <tr class="total"><th>Net margin</th><td>7.5%</td><td>8.0%</td><td>6.4%</td><td>7.0%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The business is seasonal: Q4 is the peak and Q1 the trough, so the 37% sequential drop into June is normal. Compare year on year. On that basis Q1 was solid, with revenue up 32% and margin up 1.6 points. Interest stayed at ₹14 cr, against ₹11 cr a year earlier. Q2 FY27 results are due after the trading window reopens; it closed on 1 October.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Aug 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>10 schemes</strong> from 6 fund houses hold 38.6 lakh shares, about <strong>3.4%</strong> of equity, worth ₹264 cr at ₹685.50. August was a mild net sale of −2.4 lakh shares: three bought and seven sold. TrustMF Small Cap exited completely (−2.27 lakh shares), Navi trimmed all three of its schemes, and JM ELSS opened a new position. The September disclosure had not been published at the time of writing.</p>
+  </div>
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Shares</th><th>Value held<br>₹ cr<sup>d</sup></th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th><th>Chg Aug</th></tr></thead>
+    <tbody>
+      <tr><th>Mirae Asset Small Cap</th><td>Small Cap</td><td>17,64,910</td><td>121</td><td>1.89%</td><td>5,720</td><td>unch</td></tr>
+      <tr><th>ITI Small Cap</th><td>Small Cap</td><td>9,44,641</td><td>65</td><td>1.61%</td><td>3,594</td><td class="up">+6,104</td></tr>
+      <tr><th>ITI Multi Cap</th><td>Multi Cap</td><td>3,10,456</td><td>21</td><td>1.23%</td><td>1,546</td><td class="dn">−1,989</td></tr>
+      <tr><th>Motilal Oswal Digital India</th><td>Thematic</td><td>3,04,224</td><td>21</td><td>2.00%</td><td>932</td><td>unch</td></tr>
+      <tr><th>ITI Flexi Cap</th><td>Flexi Cap</td><td>3,02,196</td><td>21</td><td>1.17%</td><td>1,582</td><td class="dn">−2,167</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Holding is concentrated. Mirae Small Cap alone owns 46% of all fund-held shares, and with ITI's three schemes the two houses own 86%. Several of these, Mirae and ITI among them, were named buyers of the promoter's ₹390 block in June. That makes them large holders with a big cushion of profit, and what they do next matters.</div>
+  <details class="fundlist">
+    <summary>Show all 10 schemes holding this stock (plus exits)</summary>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Scheme</th><th>Shares</th><th>% of scheme</th><th>Chg Aug 2026</th></tr></thead>
+      <tbody>
+        <tr><th>Mirae Asset Small Cap Reg Gr</th><td>17,64,910</td><td>1.89%</td><td>unch</td></tr>
+        <tr><th>ITI Small Cap Reg Gr</th><td>9,44,641</td><td>1.61%</td><td class="up">+6,104</td></tr>
+        <tr><th>ITI Multi Cap Reg Gr</th><td>3,10,456</td><td>1.23%</td><td class="dn">−1,989</td></tr>
+        <tr><th>Motilal Oswal Digital India Reg Gr</th><td>3,04,224</td><td>2.00%</td><td>unch</td></tr>
+        <tr><th>ITI Flexi Cap Reg Gr</th><td>3,02,196</td><td>1.17%</td><td class="dn">−2,167</td></tr>
+        <tr><th>TRUSTMF Multi Cap Reg Gr</th><td>1,03,449</td><td>0.78%</td><td class="up">+44,189</td></tr>
+        <tr><th>Navi Flexi Cap Reg Gr</th><td>55,380</td><td>1.14%</td><td class="dn">−23,500</td></tr>
+        <tr><th>JM ELSS Tax Saver Gr</th><td>47,602</td><td>1.17%</td><td class="up">new</td></tr>
+        <tr><th>Navi Large &amp; Mid Cap Reg Gr</th><td>21,500</td><td>0.42%</td><td class="dn">−25,000</td></tr>
+        <tr><th>Navi Aggressive Hybrid Reg Gr</th><td>4,000</td><td>0.21%</td><td class="dn">−18,500</td></tr>
+        <tr><th>TrustMF Small Cap Reg Gr</th><td>exited</td><td>—</td><td class="dn">−2,26,547</td></tr>
+        <tr><th>Motilal Oswal Innovation Opps Reg Gr</th><td>exited</td><td>—</td><td class="dn">−36,980</td></tr>
+        <tr><th>Edelweiss Recently Listed IPO · TrustMF Flexi Cap · TRUSTMF Mid Cap · Motilal Oswal Large Cap</th><td>exited</td><td>—</td><td>exited earlier</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+  <div class="delta"><strong>Own holdings overlap: none.</strong> Your Motilal Oswal Large &amp; Midcap is not a holder. Motilal Oswal Digital India is, but you don't hold it, and Motilal Oswal Large Cap exited earlier.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">30 Sep 26</span><span><strong>Promoter Vidhi S. Khandelwal sells 34,20,345 shares; her holding falls to 8.8%.</strong> That is about 3.0% of equity, roughly ₹235 cr at today's price<sup>d</sup>; the sale price was not found. It was disclosed under the insider-trading code and SAST Reg. 29(2) (filed 1 Oct). Unlike June, this sale was not required by the public-shareholding rules.</span></li>
+    <li><span class="date">24 Sep 26</span><span><strong>20th AGM by video conference.</strong> Members voted on the FY26 accounts, a new secretarial auditor (N N J &amp; Co.) and the related-party resolutions below.</span></li>
+    <li><span class="date">27 Aug 26</span><span><strong>Board approves FY27 related-party limits of up to about ₹2,000 cr</strong> with Electronics Bazaar FZC (UAE, up to ₹820 cr), Bright World Technologies Inc. (US, up to ₹700 cr) and Kay Kay Overseas Corp. (up to ₹500 cr), all wholly owned. It also approved promoter personal guarantees of up to ₹200 cr each. The board reissued the outcome on 28 Aug to clarify the group structure. Ajay Pancholi was reappointed as a non-executive director.</span></li>
+    <li><span class="date">30 Jul 26</span><span><strong>Q1 FY27: revenue ₹412 cr (+32%), PAT ₹28.9 cr (+56%), EBITDA margin 11.9%.</strong> FY27 growth guidance was raised to 30% from 25%. Motilal reiterated Buy, ₹700.</span></li>
+    <li><span class="date">01 Jul 26</span><span><strong>Nationwide distribution agreement with Redington</strong> for Electronics Bazaar refurbished PCs. This follows the Ingram Micro and Supertron deals in February and widens retail reach into tier-2 and tier-3 towns.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — every disclosure since listing</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoter</th><td>78.71</td><td>78.71</td><td>78.71</td><td class="dn">74.78</td><td class="dn">~71.8<sup>d</sup></td></tr>
+      <tr><th>FII</th><td>3.42</td><td>2.41</td><td>2.78</td><td>5.27</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>DII</th><td>4.62</td><td>4.67</td><td>5.20</td><td>6.82</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>Public / other</th><td>13.26</td><td>14.21</td><td>13.33</td><td>13.13</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>55,550</td><td>54,579</td><td>49,026</td><td>53,228</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta">The stock listed on 30 Jul 2025, so there are four filed disclosures. The Sep 26 promoter figure is derived: 74.78% less the 3.00% sold on 30 September. The full pattern was not yet posted. The direction is plain. Promoters have gone from 78.7% to about 71.8% in four months, while FIIs (Goldman Sachs bought in the June block) and DIIs absorbed the stock. Pledge: <span style="color:var(--ink3)">n/a</span>, no disclosure was found.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Shares outstanding</span><span class="v">11.39 cr</span></div>
+    <div><span class="k">Auditor</span><span class="v" style="font-size:.86rem"><span style="color:var(--ink3)">n/a</span></span></div>
+    <div><span class="k">IPO (Jul 2025)</span><span class="v" style="font-size:.86rem">₹237 · ₹400 cr fresh + ₹60 cr OFS</span></div>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Promoter</div><div class="nm">Sharad Khandelwal</div>Founder. He gives a personal guarantee of up to ₹200 cr under the August resolution, and was a seller in the IPO's offer for sale.</div>
+    <div class="person"><div class="rl">Promoter</div><div class="nm">Vidhi S. Khandelwal</div>Sold 44.9 lakh shares at ₹390 on 11 Jun 2026 to meet the public-shareholding norm, then another 34.2 lakh on 30 Sep 2026. Her holding is now 8.8%. She also gives a guarantee of up to ₹200 cr.</div>
+    <div class="person"><div class="rl">Promoter entity</div><div class="nm">Amiable Electronics Pvt. Ltd.</div>Promoter-group company and IPO offer-for-sale seller.</div>
+  </div>
+  <h3>Board</h3>
+  <ul>
+    <li><strong>Composition</strong> — <span style="color:var(--ink3)">n/a</span>; the full board list was not retrieved. Ajay Pancholi was reappointed as a non-executive, non-independent director on 27 Aug 2026.</li>
+    <li><strong>Notable</strong> — The large related-party limits, about 1x revenue, are with wholly owned subsidiaries, so they mostly reflect the group's structure rather than leakage to promoters. Even so, they move much of the profit offshore at low tax rates, and they deserve reading in the annual report's related-party note. Two prior related-party resolutions (₹300 cr and ₹250 cr) passed by postal ballot in January 2026 with 97.4% approval.</li>
+  </ul>
+
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>GNG buys used laptops, desktops and other ICT devices in bulk, mostly corporate lease returns sourced overseas. It refurbishes them and resells them under the Electronics Bazaar brand to retail and enterprise buyers in India, the Middle East, Africa and the US. It refurbished about 5.9 lakh devices in FY25. Operating subsidiaries are Electronics Bazaar FZC (UAE), Bright World Technologies (US) and Kay Kay Overseas. The model is trading-heavy. Margin comes from buying well and grading accurately, and inventory is the main asset. That explains both the 10–12% EBITDA margin and the cash it consumes.</p>
+  <h3>Peers</h3>
+  <p>There is no listed pure-play refurbisher in India to compare against. Peer metrics: <span style="color:var(--ink3)">n/a</span>. The nearest listed comparisons are IT distributors such as Redington, which is GNG's own distribution partner. They trade at much lower multiples on thinner margins, so they are not like-for-like.</p>
+  <h3>Moat</h3>
+  <p>Modest, and it comes from scale. Global sourcing relationships for lease-return devices, a grading and repair operation at volume, warranty and service capability, and now three national distributors give GNG an edge over the unorganised refurbishers that dominate the category. None of this stops a well-funded entrant or an OEM's own refurbished channel.</p>
+  <h3>Order book</h3>
+  <p>Not a meaningful concept. Sales are run-rate retail and enterprise orders.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Inventory.</strong> 180 days of stock in a category where prices fall as technology ages. A slowdown in sell-through, or a fall in used-device prices, would lead to write-downs. Operating cash flow is already −₹215 cr. At 55x earnings, an inventory charge would hit both earnings and the multiple.</div>
+  <ul>
+    <li><strong>Promoter selling.</strong> Two sales in four months. The second was optional, at about 1.8x the June price.</li>
+    <li><strong>Offshore profit and tax.</strong> The low effective tax rate depends on the UAE structure. Q1's 19% suggests it is already rising.</li>
+    <li><strong>Related-party scale.</strong> Limits of about ₹2,000 cr between group entities, plus promoter guarantees backing borrowings.</li>
+    <li><strong>Concentrated fund ownership.</strong> Two fund houses hold 86% of fund-held shares, so an exit by either would be felt.</li>
+    <li><strong>Import and e-waste rules.</strong> Government policy on importing used electronics could change sourcing economics.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> positive operating cash flow for FY27, with inventory days back below 130 and no further promoter sales for two quarters. Alternatively, a price near 30x forward earnings, about ₹450.</li>
+    <li><strong>Downgrade to Sell:</strong> another promoter sale, an inventory write-down, or H1 FY27 growth falling below the 30% guidance with margin back under 10%.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in: consolidated P&amp;L, balance sheet, cash flow, ratios, shareholding, and exchange-announcement summaries, including the 30 Sep 2026 insider-trading disclosure (fetched 11 Oct 2026).</li>
+    <li>Trendlyne: monthly mutual-fund holdings, <strong>Aug 2026 disclosure</strong> (September not yet published), and the broker research-report list (Motilal Oswal, 30 Jul 2026).</li>
+    <li>DSIJ, 28 Aug 2026: board outcome on related-party limits and promoter guarantees. DSIJ, 30 Jul 2026: Motilal Oswal Q1 note.</li>
+    <li>Business Today, Angel One and others, 11–12 Jun 2026: the promoter block of 44.87 lakh shares at ₹390, with named buyers.</li>
+    <li>Q1 FY27 coverage (Sahi, MarketsMojo, Multibagg), Jul–Aug 2026: guidance raised to 30%.</li>
+    <li>IPO terms (Geojit, Business Standard): ₹237 issue price, ₹400 cr fresh issue, ₹60 cr OFS, listed 30 Jul 2025. NSE symbol EBGNG, BSE 544455.</li>
+    <li>Yahoo Finance (EBGNG.NS): price on 9 Oct 2026 and 6-month average volume and turnover over 124 sessions.</li>
+    <li>Knowledge base: @TheAlpha10X tweet, 20 Sep 2026 ("63 Stock: High Growth + High Quality").</li>
+  </ul>
+
+  <div class="foot">Generated 11 Oct 2026 · Price basis ₹685.50 (NSE close, 9 Oct 2026) · ⚠ verify: forward EPS and P/E are this note's own arithmetic from guidance, not a broker estimate; Sep-26 promoter % derived from the 30 Sep sale; sale price of the 30 Sep block not found; board composition and auditor not retrieved; P/BV, net debt, fund value held and scheme AUM derived <sup>d</sup>. Not investment advice.</div>
+</div>
+</body>
+</html>
