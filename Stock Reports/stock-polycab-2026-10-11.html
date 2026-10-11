@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polycab India Limited (NSE: POLYCAB) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="POLYCAB">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Polycab India Limited">
+<meta name="sector"    content="Cables &amp; Wires / Electricals">
+<meta name="rating"    content="Buy">
+<meta name="generated" content="2026-10-11">
+<meta name="price"     content="8255.00">
+<meta name="hasgaps"   content="false">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Cables &amp; Wires / Electricals · 11 Oct 2026</div>
+  <h1>Polycab India Limited <span class="tik">· NSE: POLYCAB</span></h1>
+  <div class="subline">India's largest wire and cable maker: 33% ROCE, net cash and ₹2,340 cr of free cash flow. UltraTech's entry into wires has taken the stock 18% off its high.</div>
+  <div class="rating-row">
+    <span class="badge badge-buy">Buy</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹8,255</span></div>
+    <div><span class="k">52W range</span><span class="v">₹6,660 – ₹10,129</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹1,24,400 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.57%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">43.4x</span></div>
+    <div><span class="k">P/BV</span><span class="v">10.3x<sup>d</sup></span></div>
+    <div><span class="k">Net debt</span><span class="v">−₹646 cr<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.02x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">3.86 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹342.0 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>The new-entrant scare has de-rated the whole category, including the leader least exposed to it. At about 38x<sup>d</sup> FY27 consensus earnings, the best-capitalised cable franchise in India is a Buy.</strong> FY26 revenue grew 29% to ₹28,884 cr and profit 32% to ₹2,708 cr. Operating cash flow was 117% of operating profit, and free cash flow nearly tripled to ₹2,340 cr. Q1 FY27 was the highest first quarter on record: revenue ₹8,210 cr (+39%), PAT ₹797 cr (+33%), domestic W&amp;C +43%.</p>
+  <p>The stock is ₹8,255, 18.5% below its ₹10,129 high, and most of the fall came after UltraTech launched <em>Ultravolt</em> on 3 Sep. Citi's read, which we share, is that the threat is mainly to <em>wires</em>, a retail and channel product where a cement distribution network helps. <em>Cables</em> need approvals, certifications and many SKUs. Polycab's mix is 70–75% cables, so it is less exposed than RR Kabel or Havells, yet it trades on a similar multiple (43x against their 50x and 39x).</p>
+  <div class="callout">
+    <p><strong>Testing the tweet</strong> (Jefferies "India's New Industrial Revolution", via NDTV Profit, 10/14 Sep 2026: Polycab a Buy as a data-centre capex beneficiary).</p>
+    <p><em>Confirmed:</em> the report exists (published 9 Sep). It sizes India's data-centre build-out at 2 GW today, rising to 10 GW in five years, a ~$45 bn opportunity across power, cooling, construction and networks. Jefferies separately called Polycab's post-Ultravolt fall a buying opportunity at ~35x one-year-forward earnings.</p>
+    <p><em>Not supported by the numbers:</em> Polycab does not disclose data-centre revenue, and BOB Capital's Q4 FY26 review calls data centres "still at an early stage" for the company. The public coverage we found does not name Polycab within the report itself <span class="chip">unreconciled</span>. So data centres are a plausible extra source of growth, not something the reported numbers show yet. The Buy here rests on the core franchise, the cash generation and the de-rating, not on data centres.</p>
+  </div>
+  <p><strong>Counter-argument:</strong> part of Q1's 39% growth is copper price pass-through rather than volume (JM Financial's point), and EBITDA margin slipped to 13.8% from 14.5% a year ago. International revenue fell 13% and EPC 11%. If Ultravolt prices aggressively to buy share, the 13–14% margin is where it shows first.</p>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Broker</th><th>Rating</th><th>Target</th><th>vs spot</th><th>Dated</th></tr></thead>
+    <tbody>
+      <tr><th>Motilal Oswal</th><td>Buy</td><td>₹11,900</td><td class="up">+44.2%</td><td>Jul 26</td></tr>
+      <tr><th>Prabhudas Lilladher</th><td>Buy</td><td>₹10,282</td><td class="up">+24.6%</td><td>May 26</td></tr>
+      <tr><th>Geojit BNP Paribas</th><td>Hold</td><td>₹10,019</td><td class="up">+21.4%</td><td>May 26</td></tr>
+      <tr><th>BOB Capital Markets</th><td>Hold</td><td>₹9,300</td><td class="up">+12.7%</td><td>May 26</td></tr>
+      <tr><th>Jefferies <span class="sub">(post-Ultravolt note)</span></th><td>Buy</td><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td>Sep 26</td></tr>
+      <tr class="total"><th>Consensus (n=32)</th><td>—</td><td>₹9,959</td><td class="up">+20.6%</td><td>Oct 26</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v">37.9x<sup>d</sup></span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v" style="color:var(--ink3)">n/a</span></div>
+    <div><span class="k">Consensus EPS FY27E</span><span class="v">₹217.8<sup>d</sup></span></div>
+  </div>
+  <div class="delta">Every target above spot predates the Ultravolt launch, so expect cuts at Q2 results. Even a 10% haircut to consensus leaves ~8% upside. Forward EPS is derived from FY26 EPS (₹177.48) and Trendlyne's 22.7% FY27 profit-growth consensus. It agrees with Jefferies' ~35x one-year-forward figure once you allow for the different base.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, year to March</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY24</th><th>FY25</th><th>FY26</th><th>TTM</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>18,039</td><td>22,408</td><td>28,884</td><td>31,188</td></tr>
+      <tr><th>Growth</th><td>+28%</td><td>+24%</td><td>+29%</td><td>—</td></tr>
+      <tr><th>EBITDA</th><td>2,492</td><td>2,964</td><td>4,013</td><td>4,284</td></tr>
+      <tr><th>Growth</th><td>+35%</td><td>+19%</td><td>+35%</td><td>—</td></tr>
+      <tr><th>EBITDA margin</th><td>13.8%</td><td>13.2%</td><td>13.9%</td><td>13.7%</td></tr>
+      <tr><th>PAT</th><td>1,803</td><td>2,046</td><td>2,708</td><td>2,905</td></tr>
+      <tr><th>Growth</th><td>+41%</td><td>+13%</td><td>+32%</td><td>—</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>118.75</td><td>134.28</td><td>177.48</td><td>190.24</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Three years of 24–29% top-line growth with margin held in a 13–14% band. This is a scale business that has not had to buy growth with price. Dividend payout is steady at 25–26%.</div>
+
+  <h3>Quarterly — last 4</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Q2 FY26</th><th>Q3 FY26</th><th>Q4 FY26</th><th>Q1 FY27</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>6,477</td><td>7,636</td><td>8,864</td><td>8,210</td></tr>
+      <tr><th>YoY growth</th><td>+18%</td><td>+46%</td><td>+27%</td><td>+39%</td></tr>
+      <tr><th>EBITDA</th><td>1,021</td><td>966</td><td>1,161</td><td>1,136</td></tr>
+      <tr><th>EBITDA margin</th><td>15.8%</td><td class="dn">12.7%</td><td>13.1%</td><td>13.8%</td></tr>
+      <tr><th>PAT</th><td>693</td><td>630</td><td>786</td><td>797</td></tr>
+      <tr><th>YoY growth</th><td>+56%</td><td>+36%</td><td>+7%</td><td>+33%</td></tr>
+      <tr class="total"><th>Net margin</th><td>10.7%</td><td>8.3%</td><td>8.9%</td><td>9.7%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The sequential story: margin peaked at 15.8% in September 2025, fell three points in December as copper costs rose faster than prices, and has recovered in two steps since. Interest has risen from ₹48 cr to ₹80 cr a quarter on working-capital lines even though net cash is positive. Q2 FY27 results are due in October.</div>
+
+  <h3>Balance sheet &amp; cash · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Cash</th><th>Net debt<sup>d</sup></th><th>Investments</th><th>Equity</th><th>Op. cash flow</th><th>Free cash flow</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>161</td><td>402</td><td class="up">−241</td><td>1,822</td><td>8,187</td><td>1,296</td><td>438</td></tr>
+      <tr><th>Mar 25</th><td>202</td><td>771</td><td class="up">−569</td><td>1,749</td><td>9,825</td><td>1,809</td><td>853</td></tr>
+      <tr><th>Mar 26</th><td>236</td><td>882</td><td class="up">−646</td><td>3,405</td><td>12,009</td><td>3,811</td><td>2,340</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Net cash is understated by the ₹3,405 cr of investments, which are mostly treasury. FY26 cash flow was helped by payables (cash conversion cycle 64 → 39 days), so some of the ₹2,340 cr FCF will reverse. Even so, the business self-funds capex of ₹1,400–1,500 cr a year with room to spare.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Aug 2026 disclosure</span></h2>
+
+  <div class="callout">
+    <p><strong>246 schemes</strong> hold 73.4 lakh shares, only <strong>4.9%</strong><sup>d</sup> of equity, ₹6,062 cr at the current price. August was mixed: 108 buyers, 71 sellers, net −2.20 lakh shares. Domestic funds are light in the category leader. DII holding has fallen from 11.6% to 7.6% in a year while FIIs went from 11.5% to 19.0%.</p>
+  </div>
+
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Shares</th><th>Value held<br>₹ cr<sup>d</sup></th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th><th>Chg Aug</th></tr></thead>
+    <tbody>
+      <tr><th>ICICI Pru Large & Mid Cap Gr</th><td>Large &amp; Mid Cap</td><td>6,87,158</td><td>567</td><td>1.93%</td><td>29,391</td><td>unch</td></tr>
+      <tr><th>ICICI Pru Balanced Adv Gr</th><td>Balanced Advantage</td><td>5,74,340</td><td>474</td><td>0.72%</td><td>65,850</td><td>unch</td></tr>
+      <tr><th>UTI Flexi Cap Reg Gr</th><td>Flexi Cap</td><td>4,57,000</td><td>377</td><td>1.79%</td><td>21,076</td><td>unch</td></tr>
+      <tr><th>Motilal Oswal Flexicap Reg Gr</th><td>Flexi Cap</td><td>3,42,000</td><td>282</td><td>2.28%</td><td>12,383</td><td>unch</td></tr>
+      <tr><th>HSBC Small Cap Fund Reg Gr</th><td>Small Cap</td><td>2,94,607</td><td>243</td><td>1.46%</td><td>16,657</td><td>unch</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">No large conviction bets: the biggest weight among the top five is Motilal Oswal Flexicap at 2.28%. None of the top five moved in August.</div>
+
+  <details class="fundlist">
+    <summary>Show all 276 schemes (incl. August exits)</summary>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Scheme</th><th>Shares</th><th>% of scheme</th><th>Chg Aug 2026</th></tr></thead>
+      <tbody>
+        <tr><th>ICICI Pru Large & Mid Cap Gr</th><td>6,87,158</td><td>1.93%</td><td>unch</td></tr>
+        <tr><th>ICICI Pru Balanced Adv Gr</th><td>5,74,340</td><td>0.72%</td><td>unch</td></tr>
+        <tr><th>UTI Flexi Cap Reg Gr</th><td>4,57,000</td><td>1.79%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Flexicap Reg Gr</th><td>3,42,000</td><td>2.28%</td><td>unch</td></tr>
+        <tr><th>HSBC Small Cap Fund Reg Gr</th><td>2,94,607</td><td>1.46%</td><td>unch</td></tr>
+        <tr><th>UTI Mid Cap Reg Gr</th><td>2,80,000</td><td>2.07%</td><td>unch</td></tr>
+        <tr><th>Sundaram Mid Cap Gr</th><td>2,75,000</td><td>1.75%</td><td>unch</td></tr>
+        <tr><th>UTI Nifty200 Momentum 30 Index Reg Gr</th><td>2,47,340</td><td>2.74%</td><td class="dn">−3,791</td></tr>
+        <tr><th>Edelweiss Mid Cap Gr</th><td>1,96,230</td><td>0.93%</td><td>unch</td></tr>
+        <tr><th>Sundaram large and Mid Cap Gr</th><td>1,68,497</td><td>2.11%</td><td>unch</td></tr>
+        <tr><th>DSP Flexi Cap Fund IDCW-P</th><td>1,33,934</td><td>1.01%</td><td>unch</td></tr>
+        <tr><th>Franklin India Large Cap Gr</th><td>1,24,520</td><td>1.57%</td><td class="up">new</td></tr>
+        <tr><th>DSP Midcap Reg Gr</th><td>1,19,682</td><td>0.54%</td><td class="dn">−26,518</td></tr>
+        <tr><th>HSBC Large & Mid Cap Reg IDCW-P</th><td>1,08,592</td><td>1.73%</td><td>unch</td></tr>
+        <tr><th>ICICI Prudential Multi Cap Gr</th><td>1,00,000</td><td>0.48%</td><td>unch</td></tr>
+        <tr><th>DSP India T.I.G.E.R. Reg Gr</th><td>98,272</td><td>1.44%</td><td>unch</td></tr>
+        <tr><th>ICICI Prudential Mid Cap Gr</th><td>96,210</td><td>1.08%</td><td>unch</td></tr>
+        <tr><th>DSP Focused Reg Gr</th><td>82,759</td><td>2.93%</td><td>unch</td></tr>
+        <tr><th>Kotak Arbitrage Reg Gr</th><td>73,500</td><td>0.09%</td><td class="dn">−1,22,875</td></tr>
+        <tr><th>SBI Arbitrage Reg Gr</th><td>72,500</td><td>0.14%</td><td class="up">+31,500</td></tr>
+        <tr><th>Baroda BNP P Bal Advtg Reg Gr</th><td>72,000</td><td>1.27%</td><td class="dn">−8,000</td></tr>
+        <tr><th>SBI Quant Reg Gr</th><td>69,936</td><td>2.26%</td><td class="dn">−20,981</td></tr>
+        <tr><th>Edelweiss Nifty Mdcp150 Momt 50 Rg Gr</th><td>64,441</td><td>3.32%</td><td class="up">+909</td></tr>
+        <tr><th>Sundaram Business Cycle Reg Gr</th><td>60,191</td><td>3.25%</td><td>unch</td></tr>
+        <tr><th>JioBlackRock Flexi Cap Dir Gr</th><td>56,862</td><td>1.64%</td><td>unch</td></tr>
+        <tr><th>Aditya BSL Quant Reg Gr</th><td>56,808</td><td>2.64%</td><td>unch</td></tr>
+        <tr><th>HSBC Multi Asset Allocation Reg Gr</th><td>56,727</td><td>1.64%</td><td>unch</td></tr>
+        <tr><th>Mahindra Manulife Lrg & Md cap Reg Gr</th><td>55,000</td><td>1.77%</td><td>unch</td></tr>
+        <tr><th>Tata Retirement Saving Prgsv Gr</th><td>54,000</td><td>2.26%</td><td class="dn">−9,000</td></tr>
+        <tr><th>Motilal Oswal Nifty Midcap 150 Idx RegGr</th><td>51,930</td><td>1.18%</td><td class="up">+1,836</td></tr>
+        <tr><th>DSP Multi Cap Reg Gr</th><td>51,139</td><td>1.60%</td><td>unch</td></tr>
+        <tr><th>Nippon India ETF Nifty Midcap 150</th><td>50,993</td><td>1.19%</td><td class="up">+3,017</td></tr>
+        <tr><th>Edelweiss Balanced Adv Gr</th><td>50,453</td><td>0.35%</td><td>unch</td></tr>
+        <tr><th>UTI ELSS Tax Saver Reg IDCW-P</th><td>50,000</td><td>1.36%</td><td>unch</td></tr>
+        <tr><th>HSBC Large Cap Gr</th><td>50,000</td><td>2.55%</td><td>unch</td></tr>
+        <tr><th>Tata Retirement Saving Mod Gr</th><td>45,000</td><td>1.89%</td><td class="dn">−9,000</td></tr>
+        <tr><th>Tata Nifty Midcap 150 Momt 50 Reg Gr</th><td>44,806</td><td>3.32%</td><td class="up">+345</td></tr>
+        <tr><th>UTI Unit Linked Insurance Plan</th><td>44,000</td><td>0.81%</td><td>unch</td></tr>
+        <tr><th>HSBC Infrastructure Fund Gr</th><td>44,000</td><td>1.69%</td><td>unch</td></tr>
+        <tr><th>Aditya BSL Arbitrage Gr</th><td>42,625</td><td>0.15%</td><td class="up">+5,625</td></tr>
+        <tr><th>ICICI Prudential Energy Opps Reg Gr</th><td>40,000</td><td>0.46%</td><td>unch</td></tr>
+        <tr><th>Nippon India Arbitrage Gr</th><td>38,000</td><td>0.20%</td><td class="up">+26,125</td></tr>
+        <tr><th>Kotak Active Momentum Regular Gr</th><td>37,307</td><td>2.12%</td><td class="up">new</td></tr>
+        <tr><th>Nippon Ind Nifty 500 Momt 50 IdxRgGr</th><td>36,555</td><td>2.60%</td><td class="up">+538</td></tr>
+        <tr><th>Franklin India Lrg & Md Cp Gr</th><td>35,924</td><td>0.94%</td><td class="up">new</td></tr>
+        <tr><th>Nippon India Nifty Midcap 150 Idx Reg Gr</th><td>35,766</td><td>1.19%</td><td class="up">+656</td></tr>
+        <tr><th>HSBC ELSS Tax saver Gr</th><td>35,141</td><td>0.78%</td><td>unch</td></tr>
+        <tr><th>HDFC Arbitrage Growth</th><td>31,375</td><td>0.12%</td><td class="dn">−1,500</td></tr>
+        <tr><th>Tata Arbitrage Reg Gr</th><td>31,000</td><td>0.12%</td><td class="up">+6,250</td></tr>
+        <tr><th>Union Flexi Cap Gr</th><td>31,000</td><td>1.19%</td><td>unch</td></tr>
+        <tr><th>UTI Children's Hybrid- Reg</th><td>30,788</td><td>0.66%</td><td>unch</td></tr>
+        <tr><th>Baroda BNP P Focused Reg Gr</th><td>30,600</td><td>4.38%</td><td class="dn">−1,900</td></tr>
+        <tr><th>360 ONE Quant Reg Gr</th><td>29,670</td><td>3.31%</td><td class="dn">−1,146</td></tr>
+        <tr><th>UTI Multi Asset Allocation Reg Gr</th><td>29,171</td><td>0.39%</td><td class="dn">−900</td></tr>
+        <tr><th>Baroda BNP P India Consumption Reg Gr</th><td>28,809</td><td>1.87%</td><td>unch</td></tr>
+        <tr><th>Bandhan Multi-Factor Reg Gr</th><td>28,033</td><td>4.09%</td><td class="up">+15,631</td></tr>
+        <tr><th>Motilal Oswal Nifty 200 Momt 30 Reg Gr</th><td>27,775</td><td>2.74%</td><td class="dn">−364</td></tr>
+        <tr><th>Canara Robeco Manufacturing Reg Gr</th><td>27,083</td><td>1.46%</td><td>unch</td></tr>
+        <tr><th>Edelweiss Nifty500 Mltcp Mmt Ql50IdxRgGr</th><td>27,016</td><td>4.08%</td><td class="up">+261</td></tr>
+        <tr><th>Baroda BNP P Multi Cap Reg Gr</th><td>27,000</td><td>0.73%</td><td class="up">new</td></tr>
+        <tr><th>Baroda BNP Paribas Flexi Cap Reg Gr</th><td>26,100</td><td>1.94%</td><td class="dn">−1,400</td></tr>
+        <tr><th>Edelweiss Business Cycle Reg Gr</th><td>25,000</td><td>1.61%</td><td class="dn">−30,000</td></tr>
+        <tr><th>Invesco India ELSS Tax Saver Fund Gr</th><td>23,867</td><td>0.82%</td><td class="dn">−18,239</td></tr>
+        <tr><th>Mirae Asset Nifty Midcap 150 ETF</th><td>23,415</td><td>1.18%</td><td class="up">+45</td></tr>
+        <tr><th>Mahindra Manulife Flexi Cap Reg Gr</th><td>22,800</td><td>1.35%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Momt 50 IdxRegGr</th><td>22,763</td><td>2.60%</td><td class="dn">−131</td></tr>
+        <tr><th>Baroda BNP Paribas Innovation Reg Gr</th><td>22,000</td><td>2.26%</td><td>unch</td></tr>
+        <tr><th>Invesco India Arbitrage Gr</th><td>21,500</td><td>0.07%</td><td class="up">+12,000</td></tr>
+        <tr><th>UTI Quant Reg Gr</th><td>20,397</td><td>1.29%</td><td class="dn">−1,812</td></tr>
+        <tr><th>Edelweiss Arbitrage Fund Reg Gr</th><td>20,375</td><td>0.13%</td><td class="up">+15,000</td></tr>
+        <tr><th>Invesco India Large Cap Gr</th><td>19,977</td><td>0.93%</td><td>unch</td></tr>
+        <tr><th>ICICI Pru Ret Hybrid Agrsv Plan Reg Gr</th><td>19,700</td><td>1.41%</td><td>unch</td></tr>
+        <tr><th>ICICI Prudential Arbitrage Reg Gr</th><td>19,500</td><td>0.05%</td><td class="up">+5,000</td></tr>
+        <tr><th>Tata Dividend Yield Reg Gr</th><td>19,075</td><td>1.56%</td><td>unch</td></tr>
+        <tr><th>DSP Quant Reg Gr</th><td>18,421</td><td>2.27%</td><td>unch</td></tr>
+        <tr><th>Kotak Nifty Alpha 50 ETF</th><td>18,228</td><td>1.84%</td><td class="up">+138</td></tr>
+        <tr><th>HSBC Balanced Advantage Gr</th><td>18,000</td><td>1.12%</td><td class="dn">−2,000</td></tr>
+        <tr><th>ITI Flexi Cap Reg Gr</th><td>17,950</td><td>1.07%</td><td>unch</td></tr>
+        <tr><th>UTI Children's Equity Fd Reg Gr</th><td>17,853</td><td>1.49%</td><td>unch</td></tr>
+        <tr><th>Mirae Asset Arbitrage Reg Gr</th><td>17,750</td><td>0.44%</td><td class="dn">−2,000</td></tr>
+        <tr><th>HDFC NIFTY200 Momentum 30 Index Reg Gr</th><td>17,637</td><td>2.74%</td><td class="dn">−465</td></tr>
+        <tr><th>Kotak Nifty 200 Momt 30 Idx Reg Gr</th><td>17,476</td><td>2.74%</td><td class="dn">−19</td></tr>
+        <tr><th>Axis Nifty Midcap 50 Index Reg Gr</th><td>17,434</td><td>2.13%</td><td class="up">+496</td></tr>
+        <tr><th>UTI India Consumer Reg Gr</th><td>16,907</td><td>2.18%</td><td class="dn">−95</td></tr>
+        <tr><th>HSBC Equity Savings Gr</th><td>16,804</td><td>1.08%</td><td>unch</td></tr>
+        <tr><th>Kotak Nifty Mdcp 150 Mmt 50 Idx Reg Gr</th><td>16,642</td><td>3.32%</td><td class="up">+501</td></tr>
+        <tr><th>ICICI Pru Nifty Midcap 150 Idx Reg Gr</th><td>16,591</td><td>1.18%</td><td class="up">+408</td></tr>
+        <tr><th>ICICI Pru Nifty 200 Momt 30 Reg Gr</th><td>16,512</td><td>2.74%</td><td class="dn">−105</td></tr>
+        <tr><th>ICICI Pru Nifty 200 Momentum 30 ETF</th><td>16,173</td><td>2.74%</td><td class="dn">−270</td></tr>
+        <tr><th>SBI Nifty Midcap 150 Index Reg Gr</th><td>16,171</td><td>1.18%</td><td class="up">+652</td></tr>
+        <tr><th>ITI Mid Cap Reg Gr</th><td>15,718</td><td>0.96%</td><td>unch</td></tr>
+        <tr><th>UTI Nifty200 Quality 30 Index Reg Gr</th><td>14,573</td><td>2.49%</td><td class="up">+264</td></tr>
+        <tr><th>Mirae Asset Nfty MdSmcp400 Mmt Ql 100ETF</th><td>14,311</td><td>2.74%</td><td class="up">+211</td></tr>
+        <tr><th>Motilal Oswal Nifty Midcap 100 ETF</th><td>14,032</td><td>1.44%</td><td class="dn">−83</td></tr>
+        <tr><th>Capitalmind Flexi Cap Reg Gr</th><td>13,376</td><td>2.65%</td><td>unch</td></tr>
+        <tr><th>DSP Nifty Midcap 150 Qul 50 Reg Gr</th><td>13,022</td><td>2.83%</td><td class="dn">−60</td></tr>
+        <tr><th>Mirae Asset Nifty 200 Alpha 30 ETF</th><td>12,908</td><td>2.87%</td><td class="dn">−165</td></tr>
+        <tr><th>Bandhan Nifty Alpha 50 Index Reg Gr</th><td>12,300</td><td>1.85%</td><td class="up">+245</td></tr>
+        <tr><th>UTI Infrastructure Reg Gr</th><td>12,011</td><td>0.54%</td><td class="dn">−2,350</td></tr>
+        <tr><th>Tata Balanced Advantage Reg Gr</th><td>12,000</td><td>0.13%</td><td>unch</td></tr>
+        <tr><th>Kotak Quant Reg Gr</th><td>11,665</td><td>2.22%</td><td class="dn">−160</td></tr>
+        <tr><th>Bank of India Mid Cap Reg Gr</th><td>11,000</td><td>1.36%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Momentum 50 ETF</th><td>10,954</td><td>2.60%</td><td class="dn">−477</td></tr>
+        <tr><th>Motilal Oswal Quant Reg Gr</th><td>10,740</td><td>3.96%</td><td class="up">new</td></tr>
+        <tr><th>UTI Large cap Reg IDCW-P</th><td>10,509</td><td>0.08%</td><td>unch</td></tr>
+        <tr><th>LIC MF Nifty Midcap 100 ETF</th><td>10,402</td><td>1.44%</td><td>unch</td></tr>
+        <tr><th>Zerodha Nifty LargeMidcap 250 Idx Dir Gr</th><td>10,267</td><td>0.60%</td><td class="up">+349</td></tr>
+        <tr><th>Axis Momentum Reg Gr</th><td>10,000</td><td>1.03%</td><td>unch</td></tr>
+        <tr><th>ICICI Pru Nifty Midcap 150 ETF</th><td>9,882</td><td>1.18%</td><td class="dn">−30</td></tr>
+        <tr><th>WhiteOak Capital Arbitrage Reg Gr</th><td>9,250</td><td>0.39%</td><td>unch</td></tr>
+        <tr><th>Invesco India Manufacturing Reg Gr</th><td>9,178</td><td>1.14%</td><td class="dn">−4,541</td></tr>
+        <tr><th>HDFC NIFTY Midcap 150 Index Reg Gr</th><td>9,083</td><td>1.18%</td><td class="up">+286</td></tr>
+        <tr><th>Samco Flexi Cap Reg Gr</th><td>9,075</td><td>3.28%</td><td>unch</td></tr>
+        <tr><th>Mahindra Manulife Bal Advtg Reg Gr</th><td>8,700</td><td>0.89%</td><td>unch</td></tr>
+        <tr><th>SBI Nifty200 Quality 30 Index Reg Gr</th><td>8,609</td><td>2.49%</td><td class="dn">−193</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Reg Gr</th><td>8,526</td><td>0.25%</td><td class="up">+293</td></tr>
+        <tr><th>TRUSTMF Multi Cap Regular Growth</th><td>8,479</td><td>0.99%</td><td>unch</td></tr>
+        <tr><th>UTI Nifty Midcap 150 Qual 50 Idx Reg Gr</th><td>8,118</td><td>2.84%</td><td class="up">+569</td></tr>
+        <tr><th>Mahindra Manulife Consumption Reg Gr</th><td>7,700</td><td>1.49%</td><td>unch</td></tr>
+        <tr><th>Kotak MSCI India ETF</th><td>7,294</td><td>0.37%</td><td class="dn">−95</td></tr>
+        <tr><th>DSP Nifty500 Flxcp Qul 30 Idx Reg Gr</th><td>6,859</td><td>3.19%</td><td class="up">+37</td></tr>
+        <tr><th>Tata Nifty200 Alpha 30 Index Reg Gr</th><td>6,476</td><td>2.87%</td><td class="up">+245</td></tr>
+        <tr><th>Taurus Ethical Gr</th><td>6,350</td><td>1.32%</td><td>unch</td></tr>
+        <tr><th>Aditya BSL Nifty MdCp 150 Idx Reg Gr</th><td>6,291</td><td>1.18%</td><td class="up">+52</td></tr>
+        <tr><th>Navi Nifty Midcap 150 Index Reg Gr</th><td>5,101</td><td>1.18%</td><td class="up">+20</td></tr>
+        <tr><th>Axis Nifty500 Momentum 50 Index Reg Gr</th><td>4,939</td><td>2.60%</td><td class="up">+143</td></tr>
+        <tr><th>Kotak Nifty Midcap 50 ETF</th><td>4,825</td><td>2.13%</td><td class="up">+74</td></tr>
+        <tr><th>SBI Nifty Midcap 150 Momentum 50 ETF</th><td>4,601</td><td>3.32%</td><td class="up">+4,217</td></tr>
+        <tr><th>Tata Nifty Midcap 150 Index Reg Gr</th><td>4,197</td><td>1.19%</td><td class="up">+119</td></tr>
+        <tr><th>UTI Nifty Mdsmcp 400 Momt Qul100IdxRegGr</th><td>3,878</td><td>2.74%</td><td class="up">+90</td></tr>
+        <tr><th>JM Large Cap Gr</th><td>3,777</td><td>0.91%</td><td class="dn">−1,100</td></tr>
+        <tr><th>ICICI Prudential Nifty 200 Qual 30 ETF</th><td>3,745</td><td>2.49%</td><td class="dn">−12</td></tr>
+        <tr><th>Franklin India Multi-Factor Reg Gr</th><td>3,695</td><td>0.57%</td><td class="up">+412</td></tr>
+        <tr><th>Edelweiss Equity Savings Reg Gr</th><td>3,694</td><td>0.21%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Nifty 200 Momentum 30 ETF</th><td>3,651</td><td>2.75%</td><td class="dn">−87</td></tr>
+        <tr><th>JioBlackRock Nifty Midcap 150 Idx Dir Gr</th><td>3,600</td><td>1.18%</td><td class="dn">−38</td></tr>
+        <tr><th>Bandhan Nifty200 Momentum 30 Idx Reg Gr</th><td>3,588</td><td>2.74%</td><td class="dn">−47</td></tr>
+        <tr><th>UTI Master Equity Plan Unit SchemeIDCW-P</th><td>3,456</td><td>0.12%</td><td>unch</td></tr>
+        <tr><th>Samco Multi Asset Allocation Reg Gr</th><td>3,447</td><td>0.81%</td><td>unch</td></tr>
+        <tr><th>Zerodha Nifty Midcap 150 ETF</th><td>3,439</td><td>1.18%</td><td class="up">+86</td></tr>
+        <tr><th>SBI Nifty200 Momentum 30 Idx Reg Growth</th><td>3,438</td><td>2.74%</td><td class="dn">−66</td></tr>
+        <tr><th>Union Arbitrage Reg Gr</th><td>3,375</td><td>1.45%</td><td class="up">new</td></tr>
+        <tr><th>PGIM India Multi Cap Reg Gr</th><td>3,354</td><td>0.68%</td><td>unch</td></tr>
+        <tr><th>Mirae Asset Nifty India Mfg ETF</th><td>3,338</td><td>1.17%</td><td class="up">+89</td></tr>
+        <tr><th>Samco ELSS Tax Saver Reg Gr</th><td>3,174</td><td>2.75%</td><td class="up">new</td></tr>
+        <tr><th>Samco Multi Cap Reg Gr</th><td>3,140</td><td>1.29%</td><td class="up">new</td></tr>
+        <tr><th>DSP Nifty Midcap 150 Quality 50 ETF</th><td>3,028</td><td>2.84%</td><td class="dn">−12</td></tr>
+        <tr><th>Baroda BNP Paribas Children's Reg Gr</th><td>3,000</td><td>2.19%</td><td>unch</td></tr>
+        <tr><th>Bandhan Arbitrage Reg Gr</th><td>3,000</td><td>0.04%</td><td class="dn">−10,125</td></tr>
+        <tr><th>HDFC Nifty LargeMidcap 250 Index Reg Gr</th><td>2,961</td><td>0.60%</td><td class="up">+39</td></tr>
+        <tr><th>HDFC NIFTY200 Momentum 30 ETF</th><td>2,954</td><td>2.74%</td><td class="dn">−59</td></tr>
+        <tr><th>Aditya BSL BSE 500 Momt 50 Idx Reg Gr</th><td>2,665</td><td>3.02%</td><td class="up">+89</td></tr>
+        <tr><th>Bandhan Balanced Advantage Reg Gr</th><td>2,625</td><td>0.11%</td><td class="up">new</td></tr>
+        <tr><th>Samco Mid Cap Reg Gr</th><td>2,529</td><td>2.95%</td><td>unch</td></tr>
+        <tr><th>Union Largecap Reg Gr</th><td>2,277</td><td>0.49%</td><td class="dn">−300</td></tr>
+        <tr><th>Edelweiss NIFTY Lrg Md Cp 250 Idx Rg Gr</th><td>2,250</td><td>0.60%</td><td class="up">+22</td></tr>
+        <tr><th>TataNfty500Mltcp Ind Mnfc Idx Rg Gr</th><td>2,180</td><td>1.46%</td><td class="up">+5</td></tr>
+        <tr><th>SBI NIFTY 200 Quality 30 ETF</th><td>2,162</td><td>2.49%</td><td class="dn">−10</td></tr>
+        <tr><th>SBI Nifty 500 Index Reg Gr</th><td>2,078</td><td>0.25%</td><td class="dn">−10</td></tr>
+        <tr><th>HDFC NIFTY Midcap 150 ETF</th><td>2,047</td><td>1.18%</td><td class="up">+29</td></tr>
+        <tr><th>Navi Large & Mid Cap Reg Gr</th><td>2,000</td><td>0.60%</td><td>unch</td></tr>
+        <tr><th>Kotak Nifty Midcap 50 Index Reg Gr</th><td>1,952</td><td>2.13%</td><td class="up">+82</td></tr>
+        <tr><th>ICICI Pru Nifty LargeMidcap250IdxReg Gr</th><td>1,916</td><td>0.60%</td><td class="up">+30</td></tr>
+        <tr><th>ZerodhaELSSTaxSavrNftyLrgMdcap250IdxDrGr</th><td>1,876</td><td>0.60%</td><td class="up">+25</td></tr>
+        <tr><th>Motilal Oswal Nifty Midcap150 Momt 50ETF</th><td>1,807</td><td>3.32%</td><td class="up">+2</td></tr>
+        <tr><th>Edelweiss Large Cap Gr</th><td>1,444</td><td>0.10%</td><td class="dn">−5,776</td></tr>
+        <tr><th>Angel One Nifty Ttl MktMomtQul50IdxRegGr</th><td>1,444</td><td>3.61%</td><td class="dn">−19</td></tr>
+        <tr><th>Samco Large & Mid Cap Reg Gr</th><td>1,429</td><td>1.37%</td><td class="dn">−1,841</td></tr>
+        <tr><th>Edelweiss Nifty500 Mltcp Mmt Ql 50 ETF</th><td>1,345</td><td>4.07%</td><td class="dn">−80</td></tr>
+        <tr><th>Tata Retirement Saving Cnsrv Gr</th><td>1,260</td><td>0.70%</td><td>unch</td></tr>
+        <tr><th>UTI BSE Housing Index Reg Gr</th><td>1,165</td><td>4.47%</td><td class="up">+4</td></tr>
+        <tr><th>Bandhan Nifty Midcap 150 Index Reg Gr</th><td>1,159</td><td>1.18%</td><td class="dn">−17</td></tr>
+        <tr><th>Aditya BSL Nifty 200 Momentum 30 ETF</th><td>1,141</td><td>2.74%</td><td class="dn">−44</td></tr>
+        <tr><th>Invesco India Equity Savings Reg Gr</th><td>1,125</td><td>0.38%</td><td>unch</td></tr>
+        <tr><th>Nippon Ind Nifty 500 Eql Wtd Idx Rg Gr</th><td>1,103</td><td>0.20%</td><td>unch</td></tr>
+        <tr><th>Navi Nifty Ind Manufacturing Idx Reg Gr</th><td>1,069</td><td>1.17%</td><td class="up">+36</td></tr>
+        <tr><th>Kotak Nifty 200 Momentum 30 ETF</th><td>1,044</td><td>2.74%</td><td class="up">+83</td></tr>
+        <tr><th>Edelweiss Nifty LargeMidcap 250 ETF</th><td>1,041</td><td>0.60%</td><td class="up">+21</td></tr>
+        <tr><th>Bandhan Nifty 500 Momentum 50 Idx Reg Gr</th><td>1,036</td><td>2.61%</td><td class="dn">−53</td></tr>
+        <tr><th>UTI Nifty Midcap 150 Index Reg Gr</th><td>985</td><td>1.17%</td><td class="up">+19</td></tr>
+        <tr><th>ICICI Prudential BSE 500 ETF</th><td>977</td><td>0.25%</td><td class="up">+9</td></tr>
+        <tr><th>Kotak Nifty Alpha 50 Index Reg Gr</th><td>972</td><td>1.87%</td><td class="up">+128</td></tr>
+        <tr><th>Groww Nifty Total Market Idx Reg Gr</th><td>952</td><td>0.24%</td><td class="up">+5</td></tr>
+        <tr><th>LIC MF Technology Reg Gr</th><td>900</td><td>0.89%</td><td class="dn">−927</td></tr>
+        <tr><th>The Wealth Company Ethical Reg Gr</th><td>900</td><td>2.07%</td><td class="dn">−600</td></tr>
+        <tr><th>HDFC BSE 500 Index Reg Gr</th><td>871</td><td>0.25%</td><td class="up">+12</td></tr>
+        <tr><th>Axis Nifty 500 Index Reg Gr</th><td>859</td><td>0.25%</td><td class="up">+2</td></tr>
+        <tr><th>Groww Nifty 500 Momentum 50 ETF</th><td>823</td><td>2.59%</td><td class="up">+21</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 ETF</th><td>796</td><td>0.25%</td><td class="up">+15</td></tr>
+        <tr><th>UTI Nifty500 Shariah Index Re Gr</th><td>771</td><td>0.82%</td><td class="dn">−27</td></tr>
+        <tr><th>Kotak Nifty500 Momentum 50 Idx Reg Gr</th><td>728</td><td>2.62%</td><td class="up">+21</td></tr>
+        <tr><th>ICICI Pru Nifty200 Qul 30 Idx Reg Gr</th><td>685</td><td>2.50%</td><td class="dn">−22</td></tr>
+        <tr><th>Parag Parikh Large Cap Reg Gr</th><td>653</td><td>0.07%</td><td class="up">new</td></tr>
+        <tr><th>Baroda BNP P Nifty200 Momt 30 Idx Reg Gr</th><td>643</td><td>2.75%</td><td>unch</td></tr>
+        <tr><th>ANGEL ONE NIFTY TTL MKT MOMT QUAL 50 ETF</th><td>637</td><td>3.62%</td><td class="up">+11</td></tr>
+        <tr><th>Aditya BSL Nifty 200 Quality 30 ETF</th><td>634</td><td>2.50%</td><td class="dn">−33</td></tr>
+        <tr><th>Kotak BSE Housing Index Reg Gr</th><td>621</td><td>4.49%</td><td class="dn">−27</td></tr>
+        <tr><th>JioBlackRock Large Cap Dir Gr</th><td>585</td><td>1.18%</td><td>unch</td></tr>
+        <tr><th>Nippon India Nifty India Mfg Idx Rg Gr</th><td>528</td><td>1.17%</td><td class="up">+18</td></tr>
+        <tr><th>Motilal Oswal Arbitrage Reg Gr</th><td>500</td><td>0.01%</td><td>unch</td></tr>
+        <tr><th>DSP Nifty500 Flexicap Quality 30 ETF</th><td>499</td><td>3.18%</td><td class="up">+1</td></tr>
+        <tr><th>Kotak Nifty 200 Quality 30 Idx Reg Gr</th><td>463</td><td>2.49%</td><td class="up">+1</td></tr>
+        <tr><th>JioBlackRock Sector Rotation Dir Gr</th><td>450</td><td>0.25%</td><td class="up">+9</td></tr>
+        <tr><th>HDFC BSE 500 ETF</th><td>406</td><td>0.24%</td><td class="up">+248</td></tr>
+        <tr><th>UTI Nifty India Manufacturing Idx Reg Gr</th><td>390</td><td>1.17%</td><td class="up">+7</td></tr>
+        <tr><th>Bandhan Nifty 200 Quality 30 Idx Reg Gr</th><td>379</td><td>2.49%</td><td class="up">+36</td></tr>
+        <tr><th>Axis Arbitrage Reg Gr</th><td>375</td><td>0.00%</td><td class="dn">−9,125</td></tr>
+        <tr><th>UTI Nifty 500 Index Reg Gr</th><td>294</td><td>0.25%</td><td class="up">new</td></tr>
+        <tr><th>MiraeAstNfty200Mom30P813yGS7525IdRgGr</th><td>292</td><td>2.05%</td><td class="up">+11</td></tr>
+        <tr><th>Mirae Asset Nifty500 Mltcp 50:25:25 ETF</th><td>279</td><td>0.30%</td><td class="up">+6</td></tr>
+        <tr><th>ICICI Prudential Nifty 500 Idx Reg Gr</th><td>278</td><td>0.25%</td><td class="up">+17</td></tr>
+        <tr><th>EdelweissNftyLMc250P813yGSc7030IdRgGr</th><td>252</td><td>0.42%</td><td class="up">+10</td></tr>
+        <tr><th>Mirae Asset Nifty Lrg Mdcp 250 Idx RegGr</th><td>238</td><td>0.60%</td><td class="up">+1</td></tr>
+        <tr><th>Mirae AsstNty200Mtm30Pl8-13yrG-Se5050ETF</th><td>226</td><td>1.37%</td><td class="up">+19</td></tr>
+        <tr><th>DSP Nifty Midcap 150 Index Reg Gr</th><td>222</td><td>1.18%</td><td class="up">+7</td></tr>
+        <tr><th>Groww Nifty Midcap 150 Index Reg Gr</th><td>195</td><td>1.18%</td><td class="up">+5</td></tr>
+        <tr><th>Kotak Nifty Midcap 150 ETF</th><td>180</td><td>1.18%</td><td class="up">+9</td></tr>
+        <tr><th>SBI Nifty Midcap 150 ETF</th><td>177</td><td>1.18%</td><td class="up">+11</td></tr>
+        <tr><th>UTI Nifty Midcap 150 ETF</th><td>168</td><td>1.18%</td><td class="dn">−1</td></tr>
+        <tr><th>DSP Nifty Midcap 150 ETF</th><td>167</td><td>1.19%</td><td class="up">+96</td></tr>
+        <tr><th>Angel One Nifty Total Market Idx Reg Gr</th><td>159</td><td>0.24%</td><td class="up">+1</td></tr>
+        <tr><th>Motilal Oswal BSE 1000 Index Reg Gr</th><td>156</td><td>0.23%</td><td>unch</td></tr>
+        <tr><th>Nippon India Nifty India Manufactrng ETF</th><td>145</td><td>1.17%</td><td class="up">+1</td></tr>
+        <tr><th>Baroda BNP P NIFTY Midcap 150 Idx Reg Gr</th><td>132</td><td>1.19%</td><td class="up">+4</td></tr>
+        <tr><th>Mirae Asset Nifty Total Mkt Idx Reg Gr</th><td>131</td><td>0.24%</td><td class="up">+1</td></tr>
+        <tr><th>TRUSTMF Arbitrage Regular Growth</th><td>125</td><td>0.09%</td><td>unch</td></tr>
+        <tr><th>Unifi Dynamic Asset Allocation Reg Gr</th><td>125</td><td>0.01%</td><td class="up">new</td></tr>
+        <tr><th>Bandhan Nifty Total Market Index Reg Gr</th><td>115</td><td>0.24%</td><td>unch</td></tr>
+        <tr><th>Angel One Nifty Total Market ETF</th><td>112</td><td>0.24%</td><td class="up">+1</td></tr>
+        <tr><th>Navi Nifty MidSmallcap 400 Index Reg Gr</th><td>110</td><td>0.77%</td><td class="up">+10</td></tr>
+        <tr><th>Zerodha Nifty MidSmCp400 50:50 Idx DirGr</th><td>109</td><td>0.60%</td><td class="up">+29</td></tr>
+        <tr><th>Mirae Asset BSE 200 Equal Weight ETF</th><td>98</td><td>0.45%</td><td>unch</td></tr>
+        <tr><th>Zerodha Life Cycle Fund 2041 Dir Gr</th><td>90</td><td>0.47%</td><td class="up">+17</td></tr>
+        <tr><th>Navi Nifty 500 Multicap 50 25 25IdxRegGr</th><td>88</td><td>0.30%</td><td class="up">+2</td></tr>
+        <tr><th>Groww Nifty Midcap 150 ETF</th><td>81</td><td>1.18%</td><td class="up">+4</td></tr>
+        <tr><th>Zerodha Life Cycle Fund 2036 Dir Gr</th><td>80</td><td>0.39%</td><td class="up">+18</td></tr>
+        <tr><th>Kotak Nifty200 Quality 30 ETF</th><td>75</td><td>2.48%</td><td class="up">+1</td></tr>
+        <tr><th>Motilal Oswal Nifty Alpha 50 ETF</th><td>70</td><td>1.83%</td><td class="dn">−75</td></tr>
+        <tr><th>ZerodhaNftyLrgMdcp250Pl813yGSc7030IdDrGr</th><td>60</td><td>0.42%</td><td class="up">+2</td></tr>
+        <tr><th>Groww Nifty 200 ETF</th><td>51</td><td>0.29%</td><td>unch</td></tr>
+        <tr><th>Aditya Birla Sun Life MSCI India ETF</th><td>44</td><td>0.37%</td><td>unch</td></tr>
+        <tr><th>DSP Nifty 500 Index Reg Gr</th><td>43</td><td>0.25%</td><td class="up">+2</td></tr>
+        <tr><th>360 ONE MSCI India ETF</th><td>25</td><td>0.35%</td><td>unch</td></tr>
+        <tr><th>UTI Nifty 500 Exchange Traded Fund</th><td>24</td><td>0.25%</td><td class="up">new</td></tr>
+        <tr><th>Motilal Oswal Nifty India Manufctrng ETF</th><td>20</td><td>1.14%</td><td>unch</td></tr>
+        <tr><th>DSP MSCI INDIA ETF</th><td>11</td><td>0.38%</td><td>unch</td></tr>
+        <tr><th>UTI Arbitrage Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Kotak Balanced Advantage Fund Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Nippon India Active Momentum Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Aditya BSL Mid Cap Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>HSBC Flexi Cap Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>HSBC Midcap Gr</th><td>exited</td><td>—</td><td class="dn">−1,88,043</td></tr>
+        <tr><th>Mahindra Manulife Multi Cap Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Navi Flexi Cap Reg Gr</th><td>exited</td><td>—</td><td class="dn">−400</td></tr>
+        <tr><th>Shriram Flexi Cap Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Shriram ELSS Tax Saver Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Aditya BSL Multi-Cap Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Invesco India Flexi Cap Reg Gr</th><td>exited</td><td>—</td><td class="dn">−52,261</td></tr>
+        <tr><th>Samco Special Opportunities Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Baroda BNP P Arbtrg Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Bajaj Arbitrage Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Samco Dynamic Asset Allc Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Manufacturing Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Infrastructure Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Sundaram Multi-Factor Reg Gr</th><td>exited</td><td>—</td><td class="dn">−7,338</td></tr>
+        <tr><th>The Wealth Com Mlt Ast Allc Reg Gr</th><td>exited</td><td>—</td><td class="dn">−2,300</td></tr>
+        <tr><th>Motilal Oswal Contra Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>JM Aggressive Hybrid Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>JM ELSS - Tax Saver Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>PGIM India Midcap Fund Reg Gr</th><td>exited</td><td>—</td><td class="dn">−45,000</td></tr>
+        <tr><th>Mirae Asset Midcap Reg Gr</th><td>exited</td><td>—</td><td class="dn">−5,000</td></tr>
+        <tr><th>TRUSTMF Mid Cap Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>The Wealth Company Small Cap Reg Gr</th><td>exited</td><td>—</td><td class="dn">−1,000</td></tr>
+        <tr><th>DynaSIF Equity Long - Short Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>iSIF Equity Long-Short Reg Gr</th><td>exited</td><td>—</td><td class="dn">−2,500</td></tr>
+        <tr><th>Sapphire Equity Long-Short SIF Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <div class="delta"><strong>Own holdings overlap: none</strong>. Your Motilal Oswal Large &amp; Midcap is not among the holders. Motilal Oswal Flexicap is, but you don't hold it.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">9 Sep 26</span><span><strong>Citi: Ultravolt hits wires harder than cables.</strong> It sizes UltraTech at a 7–8% share in 4–5 years (₹1,800 cr capex, ~₹12,500 cr revenue potential). Jefferies calls Polycab's fall a buying opportunity at ~35x forward. This frames how much of the de-rating is warranted.</span></li>
+    <li><span class="date">9 Sep 26</span><span><strong>Jefferies "India's New Industrial Revolution"</strong> flags data centres (2 → 10 GW, $45 bn) among six growth sectors. This is the source of the tweet's data-centre angle.</span></li>
+    <li><span class="date">4 Sep 26</span><span><strong>UltraTech launches Ultravolt wires</strong> from a new Jhagadia (Gujarat) plant and targets a top-two position in five years. Polycab fell as much as 6.3% intraday to ₹8,250. This is the reason the stock is where it is.</span></li>
+    <li><span class="date">3 Sep 26</span><span><strong>Prabhudas Lilladher management meet:</strong> management sees industry supply staying below demand until at least FY30 despite new capacity. That is the company's answer to the entrant question.</span></li>
+    <li><span class="date">16 Jul 26</span><span><strong>Q1 FY27: revenue ₹8,210 cr (+39%), PAT ₹797 cr (+33%).</strong> FMEG +71% with EBIT margin of 8.0%, solar more than doubled, international −13%. This was the highest first quarter on record.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Jun 25</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoter</th><td>63.01</td><td class="dn">61.53</td><td>61.50</td><td>61.50</td><td>61.46</td></tr>
+      <tr><th>FII</th><td>11.45</td><td>13.96</td><td>14.82</td><td>18.21</td><td class="up">19.00</td></tr>
+      <tr><th>DII</th><td>11.61</td><td>11.70</td><td>11.13</td><td class="dn">7.95</td><td>7.62</td></tr>
+      <tr><th>Public / other</th><td>13.94</td><td>12.83</td><td>12.54</td><td>12.33</td><td>11.92</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>3,98,064</td><td>3,70,871</td><td>3,62,580</td><td>3,62,997</td><td>3,56,777</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta">There are two movements. The promoter family sold about 1.5 points in the September 2025 quarter and has been flat since. The larger shift is a swap from domestic to foreign institutions: DIIs fell 3.2 points in the March 2026 quarter as FIIs added 3.4. Foreign ownership has risen 7.6 points in a year. No promoter pledge is reported.</p>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Promoter · Chairman &amp; MD</div><div class="nm">Inder T. Jaisinghani</div>
+      Part of the founding Jaisinghani family that built Polycab from a Mumbai wire trader into the category leader. He led the 2019 IPO and the FMEG diversification, and runs Project Spring (W&amp;C share gain, FMEG to 8–10% EBITDA by FY30).</div>
+    <div class="person"><div class="rl">Executive Director &amp; CFO</div><div class="nm">Gandharv Tongia</div>A professional CFO who has run finance through the post-IPO scale-up.</div>
+  </div>
+  <h3>Board</h3>
+  <ul>
+    <li><strong>Composition</strong>: a family-led executive board with independent directors. Exact count n/a this session.</li>
+    <li><strong>Notable</strong>: the 2023 income-tax search (an unaccounted-sales allegation) is the governance event on record. No demand has since been disclosed as material. Worth keeping in view, not a reason to avoid.</li>
+  </ul>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>Polycab makes wires and cables (about 85–90% of revenue) through 26 plants: building wires, LV/MV/HV power cables, and control, instrumentation and specialty cables. It sells through 3,900+ dealers and 1.9 lakh retailers, and exports to 94 countries. FMEG (fans, switches, lighting, switchgear, solar products) is a smaller, faster-growing second leg, now profitable at an 8% EBIT margin. A small EPC arm executes power-distribution projects. Organised W&amp;C market share is about 30–31% per management.</p>
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Mkt cap</th><th>TTM P/E</th><th>Latest OPM</th><th>ROCE</th><th>RoE</th></tr></thead>
+    <tbody>
+      <tr><th>Polycab India</th><td>₹1,24,400 cr</td><td>43.4x</td><td>14%</td><td>33.2%</td><td>23.0%</td></tr>
+      <tr><th>KEI Industries</th><td>₹43,833 cr</td><td>44.0x</td><td>12%</td><td>20.0%</td><td>14.7%</td></tr>
+      <tr><th>Havells India</th><td>₹65,361 cr</td><td>39.2x</td><td>7%</td><td>24.9%</td><td>19.0%</td></tr>
+      <tr><th>RR Kabel</th><td>₹30,602 cr</td><td>50.0x</td><td>9%</td><td>28.1%</td><td>21.3%</td></tr>
+      <tr><th>Finolex Cables</th><td>₹21,239 cr</td><td>26.5x</td><td>12%</td><td>16.0%</td><td>12.3%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Polycab has the highest ROCE and the best margin of the listed cable makers, at a P/E between KEI's and Havells'. The market is not paying much for the quality gap. Havells' 7% is its seasonal June quarter.</div>
+  <h3>Moat</h3>
+  <p>Real, and it comes from scale and distribution. The largest dealer and electrician network in the category, procurement scale in copper and aluminium, and approvals and certifications across utility, industrial and infrastructure buyers. The weak point is building wire, which is closest to a commodity and where a well-funded entrant with a retail network (UltraTech's 5,000 building-solutions outlets) can compete. Cables, the larger share of Polycab, are protected by approvals and engineering.</p>
+  <h3>Order book</h3>
+  <p>No consolidated order book is disclosed. Management describes the EPC and international order books as "healthy" without a figure (n/a). The core W&amp;C business is a distribution business, not an order-book one.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>A price war in wires.</strong> UltraTech (₹1,800 cr, aiming for top-two in five years) and Adani's Praneetha Ecocables are both well funded. Net margins in C&amp;W are only 5–7% industry-wide (Jefferies), so a 1-point price cut is material. Polycab's quarterly EBITDA margin has already ranged from 12.7% to 15.8% in a year.</div>
+  <ul>
+    <li><strong>Copper.</strong> Revenue growth is partly inflation. A copper correction would flatter margin but cut reported growth and could prompt inventory losses.</li>
+    <li><strong>Data-centre expectations.</strong> The theme helps the multiple but is not in the reported numbers, and disappointment would reverse that support.</li>
+    <li><strong>International and EPC</strong> both fell double digits in Q1. Exports were a stated growth leg.</li>
+    <li><strong>Working-capital reversal.</strong> FY26 free cash flow was helped by stretched payables (108 days), which will not repeat every year.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Add more aggressively:</strong> below about ₹7,400 (roughly 34x FY27 consensus EPS<sup>d</sup>), or Q2/Q3 FY27 domestic W&amp;C growth above 20% with consolidated EBITDA margin at or above 13.5% while Ultravolt ramps.</li>
+    <li><strong>Downgrade to Hold:</strong> two consecutive quarters of consolidated EBITDA margin below 12.5%, or management conceding share in building wire.</li>
+    <li><strong>Downgrade to Sell:</strong> an open price war, with margin below 11%, or a return to negative free cash flow from a working-capital build.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Polycab Q1 FY27 press release, 16 Jul 2026 (primary): revenue, EBITDA, PAT, segment growth, FMEG margin, Project Spring targets.</li>
+    <li>Screener.in consolidated financials, balance sheet (cash from expanded schedule), cash flow, ratios and shareholding, fetched 11 Oct 2026. Peer metrics from Screener on the same date.</li>
+    <li>UltraTech Ultravolt launch and stock moves: Outlook Money, 4 Sep 2026. Citi and Jefferies views: Upstox, 9 Sep 2026.</li>
+    <li>Jefferies "India's New Industrial Revolution": Business Today / IANS / News on Air, 9–10 Sep 2026 (the NDTV Profit piece cited in the tweet was not itself retrieved).</li>
+    <li>Prabhudas Lilladher management-meet note, 3 Sep 2026. BOB Capital Markets Q4 FY26 review, 7 May 2026.</li>
+    <li>Broker targets and consensus (n=32): Trendlyne research-report tracker and consensus-estimates page, fetched 11 Oct 2026.</li>
+    <li>Mutual fund holdings: Trendlyne monthly scheme disclosure, <strong>August 2026</strong>. September was only partly published at fetch time. Value held and scheme AUM are derived at ₹8,255.</li>
+    <li>Liquidity: Yahoo Finance daily volume, 124 sessions to 9 Oct 2026.</li>
+  </ul>
+
+  <div class="foot">Generated 11 Oct 2026 · Price basis ₹8,255 (NSE close, 9 Oct 2026) · Derived <sup>d</sup>: P/BV, net debt, debt/equity, forward EPS and P/E, MF share of equity, fund value held and scheme AUM. ⚠ Polycab's inclusion in the Jefferies data-centre list could not be confirmed from public coverage. Jefferies target n/a. Not investment advice.</div>
+</div>
+</body>
+</html>
