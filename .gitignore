@@ -1,3 +1,4 @@
 .DS_Store
 __pycache__/
 firebase-debug.log
+.claude/settings.local.json
