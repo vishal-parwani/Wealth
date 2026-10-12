@@ -158,6 +158,12 @@ file and stub `fetch`).
   (mounted sessions) → `$WEALTH_SA_KEY` env var (cloud environments; write it to a temp
   file and `gcloud auth activate-service-account --key-file=…`). The key itself is never
   in this repo.
+  **Cloud sessions without the key: use the `Publish reports` workflow**
+  (`.github/workflows/publish-reports.yml`). Push the reports to `main`, then trigger it
+  via the GitHub MCP `actions_run_trigger` (`run_workflow`, ref `main`) with
+  `files` = a quoted glob such as `"Stock Reports/stock-*-2026-10-11.html"` and optional
+  `dry_run`. It runs `tools/publish-reports.py` with the repo secrets, so the key never
+  leaves GitHub; check the job log for one "created"/"replaced" line per report.
 
 ## Open items (as of 18 Sep 2026)
 
