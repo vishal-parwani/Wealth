@@ -1,0 +1,52 @@
+# Publishes authored research reports to Firestore so they appear in the app's
+# Research tab. Committing a report alone does not; the app reads Firestore.
+# Run by hand (Actions → Publish reports → Run workflow) or by an agent session,
+# which never holds the service-account key itself.
+name: Publish reports
+
+on:
+  workflow_dispatch:
+    inputs:
+      files:
+        description: 'Glob(s) under the repo root, space-separated, e.g. "Stock Reports/stock-*-2026-10-11.html"'
+        required: true
+      dry_run:
+        description: 'Parse and list only; write nothing'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --quiet cryptography certifi
+
+      - name: Publish
+        env:
+          # Repository secrets: the service-account JSON and the dashboard doc
+          # id. Never echo these — this repo is public.
+          WEALTH_SA_KEY: ${{ secrets.WEALTH_SA_KEY }}
+          WEALTH_EMAIL:  ${{ secrets.WEALTH_EMAIL }}
+          # Inputs pass through env, not ${{ }} in the script, so a crafted
+          # value can't inject shell. Globs are expanded by the script itself.
+          FILES:   ${{ inputs.files }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          python3 - <<'PY'
+          import os, shlex, subprocess, sys
+          args = ["python3", "tools/publish-reports.py", "--email", os.environ["WEALTH_EMAIL"]]
+          if os.environ.get("DRY_RUN") == "true":
+              args.append("--dry-run")
+          args += shlex.split(os.environ["FILES"])
+          sys.exit(subprocess.call(args))
+          PY
