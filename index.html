@@ -1182,6 +1182,44 @@
   </div>
 </div>
 
+<!-- Research → portfolio: "Mark as bought" (stocks merge into an existing holding) -->
+<div id="sr-buy-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="sr-buy-title">Mark as bought</h3>
+    <div class="modal-grid">
+      <div class="full">
+        <label id="sr-buy-what-label">Stock</label>
+        <div class="sr-buy-ro" id="sr-buy-what"></div>
+      </div>
+      <div class="sr-buy-stock">
+        <label for="sr-buy-qty">Quantity</label>
+        <input type="number" id="sr-buy-qty" placeholder="0" min="0" step="1">
+      </div>
+      <div class="sr-buy-stock">
+        <label for="sr-buy-price">Buy price (₹)</label>
+        <input type="number" id="sr-buy-price" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="full">
+        <label for="sr-buy-date">Purchase date</label>
+        <input type="date" id="sr-buy-date">
+      </div>
+      <div class="sr-buy-fund">
+        <label for="sr-buy-amt">Amount invested (₹)</label>
+        <input type="number" id="sr-buy-amt" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="sr-buy-fund">
+        <label for="sr-buy-units">Units</label>
+        <input type="number" id="sr-buy-units" placeholder="auto" min="0" step="0.001">
+      </div>
+      <div class="full sr-buy-calc" id="sr-buy-calc"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="sr-buy-cancel">Cancel</button>
+      <button class="btn btn-primary" id="sr-buy-save">Add to portfolio</button>
+    </div>
+  </div>
+</div>
+
 <!-- (settings modal removed — merged into #settings-panel) -->
 
 <!-- ══════════════════════════════════════════════════════

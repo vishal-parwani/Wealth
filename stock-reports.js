@@ -936,6 +936,7 @@ function srShowRowMenu(btn, id) {
     `<button data-act="override">Price override…<small>${hasOverride ? 'currently set — edit or clear' : 'custom Yahoo symbol or manual price'}</small></button>`;
   menu.innerHTML = `
     <button data-act="open">Open report</button>
+    ${srBuyMenuItem(r)}
     <button data-act="replace">Replace report<small>re-import updated HTML · keeps your note</small></button>
     ${overrideItem}
     <button data-act="rating">My rating…<small>${srOverrideRating(r) ? 'currently ' + (SR_FAMILY_LABEL[srOverrideRating(r)]) + ' — edit or remove' : 'overrule the report\'s call'}</small></button>
@@ -950,6 +951,7 @@ function srShowRowMenu(btn, id) {
     if (!act) return;
     srCloseRowMenu();
     if (act === 'open')     srOpenReport(id);
+    if (act === 'buy')      srOpenBuyModal(id);
     if (act === 'replace')  srOpenImportModal(r.ticker);
     if (act === 'override') srOpenOverrideModal(id);
     if (act === 'rating')   srOpenRatingModal(id);
@@ -1503,6 +1505,180 @@ function srGotoReport(id) {
   renderStockReports();
 }
 
+// ── Mark as bought → portfolio ──────────────────────────
+// Adds a researched name to the portfolio (P, owned by portfolio.js). A name
+// already held is merged into that row — quantities/units add, a stock's buy
+// price becomes the weighted average, and the earlier purchase date is kept —
+// rather than creating a second row for the same ticker or scheme.
+
+let SR_buy = null;   // { id, isFund, held, nav }
+
+function srBuyExchange(r) {
+  return String(r.exchange || '').toUpperCase().startsWith('BSE') ? 'BSE' : 'NSE';
+}
+
+function srHeldStock(r) {
+  if (typeof P === 'undefined') return null;
+  const t = String(r.ticker || '').toUpperCase();
+  const live = (P.stocks || []).filter(s => String(s.symbol).toUpperCase() === t && (parseFloat(s.quantity) || 0) > 0.0001);
+  return live.find(s => s.exchange === srBuyExchange(r)) || live[0] || null;
+}
+
+function srHeldFund(r) {
+  if (typeof P === 'undefined' || !r.scheme) return null;
+  return (P.mf_holdings || []).find(h => String(h.schemeCode) === String(r.scheme) && (parseFloat(h.units) || 0) > 0.0001) || null;
+}
+
+const srInr = (n, d = 2) => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+function srBuyMenuItem(r) {
+  if (typeof P === 'undefined') return '';
+  if (r.type === 'fund') {
+    if (!r.scheme) return `<button data-act="buy" disabled>Mark as bought…<small>no AMFI code yet</small></button>`;
+    const h = srHeldFund(r);
+    return `<button data-act="buy">Mark as bought…<small>add to Mutual Funds · ${h ? `holding: ${(+h.units).toFixed(3)} units` : 'not held'}</small></button>`;
+  }
+  const s = srHeldStock(r);
+  return `<button data-act="buy">Mark as bought…<small>add to Stocks · ${s ? `holding: ${+s.quantity} sh @ ${srInr(s.avgPrice)}` : 'not held'}</small></button>`;
+}
+
+function srOpenBuyModal(id) {
+  const r = SR_reports.find(x => x.id === id);
+  const modal = document.getElementById('sr-buy-modal');
+  if (!r || !modal || typeof P === 'undefined') return;
+  const isFund = r.type === 'fund';
+  if (isFund && !r.scheme) { toast('This fund has no AMFI scheme code yet'); return; }
+  SR_buy = { id, isFund, held: isFund ? srHeldFund(r) : srHeldStock(r), nav: null };
+
+  document.getElementById('sr-buy-title').textContent = `Mark as bought · ${isFund ? r.name : r.ticker}`;
+  document.getElementById('sr-buy-what-label').textContent = isFund ? 'Fund' : 'Stock';
+  document.getElementById('sr-buy-what').textContent = isFund
+    ? `${r.name} · AMFI ${r.scheme}`
+    : `${r.name} · ${srBuyExchange(r)}: ${r.ticker}`;
+  modal.querySelectorAll('.sr-buy-stock').forEach(el => el.style.display = isFund ? 'none' : '');
+  modal.querySelectorAll('.sr-buy-fund').forEach(el => el.style.display = isFund ? '' : 'none');
+
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById('sr-buy-date').value = today;
+  ['sr-buy-qty', 'sr-buy-amt', 'sr-buy-units'].forEach(k => document.getElementById(k).value = '');
+  const live = SR_prices[r.id];
+  const px = live && Number.isFinite(live.price) ? live.price : r.genPrice;
+  document.getElementById('sr-buy-price').value = !isFund && Number.isFinite(px) ? (+px).toFixed(2) : '';
+
+  modal.style.display = 'flex';
+  if (isFund) srBuyFetchNav(); else srBuyCalc();
+  setTimeout(() => document.getElementById(isFund ? 'sr-buy-amt' : 'sr-buy-qty').focus(), 80);
+}
+
+// Latest declared NAV on or before the purchase date (mfapi dates are DD-MM-YYYY).
+async function srBuyFetchNav() {
+  if (!SR_buy?.isFund) return;
+  const r = SR_reports.find(x => x.id === SR_buy.id);
+  const date = document.getElementById('sr-buy-date').value;
+  SR_buy.nav = null;
+  srBuyCalc('Fetching NAV…');
+  try {
+    const res = await fetch('https://api.mfapi.in/mf/' + encodeURIComponent(r.scheme));
+    const d = res.ok ? await res.json() : null;
+    const toYMD = s => s.split('-').reverse().join('-');
+    const e = d?.data?.find(x => toYMD(x.date) <= date);
+    if (e) SR_buy.nav = { nav: parseFloat(e.nav), date: e.date };
+  } catch (_) { /* fall through to manual entry */ }
+  srBuyCalc(SR_buy.nav ? null : 'NAV not available for this date — enter both amount and units.');
+}
+
+function srBuyAutoFill(changed) {
+  if (!SR_buy?.isFund || !SR_buy.nav) return;
+  const amtEl = document.getElementById('sr-buy-amt'), unitEl = document.getElementById('sr-buy-units');
+  const nav = SR_buy.nav.nav;
+  if (changed === 'amt' && +amtEl.value > 0) unitEl.value = (+amtEl.value / nav).toFixed(3);
+  if (changed === 'units' && +unitEl.value > 0) amtEl.value = (+unitEl.value * nav).toFixed(2);
+}
+
+function srBuyCalc(msg) {
+  const el = document.getElementById('sr-buy-calc');
+  if (!el || !SR_buy) return;
+  if (msg) { el.textContent = msg; return; }
+  const h = SR_buy.held;
+  const date = document.getElementById('sr-buy-date').value;
+  const keepDate = h && h.purchaseDate && (!date || h.purchaseDate < date) ? h.purchaseDate : date;
+  if (SR_buy.isFund) {
+    const navTxt = SR_buy.nav ? `NAV on ${esc(SR_buy.nav.date)}: ₹${SR_buy.nav.nav.toFixed(4)}. ` : '';
+    const u = +document.getElementById('sr-buy-units').value, a = +document.getElementById('sr-buy-amt').value;
+    el.innerHTML = navTxt + (h
+      ? `You hold <b>${(+h.units).toFixed(3)} units · ${srInr(h.invested, 0)} invested</b>.` +
+        (u > 0 && a > 0 ? ` After this: <b>${(+h.units + u).toFixed(3)} units · ${srInr(+h.invested + a, 0)}</b>.` : '')
+      : 'Not held yet; this adds a new row in Mutual Funds.');
+    return;
+  }
+  const q = +document.getElementById('sr-buy-qty').value, p = +document.getElementById('sr-buy-price').value;
+  if (!h) { el.textContent = 'Not held yet; this adds a new row in Stocks.'; return; }
+  const hq = +h.quantity, hp = +h.avgPrice;
+  let txt = `You hold <b>${hq} sh @ ${srInr(hp)}</b>.`;
+  if (q > 0 && p > 0) txt += ` After this: <b>${hq + q} sh @ ${srInr((hq * hp + q * p) / (hq + q))}</b> (weighted average).`;
+  if (h.purchaseDate && keepDate === h.purchaseDate && date !== h.purchaseDate) txt += ` Purchase date stays ${esc(h.purchaseDate)}, the earlier one.`;
+  el.innerHTML = txt;
+}
+
+function srBuySave() {
+  if (!SR_buy) return;
+  const r = SR_reports.find(x => x.id === SR_buy.id);
+  const date = document.getElementById('sr-buy-date').value;
+  if (!date) { toast('Please enter a purchase date'); return; }
+  const h = SR_buy.held;
+  const earlier = d => (h.purchaseDate && (!d || h.purchaseDate < d)) ? h.purchaseDate : d;
+
+  if (SR_buy.isFund) {
+    let units = parseFloat(document.getElementById('sr-buy-units').value);
+    let amt   = parseFloat(document.getElementById('sr-buy-amt').value);
+    const nav = SR_buy.nav?.nav;
+    if (nav) {
+      if (!(units > 0) && amt > 0) units = amt / nav;
+      if (!(amt > 0) && units > 0) amt = units * nav;
+    }
+    if (!(units > 0) || !(amt > 0)) { toast('Please enter the amount and/or units'); return; }
+    if (h) { h.units = +h.units + units; h.invested = +h.invested + amt; h.purchaseDate = earlier(date); }
+    else P.mf_holdings.push({ id: newId(), name: r.name, schemeCode: String(r.scheme), units, invested: amt, purchaseDate: date });
+    if (typeof LIVE !== 'undefined') LIVE.mfNav[r.scheme] = null;
+    pSave();
+    if (typeof renderMFHoldings === 'function') renderMFHoldings();
+  } else {
+    const qty = parseFloat(document.getElementById('sr-buy-qty').value);
+    const price = parseFloat(document.getElementById('sr-buy-price').value);
+    if (!(qty > 0) || !(price > 0)) { toast('Please enter quantity and buy price'); return; }
+    const exchange = srBuyExchange(r);
+    if (h) {
+      const hq = +h.quantity;
+      h.avgPrice = (hq * +h.avgPrice + qty * price) / (hq + qty);
+      h.quantity = hq + qty;
+      h.purchaseDate = earlier(date);
+    } else {
+      P.stocks.push({ id: newId(), name: r.name, symbol: String(r.ticker).toUpperCase(), exchange, quantity: qty, avgPrice: price, purchaseDate: date });
+    }
+    if (typeof LIVE !== 'undefined') LIVE.stocks[String(r.ticker).toUpperCase() + '.' + (h ? h.exchange : exchange)] = null;
+    pSave();
+    if (typeof renderStocks === 'function') renderStocks();
+  }
+  document.getElementById('sr-buy-modal').style.display = 'none';
+  toast(h ? 'Added to existing holding ✓' : 'Added to portfolio ✓');
+  SR_buy = null;
+  renderStockReports();
+}
+
+function srInitBuyUI() {
+  const modal = document.getElementById('sr-buy-modal');
+  if (!modal) return;
+  const close = () => { modal.style.display = 'none'; SR_buy = null; };
+  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  modal.addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); close(); } });
+  document.getElementById('sr-buy-cancel').addEventListener('click', close);
+  document.getElementById('sr-buy-save').addEventListener('click', srBuySave);
+  document.getElementById('sr-buy-date').addEventListener('change', () => SR_buy?.isFund ? srBuyFetchNav() : srBuyCalc());
+  ['sr-buy-qty', 'sr-buy-price'].forEach(k => document.getElementById(k).addEventListener('input', () => srBuyCalc()));
+  document.getElementById('sr-buy-amt').addEventListener('input', () => { srBuyAutoFill('amt'); srBuyCalc(); });
+  document.getElementById('sr-buy-units').addEventListener('input', () => { srBuyAutoFill('units'); srBuyCalc(); });
+}
+
 // ── Public API ──────────────────────────────────────────
 
 function initStockReports() {
@@ -1511,6 +1687,7 @@ function initStockReports() {
   srInitImportUI();
   srInitOverrideUI();
   srInitRatingUI();
+  srInitBuyUI();
 }
 
 function renderStockReports() {
