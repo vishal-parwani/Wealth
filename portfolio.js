@@ -625,6 +625,8 @@ async function renderStocks() {
     const gainPct  = (gain != null && invested > 0) ? (gain/invested)*100 : null;
     totalInvested += invested;
     if (current) totalCurrent += current;
+    // Target from the matching research report (yours if set) — see stock-reports.js
+    const tgt = typeof srTargetFor === 'function' ? srTargetFor(s.symbol) : null;
     return `<tr>
       <td class="left fund-num">${i+1}</td>
       <td class="left td-name"><strong>${esc(s.name)}</strong>${typeof srCrossLinkBadge === 'function' ? srCrossLinkBadge(s.symbol) : ''}</td>
@@ -633,6 +635,8 @@ async function renderStocks() {
       <td data-label="Avg Cost">${formatINR(avg, false)}</td>
       <td data-label="Invested">${formatINR(invested)}</td>
       <td data-label="CMP">${price ? formatINR(price, false) : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Target">${tgt ? formatINR(tgt.price, false) + (tgt.mine ? '<span class="sr-mine">mine</span>' : '') : '<span class="chip-n">—</span>'}</td>
+      <td data-label="Upside">${tgt && price ? gainChip((tgt.price / price - 1) * 100) : '<span class="chip-n">—</span>'}</td>
       <td data-label="Value">${current ? formatINR(current) : '<span class="chip-n">—</span>'}</td>
       <td data-label="Gain">${gain != null ? `<span style="color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'+':''}${formatINRFull(gain)}</span>` : '—'}</td>
       <td data-label="Gain%">${gainChip(gainPct)}</td>
@@ -654,7 +658,7 @@ async function renderStocks() {
           <th class="left" style="width:30px"></th>
           <th class="left" style="min-width:160px">Stock</th>
           <th>Symbol</th><th>Qty</th><th>Avg Cost</th>
-          <th>Invested</th><th>CMP</th><th>Current Value</th>
+          <th>Invested</th><th>CMP</th><th title="Broker target from the research report (yours if set)">Target</th><th>Upside</th><th>Current Value</th>
           <th>Notional Gain</th><th>Gain%</th>
           <th style="width:80px"></th>
         </tr></thead>
@@ -662,7 +666,7 @@ async function renderStocks() {
         <tfoot><tr class="totals-row">
           <td colspan="5" class="left"><strong>Total</strong></td>
           <td><strong>${formatINR(totalInvested)}</strong></td>
-          <td></td>
+          <td></td><td></td><td></td>
           <td><strong>${formatINR(totalCurrent)}</strong></td>
           <td><strong style="color:${totalGain>=0?'var(--green)':'var(--red)'}">${totalGain>=0?'+':''}${formatINRFull(totalGain)}</strong></td>
           <td>${gainChip(totalGainPct)}</td>

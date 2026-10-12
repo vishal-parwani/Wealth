@@ -144,6 +144,9 @@ function srParseReportHtml(html) {
     genPrice,
     generatedAt: generated,       // ISO yyyy-mm-dd as authored
     hasGaps,
+    // 12-month broker target (consensus where covered); null = no coverage.
+    target:    srParseTarget(meta('target')),
+    targetSrc: meta('targetsrc') || '',
   };
 
   if (isFund) {
@@ -158,6 +161,11 @@ function srParseReportHtml(html) {
   }
 
   return { ok: true, meta: base };
+}
+
+function srParseTarget(v) {
+  const n = parseFloat(String(v || '').replace(/[₹,\s]/g, ''));
+  return Number.isFinite(n) && n > 0 ? n : null;
 }
 
 // ── CRUD ────────────────────────────────────────────────
@@ -194,6 +202,8 @@ async function srImportReport(html) {
     // A manual rating call survives a re-import, but is marked unconfirmed
     // against the new report so it has to be re-affirmed on fresh information.
     ratingOverride: existing?.ratingOverride || null, // { rating, at, forGeneratedAt }
+    targetOverride: existing?.targetOverride || null, // { price, at } — your own target
+
     // When this name first entered the dashboard, and what it cost that day.
     // `importedAt` is the *latest* import; these two never move once set.
     trackedFrom: existing?.trackedFrom || nowIso,
@@ -720,6 +730,60 @@ function srDriftCells(r) {
   };
 }
 
+// ── Target price & upside ────────────────────────────────
+// The report's broker target (meta "target"), overruled by your own when set.
+function srEffTarget(r) {
+  const mine = r.targetOverride && Number.isFinite(r.targetOverride.price) ? r.targetOverride.price : null;
+  const rep  = Number.isFinite(r.target) ? r.target : null;
+  return { price: mine ?? rep, mine: mine != null, report: rep, src: r.targetSrc || '' };
+}
+
+function srUpsidePct(target, price) {
+  return Number.isFinite(target) && Number.isFinite(price) && price > 0 ? (target / price - 1) * 100 : null;
+}
+
+function srUpsideChip(pct) {
+  if (pct == null) return '<span class="sr-na">—</span>';
+  return `<span class="chip ${pct >= 0 ? 'chip-g' : 'chip-r'}">${pct >= 0 ? '+' : ''}${pct.toFixed(1)}%</span>`;
+}
+
+function srTargetCell(r) {
+  const t = srEffTarget(r);
+  if (t.price == null) return '<span class="sr-na">—</span>';
+  const p = SR_prices[r.id];
+  const pct = srUpsidePct(t.price, p?.price);
+  const sub = t.mine
+    ? (t.report != null ? `report: ₹${srFmtPrice(t.report)}${t.src ? ' ' + esc(t.src.split('·')[0].trim()) : ''}` : 'no report target')
+    : esc(t.src);
+  return `<span class="sr-tgt">₹${srFmtPrice(t.price)}${t.mine ? '<span class="sr-mine">mine</span>' : ''} ${p ? srUpsideChip(pct) : '<span class="sr-na">…</span>'}${sub ? `<small>${sub}</small>` : ''}</span>`;
+}
+
+function srUpsideOf(r) {
+  return srUpsidePct(srEffTarget(r).price, SR_prices[r.id]?.price);
+}
+
+// For the Stocks tab: effective target for a held symbol, or null.
+function srTargetFor(symbol) {
+  const r = srReportFor(symbol);
+  if (!r) return null;
+  const t = srEffTarget(r);
+  return t.price == null ? null : t;
+}
+
+function srOpenTargetEditor(id) {
+  const r = SR_reports.find(x => x.id === id);
+  if (!r) return;
+  const t = srEffTarget(r);
+  const hint = t.report != null ? `report target ₹${t.report}${t.src ? ' (' + t.src + ')' : ''}` : 'no report target';
+  const val = window.prompt(`Your target price for ${r.ticker} in ₹ — ${hint}.\nLeave empty to clear yours.`, t.mine ? String(t.price) : '');
+  if (val === null) return;
+  const n = srParseTarget(val);
+  if (val.trim() && n == null) { toast('Enter a price in ₹, e.g. 1250'); return; }
+  srUpdateReport(id, { targetOverride: n == null ? null : { price: n, at: new Date().toISOString() } })
+    .then(() => { toast(n == null ? 'Your target cleared' : 'Target saved ✓'); renderStockReports(); })
+    .catch(e => toast('Could not save target: ' + e.message));
+}
+
 function srFiltered() {
   const q = SR_view.q.trim().toLowerCase();
   let rows = SR_reports.filter(r =>
@@ -735,9 +799,11 @@ function srFiltered() {
   // sorts by the tracking baseline, which not every record carries as a field.
   const val = (r) => k === 'trackPrice' ? srBaseline(r).price
                    : k === 'ratingFamily' ? SR_FAMILY_ORDER.indexOf(srEffFamily(r))
+                   : k === 'upside' ? srUpsideOf(r)
                    : r[k];
   rows.sort((a, b) => {
     const av = val(a), bv = val(b);
+    if (k === 'upside' && (av == null || bv == null)) return av == null ? (bv == null ? 0 : 1) : -1;  // no target: always last
     const c = typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av ?? '').localeCompare(String(bv ?? ''));
     return c * dir;
   });
@@ -821,10 +887,11 @@ function srDrawList(wrap) {
           <th class="left sr-sort" data-k="ratingFamily">Rating${arrow('ratingFamily')}</th>
           <th class="sr-sort" data-k="trackPrice">Tracked → Now${arrow('trackPrice')}</th>
           <th>Move</th>
+          <th class="sr-sort" data-k="upside">Target · Upside${arrow('upside')}</th>
           <th class="left sr-sort" data-k="generatedAt">Report${arrow('generatedAt')}</th>
           <th></th>
         </tr></thead>
-        <tbody>${srGroups(rows, false).map(g => srGroupHeaderRow(g, 7) + g.rows.map(r => {
+        <tbody>${srGroups(rows, false).map(g => srGroupHeaderRow(g, 8) + g.rows.map(r => {
           const d = srDriftCells(r);
           return `<tr class="sr-row" data-id="${esc(r.id)}">
             <td class="left"><span class="sr-tik">${esc(r.ticker)}</span></td>
@@ -832,6 +899,7 @@ function srDrawList(wrap) {
             <td class="left">${srRatingBadge(r)}</td>
             <td>${d.genNow}</td>
             <td>${d.drift}</td>
+            <td>${srTargetCell(r)}</td>
             <td class="left">${srFmtDate(r.generatedAt)}${srFlags(r)}</td>
             <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
           </tr>`;
@@ -845,6 +913,7 @@ function srDrawList(wrap) {
           <span class="sr-sub">${esc(r.name)} · ${esc(r.sector)} · ${srFmtDate(r.generatedAt)}</span>
           <span>${d.genNow} ${d.drift}</span>
         </div>
+        <div class="sr-card-mid"><span class="sr-sub">Target · Upside</span><span>${srTargetCell(r)}</span></div>
       </div>`;
     }).join('')).join('');
   }
@@ -893,7 +962,7 @@ function srDrawList(wrap) {
   document.getElementById('sr-verify').addEventListener('change', e => { SR_view.verifyOnly = e.target.checked; srDrawList(wrap); });
   wrap.querySelectorAll('.sr-sort').forEach(th => th.addEventListener('click', () => {
     const k = th.dataset.k;
-    if (SR_view.sortKey === k) SR_view.sortDir *= -1; else { SR_view.sortKey = k; SR_view.sortDir = k === 'generatedAt' ? -1 : 1; }
+    if (SR_view.sortKey === k) SR_view.sortDir *= -1; else { SR_view.sortKey = k; SR_view.sortDir = (k === 'generatedAt' || k === 'upside') ? -1 : 1; }
     srDrawList(wrap);
   }));
   document.getElementById('sr-refresh-prices').addEventListener('click', srRefreshPrices);
@@ -939,6 +1008,7 @@ function srShowRowMenu(btn, id) {
     ${srBuyMenuItem(r)}
     <button data-act="replace">Replace report<small>re-import updated HTML · keeps your note</small></button>
     ${overrideItem}
+    ${r.type === 'fund' ? '' : `<button data-act="target">My target…<small>${(() => { const t = srEffTarget(r); return t.mine ? 'yours: ₹' + t.price + ' — edit or clear' : t.report != null ? 'report: ₹' + t.report + (t.src ? ' ' + esc(t.src.split('·')[0].trim()) : '') + ' — set your own' : 'no report target — set your own'; })()}</small></button>`}
     <button data-act="rating">My rating…<small>${srOverrideRating(r) ? 'currently ' + (SR_FAMILY_LABEL[srOverrideRating(r)]) + ' — edit or remove' : 'overrule the report\'s call'}</small></button>
     <button data-act="note">Edit note</button>
     <button data-act="delete" class="danger">Delete</button>`;
@@ -955,6 +1025,7 @@ function srShowRowMenu(btn, id) {
     if (act === 'replace')  srOpenImportModal(r.ticker);
     if (act === 'override') srOpenOverrideModal(id);
     if (act === 'rating')   srOpenRatingModal(id);
+    if (act === 'target')   srOpenTargetEditor(id);
     if (act === 'note')     srOpenNoteEditor(id);
     if (act === 'delete')   srConfirmDelete(id);
   });

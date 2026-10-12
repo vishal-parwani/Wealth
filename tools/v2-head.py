@@ -24,6 +24,8 @@ def main():
     ap.add_argument("--date", required=True)
     ap.add_argument("--exchange", default="NSE")
     ap.add_argument("--risk", choices=["high"], help="omit for ordinary risk")
+    ap.add_argument("--target", help="12-month broker target in ₹ (consensus, else the one broker); omit if no coverage")
+    ap.add_argument("--targetsrc", default="", help='e.g. "consensus · 16 brokers" or "Jefferies · 1 broker"')
     ap.add_argument("--gaps", action="store_true", help="report has unverified figures")
     a = ap.parse_args()
 
@@ -52,6 +54,11 @@ def main():
     for old, new in subs:
         assert old in head, f"template no longer contains: {old}"
         head = head.replace(old, new, 1)
+    # target: present only when brokers cover the name — never invented
+    tgt = '<meta name="target"    content="0">\n<meta name="targetsrc" content="consensus · N brokers">\n'
+    assert tgt in head, "template no longer contains the target tags"
+    head = head.replace(tgt, (f'<meta name="target"    content="{a.target}">\n'
+                              f'<meta name="targetsrc" content="{a.targetsrc}">\n') if a.target else "", 1)
     # risk is its own axis — the tag is present only when it is high
     head = head.replace('<meta name="risk"      content="high">\n',
                         '<meta name="risk"      content="high">\n' if a.risk else "")

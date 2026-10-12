@@ -122,6 +122,13 @@ file and stub `fetch`).
   point count, so a recently listed or thinly traded name gets the longest chart its
   history supports instead of an empty panel. The heading names the window drawn and a
   chip flags anything shorter than a year.
+- **Target price** (`<meta name="target">` + `targetsrc`): the 12-month broker target that
+  drives the Research tab's "Target · Upside" column and the Stocks tab's Target/Upside.
+  Consensus where several brokers cover it (Trendlyne's consensus, else the mean of
+  targets dated within 6 months), else the single broker; **omit both tags when nothing
+  covers the name** — the app shows "—". It must match the broker table in the body.
+  `targetOverride` (your own target, set from the ⋯ menu) is app-owned like
+  `ratingOverride` and preserved on re-import.
 - **Mark derived numbers.** Superscript `d` for anything computed rather than filed
   (e.g. a quarter backed out of the annual less the other three), and a small
   "unreconciled" chip where sources disagree and neither could be opened. Grey `n/a`

@@ -82,6 +82,8 @@ The importer reads these machine-readable tags from the report's `<head>`:
 <meta name="risk"      content="high">   <!-- optional; omit for ordinary risk -->
 <meta name="generated" content="2026-06-25">   <!-- YYYY-MM-DD -->
 <meta name="price"     content="1480.40">       <!-- price at generation -->
+<meta name="target"    content="1720">          <!-- optional: 12-month broker target, ₹; omit if no coverage -->
+<meta name="targetsrc" content="consensus · 16 brokers"> <!-- optional: where the target comes from -->
 <meta name="name"      content="Coforge Limited"> <!-- optional; else <title> -->
 ```
 

@@ -978,3 +978,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .sr-fl-table tr:last-child td{border-bottom:none}
 .sr-fl-foot{font-size:.74rem;color:var(--text2);margin-top:7px}
 .sr-fl-foot strong{color:var(--text)}
+.sr-tgt{white-space:nowrap}
+.sr-tgt small{display:block;font-size:.68rem;color:var(--text3);font-weight:400}
+.sr-mine{font-size:.62rem;font-weight:700;background:var(--accent-light);color:var(--accent);padding:1px 5px;border-radius:6px;margin-left:4px}

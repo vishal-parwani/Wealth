@@ -43,6 +43,14 @@ SCOPE = "https://www.googleapis.com/auth/datastore"
 
 META = re.compile(r'<meta\s+name="([\w-]+)"\s+content="([^"]*)"', re.I)
 
+def parse_target(v):
+    try:
+        n = float(re.sub(r"[₹,\s]", "", v or ""))
+        return n if n > 0 else None
+    except ValueError:
+        return None
+
+
 def parse_report(path):
     src = open(path, encoding="utf-8").read()
     meta = {k.lower(): htmllib.unescape(v) for k, v in META.findall(src)}
@@ -72,6 +80,9 @@ def parse_report(path):
         "generatedAt": meta["generated"],
         "genPrice":    float(meta["price"]),
         "hasGaps":     meta.get("hasgaps", "").lower() == "true",
+        # Broker target (mirrors srParseReportHtml): None = no coverage.
+        "target":      parse_target(meta.get("target", "")),
+        "targetSrc":   meta.get("targetsrc", ""),
         "html":        src,
     }
     if meta.get("scheme"):
@@ -227,6 +238,7 @@ def main():
         # dashboard) — they must never move once set, or the "since tracked"
         # move on the list would silently reset on every refresh.
         keep = {"personalNote": "", "priceOverride": None, "ratingOverride": None,
+                "targetOverride": None,
                 "trackedFrom": None, "trackPrice": None}
         try:
             cur = request(url, token=token)
