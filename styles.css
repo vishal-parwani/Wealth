@@ -981,3 +981,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .sr-tgt{white-space:nowrap}
 .sr-tgt small{display:block;font-size:.68rem;color:var(--text3);font-weight:400}
 .sr-mine{font-size:.62rem;font-weight:700;background:var(--accent-light);color:var(--accent);padding:1px 5px;border-radius:6px;margin-left:4px}
+.er-cell{white-space:nowrap}
+.er-cell small{display:block;font-size:.68rem;color:var(--text3);font-weight:400}
+.er-soon{font-size:.62rem;font-weight:700;background:var(--accent-light);color:var(--accent);padding:1px 6px;border-radius:6px;margin-left:4px}

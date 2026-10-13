@@ -1,0 +1,11 @@
+{
+  "asOf": "2026-10-13",
+  "note": "Confirmed board-meeting dates for quarterly results, from exchange intimations. One-off snapshot; refresh each quarter. Only confirmed dates — no estimates.",
+  "dates": {
+    "COFORGE":  { "date": "2026-10-23", "filed": "2026-09-09" },
+    "EMMVEE":   { "date": "2026-10-14", "filed": "2026-10-07" },
+    "IIFL":     { "date": "2026-10-15", "filed": "2026-10-07" },
+    "KSHINTL":  { "date": "2026-11-04", "filed": "2026-10-12" },
+    "SONACOMS": { "date": "2026-10-26", "filed": "2026-10-08" }
+  }
+}

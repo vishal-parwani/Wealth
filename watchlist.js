@@ -1000,6 +1000,7 @@ function stockCatMoveDown(catId) {
 
 // ── STOCK WATCHLIST RENDER ────────────────────────────
 function renderStockWatchlist() {
+  if (typeof ER !== 'undefined' && !ER && typeof loadEarningsDates === 'function') loadEarningsDates(() => renderStockWatchlist());
   const allStocks = allWlStocks();
   const noEl = document.getElementById('wl-stocks-no-items');
   const wrapEl = document.getElementById('stock-table-wrap');
@@ -1019,7 +1020,7 @@ function renderStockWatchlist() {
   if (th1y) th1y.textContent = isCagrMode ? '1Y CAGR' : '1Y Total';
   if (th3y) th3y.textContent = isCagrMode ? '3Y CAGR' : '3Y Total';
 
-  const COLS = 15; // num + name + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + TTMDiv + DivYield + menu
+  const COLS = 16; // num + name + CMP + 1D + 1M + 3M + 6M + 1Y + 3Y + 52WH + 52WL + TTMDiv + DivYield + menu
   const tbody = document.getElementById('stock-wl-tbody');
   let html = '';
 
@@ -1081,6 +1082,7 @@ function renderStockWatchlist() {
       <td class="right">${w52Cell(noData ? null : p?.w52low)}</td>
       <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.ttmDiv != null ? `<span class="nav-val">₹ ${p.ttmDiv.toLocaleString('en-IN')}</span>` : '<span class="chip-n">—</span>')}</td>
       <td class="right">${loading ? '<span class="sk" style="width:44px"></span>' : (p?.divYield != null ? `<span class="chip ${p.divYield >= 2 ? 'chip-g' : 'chip-a'}">${p.divYield.toFixed(2)}%</span>` : '<span class="chip-n">—</span>')}</td>
+      <td class="right">${typeof erCell === 'function' ? erCell(s.symbol) : '—'}</td>
       <td>
         <div class="fund-menu-wrap">
           <button class="fund-menu-btn" data-ev="swl-menu" data-sym="${esc(s.symbol)}" data-exch="${esc(s.exchange)}" title="Options">⋯</button>

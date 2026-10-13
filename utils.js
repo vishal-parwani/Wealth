@@ -143,3 +143,43 @@ function xirrChip(val, loading) {
   const c = val >= 18 ? 'chip-g' : val >= 10 ? 'chip-a' : 'chip-r';
   return `<span class="chip ${c}">${val >= 0 ? '+' : ''}${parseFloat(val).toFixed(2)}%</span>`;
 }
+
+// ── Next results date (confirmed board meetings) ─────────
+// One-off snapshot in earnings-dates.json, refreshed by hand each quarter.
+// Only dates the company has filed with the exchange — never estimates.
+let ER = null;            // { asOf, dates: { TICKER: { date, filed } } }
+let _erLoading = null;
+function loadEarningsDates(onLoaded) {
+  if (ER) return Promise.resolve(ER);
+  if (!_erLoading) {
+    _erLoading = fetch('earnings-dates.json', { cache: 'no-cache' })
+      .then(r => r.ok ? r.json() : { dates: {} })
+      .catch(() => ({ dates: {} }))
+      .then(d => { ER = d && d.dates ? d : { dates: {} }; return ER; });
+  }
+  return _erLoading.then(d => { if (onLoaded) onLoaded(d); return d; });
+}
+
+function erToday() { const t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); }
+
+// Upcoming (today or later) confirmed date for a ticker, else null.
+function erNext(symbol) {
+  const e = ER?.dates?.[String(symbol || '').toUpperCase()];
+  if (!e?.date) return null;
+  const [y, m, d] = e.date.split('-').map(Number);
+  const when = new Date(y, m - 1, d);
+  const days = Math.round((when - erToday()) / 86400000);
+  return days < 0 ? null : { ...e, when, days };
+}
+
+// Days until results (for sorting); Infinity when none.
+function erDays(symbol) { const n = erNext(symbol); return n ? n.days : Infinity; }
+
+function erCell(symbol) {
+  const n = erNext(symbol);
+  if (!n) return '<span class="chip-n">—</span>';
+  const label = n.when.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  const soon = n.days <= 7 ? `<span class="er-soon">${n.days === 0 ? 'today' : 'in ' + n.days + 'd'}</span>` : '';
+  const filed = n.filed ? ' · filed ' + new Date(n.filed + 'T00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
+  return `<span class="er-cell">${label}${soon}<small>board meeting${filed}</small></span>`;
+}

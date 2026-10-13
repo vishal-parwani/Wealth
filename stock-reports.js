@@ -800,10 +800,12 @@ function srFiltered() {
   const val = (r) => k === 'trackPrice' ? srBaseline(r).price
                    : k === 'ratingFamily' ? SR_FAMILY_ORDER.indexOf(srEffFamily(r))
                    : k === 'upside' ? srUpsideOf(r)
+                   : k === 'nextResults' ? (typeof erDays === 'function' ? erDays(r.ticker) : Infinity)
                    : r[k];
   rows.sort((a, b) => {
     const av = val(a), bv = val(b);
     if (k === 'upside' && (av == null || bv == null)) return av == null ? (bv == null ? 0 : 1) : -1;  // no target: always last
+    if (k === 'nextResults' && (av === Infinity || bv === Infinity)) return av === Infinity ? (bv === Infinity ? 0 : 1) : -1;  // no date: always last
     const c = typeof av === 'number' && typeof bv === 'number' ? av - bv : String(av ?? '').localeCompare(String(bv ?? ''));
     return c * dir;
   });
@@ -888,10 +890,11 @@ function srDrawList(wrap) {
           <th class="sr-sort" data-k="trackPrice">Tracked → Now${arrow('trackPrice')}</th>
           <th>Move</th>
           <th class="sr-sort" data-k="upside">Target · Upside${arrow('upside')}</th>
+          <th class="sr-sort" data-k="nextResults" title="Confirmed board-meeting date for the next quarterly results">Next results${arrow('nextResults')}</th>
           <th class="left sr-sort" data-k="generatedAt">Report${arrow('generatedAt')}</th>
           <th></th>
         </tr></thead>
-        <tbody>${srGroups(rows, false).map(g => srGroupHeaderRow(g, 8) + g.rows.map(r => {
+        <tbody>${srGroups(rows, false).map(g => srGroupHeaderRow(g, 9) + g.rows.map(r => {
           const d = srDriftCells(r);
           return `<tr class="sr-row" data-id="${esc(r.id)}">
             <td class="left"><span class="sr-tik">${esc(r.ticker)}</span></td>
@@ -900,6 +903,7 @@ function srDrawList(wrap) {
             <td>${d.genNow}</td>
             <td>${d.drift}</td>
             <td>${srTargetCell(r)}</td>
+            <td>${typeof erCell === 'function' ? erCell(r.ticker) : '—'}</td>
             <td class="left">${srFmtDate(r.generatedAt)}${srFlags(r)}</td>
             <td class="sr-menu-cell"><button class="sr-menu-btn" data-id="${esc(r.id)}" title="Actions" aria-label="Row actions">⋯</button></td>
           </tr>`;
@@ -914,6 +918,7 @@ function srDrawList(wrap) {
           <span>${d.genNow} ${d.drift}</span>
         </div>
         <div class="sr-card-mid"><span class="sr-sub">Target · Upside</span><span>${srTargetCell(r)}</span></div>
+        ${typeof erNext === 'function' && erNext(r.ticker) ? `<div class="sr-card-mid"><span class="sr-sub">Next results</span><span>${erCell(r.ticker)}</span></div>` : ''}
       </div>`;
     }).join('')).join('');
   }
@@ -1768,6 +1773,9 @@ function renderStockReports() {
     const open = SR_view.openId && SR_reports.find(x => x.id === SR_view.openId);
     if (open) srDrawViewer(wrap, open); else { SR_view.openId = null; srDrawList(wrap); }
   };
+  if (typeof ER !== 'undefined' && !ER && typeof loadEarningsDates === 'function') {
+    loadEarningsDates(() => { if (document.getElementById('sr-content')) draw(); });
+  }
   if (SR_loaded) { draw(); return; }
   wrap.innerHTML = '<div class="empty-state">Loading…</div>';
   srLoadReports().then(draw);
