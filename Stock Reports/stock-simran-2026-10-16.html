@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simran Farms Limited (BSE: SIMRAN) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="SIMRAN">
+<meta name="exchange"  content="BSE">
+<meta name="name"      content="Simran Farms Limited">
+<meta name="sector"    content="Poultry / Integrated Broilers">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-16">
+<meta name="price"     content="189.90">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Poultry / Integrated Broilers · 16 Oct 2026</div>
+  <h1>Simran Farms Limited <span class="tik">· BSE: SIMRAN</span></h1>
+  <div class="subline">An Indore broiler integrator with ₹875 cr of revenue earning about 1% on it. It's cheap against sales, not against assets. The "Chugh stake" in the filing is held by Varsha Chugh, not Ashish Chugh.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹189.90</span></div>
+    <div><span class="k">52W range <small>closes</small></span><span class="v">₹138 – ₹192</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹91 cr<sup>d</sup></span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">17.7x<sup>d</sup></span></div>
+    <div><span class="k">P/BV</span><span class="v">1.57x<sup>d</sup></span></div>
+    <div><span class="k">Net debt</span><span class="v">₹32 cr<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.57x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">5,269 sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹0.09 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>A real business at a fair price, with thin margins and a large related-party flow. Hold, high risk.</strong> Revenue has nearly doubled in two years, from ₹486 cr in FY24 to ₹875 cr in FY26, but operating margin was 1.3% in FY26 and 0.85% in the June 2026 quarter. Trailing profit is ₹5.2 cr<sup>d</sup>. At ₹190 the stock trades on 17.7x trailing earnings, 1.57x book and about 0.14x EV/sales<sup>d</sup>. Operating cash flow was negative in both FY25 (−₹11 cr) and FY26 (−₹7 cr) as inventory of birds and feed rose to ₹126–140 cr.</p>
+  <p>The governance item that matters most is <strong>Simran Agritech (SAPL)</strong>, a feed and soya-DOC maker under common directorship with the whole-time director. Purchases and sales with SAPL came to <strong>₹400 cr in FY26, about 46% of revenue<sup>d</sup></strong>. The September 2026 AGM approved up to ₹400 cr more for FY27. Feed is the main cost in broiler farming, so the price set on that flow largely determines this company's margin.</p>
+  <div class="callout">
+    <p><strong>The tweet, tested.</strong> A 15 Oct 2026 tweet (@vsvicky_) said Ashish Chugh "increased stakes" in Simran Farms and that he targets "deep discounts to replacement value". <strong>The stake part is only partly confirmed.</strong> No holder named <em>Ashish</em> Chugh appears in any quarter's list of holders above 1%. The holder is <strong>Varsha Chugh</strong>: 1.22% in June 2026, 1.46% in September 2026 (+0.24 points, about 11,500 shares<sup>d</sup>, worth about ₹0.2 cr). Trackers often group her with Ashish Chugh, but this note found no filing that links the two. <strong>The replacement-value part fails.</strong> Net fixed assets are ₹24 cr against a ₹91 cr market cap and a ₹123 cr EV<sup>d</sup>. Book equity of ₹58 cr is mostly working capital (birds, feed, receivables), not plant, and the stock is at a 57% <em>premium</em> to book. Land carried at old historical cost could hide some value, but nothing filed puts a number on it.</p>
+  </div>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <p>No broker coverage. Trendlyne's research-report page for this company lists no report and no target (checked 16 Oct 2026), so there is no target price and the estimates are <span style="color:var(--ink3)">n/a</span>.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v"><span style="color:var(--ink3)">n/a</span></span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v"><span style="color:var(--ink3)">n/a</span></span></div>
+    <div><span class="k">Consensus EPS FY27E</span><span class="v"><span style="color:var(--ink3)">n/a</span></span></div>
+  </div>
+  <div class="delta"><strong>Arithmetic, not an estimate.</strong> Each 1 point of operating margin on ₹875 cr of revenue is about ₹8.75 cr of EBITDA, which is more than the whole of trailing PAT. That makes earnings very sensitive to feed costs and broiler prices. At a 2% margin on about ₹900 cr of revenue, FY27 PAT might be around ₹8 cr after interest, depreciation and tax, and the P/E about 11x<sup>d</sup>. At FY26's 1.3%, the P/E stays near 18x.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>486</td><td>834</td><td>875</td></tr>
+      <tr><th>Growth</th><td>+32%</td><td>+72%</td><td>+5%</td></tr>
+      <tr><th>EBITDA</th><td>2</td><td>9</td><td>11</td></tr>
+      <tr><th>EBITDA margin</th><td>0.4%</td><td>1.1%</td><td>1.3%</td></tr>
+      <tr><th>PAT</th><td>0.4</td><td>5.9</td><td>5.1</td></tr>
+      <tr><th>Operating cash flow</th><td>8</td><td>−11</td><td>−7</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>1.00</td><td>15.51</td><td>10.52</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">FY26 EPS fell partly because of dilution: 10.18 lakh warrants converted at ₹155 in March 2026, increasing the share count by 27%<sup>d</sup> (37.9 to 48.1 lakh). ROCE was 13.7% in FY26 and ROE 10.2%. FY20 was a ₹22 cr loss, which shows how badly a disease scare or a feed-price spike can hit this business.</div>
+
+  <h3>Quarterly — last 4</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Q2 FY26<br>Sep 25</th><th>Q3 FY26<br>Dec 25</th><th>Q4 FY26<br>Mar 26</th><th>Q1 FY27<br>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>188.5</td><td>232.6</td><td>248.7</td><td>213.9</td></tr>
+      <tr><th>YoY growth</th><td>+7.9%</td><td>−5.1%</td><td>+4.4%</td><td>+4.4%</td></tr>
+      <tr><th>EBITDA</th><td>1.42</td><td>2.74</td><td>5.44</td><td>1.81</td></tr>
+      <tr><th>EBITDA margin</th><td>0.75%</td><td>1.18%</td><td>2.19%</td><td>0.85%</td></tr>
+      <tr><th>PAT</th><td>0.35</td><td>1.14</td><td>2.83</td><td>0.83</td></tr>
+      <tr><th>YoY growth</th><td>+46%</td><td>n/m</td><td>loss → profit</td><td>+9%</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>0.92</td><td>2.98</td><td>5.86</td><td>1.73</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Margins move with the broiler cycle: the March quarter is usually the strongest and the monsoon quarters the weakest. Interest cost doubled to ₹0.7–1.3 cr a quarter in FY26 as borrowings funded higher inventory. Q2 FY27 (Sep 2026) is not yet reported.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Sep 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>No mutual fund holds it.</strong> Trendlyne's monthly disclosure shows no scheme holding Simran Farms in September 2026 (and none in August). The shareholding pattern shows no institutional holder of any kind: no FII, no DII. So there is no indirect exposure through your funds.</p>
+  </div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">16 Oct 26</span><span><strong>No Q2 FY27 board-meeting date filed yet.</strong> The trading window has been closed since 26 Sep for the September-quarter results. The latest filing is the routine Reg. 74(5) certificate on 5 Oct. Results are due by 14 Nov under LODR.</span></li>
+    <li><span class="date">Sep 26</span><span><strong>September-quarter shareholding:</strong> Varsha Chugh up from 1.22% to 1.46%. New holders above 1%: Prashant Rathee (1.40%) and Amit Garg (1.15%). Mahendra Wadhwani up from 1.03% to 1.40%. Promoters unchanged at 42.27%.</span></li>
+    <li><span class="date">24–25 Sep 26</span><span><strong>39th AGM.</strong> All resolutions passed, including the reappointment of Gurmeet Singh Bhatia (whole-time director) and Gaurav Chhabra, and approval of related-party transactions with Simran Agritech of up to ₹400 cr.</span></li>
+    <li><span class="date">13 Aug 26</span><span><strong>Board meeting.</strong> The audit committee and board approved the SAPL related-party proposal that went to the AGM. Q1 FY27 results showed revenue of ₹213.9 cr (+4.4% YoY) and PAT of ₹0.83 cr.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>37.32</td><td>37.32</td><td class="up">42.27</td><td>42.27</td><td>42.27</td></tr>
+      <tr><th>FIIs</th><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+      <tr><th>DIIs</th><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+      <tr><th>Public</th><td>62.67</td><td>62.68</td><td>57.73</td><td>57.74</td><td>57.74</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>4,488</td><td>4,258</td><td>4,200</td><td>4,166</td><td>4,038</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <p><strong>Chugh-family line, from the holders-above-1% list:</strong> Varsha Chugh first appears in June 2026 at 1.22% and rises to <strong>1.46% in September 2026</strong>. No "Ashish Chugh" entry appears in any quarter from Dec 2023 to Sep 2026. Holdings under 1% are not disclosed by name, so a smaller direct holding by him can't be ruled out. The March 2026 promoter jump (37.32% to 42.27%) came from the warrant conversion at ₹155. Nine of the twelve allottees were promoter-group members, and the other three were Ashwani Chowdhry (4.16%) and Hemantkumar and Toralben Patel (2.08% each). The IEPF holds 10.25%, which is unclaimed shares, so the real free float is smaller than "public" suggests.</p>
+  </div>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Shares outstanding</span><span class="v">48.1 L<sup>d</sup></span></div>
+    <div><span class="k">SAPL related-party flow FY26</span><span class="v">₹400 cr <small>≈46% of rev<sup>d</sup></small></span></div>
+    <div><span class="k">Promoter pledge</span><span class="v">nil disclosed</span></div>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Managing Director · Promoter</div><div class="nm">Harender Singh Bhatia</div>Of the Bhatia family, which holds 42.27% across about 20 individuals and HUFs. He has run the company's poultry operations in Madhya Pradesh for decades.</div>
+    <div class="person"><div class="rl">Whole-Time Director · Promoter</div><div class="nm">Gurmeet Singh Bhatia</div>Reappointed at the 2026 AGM. He is also a director of Simran Agritech (SAPL), the feed supplier behind the related-party flow.</div>
+    <div class="person"><div class="rl">CFO · Company Secretary</div><div class="nm">Mahesh Patidar · Tanu Parmar</div>Key managerial personnel as listed in the FY26 annual report.</div>
+  </div>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>Simran Farms is an integrated poultry company based in Indore. It keeps parent flocks and hatcheries and places day-old chicks with contract farmers ("integration"). It supplies feed, medicine and vaccines and pays the farmers a growing charge, then sells the live broilers. Most revenue comes from selling broilers. It has its own feed set-up but buys much of its finished feed from the related party SAPL. Because contract farmers provide most of the sheds, the model needs little fixed capital and a lot of working capital.</p>
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Mkt cap</th><th>TTM P/E</th><th>ROCE</th><th>Div yield</th></tr></thead>
+    <tbody>
+      <tr><th>Simran Farms</th><td>₹91 cr</td><td>17.7x</td><td>13.7%</td><td>0.00%</td></tr>
+      <tr><th>Venky's (India)</th><td>₹2,382 cr</td><td>13.8x</td><td>11.9%</td><td>0.57%</td></tr>
+      <tr><th>SKM Egg Products</th><td>₹1,107 cr</td><td>9.9x</td><td>30.7%</td><td>0.59%</td></tr>
+      <tr><th>Ovobel Foods</th><td>₹291 cr</td><td>7.5x</td><td>28.3%</td><td>0.00%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Simran is the most expensive of the group on trailing P/E and earns the second-lowest ROCE. Venky's, the closest like-for-like broiler integrator, trades at 13.8x with feed and processing integrated in-house.</div>
+  <h3>Moat</h3>
+  <p>Narrow. The advantages are regional: an established contract-farmer network and hatchery base in Madhya Pradesh. Broilers are a commodity priced daily in local markets, and margin depends on maize and soymeal costs the company can't control.</p>
+  <h3>Order book</h3>
+  <p>Not applicable. Simran sells live birds into the spot market and has no disclosed order book.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Liquidity.</strong> About ₹9 lakh of shares trade a day. A ₹10 lakh position is more than a full day's volume, so an exit could take days or weeks and move the price.</div>
+  <ul>
+    <li><strong>Related-party pricing.</strong> Nearly half of revenue flows through a promoter-linked feed company. The annual report gives no evidence that the prices are set at arm's length.</li>
+    <li><strong>Commodity margin.</strong> At a 1% margin, a small move in feed costs or broiler prices can wipe out a year's profit, as it did in FY20.</li>
+    <li><strong>Disease.</strong> An avian-flu outbreak in central India would hit both volumes and prices.</li>
+    <li><strong>Cash burn on growth.</strong> Operating cash flow was negative in FY25 and FY26, and growth has been funded by debt and the March 2026 warrant money (₹11.8 cr).</li>
+    <li><strong>Promoter-favoured issuance.</strong> Nine of the twelve allottees at ₹155 were promoters. Further preferential issues at below-market prices would dilute minority holders again.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> two consecutive quarters with operating margin of 2.5% or more and positive operating cash flow for the half-year, plus disclosure showing SAPL feed prices are benchmarked to market. Or a price near ₹130, about 1.1x book.</li>
+    <li><strong>Downgrade to Sell:</strong> a loss-making quarter while borrowings rise above ₹45 cr, the SAPL share of revenue rising further, or another preferential issue to promoters below the market price.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in (BSE code 519566), consolidated: annual and quarterly financials, balance sheet, cash flow, ratios, shareholding, holders above 1% by quarter (promoter and public), peer table and the filing list. Fetched 16 Oct 2026.</li>
+    <li>Simran Farms Annual Report FY2025-26 (BSE filing): AGM notice and related-party disclosure for Simran Agritech (₹400.49 cr in FY26; ₹400 cr limit for FY27), business description and key managerial personnel.</li>
+    <li>Warrant conversion (10,18,300 shares at ₹155; 9 promoter and 3 non-promoter allottees) and BSE trading approval: ScanX, Mar–May 2026.</li>
+    <li>Trendlyne: no research reports or target listed. Mutual fund holdings are the <strong>September 2026</strong> disclosure (none; August also none). Checked 16 Oct 2026.</li>
+    <li>Price, 52-week range (closes) and liquidity: Yahoo Finance SIMRAN.BO, 124 sessions to 16 Oct 2026.</li>
+    <li>Tweet: @vsvicky_, 15 Oct 2026, from the user's knowledge base.</li>
+  </ul>
+
+  <div class="foot">Generated 16 Oct 2026 · Price basis ₹189.90 (BSE, 16 Oct 2026) · Derived <sup>d</sup>: market cap, P/E, P/BV, net debt, D/E, EV, EV/sales, share count, SAPL share of revenue, Chugh share count and value, margin sensitivity. ⚠ Whether Varsha Chugh is connected to Ashish Chugh is not confirmed by any filing. Not investment advice.</div>
+</div>
+</body>
+</html>
