@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azad Engineering Limited (NSE: AZAD) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="AZAD">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Azad Engineering Limited">
+<meta name="sector"    content="Aerospace &amp; Energy Precision Components">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-17">
+<meta name="price"     content="2741.00">
+<meta name="target"    content="2618">
+<meta name="targetsrc" content="consensus · 7 analysts (Trendlyne)">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Aerospace &amp; Energy Precision Components · 17 Oct 2026</div>
+  <h1>Azad Engineering Limited <span class="tik">· NSE: AZAD</span></h1>
+  <div class="subline">The tweet's company is Azad, and almost every number in it checks out. The one that doesn't is the growth rate: profit grew 49% last year, but only about 20% in the latest quarter, and the stock sits at 127x trailing earnings, above the analysts' own consensus target.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹2,741.00</span></div>
+    <div><span class="k">52W range <small>closes</small></span><span class="v">₹1,367 – ₹3,063</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹17,702 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">127x</span></div>
+    <div><span class="k">P/BV</span><span class="v">11.6x<sup>d</sup></span></div>
+    <div><span class="k">Net debt</span><span class="v">₹289 cr<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.31x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">6.64 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹166 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>A real, high-quality business, priced for growth that is not yet showing in the profit line. Hold, high risk.</strong> Azad makes turbine blades (airfoils) and other flight- and life-critical rotating parts for gas, steam and aero engines. It sells to GE Vernova, Mitsubishi Heavy, Siemens Energy, Baker Hughes and Honeywell, and has builds under way for Rolls-Royce and Pratt &amp; Whitney Canada. FY26 consolidated revenue rose 32% to ₹603 cr at a 37% operating margin. The order book was about <strong>₹6,500 cr at 31 March 2026, roughly 10.8x FY26 revenue<sup>d</sup></strong>, which is unusually long visibility for a company this size.</p>
+  <p>The problem is the price and the cash. At ₹2,741 the stock trades at <strong>127x trailing earnings and 11.6x book</strong>, and about 104x the consensus FY27 estimate<sup>d</sup>. Trendlyne's 7-analyst consensus target is <strong>₹2,618, 4.5% below today's price</strong>. Profit growth slowed to about 20% in the June quarter (from 46–57% in the three before), and consolidated pre-tax profit actually fell 7% year on year (₹42 cr to ₹39 cr) as depreciation and interest from the new plants came through. Only a 10% tax rate held net profit up. FY26 operating cash flow was −₹119 cr, with inventory up from ₹189 cr to ₹329 cr. Management says the eight new customer-dedicated plants ramp from H2 FY27 and could add ₹1,200–1,440 cr of revenue at full use. If that shows up in the December and March quarters, today's multiple starts to make sense. Until then the stock is ahead of the numbers.</p>
+  <div class="callout">
+    <p><strong>Where this name came from.</strong> A tweet by @vsvicky_ on 14 Oct 2026, saved in the knowledge base, described an unnamed "Hyderabad-based precision engineering company, quietly selling to GE, Mitsubishi and Siemens, now entering Rolls-Royce &amp; Pratt &amp; Whitney aero engines. Order book ₹6,500 cr. EBITDA margins 37%. PAT growth YoY 49%. 93% revenue from exports."</p>
+    <p><strong>Identification: Azad Engineering.</strong> The evidence: Hyderabad HQ and plants (Tunikibollaram); customer-dedicated facilities for Mitsubishi Heavy (Mar 2025), GE Vernova (Apr 2025, plus two more Sep 2026) and Siemens Energy (Sep 2025); signed agreements with Rolls-Royce plc (civil aero engine parts) and Pratt &amp; Whitney Canada (Nov 2025 long-term agreement). <strong>The obvious alternative, MTAR Technologies</strong> (also Hyderabad, also exports to aerospace and energy), fails on three of the numbers: its Q1 FY27 EBITDA margin was 23.6%, exports 81%, and order book ₹5,143 cr. No other Hyderabad component maker carries a ₹6,500 cr order book with a 37% margin.</p>
+    <p><strong>Testing the numbers:</strong></p>
+    <ul>
+      <li><strong>Order book ₹6,500 cr — confirmed, but dated.</strong> About ₹6,500 cr at 31 Mar 2026, per the FY26 results release. The Q1 FY27 deck and call gave no updated figure.</li>
+      <li><strong>EBITDA margin 37% — confirmed.</strong> FY26 consolidated 37.4%; Q1 FY27 37.3% consolidated, 37.6% standalone.</li>
+      <li><strong>PAT growth 49% — true for the year, not the latest quarter.</strong> FY26 standalone PAT rose 49.3% (consolidated: +54%). The March quarter was +48%<sup>d</sup>. But the latest quarter, June 2026, was <strong>+19.5% consolidated (+21.2% standalone)</strong>. Read as a current run rate, the tweet overstates growth by more than double.</li>
+      <li><strong>93% exports — confirmed for FY26, slipping.</strong> The company's deck says ~93% for FY26. In Q1 FY27 it was 88%, against 92% a year earlier, as domestic BHEL and DRDO work grew.</li>
+      <li><strong>"Entering Rolls-Royce &amp; Pratt &amp; Whitney" — fair, but early.</strong> Both agreements are signed. The first Rolls-Royce qualification batch was due to ship in the September quarter. No revenue or order value has been disclosed for either.</li>
+      <li><strong>"Quietly" — not really.</strong> 82 mutual fund schemes hold 8.9% of the company, it joined the Nifty Smallcap 250 index in September, and seven analysts cover it.</li>
+    </ul>
+  </div>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Broker</th><th>Date</th><th>Call</th><th>Target ₹</th><th>vs ₹2,741</th></tr></thead>
+    <tbody>
+      <tr><th>Trendlyne consensus (7 analysts)</th><td>17 Oct 26</td><td>Buy</td><td>2,618</td><td class="dn">−4.5%</td></tr>
+      <tr><th>ICICI Securities</th><td>29 Sep 26</td><td>Buy (from Add)</td><td>3,200</td><td class="up">+16.7%</td></tr>
+      <tr><th>ICICI Direct</th><td>10 Aug 26</td><td>Buy (upgrade)</td><td>2,960</td><td class="up">+8.0%<sup>d</sup></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v">104x<sup>d</sup></span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v">79x<sup>d</sup> <small>ICICI Direct</small></span></div>
+    <div><span class="k">Consensus EPS FY27E</span><span class="v">₹26.3<sup>d</sup></span></div>
+  </div>
+  <div class="delta">The consensus target sits <strong>below</strong> both named targets, so the five analysts not shown on Trendlyne's report list must be well under ₹2,618. Consensus EPS is derived from Trendlyne's FY27 profit-growth forecast of 26.7% on FY26 PAT of ₹134 cr, over 6.46 cr shares<sup>d</sup>. ICICI Direct's own estimates are EPS ₹25.4 (FY27E) and ₹34.8 (FY28E), with revenue, EBITDA and PAT growing about 30% a year; its ₹2,960 target is 85x FY28E. In other words, even the bullish brokers need an 80x-plus multiple two years out.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY23</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>252</td><td>341</td><td>457</td><td>603</td></tr>
+      <tr><th>Growth</th><td>+30%</td><td>+35%</td><td>+34%</td><td>+32%</td></tr>
+      <tr><th>EBITDA</th><td>72</td><td>117</td><td>161</td><td>225</td></tr>
+      <tr><th>EBITDA margin</th><td>29%</td><td>34%</td><td>35%</td><td>37%</td></tr>
+      <tr><th>PAT</th><td>8</td><td>59</td><td>87</td><td>134</td></tr>
+      <tr><th>Growth</th><td>−72%</td><td>n.m.</td><td>+47%</td><td>+54%</td></tr>
+      <tr><th>Operating cash flow</th><td>−10</td><td>−7</td><td>54</td><td>−119</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>1.70</td><td>9.91</td><td>13.52</td><td>20.58</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">FY23 profit was depressed by ₹52 cr of interest and one-off items before the December 2023 IPO cleared most debt. Return on capital is modest for the margin: ROCE was 12% in both FY25 and FY26, because the equity raised in FY25 (reserves rose from ₹633 cr to ₹1,381 cr) went into plants that are only now filling. Free cash flow was −₹691 cr in FY26 (capex plus working capital); CWIP is ₹257 cr. Inventory days have roughly doubled on Screener's cost-of-materials basis, which the CFO puts down to 90–120-day work-in-progress cycles built for the H2 ramp.</div>
+
+  <h3>Quarterly — last 4 · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Q2 FY26<br>Sep 25</th><th>Q3 FY26<br>Dec 25</th><th>Q4 FY26<br>Mar 26</th><th>Q1 FY27<br>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>146</td><td>159</td><td>162</td><td>173</td></tr>
+      <tr><th>YoY growth</th><td>+30%</td><td>+33%</td><td>+28%</td><td>+26%</td></tr>
+      <tr><th>EBITDA</th><td>53</td><td>62</td><td>61</td><td>64</td></tr>
+      <tr><th>EBITDA margin</th><td>36%</td><td>39%</td><td>38%</td><td>37%</td></tr>
+      <tr><th>Pre-tax profit</th><td>46</td><td>48</td><td>51</td><td>39</td></tr>
+      <tr><th>PAT</th><td>33</td><td>35</td><td>37</td><td>35</td></tr>
+      <tr class="total"><th>PAT YoY growth</th><td>+57%<sup>d</sup></td><td>+46%<sup>d</sup></td><td>+48%<sup>d</sup></td><td>+19.5%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Growth rates for Q2–Q4 FY26 are worked out from Screener's rounded crore figures; Q1 FY27's +19.5% is from ICICI Direct's result note (₹35.2 cr against ₹29.5 cr). The June-quarter slowdown came below EBITDA: depreciation rose from ₹10 cr to ₹19 cr and interest from ₹6 cr to ₹10 cr year on year, and other income fell from ₹17 cr in Q4 (currency gains) to ₹4 cr. Screener shows a 10% tax rate for the quarter, against 27–31% normally, so the PAT line flatters. <span style="display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--warn);background:var(--warnbg);border-radius:4px;padding:1px 6px">unreconciled</span> Standalone PAT (₹36.4 cr) exceeds consolidated (₹35.2 cr); the tax-rate detail could not be confirmed from the filing.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Sep 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>82 schemes</strong> hold 57,20,191 shares, about <strong>8.9%</strong> of the equity<sup>d</sup> and ₹1,568 cr at today's price. September brought 41 new holders, almost all Nifty Smallcap 250 index funds and ETFs at the index weight of 0.38%, which points to an index inclusion. Active money went the other way: the largest holder, ICICI Pru Flexi Cap, sold 2,33,777 shares (14% of its position), and ICICI Pru Balanced Advantage, Motilal Oswal Manufacturing and several WhiteOak schemes trimmed.</p>
+  </div>
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Shares</th><th>Value held<br>₹ cr<sup>d</sup></th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th><th>Chg Sep</th></tr></thead>
+    <tbody>
+      <tr><th>ICICI Pru Flexi Cap</th><td>Flexi Cap</td><td>14,04,694</td><td>385</td><td>1.66%</td><td>23,194</td><td class="dn">−2,33,777</td></tr>
+      <tr><th>Axis Small Cap</th><td>Small Cap</td><td>6,86,848</td><td>188</td><td>0.66%</td><td>28,525</td><td>unch</td></tr>
+      <tr><th>Axis Flexi Cap</th><td>Flexi Cap</td><td>3,41,378</td><td>94</td><td>0.76%</td><td>12,312</td><td>unch</td></tr>
+      <tr><th>ICICI Pru Balanced Advantage</th><td>Balanced Adv.</td><td>3,33,083</td><td>91</td><td>0.14%</td><td>65,213</td><td class="dn">−75,000</td></tr>
+      <tr><th>Kotak MNC</th><td>Thematic</td><td>3,30,000</td><td>90</td><td>4.35%</td><td>2,079</td><td>unch</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <details class="fundlist">
+    <summary>Show all 82 schemes holding this stock (plus 2 exits)</summary>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Scheme</th><th>Shares</th><th>% of scheme</th><th>Chg Sep 2026</th></tr></thead>
+      <tbody>
+        <tr><th>ICICI Pru Flexi Cap Reg Gr</th><td>14,04,694</td><td>1.66%</td><td class="dn">−2,33,777</td></tr>
+        <tr><th>Axis Small Cap Fund Reg Gr</th><td>6,86,848</td><td>0.66%</td><td>unch</td></tr>
+        <tr><th>Axis Flexi Cap Reg Gr</th><td>3,41,378</td><td>0.76%</td><td>unch</td></tr>
+        <tr><th>ICICI Pru Balanced Adv Gr</th><td>3,33,083</td><td>0.14%</td><td class="dn">−75,000</td></tr>
+        <tr><th>Kotak MNC Reg Gr</th><td>3,30,000</td><td>4.35%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Flexi Cap Reg Gr</th><td>2,55,832</td><td>0.81%</td><td class="dn">−10,231</td></tr>
+        <tr><th>Axis Multicap Reg Gr</th><td>2,40,531</td><td>0.60%</td><td class="up">+20,640</td></tr>
+        <tr><th>Union Small Cap Reg Gr</th><td>2,25,000</td><td>2.44%</td><td>unch</td></tr>
+        <tr><th>LIC MF Large &amp; Mid Cap Reg Gr</th><td>1,99,132</td><td>2.00%</td><td>unch</td></tr>
+        <tr><th>Kotak Special Opportunities Reg Gr</th><td>1,80,000</td><td>2.78%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Mid Cap Reg Gr</th><td>1,69,498</td><td>0.67%</td><td>unch</td></tr>
+        <tr><th>Bandhan Infrastructure Gr</th><td>1,64,569</td><td>3.50%</td><td class="dn">−1,662</td></tr>
+        <tr><th>Axis India Manufacturing Reg Gr</th><td>1,47,441</td><td>0.79%</td><td class="up">+4,814</td></tr>
+        <tr><th>WhiteOak Capital Multi Cap Reg Gr</th><td>1,30,467</td><td>0.90%</td><td class="dn">−4,769</td></tr>
+        <tr><th>LIC MF Multi Cap Reg Gr</th><td>1,12,044</td><td>1.52%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Manufacturing Reg Gr</th><td>71,259</td><td>3.16%</td><td class="dn">−18,638</td></tr>
+        <tr><th>Groww Small Cap Reg Gr</th><td>55,389</td><td>1.70%</td><td>unch</td></tr>
+        <tr><th>Groww Multicap Reg Gr</th><td>52,667</td><td>0.92%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Mlt Ast Allc Reg Gr</th><td>50,739</td><td>0.17%</td><td class="dn">−9,432</td></tr>
+        <tr><th>Nippon India Nifty Smallcap 250 I Reg Gr</th><td>43,931</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>LIC MF Dividend Yield Reg Gr</th><td>43,813</td><td>1.76%</td><td>unch</td></tr>
+        <tr><th>LIC MF Aggressive Hybrid Gr</th><td>40,595</td><td>2.14%</td><td>unch</td></tr>
+        <tr><th>Union Focused Reg Gr</th><td>39,564</td><td>2.71%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Special Opps Reg Gr</th><td>38,020</td><td>0.58%</td><td>unch</td></tr>
+        <tr><th>LIC MF Midcap Fund Reg Gr</th><td>35,000</td><td>2.81%</td><td>unch</td></tr>
+        <tr><th>HDFC Nifty Smallcap 250 ETF</th><td>34,472</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Union Multicap Reg Gr</th><td>33,369</td><td>0.65%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Bal Advtg Reg Gr</th><td>32,468</td><td>0.43%</td><td class="dn">−4,735</td></tr>
+        <tr><th>SBI Nifty Smallcap 250 Index Reg Gr</th><td>22,317</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Bandhan Balanced Advantage Reg Gr</th><td>21,805</td><td>0.29%</td><td>unch</td></tr>
+        <tr><th>Canara Robeco ELSS - Tax Svr Reg IDCW-P</th><td>20,000</td><td>0.07%</td><td class="up">new</td></tr>
+        <tr><th>Motilal Oswal Nifty Smcp 250 Idx Reg Gr</th><td>15,830</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Union Retirement Reg Gr</th><td>13,000</td><td>1.87%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital ELSS Tax Saver RegGr</th><td>12,936</td><td>0.80%</td><td class="dn">−1,434</td></tr>
+        <tr><th>The Wealth Company Small Cap Reg Gr</th><td>12,388</td><td>2.56%</td><td class="up">+2,888</td></tr>
+        <tr><th>Edelweiss Equity Savings Reg Gr</th><td>12,000</td><td>0.21%</td><td>unch</td></tr>
+        <tr><th>TRUSTMF Multi Cap Regular Growth</th><td>11,365</td><td>0.37%</td><td class="up">new</td></tr>
+        <tr><th>ICICI Pru Nifty SmCp 250 Idx Reg Gr</th><td>10,006</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>HDFC Nifty Smallcap 250 Index Reg Gr</th><td>9,596</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>WhiteOak Capital Agrsv Hyb Reg Gr</th><td>7,841</td><td>0.39%</td><td>unch</td></tr>
+        <tr><th>Canara Robeco Infrastructure Reg Gr</th><td>7,500</td><td>0.24%</td><td class="up">new</td></tr>
+        <tr><th>JioBlackRock Nifty SmCp 250 Idx Dir Gr</th><td>5,008</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Reg Gr</th><td>4,569</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>The Wealth Com Mlt Ast Allc Reg Gr</th><td>4,000</td><td>0.56%</td><td class="up">new</td></tr>
+        <tr><th>Axis Aggresive Hybrid Fund Reg Gr</th><td>3,930</td><td>0.08%</td><td class="up">new</td></tr>
+        <tr><th>Samco Multi Cap Reg Gr</th><td>3,633</td><td>0.49%</td><td>unch</td></tr>
+        <tr><th>Edelweiss Nifty SmCp 250 Idx Reg Gr</th><td>3,529</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Nippon Ind Nifty 500 Eql Wtd Idx Rg Gr</th><td>3,379</td><td>0.22%</td><td class="up">new</td></tr>
+        <tr><th>WhiteOak Capital Bal Hyb Reg Gr</th><td>3,307</td><td>0.33%</td><td class="dn">−1,274</td></tr>
+        <tr><th>Motilal Oswal Nifty Smallcap 250 ETF</th><td>3,192</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Axis Children's Reg Loc in Gr</th><td>2,402</td><td>0.08%</td><td class="up">new</td></tr>
+        <tr><th>Axis Retirement Agrsv Reg Gr</th><td>1,900</td><td>0.08%</td><td class="up">new</td></tr>
+        <tr><th>Groww Nifty Smallcap 250 Idx Reg Gr</th><td>1,732</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Samco Small Cap Reg Gr</th><td>1,426</td><td>0.16%</td><td class="up">new</td></tr>
+        <tr><th>Bandhan Nifty SmCp 250 Idx Reg Gr</th><td>1,351</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Kotak Nifty Smallcap 250 Idx Reg Gr</th><td>1,126</td><td>0.39%</td><td class="up">new</td></tr>
+        <tr><th>SBI Nifty 500 Index Reg Gr</th><td>1,084</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>Mirae Asset Nifty Smallcap 250 ETF</th><td>1,042</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>WhiteOak Capital Eq Savings Reg Gr</th><td>912</td><td>0.10%</td><td class="dn">−388</td></tr>
+        <tr><th>Axis Retirement Dynamic Reg Gr</th><td>768</td><td>0.08%</td><td class="up">new</td></tr>
+        <tr><th>Groww Nifty Total Market Idx Reg Gr</th><td>502</td><td>0.04%</td><td class="dn">−3</td></tr>
+        <tr><th>Axis Nifty 500 Index Reg Gr</th><td>465</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 ETF</th><td>443</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>Mirae Asset Nifty500 Mltcp 50:25:25 ETF</th><td>282</td><td>0.09%</td><td class="up">new</td></tr>
+        <tr><th>DSP Nifty SmallCap 250 Index Reg Gr</th><td>221</td><td>0.37%</td><td class="up">new</td></tr>
+        <tr><th>Groww Nifty Smallcap 250 ETF</th><td>215</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>UTI Nifty 500 Index Reg Gr</th><td>150</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>ICICI Prudential Nifty 500 Idx Reg Gr</th><td>150</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>Zerodha Nifty MidSmCp400 50:50 Idx DirGr</th><td>122</td><td>0.19%</td><td class="up">new</td></tr>
+        <tr><th>ICICI Prudential Nifty Smallcap 250 ETF</th><td>120</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>SBI Nifty Smallcap 250 ETF</th><td>108</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>DSP Nifty Smallcap 250 ETF</th><td>105</td><td>0.38%</td><td class="up">new</td></tr>
+        <tr><th>Mirae Asset Nifty India Infrs &LgstcsETF</th><td>97</td><td>0.26%</td><td class="up">new</td></tr>
+        <tr><th>Navi Nifty 500 Multicap 50 25 25IdxRegGr</th><td>89</td><td>0.09%</td><td class="up">new</td></tr>
+        <tr><th>Angel One Nifty Total Market Idx Reg Gr</th><td>84</td><td>0.04%</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal BSE 1000 Index Reg Gr</th><td>84</td><td>0.04%</td><td>unch</td></tr>
+        <tr><th>Mirae Asset Nifty Total Mkt Idx Reg Gr</th><td>69</td><td>0.04%</td><td class="dn">−1</td></tr>
+        <tr><th>Bandhan Nifty Total Market Index Reg Gr</th><td>60</td><td>0.04%</td><td class="dn">−1</td></tr>
+        <tr><th>Angel One Nifty Total Market ETF</th><td>58</td><td>0.04%</td><td class="dn">−1</td></tr>
+        <tr><th>Navi Nifty MidSmallcap 400 Index Reg Gr</th><td>56</td><td>0.13%</td><td class="up">new</td></tr>
+        <tr><th>DSP Nifty 500 Index Reg Gr</th><td>24</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>UTI Nifty 500 Exchange Traded Fund</th><td>10</td><td>0.04%</td><td class="up">new</td></tr>
+        <tr><th>Kotak Infra &amp; Econ Reform Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Motilal Oswal Nifty Mcrcp 250 Idx Reg Gr</th><td>exited</td><td>—</td><td class="dn">−73,908</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+  <div class="delta">Kotak MNC has the strongest conviction, 4.35% of a ₹2,079 cr fund. Overlap with your own funds: none. Your Motilal Oswal Large &amp; Midcap is not a holder; the Motilal Oswal holders are its Manufacturing fund and Nifty Smallcap 250 / Nifty 500 index products.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">17 Oct 26</span><span><strong>No Q2 FY27 board-meeting date has been filed.</strong> The latest exchange announcements (to 12 Oct) contain no results intimation. Last year the September-quarter board met on 1 Nov 2025, so early November is likely, but that is an inference.</span></li>
+    <li><span class="date">12 Oct 26</span><span><strong>BHEL two-year rate contract, about ₹52.68 cr,</strong> for stationary and rotating airfoils for BHEL's heavy-duty gas turbines, running to 9 Oct 2028. Disclosed now because, combined with a similar May 2026 contract, it became material.</span></li>
+    <li><span class="date">30 Sep 26</span><span><strong>AGM approves five-year reappointments</strong> of Rakesh Chopdar, Jyoti Chopdar and Vishnu Malpani from 13 Sep 2026.</span></li>
+    <li><span class="date">28–29 Sep 26</span><span><strong>Two more dedicated plants for GE Vernova Gas Power</strong> inaugurated in Hyderabad (7,600 sq m each). The stock rose 6.5% to ₹2,902. Six of seven planned dedicated facilities plus the forging unit are now commissioned; the last is due by end-FY27. ICICI Securities upgraded to Buy with a ₹3,200 target.</span></li>
+    <li><span class="date">Sep 26</span><span><strong>Added to Nifty Smallcap 250</strong> (inferred: 41 new index-fund and ETF holders appear in the September disclosure at the index weight).</span></li>
+    <li><span class="date">7–8 Aug 26</span><span><strong>Q1 FY27 results:</strong> consolidated revenue +25.9% to ₹172.6 cr, EBITDA +30.7% at a 37.3% margin, PAT +19.5% to ₹35.2 cr. Management repeated 25%+ long-term growth and a 32–35% margin guide, and expects the ramp from Q3/Q4 FY27.</span></li>
+    <li><span class="date">Aug 26</span><span><strong>India's first indigenous expendable turbojet engine</strong> delivered to GTRE/DRDO and the Ministry of Defence, built, assembled and integrated in-house. Testing and airworthiness certification follow; management talked of the first 4–5 engines in 8–12 weeks. First Rolls-Royce qualification batch due in the September quarter.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>55.42</td><td>55.84</td><td>55.84</td><td>55.84</td><td>55.84</td></tr>
+      <tr><th>FIIs</th><td>15.76</td><td>15.33</td><td>14.75</td><td>13.30</td><td class="dn">12.70</td></tr>
+      <tr><th>DIIs</th><td>9.84</td><td>10.73</td><td>11.71</td><td>10.32</td><td>10.40</td></tr>
+      <tr><th>Public</th><td>18.99</td><td>18.08</td><td>17.69</td><td>20.53</td><td>21.06</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>1,27,716</td><td>1,25,118</td><td>1,26,786</td><td>1,33,221</td><td>1,49,134</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <p><strong>Promoters steady, foreigners selling, retail buying.</strong> Promoter holding has been flat at 55.84% for four quarters, after falling from 65.90% to 55.42% in two steps (Mar and Jun 2025 quarters); whether that was dilution or sale was not checked for this note. FIIs have cut from 16.16% (Jun 2025) to 12.70%, every quarter for five quarters. The shareholder count jumped 12% in the September quarter alone, to 1.49 lakh, and the public share rose to 21%: the marginal buyer is now retail. No promoter pledge was found in filings or news searches.</p>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Promoter · Chairman &amp; CEO</div><div class="nm">Rakesh Chopdar</div>Runs the business and the customer relationships. Reappointed for five years from 13 Sep 2026.</div>
+    <div class="person"><div class="rl">Promoter · Whole-time Director</div><div class="nm">Jyoti Chopdar</div>Reappointed for five years at the September 2026 AGM.</div>
+    <div class="person"><div class="rl">Whole-time Director</div><div class="nm">Vishnu Malpani</div>Leads on capex and capacity planning on the analyst calls. Reappointed for five years.</div>
+    <div class="person"><div class="rl">Chief Financial Officer</div><div class="nm">Ronak Jajoo</div>Took the working-capital and hedging questions on the Q1 call; says export receivables will be fully hedged via bill discounting by Q4 FY27.</div>
+    <div class="person"><div class="rl">Company Secretary &amp; Head Legal</div><div class="nm">G. Praneeth Abhishek</div>Signs the exchange filings.</div>
+  </div>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>Azad machines turbine airfoils (rotating and stationary blades), rotor and engine parts, and increasingly sub-assemblies, for gas, steam and nuclear turbines and for aero engines. It has about 1,700 qualified parts, sells in 12+ countries, and earned ~93% of FY26 revenue abroad. Energy and oil &amp; gas is about 81% of revenue and aerospace &amp; defence about 17% (Q1 FY27, standalone). The model is <strong>customer-dedicated plants</strong>: a building and line set up for one OEM under a long-term contract, now eight in Hyderabad (Mitsubishi, GE Vernova steam and gas, Siemens Energy, Baker Hughes and others), each meant to earn ₹150–180 cr a year at full use. The next step up is "hot-section" parts (combustion-side nozzle vanes, under an eight-year single-source deal with Mitsubishi signed March 2026) and complete small engines for DRDO.</p>
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Mkt cap</th><th>TTM P/E</th><th>Latest EBITDA margin</th><th>Exports</th><th>Order book</th></tr></thead>
+    <tbody>
+      <tr><th>Azad Engineering</th><td>₹17,702 cr</td><td>127x</td><td>37% <small>Q1 FY27</small></td><td>88–93%</td><td>~₹6,500 cr <small>Mar 26</small></td></tr>
+      <tr><th>MTAR Technologies</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td><td>23.6% <small>Q1 FY27</small></td><td>81%</td><td>₹5,143 cr <small>Jun 26</small></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">MTAR (also Hyderabad) is the closest listed comparison: precision components for aerospace, nuclear, space and clean energy. It grew revenue 130% in Q1 FY27 but at little more than half Azad's margin. Its valuation was not fetched for this note. Global airfoil makers (PCC, Howmet) are far larger and not comparable on size.</div>
+  <h3>Moat</h3>
+  <p>Strong, and the best part of the case. Turbine airfoils are life-critical; each part is qualified individually with the OEM, which takes years, and Azad has ~1,700 of them with "zero ppm" defect requirements. Customers it says control about 75% of the gas-turbine market have built dedicated plants with it, which ties both sides in. The weakness is concentration: a handful of OEMs buy almost everything, and they set prices.</p>
+  <h3>Order book</h3>
+  <p><strong>About ₹6,500 cr at 31 Mar 2026</strong>, delivered over five to six years, per the FY26 results release and trade press; no updated figure was given with Q1 FY27. Disclosed contracts include Mitsubishi (US$73.5 m in Sep 2025; cumulative ~US$156 m), Baker Hughes/Nuovo Pignone (extended to 2030), Arabelle Solutions, GE Vernova, GTRE (a complete gas-generator engine) and BHEL (₹52.7 cr, Oct 2026); the deck's dollar values for the others could not be matched to customers reliably. Rolls-Royce and Pratt &amp; Whitney Canada values are confidential and not counted in revenue yet.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Valuation ahead of delivery.</strong> 127x trailing and 104x forward, above the consensus target, with profit growth just slowed to ~20%. If the H2 FY27 ramp slips by even a quarter, there is a lot of multiple to give back.</div>
+  <ul>
+    <li><strong>Cash burn.</strong> Operating cash flow was −₹119 cr in FY26 and free cash flow −₹691 cr; net debt went from net cash to ₹289 cr in a year. Interest cost is rising.</li>
+    <li><strong>Plant ramp-up.</strong> Eight new facilities need customer qualification part by part before they earn; depreciation is already in the P&amp;L.</li>
+    <li><strong>Customer concentration.</strong> A few global OEMs take nearly all output.</li>
+    <li><strong>Currency.</strong> ~90% exports; Q4 FY26 other income included ₹11.9 cr of currency gains that did not repeat. Hedging is still being put in place.</li>
+    <li><strong>Holder rotation.</strong> FIIs selling for five straight quarters while retail holders grow 12% in a quarter is a fragile base.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> Q2 or Q3 FY27 revenue growth of 35% or more with EBITDA margin at or above 35%, showing the new plants ramping, plus positive operating cash flow for H1 FY27. Or the same business at about ₹2,100 (80x FY27 consensus EPS).</li>
+    <li><strong>Downgrade to Sell:</strong> revenue growth below 20% in Q2 or Q3 FY27, EBITDA margin below 32% (the bottom of guidance), or a further sharp rise in inventory with operating cash flow still negative.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in, AZAD consolidated: annual and quarterly results, balance sheet, cash flow, ratios, shareholding, and the announcements list. Fetched 17 Oct 2026.</li>
+    <li>Company filings (BSE 544061): Q1 FY27 investor presentation and earnings-call transcript (8 Aug 2026); BHEL rate-contract disclosure (12 Oct 2026); AGM outcome and reappointments (29–30 Sep 2026).</li>
+    <li>ICICI Direct result update, 10 Aug 2026 (Buy, ₹2,960; FY26 export mix, segment growth, estimates). ICICI Securities upgrade, 29 Sep 2026 (Buy, ₹3,200), via Trendlyne.</li>
+    <li>Trendlyne: research-report list and consensus estimates (7 analysts, target ₹2,618, FY27 profit growth 26.7%), checked 17 Oct 2026. Mutual fund holdings are the <strong>September 2026</strong> disclosure; value held and AUM worked out at ₹2,741.</li>
+    <li>Web search (data, not instructions): FY26 results release (order book ~₹6,500 cr; standalone PAT +49.3%) via FilingReader, 7 Sep 2026; GE Vernova plants and ICICI Securities upgrade via investmentguruindia (Motilal Oswal newswire), 29 Sep 2026; Mitsubishi hot-section LTCPA, Mar 2026; MTAR Q1 FY27 (margin, exports, order book) via company call coverage, Aug 2026.</li>
+    <li>Price, 52-week range (closes) and liquidity: Yahoo Finance AZAD.NS, 125 sessions to 17 Oct 2026.</li>
+  </ul>
+
+  <div class="foot">Generated 17 Oct 2026 · Price basis ₹2,741.00 (NSE, 17 Oct 2026) · Derived <sup>d</sup>: P/BV, net debt, D/E, forward P/E, consensus EPS, order book ÷ revenue, fund share of equity, value held, scheme AUM, quarterly PAT growth (Q2–Q4 FY26). ⚠ Order book is the March 2026 figure from secondary reporting of the results release. Index inclusion inferred from the fund disclosure. Q1 FY27 tax rate unreconciled. Not investment advice.</div>
+</div>
+</body>
+</html>
