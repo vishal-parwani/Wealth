@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danlaw Technologies India Limited (BSE: DANLAW) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="DANLAW">
+<meta name="exchange"  content="BSE">
+<meta name="name"      content="Danlaw Technologies India Limited">
+<meta name="sector"    content="Auto Electronics / Telematics">
+<meta name="rating"    content="Buy">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-23">
+<meta name="price"     content="1235.00">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Auto Electronics / Telematics · 23 Oct 2026</div>
+  <h1>Danlaw Technologies India Limited <span class="tik">· BSE: DANLAW (532329)</span></h1>
+  <div class="subline">A ₹600 cr Hyderabad maker of telematics and vehicle electronics. Growth has picked up to 35% while the stock has fallen a third from its September high, leaving it at 24x trailing earnings. It trades only ₹63 lakh a day.</div>
+  <div class="rating-row">
+    <span class="badge badge-buy">Buy</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹1,235.00</span></div>
+    <div><span class="k">52W range <small>closes</small></span><span class="v">₹441 – ₹1,805</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹602 cr<sup>d</sup></span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">23.6x<sup>d</sup></span></div>
+    <div><span class="k">P/BV</span><span class="v">6.0x<sup>d</sup></span></div>
+    <div><span class="k">Net debt</span><span class="v">₹3 cr<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.30x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">5,010 sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹0.63 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>The business is getting better and the stock has got cheaper. At 24x trailing earnings, Buy, but keep the position small: it is high risk.</strong> Revenue growth has picked up for four quarters running: +20%, +13%, +28% and +35% year on year. Profit in the June 2026 quarter rose 71% to ₹5.9 cr. FY26 revenue was ₹262 cr (+20%), operating profit ₹39 cr (+24%) and profit ₹23 cr (+22%). ROCE is 28%. Leases aside, the balance sheet is close to net cash: ₹27 cr of cash against ₹19 cr of bank debt. The share count has not changed since 2022: no preferential issue, no warrants and no QIP.</p>
+  <p>The stock ran from ₹987 on 3 August to ₹1,805 on 4 September on the back of the Q4 and Q1 results. It has since fallen 32% to ₹1,235 with no negative filing. As a result, the trailing multiple is 23.6x<sup>d</sup>, close to the roughly 20x of a year ago, when growth was in single digits. That is below Pricol (28x) and far below the EMS names (Syrma 74x, Avalon 92x). If FY27 profit grows 25%, the stock is on 21x<sup>d</sup> FY27 earnings.</p>
+  <p><strong>The counter-arguments are real, and they are why this is high risk.</strong> (1) <strong>Liquidity:</strong> the stock trades about ₹63 lakh a day, so getting in or out has to be done patiently with limit orders. (2) <strong>Opacity:</strong> the FY25 and FY26 annual reports are filed as image scans. The company has never disclosed its customer concentration in any filing this note could read. No broker covers the stock, and no institution holds it in size. (3) <strong>Margins are thin and volatile:</strong> operating margin ran 12.7–18.6% over eight quarters. The company imports much of its component cost: FY24 foreign-exchange outgo was ₹76 cr, 36% of revenue. That exposes margins to the rupee and to chip prices. (4) <strong>Capital allocation:</strong> it has paid no dividend since at least FY11 despite three years of ₹19–23 cr profit.</p>
+  <div class="callout">
+    <p><strong>The parent link is smaller than the name suggests.</strong> Danlaw Inc (Michigan) holds 23.88% directly, and the Dandu group's Danlaw Systems India holds 30.01%. But on the last readable related-party note (FY24), sales to Danlaw Inc were only <strong>₹3.5 cr, or 1.7% of ₹211 cr revenue</strong><sup>d</sup>. FY24 foreign-exchange earnings were ₹3.5 cr in total. This is now a domestic auto-electronics manufacturer, not a captive offshore centre for its US parent. The remaining related-party links are modest: a USD 2.5 m ECB from Danlaw Inc (long-term borrowings were down to ₹2.65 cr by March 2026), office rent paid to RRG Properties LLP (promoter-linked), software services bought from Darby Telematics, and hardware sales to Akteena Technologies. The FY25 and FY26 notes could not be read, so whether the 1.7% has changed is a gap.</p>
+  </div>
+  <p><strong>What would change my view:</strong> I would add more aggressively if Q2 FY27 revenue is ₹80 cr or more (+22% year on year), with operating margin at least 15%. I would downgrade if growth falls back below 10%, if a pledge or a related-party transaction of real size appears, or if the price runs back toward ₹1,600 without earnings to match. The full list is under "What would change the rating".</p>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <p>No broker coverage was found. WebSearch for a target or research report returned nothing. Trendlyne's research-report page (stock id 3815) returned HTTP 502 on three attempts on 23 Oct, so it could not be checked directly. The target meta is omitted and the estimates below are <span style="color:var(--ink3)">n/a</span>.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v"><span style="color:var(--ink3)">n/a</span></span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v"><span style="color:var(--ink3)">n/a</span></span></div>
+    <div><span class="k">Consensus EPS FY27E</span><span class="v"><span style="color:var(--ink3)">n/a</span></span></div>
+  </div>
+  <div class="delta"><strong>Arithmetic, not an estimate.</strong> FY26 EPS was ₹47.20. At 25% growth, FY27 EPS would be about ₹59.0, putting the stock on 20.9x<sup>d</sup>. At 15% growth it would be ₹54.3 and 22.7x<sup>d</sup>. Q1 FY27 EPS was ₹12.17, against ₹7.12 a year earlier.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · standalone, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY24</th><th>FY25</th><th>FY26</th><th>TTM Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>211</td><td>219</td><td>262</td><td>281</td></tr>
+      <tr><th>Growth</th><td>+26%</td><td>+4%</td><td>+20%</td><td>—</td></tr>
+      <tr><th>EBITDA</th><td>36.3</td><td>31.8</td><td>39.3</td><td>42.3</td></tr>
+      <tr><th>Growth</th><td>—</td><td>−12%<sup>d</sup></td><td>+24%<sup>d</sup></td><td>—</td></tr>
+      <tr><th>EBITDA margin</th><td>17.2%</td><td>14.5%</td><td>15.0%</td><td>15.0%</td></tr>
+      <tr><th>PAT</th><td>22.2</td><td>18.9</td><td>23.0</td><td>25.5</td></tr>
+      <tr><th>Growth</th><td>+190%</td><td>−15%<sup>d</sup></td><td>+22%<sup>d</sup></td><td>—</td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>45.64</td><td>38.84</td><td>47.20</td><td>52.25</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Annual figures are sums of Screener's four quarterly results, so they may differ from the audited annual line by rounding. The company has reported standalone only since its subsidiary, Danlaw Electronics Assembly, was merged into it under an NCLT order of October 2022. Screener's consolidated series ends in September 2022 and is ignored here. Operating cash flow was ₹21 cr in FY26 and free cash flow ₹12 cr. FY25 was ₹10 cr and ₹5 cr. Receivables rose from ₹49 cr to ₹56 cr (78 debtor days). Screener's checklist flags that the company "might be capitalizing the interest cost". This was not verified.</div>
+
+  <h3>Quarterly — last 8</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Q2 FY25<br>Sep 24</th><th>Q3 FY25<br>Dec 24</th><th>Q4 FY25<br>Mar 25</th><th>Q1 FY26<br>Jun 25</th><th>Q2 FY26<br>Sep 25</th><th>Q3 FY26<br>Dec 25</th><th>Q4 FY26<br>Mar 26</th><th>Q1 FY27<br>Jun 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>54.6</td><td>54.7</td><td>62.3</td><td>54.8</td><td>65.6</td><td>61.6</td><td>80.0</td><td>73.7</td></tr>
+      <tr><th>YoY growth</th><td>+9%</td><td>+3%</td><td>+1%</td><td>+16%</td><td>+20%</td><td>+13%</td><td class="up">+28%</td><td class="up">+35%</td></tr>
+      <tr><th>EBITDA</th><td>7.6</td><td>7.8</td><td>10.5</td><td>6.9</td><td>9.6</td><td>7.9</td><td>14.9</td><td>9.9</td></tr>
+      <tr><th>EBITDA margin</th><td>13.9%</td><td>14.2%</td><td>16.9%</td><td>12.7%</td><td>14.6%</td><td>12.8%</td><td>18.6%</td><td>13.4%</td></tr>
+      <tr><th>PAT</th><td>4.5</td><td>4.4</td><td>6.5</td><td>3.5</td><td>5.5</td><td>4.5</td><td>9.5</td><td>5.9</td></tr>
+      <tr><th>YoY growth</th><td class="dn">−24%</td><td class="dn">−27%</td><td>−2%</td><td>−5%</td><td>+22%</td><td>+2%</td><td class="up">+46%</td><td class="up">+71%</td></tr>
+      <tr class="total"><th>Net margin</th><td>8.3%<sup>d</sup></td><td>8.1%<sup>d</sup></td><td>10.5%<sup>d</sup></td><td>6.3%<sup>d</sup></td><td>8.4%<sup>d</sup></td><td>7.3%<sup>d</sup></td><td>11.9%<sup>d</sup></td><td>8.0%<sup>d</sup></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The March quarter is seasonally the strongest, so year-on-year growth is the fair comparison, not quarter on quarter. Year-on-year revenue growth has risen from 1% to 35% over four quarters, and operating margin in the last two quarters was 18.6% and 13.4%, against 16.9% and 12.7% a year earlier. Depreciation has roughly doubled, from ₹0.9 cr to ₹1.7–1.9 cr a quarter, which reflects capex at the Goa plant. Q2 FY27 has to beat ₹65.6 cr revenue and ₹5.5 cr profit.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· disclosure month n/a</span></h2>
+  <div class="callout">
+    <p><strong>Effectively no institutional holding.</strong> Trendlyne's monthly MF disclosure (Sep and Aug 2026) returned HTTP 502 on 23 Oct, so this could not be checked scheme by scheme. Screener's shareholding shows <strong>DIIs at 0.24%</strong> at September 2026, about 11,700 shares worth about ₹1.4 cr<sup>d</sup>. DIIs were 0.02% in June and nil before that. FIIs hold 0.00%. Whether that DII sliver is a mutual fund, an insurer or something else is unconfirmed. No institution holds more than 1%. The register is promoters plus retail, so there is no institutional floor under the price. Overlap with your own funds: none identifiable.</p>
+  </div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">23 Oct 26</span><span><strong>No Q2 FY27 board-meeting date has been filed yet.</strong> Screener's BSE announcement feed for 532329 shows nothing after 5 Oct (a Reg 74(5) certificate). The trading window closed on 28 Sep. Last year's September-quarter results came on 12 Nov 2025, and the SEBI deadline is 14 Nov, so expect results in the first half of November. The result itself has not been declared.</span></li>
+    <li><span class="date">16–21 Oct 26</span><span><strong>Stock falls 14% in four sessions</strong>, from ₹1,441 to ₹1,239, on above-average volume (9,986 shares on 16 Oct), with no accompanying filing. It is now 32% below the 4 Sep closing high of ₹1,805.</span></li>
+    <li><span class="date">24 Sep 26</span><span><strong>33rd AGM: all four ordinary resolutions passed.</strong> These were the accounts, a director reappointment, cost-auditor ratification and the regularisation of a director. The regularisation is presumably Pallavi Dandu, appointed an additional director on 1 Jul; this is an inference.</span></li>
+    <li><span class="date">1 Sep 26</span><span><strong>FY26 annual report filed</strong> as an image-scanned PDF with no text layer, which is why the FY26 related-party note could not be read for this report.</span></li>
+    <li><span class="date">14 Aug 26</span><span><strong>Q1 FY27 results: revenue ₹73.7 cr (+35%), profit ₹5.9 cr (+71%).</strong> The board also appointed Sagar &amp; Associates as cost auditor and fixed the AGM date. The stock went from ₹987 on 3 Aug to ₹1,319 on 17 Aug and ₹1,805 by 4 Sep.</span></li>
+    <li><span class="date">7 Aug 26</span><span><strong>New 52-week high of ₹1,198</strong> after a 23% five-day run ahead of the results (MarketsMojo).</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>61.87</td><td>61.87</td><td>61.87</td><td>61.87</td><td>61.87</td></tr>
+      <tr><th>FIIs</th><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+      <tr><th>DIIs</th><td>0.00</td><td>0.00</td><td>0.00</td><td>0.02</td><td class="up">0.24</td></tr>
+      <tr><th>Government</th><td>0.88</td><td>0.88</td><td>0.88</td><td>0.88</td><td>0.88</td></tr>
+      <tr><th>Public</th><td>37.23</td><td>37.23</td><td>37.24</td><td>37.20</td><td>36.99</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>8,756</td><td>8,560</td><td>8,268</td><td>7,849</td><td>7,763</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <p><strong>The promoter holding has not changed at all.</strong> Every promoter's share is identical across the five quarters: Danlaw Systems India Ltd 30.01%, Danlaw Inc 23.88%, and eight Dandu-family individuals 7.98%<sup>d</sup> between them. Nothing has been bought or sold. No pledge has been reported: Screener shows no pledge row and MarketsMojo lists pledged holdings as "None", though the BSE shareholding-pattern PDF itself could not be opened. There have been no preferential issues, warrants or ESOP dilution. The share count has stayed at 48,70,667 since the 2022 amalgamation, which issued 11,63,177 shares to Danlaw Inc.</p>
+  </div>
+  <p class="delta">The shareholder count fell 11%, from 8,756 to 7,763, while the price nearly doubled. That is consistent with long-time small holders selling into the rally, not with retail piling in. Three public holders are above 1%: Pannu Bhansali (1.52%, edging up), Vamsidhar Patibandla (1.20%) and Vibhava Mishra (1.15%). The 0.88% "Government" line is a long-standing holding.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Shares outstanding</span><span class="v">48.7 L</span></div>
+    <div><span class="k">Free float (public)</span><span class="v">≈ ₹223 cr<sup>d</sup></span></div>
+    <div><span class="k">Promoter pledge</span><span class="v">nil reported</span></div>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Promoter · Executive Chairman &amp; Whole-time Director</div><div class="nm">Raju S. Dandu</div>Founder and chairman of Danlaw Inc (Novi, Michigan), which has acquired Cohda Wireless (V2X) and Rapita Systems. He was reappointed whole-time director and executive chairman from 25 Feb 2026 at the 10 Feb board meeting. The promoter-linked RRG Properties LLP leases the office to the company.</div>
+    <div class="person"><div class="rl">Non-executive, non-independent director (from 1 Jul 2026)</div><div class="nm">Pallavi Dandu</div>A promoter-group holder with 1.23%. She replaced Sridevi Madati, who resigned on 30 Jun 2026 citing other commitments. This adds family representation on the board.</div>
+    <div class="person"><div class="rl">Key managerial personnel</div><div class="nm">A.V.R.K. Varma</div>Listed as KMP in the FY24 related-party note. His exact designation was not confirmed.</div>
+    <div class="person"><div class="rl">Company Secretary &amp; Compliance Officer</div><div class="nm">Gaurav Padmawar</div>Signs the exchange filings, including the FY26 annual report cover letter.</div>
+  </div>
+  <div class="delta"><strong>Governance flags, in order of weight:</strong> (1) the FY25 and FY26 annual reports were filed as image scans, which makes the related-party and customer notes hard to examine; (2) no dividend since at least FY11 despite steady profits; (3) several related-party channels (Danlaw Inc ECB and services, promoter-LLP rent, Darby, Akteena), all small at FY24 and declared at arm's length; (4) the family's presence on the board is increasing. None of these is disqualifying, and there is no pledge, no dilution and no promoter selling.</div>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>Danlaw Technologies India (DTIL) is an IATF 16949-certified developer and manufacturer of connected-vehicle and automotive electronics. Products include 2G and 4G telematics control units, data loggers, body control units, connected gateway modules with cybersecurity, diagnostic tools, and battery-swapping trackers. For EVs it makes battery management systems, inverters and motor controllers. It also does engineering and R&amp;D work in automotive, medical and consumer electronics. Manufacturing (PCB assembly and sub-system integration) is at L-15 Verna Industrial Estate, Goa, which came with the 2022 merger of Danlaw Electronics Assembly. Engineering is in Hyderabad and Bengaluru. Customers are described only as "OEMs and Tier-1 suppliers in India, the US and Europe" plus fleet and insurance-telematics users. No customer is named and no concentration figure is disclosed in any filing this note could read.</p>
+  <p><strong>Relationship with Danlaw Inc.</strong> DTIL began as Danlaw Inc's offshore development centre. Today Danlaw Inc is a 23.88% shareholder, which the FY24 accounts call an "associate company". It is not a holding company in the legal sense. The promoter group controls 61.87% through Danlaw Systems India (30.01%), Danlaw Inc and the Dandu family. The FY24 related-party note shows sales to Danlaw Inc of ₹3.10 lakh of goods plus ₹347 lakh of services, about 1.7% of revenue, and ₹185 lakh of services bought from it. Interest on the USD 2.5 m ECB (6-month SOFR + 2%, 5-year term) was ₹147 lakh. Most revenue is domestic. FY24 foreign-exchange outgo of ₹76 cr, against earnings of ₹3.5 cr, shows the business imports components and sells in India.</p>
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Mkt cap</th><th>TTM P/E</th><th>Latest OPM</th><th>ROCE</th><th>RoE</th></tr></thead>
+    <tbody>
+      <tr><th>Danlaw Technologies</th><td>₹602 cr</td><td>23.6x</td><td>13% <small>Q1 FY27</small></td><td>27.6%</td><td>26.1%</td></tr>
+      <tr><th>Pricol</th><td>₹7,594 cr</td><td>28.3x</td><td>11%</td><td>24.5%</td><td>21.8%</td></tr>
+      <tr><th>Syrma SGS Technology</th><td>₹27,340 cr</td><td>73.6x</td><td>10%</td><td>16.8%</td><td>14.0%</td></tr>
+      <tr><th>Avalon Technologies</th><td>₹12,310 cr</td><td>92.1x</td><td>12%</td><td>19.3%</td><td>16.5%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Pricol is the nearest listed auto-electronics peer (instrument clusters and telematics). Syrma and Avalon are electronics-manufacturing names, included for the multiple the market pays for Indian electronics assembly. Danlaw has the highest margin and returns of the group and the lowest multiple, but it is 1/12th of Pricol's size and has none of the peers' liquidity or coverage. Unlisted telematics competitors include iTriangle, Minda-KPIT and Arya Omnitalk.</div>
+  <h3>Moat</h3>
+  <p>Narrow. Telematics and body-control units are designed into a vehicle programme and usually stay for its life, which makes revenue sticky once a programme is won. IATF certification and Danlaw Inc's IP in V2X and diagnostics help it win programmes. Against that, the company is small next to Tier-1 suppliers such as Pricol and Minda, its bill of materials is largely imported, and OEMs hold the pricing power. A 15% operating margin is good for electronics manufacturing but leaves little cushion.</p>
+  <h3>Order book</h3>
+  <p><span style="color:var(--ink3)">n/a</span>: no order book or programme-win value is disclosed. The MD&amp;A mentions "key program wins with leading OEMs and Tier-1 suppliers in India, the US and Europe" without figures.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Illiquidity.</strong> Average turnover is ₹63 lakh a day (about 5,000 shares). A ₹10 lakh order is about 16% of a normal day's trade. The 16–21 Oct slide shows how quickly the price moves on modest selling, so build and exit a position over several sessions with limit orders.</div>
+  <ul>
+    <li><strong>Undisclosed customer concentration.</strong> A few OEM programmes probably make up most of revenue, but this is unverified. Losing one could cut revenue sharply.</li>
+    <li><strong>Import-heavy cost base.</strong> FX outgo was 36% of revenue in FY24. A weaker rupee or a chip shortage would hit margins directly.</li>
+    <li><strong>Margin volatility.</strong> Operating margin swung between 12.7% and 18.6% within a year. Net margin is 6–12%.</li>
+    <li><strong>Information risk.</strong> There is no broker coverage, no conference calls were found, and the annual reports are scanned. Problems may only show up in the quarterly numbers.</li>
+    <li><strong>Related parties.</strong> Small today, but the channels (ECB, services, rent and associate companies) mean value could leak if their scale grows.</li>
+    <li><strong>Auto cycle.</strong> Demand depends on Indian vehicle production and on EV and telematics adoption.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Add more aggressively:</strong> Q2 FY27 revenue of at least ₹80 cr (+22% year on year) with operating margin at or above 15%, and H1 FY27 operating cash flow positive. Or any disclosure of customer mix showing no customer above about 30%.</li>
+    <li><strong>Downgrade to Hold:</strong> Q2 FY27 revenue growth below 10% or operating margin below 12%. Or the price back above about ₹1,600 (around 27x FY27 earnings at 25% growth) without results to justify it.</li>
+    <li><strong>Downgrade to Sell:</strong> any promoter pledge or promoter selling, a related-party transaction above about 10% of revenue, a preferential issue to promoters at a discount, or two consecutive quarters of falling revenue year on year.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Screener.in (BSE code 532329), standalone: quarterly, annual, balance-sheet schedules (cash ₹27 cr; borrowings: long-term ₹2.65 cr, short-term ₹16.03 cr, leases ₹11.12 cr at Mar 2026), cash flow, ratios, five-quarter and holder-level shareholding, and the peer key data. Also its BSE announcement feed (latest entry 5 Oct 2026). Fetched 23 Oct 2026.</li>
+    <li>FY2023-24 annual report (BSE filing): related-party note 30 and Form AOC-2 (Danlaw Inc sales and services, ECB terms, RRG Properties, Darby, Akteena), foreign-exchange earnings and outgo, share capital of 48,70,667 shares. The FY24-25 and FY25-26 annual reports were downloaded but are image scans with no extractable text.</li>
+    <li>Q1 FY27 results, board changes and AGM date: ScanX, Business Standard and Value Research summaries of BSE filings (Aug 2026). Q2 FY26 and Q3 FY26 board outcomes: Business Standard and Arihant Capital.</li>
+    <li>MD&amp;A product and market description: IndiaInfoline's MD&amp;A page. Pledge "None": MarketsMojo snapshot (undated). 7 Aug 52-week-high item: MarketsMojo.</li>
+    <li>Trendlyne (stock id 3815): mutual fund disclosure and research-report pages returned HTTP 502 on 23 Oct 2026. No broker target was found by WebSearch either.</li>
+    <li>Price, 52-week range (closes) and liquidity: Yahoo Finance DANLAW.BO, 124 sessions to 23 Oct 2026 (quote at 12:13 IST). Screener showed ₹1,241 at 12:20 IST.</li>
+  </ul>
+
+  <div class="foot">Generated 23 Oct 2026 · Price basis ₹1,235.00 (BSE, 23 Oct 2026, intraday) · Derived <sup>d</sup>: market cap, P/E, P/BV, net debt, D/E, annual growth rates, net margins, free-float value, DII share value, Danlaw Inc revenue share, family stake total, forward multiples. ⚠ Related-party and FX figures are FY24, the latest year with readable notes. Customer concentration and order book are not disclosed. MF disclosure and broker coverage could not be verified on Trendlyne (site errors). Not investment advice.</div>
+</div>
+</body>
+</html>
