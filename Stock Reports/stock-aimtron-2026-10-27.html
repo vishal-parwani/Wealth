@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aimtron Electronics Limited (NSE: AIMTRON) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="AIMTRON">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Aimtron Electronics Limited">
+<meta name="sector"    content="Electronics Manufacturing / EMS">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-27">
+<meta name="price"     content="1662.30">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Electronics Manufacturing / EMS · 27 Oct 2026</div>
+  <h1>Aimtron Electronics Limited <span class="tik">· NSE: AIMTRON</span></h1>
+  <div class="subline">Sophisticated money has agreed to pay ₹1,674 a share for ₹205 cr of new equity. That fixes the funding problem. It does not fix the cash-conversion problem, and the price is now back at the level those investors are paying.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹1,662 <small class="up">+3.2% today</small></span></div>
+    <div><span class="k">52W range</span><span class="v">₹696 – ₹2,010</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹3,536 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">76.9x</span></div>
+    <div><span class="k">P/BV</span><span class="v">14.6x<sup>d</sup></span></div>
+    <div><span class="k">Net debt <span style="font-weight:400;color:var(--ink3)">· Mar 26</span></span><span class="v">₹41 cr<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.23x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">0.52 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹7.4 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <div class="callout">
+    <p><strong>Why it jumped · 27 Oct 2026.</strong> The stock closed at <strong>₹1,662.30, up ₹51.75 or 3.2%</strong> on 27 October, after ₹1,610.55 on the 26th. It is up 3.7% from the 23 October close of ₹1,602.55. Volume was 24,800 shares, about half the six-month average. <strong>No company-specific cause can be confirmed.</strong> The latest exchange filings are from 23–24 October: the EGM proceedings, and the voting results approving the preferential issue. Neither is new information on the 27th. The <em>likely</em> driver is a sector move. Over the same two sessions (26–27 Oct), EMS and defence-electronics names bounced harder than Aimtron did: Avalon +7.8% and +8.3%, Apollo Micro +9.6% and +3.5%, Syrma +4.3% and +1.6%, Kaynes +3.7% and +1.3%. Aimtron rose 0.5% and then 3.2%. A 3% move on half-normal volume in a 26%-float SME stock is noise-sized. I found no news item tied to it.</p>
+    <p><strong>The real jump was in September, and its cause is confirmed.</strong> On 21 September the company gave notice of a board meeting to consider a fund-raise, and the stock rose 7.3% (₹1,662 → ₹1,784) on 1.33 lakh shares. On 25 September the board approved a ₹205 cr preferential issue at ₹1,674.47 a share. The allottees are Clarus Capital, 360 ONE, Niveshaay, AAA Apex and two Alchemy funds, all non-promoter AIFs. The stock rose 5.2% that day and reached its ₹2,010 high on 30 September. It has since given all of that back. The 22 October EGM approved the issue (+3.7% that day, intraday +6.5%), and the stock fell 6.0% the next session.</p>
+  </div>
+  <p><strong>What changed since 24 Sep 2026.</strong> The price is down 7.5% from ₹1,798 to ₹1,662, and 17% below the 30 September peak. The rating stays <strong>Hold, high risk</strong>. Three new facts arrived. First, the ₹205 cr equity raise (above), which is shareholder-approved but not yet allotted. Second, the US subsidiary AIC booked US$11.8 mn of orders in the quarter to 17 September, about three times ICS's historical run-rate, from five new customers. Third, the Sep-2026 shareholding shows promoters down to <strong>68.07%</strong> from 70.90%. About a third of that drop is the promoter's 4 August bulk sale of 2.1 lakh shares at ₹1,480 to an Alchemy fund. A pilot order from Curtiss-Wright (16 Sep) has no disclosed value. No new financials have been filed. H1 FY27 results are still pending (below).</p>
+  <p><strong>For a buy/hold decision: hold if you own it, don't initiate here.</strong> The equity raise matters. Pro forma, it turns ₹41 cr of net debt into roughly ₹164 cr of net cash<sup>d</sup>. It also takes book value to about ₹440 cr, which brings P/BV down to about 8.5x<sup>d</sup> on the enlarged 2.24 cr shares. A 5.5% dilution<sup>d</sup> is a modest price for that. Six AIFs committing ₹205 cr at ₹1,674 is also the first meaningful outside check on these accounts. But the issue exists <em>because</em> the business consumes cash. Operating cash flow was −₹19 cr in FY25 and −₹40 cr in FY26 against ₹72 cr of reported profit, and receivables rose ₹118 cr. Today's ₹1,662 is just below the price those investors are paying, and they get a lock-in, not a discount. At 77x trailing earnings, a buyer here pays for growth that has not yet turned into cash.</p>
+  <p><strong>The catalyst is H1 FY27, likely in the first half of November.</strong> Last year's half-year results were approved on 4 November 2025. Watch three numbers: (1) H1 revenue against the ₹604 cr order book and the ₹84 cr Q1 business update; (2) half-year operating cash flow; (3) receivables against ₹135 cr in March. If operating cash flow turns positive with receivables flat, the upgrade case is live. If not, the raise was funding the working-capital hole.</p>
+
+  <h3>Price moves around the dates that matter · close-to-close</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Session</th><th>AIMTRON</th><th>Event</th><th>Avalon</th><th>Apollo Micro</th><th>Syrma</th><th>Kaynes</th></tr></thead>
+    <tbody>
+      <tr><th>21 Sep</th><td class="up">+7.3%</td><td style="text-align:left">Board-meeting notice: fund-raise</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+      <tr><th>25 Sep</th><td class="up">+5.2%</td><td style="text-align:left">₹205 cr preferential approved by board</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+      <tr><th>22 Oct</th><td class="up">+3.7%</td><td style="text-align:left">EGM approves issue</td><td class="dn">−0.7%</td><td class="dn">−1.8%</td><td class="up">+1.5%</td><td class="up">+4.1%</td></tr>
+      <tr><th>23 Oct</th><td class="dn">−6.0%</td><td style="text-align:left">—</td><td class="dn">−6.4%</td><td class="dn">−3.6%</td><td class="dn">−4.2%</td><td class="dn">−3.2%</td></tr>
+      <tr><th>26 Oct</th><td class="up">+0.5%</td><td style="text-align:left">no filing</td><td class="up">+7.8%</td><td class="up">+9.6%</td><td class="up">+4.3%</td><td class="up">+3.7%</td></tr>
+      <tr><th>27 Oct</th><td class="up">+3.2%</td><td style="text-align:left">no filing found</td><td class="up">+8.3%</td><td class="up">+3.5%</td><td class="up">+1.6%</td><td class="up">+1.3%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Aimtron daily closes from Yahoo (AIMTRON.NS) and Screener; 27 Oct close and volume from Trendlyne/Screener (₹1,662.30, 24,800 shares). Peer closes from Screener. September peer moves were not pulled (n/a). Yahoo's 15-minute series has no 27 Oct bars for this SME symbol, so the intraday shape of today's move is not available.</div>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="callout">
+    <p><strong>No institutional coverage.</strong> Trendlyne's research-report page for this stock lists no broker report, and no target or forward estimate could be sourced elsewhere. So there is no target, no consensus and no forward P/E in this report. The nearest thing to an outside valuation is the ₹1,674.47 preferential price agreed by six AIFs in September. That is an investment price under SEBI's floor-price formula, not a target.</p>
+  </div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>PBT</th><th>Net profit</th><th>EPS ₹</th><th>Payout</th></tr></thead>
+    <tbody>
+      <tr><th>FY24</th><td>93</td><td>24</td><td>26%</td><td>19</td><td>14</td><td>9.06</td><td>0%</td></tr>
+      <tr><th>FY25</th><td>159</td><td>32</td><td>20%</td><td>32</td><td>26</td><td>12.56</td><td>0%</td></tr>
+      <tr><th>FY26</th><td>301</td><td>61</td><td>20%</td><td>61</td><td>46</td><td>22.31</td><td>0%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Revenue has compounded at about 80% a year for two years. Margin settled at 20% after 26% in FY24, a step-down the company attributes to its new subsidiaries. No dividend has been paid.</div>
+
+  <h3>Half-yearly — last 4 · the company reports half-yearly, not quarterly · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Period</th><th>Revenue</th><th>Operating profit</th><th>OPM</th><th>Interest</th><th>Depreciation</th><th>Tax %</th><th>Net profit</th><th>EPS ₹</th></tr></thead>
+    <tbody>
+      <tr><th>H1 FY25 (Sep 24)</th><td>58</td><td>15</td><td>25%</td><td>0</td><td>2</td><td>18%</td><td>11</td><td>5.48</td></tr>
+      <tr><th>H2 FY25 (Mar 25)</th><td>102</td><td>19</td><td>19%</td><td>−0</td><td>3</td><td>21%</td><td>14</td><td>7.08</td></tr>
+      <tr><th>H1 FY26 (Sep 25)</th><td>123</td><td>30</td><td>25%</td><td>0</td><td>3</td><td>28%</td><td>20</td><td>9.94</td></tr>
+      <tr><th>H2 FY26 (Mar 26)</th><td>179</td><td>36</td><td>20%</td><td>1</td><td>4</td><td>22%</td><td>26</td><td>12.47</td></tr>
+      <tr><th>H1 FY27 (Sep 26)</th><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta"><strong>H1 FY27 (Apr–Sep 2026) is not yet filed.</strong> No board-meeting notice for it was found as of 27 Oct. Last year the half-year results were approved on 4 November 2025, and SME listings must file within 45 days of the half-year end, i.e. by 14 November. No Q2 figure exists: the company reports half-years, plus a voluntary quarterly business update. Q1 FY27 revenue was ₹84.0 cr (+94% YoY, filed 27 Jul). A Q2 consolidated revenue update had not appeared by 27 Oct.</div>
+
+  <h3>Cash flow &amp; working capital · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Net profit</th><th>Op. cash flow</th><th>Free cash flow</th><th>Receivables</th><th>Inventory</th><th>Debtor days</th><th>Inventory days</th><th>WC days</th></tr></thead>
+    <tbody>
+      <tr><th>FY24</th><td>14</td><td>7</td><td>3</td><td>17</td><td>36</td><td>66</td><td>227</td><td>146</td></tr>
+      <tr><th>FY25</th><td>26</td><td class="dn">−19</td><td class="dn">−32</td><td>87</td><td>35</td><td class="dn">200</td><td>111</td><td>195</td></tr>
+      <tr><th>FY26</th><td>46</td><td class="dn">−40</td><td class="dn">−87</td><td>135</td><td>103</td><td>164</td><td>176</td><td class="dn">256</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>Still the most important table in the report.</strong> Over FY25–FY26 the company reported ₹72 cr of profit and consumed ₹59 cr of operating cash. Receivables rose ₹118 cr and inventory ₹67 cr. That is consistent with an EMS business scaling into larger customers on longer terms. It is also what slow collections look like. Published data cannot separate the two. The ₹205 cr raise is explicitly earmarked partly for working capital, so the company expects this to continue.</p>
+  </div>
+
+  <h3>Balance sheet · ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Cash</th><th>Net debt<sup>d</sup></th><th>Equity</th><th>Fixed assets</th><th>Total assets</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>15</td><td>4</td><td>11</td><td>52</td><td>23</td><td>93</td></tr>
+      <tr><th>Mar 25</th><td>1</td><td>36</td><td class="up">−35</td><td>155</td><td>31</td><td>230</td></tr>
+      <tr><th>Mar 26</th><td>55</td><td>14</td><td>41</td><td>235</td><td>63</td><td>420</td></tr>
+      <tr><th>Pro forma<sup>d</sup> <span style="font-weight:400;color:var(--ink3)">+₹205 cr issue</span></th><td>55</td><td>219</td><td class="up">−164</td><td>440</td><td>63</td><td>625</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The pro-forma row simply adds the issue proceeds to March 2026 cash and equity. It ignores six months of trading and any spending since, so treat it as direction, not a balance sheet. The issue was shareholder-approved on 22 Oct and still needs NSE in-principle approval and allotment. The equity base has now been topped up three times in two years: the IPO, the 2025–26 warrants at ₹666–681, and this issue.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Sep 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>No mutual fund scheme holds this stock</strong> in the September 2026 monthly disclosure, the same as in March. Institutional money is arriving through <em>AIFs</em>, not mutual funds. DII holding rose to 2.86% in Sep 2026 from 2.17%. Alchemy Long Term Ventures Fund Series 3 bought 2.06 lakh shares in the 4 Aug bulk deal. Clarus Capital, 360 ONE, Niveshaay, AAA Apex and two Alchemy funds are the preferential allottees. AIFs are closed-end vehicles with their own exit horizons. They are a vote of confidence, but not the price floor that index or open-ended MF holders provide.</p>
+  </div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">22–24 Oct 26</span><span><strong>EGM approves the ₹205 cr preferential issue</strong> by special resolution; the promoter group was not an interested party. Proceeds are for "future expansion aligned with mergers and JVs across globe", working capital and general purposes. The approval was already priced; the stock fell 6% the next day.</span></li>
+    <li><span class="date">16 Oct 26</span><span><strong>Gujarat workforce to grow from ~175 to ~500</strong> over 3–4 years, tied to the ₹100 cr Waghodia (Vadodara) greenfield plant under Aimtron Mechatronics, with six SMT lines to be added in phases (five run in Gujarat today, one in Bengaluru).</span></li>
+    <li><span class="date">25 Sep 26</span><span><strong>Board approves 12.24 lakh shares at ₹1,674.47 (₹205 cr)</strong> to six non-promoter AIFs; Clarus Capital 1 is the largest at ₹120 cr. Relevant date 22 Sep. This was the cause of the September rally.</span></li>
+    <li><span class="date">17 Sep 26</span><span><strong>US arm AIC books US$11.8 mn in Q2 (to 17 Sep)</strong>, more than double the acquired ICS business's historical quarterly average of under US$4 mn, with five new customers, mostly in ruggedised electronics. These are bookings, not revenue.</span></li>
+    <li><span class="date">16 Sep 26</span><span><strong>Pilot order from Curtiss-Wright</strong> (industrial/defence technology, US). No value disclosed; follow-on business depends on qualification.</span></li>
+    <li><span class="date">4 Aug 26</span><span><strong>Promoter Mukesh Vasani sells 2.1 lakh shares at ₹1,480</strong> (~₹31 cr, ~1% of equity) in a bulk deal; Alchemy's fund is the buyer. This is the first promoter sale since listing, after small market purchases through 2025.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 disclosures (half-yearly)</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 24</th><th>Mar 25</th><th>Sep 25</th><th>Mar 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>71.30</td><td>71.36</td><td>71.44</td><td>70.90</td><td class="dn">68.07</td></tr>
+      <tr><th>FIIs</th><td>1.82</td><td>1.01</td><td>0.47</td><td>0.22</td><td>0.33</td></tr>
+      <tr><th>DIIs</th><td>1.47</td><td>3.54</td><td>2.39</td><td>2.17</td><td class="up">2.86</td></tr>
+      <tr><th>Public</th><td>25.42</td><td>24.09</td><td>25.69</td><td>26.72</td><td>28.74</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>2,636</td><td>3,832</td><td>4,243</td><td>4,993</td><td>5,886</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta"><strong>The promoter line has turned down for the first time: −2.83 points in one half.</strong> The 4 Aug bulk sale accounts for about 1 point. The April 2026 warrant conversion (2.32 lakh shares at ₹680.64) diluted the promoter by about 0.8 points<sup>d</sup>. The rest, roughly 1 point<sup>d</sup>, is not explained by any disclosed bulk deal or insider filing found <span style="display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:4px;background:var(--warnbg);color:var(--warn);border:1px solid #edd7b5">unreconciled</span>. The EGM voting record shows the promoter group with 1,43,99,886 shares at the 14 Oct cut-off. After the preferential allotment the promoter stake falls to about 64.3%<sup>d</sup>. There is still no pledge.</div>
+  <h3>Promoter &amp; management</h3>
+  <p>Mukesh Jeram Vasani (Chairman &amp; MD) holds about 57% personally<sup>d</sup> and now spends much of his time in the US, where he attended the EGM from. Son Nirmal Vasani is a director. Whole-time directors are Sharmilaben Bambhaniya and Sneh Shah; the CFO is Nikita Shah and the CS is Priyanka Shah. The two independent directors are Prerana Bokil and Nischal Sanghvi. The auditor is SPVP &amp; Co., Vadodara, a small regional firm, which matters when the open question is the quality of receivables. Control is concentrated: one family holds 68% and decides everything.</p>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>Aimtron is a Vadodara-based ESDM/ODM company, incorporated in 2011. It started in PCB design and assembly and is moving into box-build, system integration and product design. End markets are industrial electronics, power and energy, ruggedised/defence-adjacent electronics, IoT, battery storage and medical. The February 2026 acquisition of ICS (Decatur, US; about US$17 mn revenue; customers include Caterpillar and John Deere) operates as Aimtron International Controls (AIC). It is the base for the "India–USA platform" pitch: US-facing customer work with Indian manufacturing behind it.</p>
+  <h3>Peers</h3>
+  <div class="callout">
+    <p>The listed EMS set (Kaynes, Syrma, Avalon, Dixon) and defence-electronics names such as Apollo Micro are roughly 4–20x Aimtron's size and have broker coverage and MF ownership. Aimtron has neither. A ratio table would compare an SME with half-yearly, uncovered numbers against audited quarterly large caps, so it is omitted. The useful comparison is in the price table above: Aimtron trades with the sector on sector days, but on lower beta and thin volume.</p>
+  </div>
+  <h3>Moat</h3>
+  <p>None yet. Contract electronics is a scale-and-execution business, and customers dual-source. If the design/ODM capability and the US customer relationships work, they would create stickiness. Today that is a plan supported by bookings.</p>
+  <h3>Order book</h3>
+  <p><strong>₹604 cr consolidated</strong> as of Q1 FY27 (27 Jul 2026), about 2.0x FY26 revenue. This is a company disclosure, unaudited, with no conversion schedule. AIC's US$11.8 mn (~₹100 cr<sup>d</sup>) Q2 bookings to 17 Sep are incremental, but no updated group order book had been filed by 27 Oct.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Profit without cash, now funded by equity.</strong> Two years of negative operating cash flow against ₹72 cr of profit. The ₹205 cr raise buys time; it does not prove the receivables are good. If H1 FY27 shows another cash outflow, the raise will look like funding the gap rather than growth.</div>
+  <ul>
+    <li><strong>No MF holder, no broker coverage.</strong> The only outside validation is AIFs buying in at roughly today's price.</li>
+    <li><strong>Promoter selling.</strong> One disclosed ~1% sale at ₹1,480 in August, and a further unexplained ~1-point decline. Small, but it is a change of direction for a promoter who was buying in 2025.</li>
+    <li><strong>Valuation.</strong> 77x trailing earnings and 14.6x book (about 8.5x post-issue<sup>d</sup>) for a business that has not converted profit to cash.</li>
+    <li><strong>Half-yearly reporting.</strong> A deterioration can run six months before it is visible.</li>
+    <li><strong>Liquidity.</strong> About 0.5 lakh shares a day; today's move happened on 24,800 shares. Exiting a position of size takes days.</li>
+    <li><strong>Acquisition-led growth.</strong> The stated use of proceeds includes "mergers and JVs across globe". More US deals add integration and goodwill risk to a ₹300 cr-revenue company.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> H1 FY27 (due by mid-November) shows positive operating cash flow with receivables at or below ₹135 cr while revenue keeps growing above 50%. Or a price pullback well below the ₹1,674 preferential price with the business case intact.</li>
+    <li><strong>Downgrade to Sell:</strong> a third successive period of operating cash outflow with debtor days rising past 200, a receivables write-off, further promoter selling, or the preferential issue failing to complete.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>NSE filings (nsearchives.nseindia.com, read directly): Board Meeting Outcome 25 Sep 2026 (preferential issue terms and allottees); EGM proceedings 23 Oct 2026; EGM voting results 24 Oct 2026; AIC business update 17 Sep 2026.</li>
+    <li>Screener.in consolidated financials, cash flow, ratios, half-yearly shareholding to Sep 2026, and daily price/volume including 27 Oct; fetched 27 Oct 2026. Peer closes (Avalon, Apollo Micro, Syrma, Kaynes, Dixon) from Screener's price series.</li>
+    <li>Trendlyne: 27 Oct quote (₹1,662.30, +3.21%, 24,800 shares, 3:31 pm IST); bulk deals (4 Aug 2026); insider-trading page; research-report page (no broker coverage); monthly MF holdings, <strong>Sep 2026</strong> disclosure (none).</li>
+    <li>Yahoo Finance AIMTRON.NS daily closes to 26 Oct. The 15-minute series returned no 27 Oct bars, and the quote field (₹545.30, dated 2024) is stale and discarded.</li>
+    <li>News: Construction World (Curtiss-Wright pilot order, 16 Sep 2026); HR Katha (workforce/Waghodia plant, 16 Oct 2026); Univest (4 Aug bulk deal).</li>
+    <li>Not reachable: NSE's live announcements API. Filings on 26–27 Oct, if any, could not be checked directly; Screener's announcement feed showed none after 24 Oct.</li>
+  </ul>
+
+  <div class="foot">Generated 24 Aug 2026 · Refreshed 24 Sep 2026 · Refreshed 27 Oct 2026 (price, shareholding Sep 2026, preferential issue, news; H1 FY27 results not yet filed) · Price basis ₹1,662.30 (NSE SME close, 27 Oct 2026) · Derived <sup>d</sup>: P/BV, net debt, debt/equity, pro-forma balance sheet, dilution, post-issue promoter stake, attribution of the promoter decline. ⚠ No broker coverage and no mutual fund holder; half-yearly reporting means no four-quarter table; the cause of the 27 Oct move is unconfirmed. Not investment advice.</div>
+</div>
+</body>
+</html>
