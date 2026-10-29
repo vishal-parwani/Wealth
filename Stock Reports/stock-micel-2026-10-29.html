@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIC Electronics Limited (NSE: MICEL) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="MICEL">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="MIC Electronics Limited">
+<meta name="sector"    content="Railway Electronics · LED Displays">
+<meta name="rating"    content="Sell">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-29">
+<meta name="price"     content="36.91">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Railway Electronics · LED Displays · 29 Oct 2026</div>
+  <h1>MIC Electronics Limited <span class="tik">· NSE: MICEL · BSE: 532850</span></h1>
+  <div class="subline">A Hyderabad LED-display maker that came out of insolvency in 2021. It now sells railway passenger-information displays, runs a low-margin Dubai trading arm, and in September issued 23.6% new equity to Mauritius and UAE funds for a Singapore "deep-tech" company. Q2 FY27 is not out, and no board-meeting date had been filed by 29 October.</div>
+  <div class="rating-row">
+    <span class="badge badge-sell">Sell</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹36.91 <small class="dn">−2.0% today</small></span></div>
+    <div><span class="k">52W range</span><span class="v">₹30.0 – ₹57.6</span></div>
+    <div><span class="k">Market cap <span style="font-weight:400;color:var(--ink3)">· 29.79 cr sh</span></span><span class="v">₹1,099 cr<sup>d</sup></span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">n/m <small>TTM net loss ₹12 cr</small></span></div>
+    <div><span class="k">Mkt cap / TTM PBT</span><span class="v">≈65x<sup>d</sup></span></div>
+    <div><span class="k">EV / TTM EBITDA</span><span class="v">≈45x<sup>d</sup></span></div>
+    <div><span class="k">P/BV <span style="font-weight:400;color:var(--ink3)">· Mar-26 / post-swap</span></span><span class="v">4.1x / ≈2.4x<sup>d</sup></span></div>
+    <div><span class="k">Net debt <span style="font-weight:400;color:var(--ink3)">· Mar-26</span></span><span class="v">₹33 cr<sup>d</sup></span></div>
+    <div><span class="k">Debtor days <span style="font-weight:400;color:var(--ink3)">· FY26 consol.</span></span><span class="v">375</span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">7.2 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹3.3 cr</span></div>
+    <div><span class="k">Target</span><span class="v">— <small>no broker coverage</small></span></div>
+    <div><span class="k">Next results</span><span class="v">not yet filed <small>due by 14 Nov</small></span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <div class="callout">
+    <p><strong>Sell, high risk. Don't buy. The railway story is real but small, and almost everything else about the equity story points the wrong way.</strong> The business the market is paying for is MIC's own LED-display and railway passenger-information (PIS) business. In FY26 it produced <strong>₹87 cr of standalone revenue and about ₹25 cr of operating profit</strong>. Of that revenue, ₹32.9 cr came from Indian Railways PIS displays. That business is profitable at roughly 28–30% operating margin, but it is being valued at <strong>₹1,099 cr</strong>, or about 45x<sup>d</sup> group EBITDA.</p>
+    <p>The headline growth is not that business. Consolidated revenue doubled to ₹191 cr in FY26. More than half of it, about <strong>₹104 cr<sup>d</sup>, was "electrical &amp; electronics spare-parts trading"</strong> through SOA Electronics Trading LLC, a Dubai subsidiary, at margins below 1%. In the December 2025 quarter that segment booked ₹77.6 cr of revenue for ₹0.46 cr of profit. That trading drove receivables to ₹196 cr, about a full year of revenue. Cumulative operating cash flow over FY21–FY26 is about <strong>−₹268 cr<sup>d</sup></strong>.</p>
+  </div>
+  <p><strong>Three things decide it.</strong></p>
+  <ol>
+    <li><strong>The promoter is a steady seller.</strong> RRK Enterprise sold <strong>3.56 cr shares in six tranches between June 2025 and May 2026</strong>. That is about 14.8%<sup>d</sup> of the pre-swap equity, and all of it went through the open market. Promoter holding fell from 66.5% in March 2025 to 51.6% in June 2026, and then to 41.7% after the swap.</li>
+    <li><strong>The September share swap was large and opaque.</strong> MIC issued 5.69 cr new shares, 23.6% dilution, at ₹41.38. That is ₹235 cr of paper for 59% of Neo Semi SG Pte Ltd, a Singapore company described as working in "semiconductor IP, AI-driven energy logistics, IoT smart grid and circular electronics". The shares went to <strong>two Mauritius funds administered from the same address (c/o SpearFin, Ebene), plus a UAE consultancy</strong>. No revenue or profit for Neo Semi has been disclosed. An independent director had to be redesignated as non-independent because he holds 7.5% of a Neo Semi subsidiary.</li>
+    <li><strong>The rest of the deal is unfunded.</strong> A further <strong>₹122 cr cash leg</strong>, payable to Summitbridge Trade &amp; Investments, Singapore, for the remaining 30.65% has no visible source. The company had ₹11 cr of cash in March, and a ₹250 cr QIP and $15 m of FCCBs were approved in December 2025 but have not been raised. That points to further dilution.</li>
+  </ol>
+  <p>MIC does have positives. It holds RDSO approvals, has entered PAPIS for coaches with its first order from RCF Kapurthala, and has prototype approvals for emergency lighting units, with roof-mounted packaged units (RMPU) in development. Railway station and coach digitisation has real tailwinds. But the disclosed orders are ₹1–5 cr letters of acceptance, and <strong>no aggregate order book is published</strong>. At ₹1,099 cr, the market already prices in a lot of success. A buyer here is betting on the swap and future fund-raises being value-accretive, and the evidence so far does not support that. <strong>Sell, high risk.</strong></p>
+
+  <!-- ── 3. BROKER ESTIMATES ──────────────────────────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="callout">
+    <p><strong>No broker covers MIC Electronics.</strong> Trendlyne's research-report page lists no notes, and its consensus page carries no estimates (both read 29 Oct 2026). There is therefore no target and no forward P/E. The <code>target</code> meta is omitted by design.</p>
+  </div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Year</th><th>Revenue</th><th>of which standalone</th><th>Operating profit</th><th>OPM</th><th>PBT</th><th>Net profit</th><th>EPS ₹</th><th>Op. cash flow</th></tr></thead>
+    <tbody>
+      <tr><th>FY22</th><td>45</td><td>31</td><td>7</td><td>15%</td><td>3</td><td>3</td><td>0.14</td><td class="dn">−58</td></tr>
+      <tr><th>FY23</th><td>23</td><td>6</td><td>2</td><td>7%</td><td>0</td><td>0</td><td>0.01</td><td class="dn">−5</td></tr>
+      <tr><th>FY24</th><td>55</td><td>55</td><td>12</td><td>23%</td><td>18</td><td class="up">62</td><td>2.79</td><td class="dn">−13</td></tr>
+      <tr><th>FY25</th><td>95</td><td>62</td><td>18</td><td>19%</td><td>13</td><td>10</td><td>0.41</td><td class="dn">−49</td></tr>
+      <tr><th>FY26</th><td class="up">191</td><td>87</td><td>26</td><td>13%</td><td>17</td><td class="dn">−13</td><td>−0.52</td><td>3</td></tr>
+      <tr class="total"><th>TTM (Jun 26)</th><td>223</td><td>88</td><td>25</td><td>11%</td><td>17</td><td class="dn">−12</td><td>−0.50</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Two tax items distort net profit in both directions.
+    <ul>
+      <li><strong>FY24's ₹62 cr</strong> included a deferred-tax credit (tax at −249%) recognising old insolvency-era losses.</li>
+      <li><strong>FY26's −₹13 cr</strong> came from reversing ₹29.31 cr of that same deferred-tax asset in Q4. Pre-tax profit was ₹17 cr.</li>
+    </ul>
+    <p>The clean measure is <strong>₹17 cr of pre-tax profit on ₹1,099 cr of market cap</strong>. FY21 operating cash flow was −₹146 cr, the resolution-plan year, and is not shown. Standalone FY22 revenue includes pre-restructuring legacy items.</p></div>
+
+  <h3>Last eight quarters · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Quarter</th><th>Revenue</th><th>Standalone revenue</th><th>Trading arm<sup>d</sup></th><th>Operating profit</th><th>OPM</th><th>Interest</th><th>PBT</th><th>Net profit</th><th>EPS ₹</th></tr></thead>
+    <tbody>
+      <tr><th>Sep 24</th><td>27.5</td><td>11.2</td><td>16.3</td><td>3.6</td><td>13.3%</td><td>1.4</td><td>2.1</td><td>2.1</td><td>0.09</td></tr>
+      <tr><th>Dec 24</th><td>11.8</td><td>11.8</td><td>0.0</td><td>3.5</td><td>29.4%</td><td>1.4</td><td>2.2</td><td>2.2</td><td>0.09</td></tr>
+      <tr><th>Mar 25</th><td>44.9</td><td>28.1</td><td>16.8</td><td>8.4</td><td>18.6%</td><td>1.4</td><td>6.8</td><td>3.6</td><td>0.15</td></tr>
+      <tr><th>Jun 25</th><td>11.6</td><td>11.6</td><td>0.0</td><td>4.1</td><td>35.4%</td><td>1.7</td><td>1.7</td><td>1.7</td><td>0.07</td></tr>
+      <tr><th>Sep 25</th><td>37.9</td><td>12.2</td><td>25.7</td><td>3.8</td><td>10.1%</td><td>1.3</td><td>2.2</td><td>2.2</td><td>0.09</td></tr>
+      <tr><th>Dec 25</th><td class="up">90.2</td><td>12.6</td><td class="up">77.6</td><td>4.0</td><td class="dn">4.4%</td><td>1.3</td><td>1.9</td><td>1.9</td><td>0.08</td></tr>
+      <tr><th>Mar 26</th><td>50.8</td><td class="up">50.8</td><td>0.0</td><td class="up">13.4</td><td>26.3%</td><td>1.8</td><td>11.0</td><td class="dn">−18.4</td><td>−0.76</td></tr>
+      <tr><th>Jun 26</th><td>43.7</td><td>12.3</td><td>31.4</td><td>4.3</td><td>9.7%</td><td>1.4</td><td>2.1</td><td>2.1</td><td>0.09</td></tr>
+      <tr><th>Sep 26</th><td colspan="9" style="text-align:center;color:var(--ink3)">n/a · not yet declared. No board-meeting intimation filed as of 29 Oct. Trading window closed 29 Sep. Regulation 33 deadline 14 Nov 2026</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout warn">
+    <p><strong>The core business runs at about ₹12 cr a quarter, with one big Q4.</strong> Standalone revenue, which is MIC's own LED-display and railway business, has been ₹11–13 cr in seven of the last eight quarters. March 2026 was the exception at ₹50.8 cr, a year-end rush of railway deliveries. Standalone operating margin is steady at 26–35%.</p>
+    <p>Everything else is the trading arm. It was ₹0 in some quarters and ₹78 cr in others, at near-zero margin. The Q3 FY26 segment filing shows spare-parts trading at <strong>₹77.60 cr of revenue and ₹0.46 cr of segment profit (0.6%)</strong>, against LED products at ₹12.63 cr and ₹2.58 cr (20%). The "trading arm" column is consolidated minus standalone revenue, so it is derived. It ignores intra-group eliminations, which is why it shows exactly zero in some quarters.</p>
+    <p>Q2 FY27 will be the first quarter to include Neo Semi, consolidated from 4 September. Expect a jump in reported revenue and assets that says nothing about the railway business.</p>
+  </div>
+
+  <h3>Balance sheet, receivables &amp; cash conversion · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>As at</th><th>Borrowings</th><th>Cash</th><th>Net debt<sup>d</sup></th><th>Equity</th><th>Trade receivables</th><th>Debtor days</th><th>Inventory</th><th>CFO / EBITDA</th></tr></thead>
+    <tbody>
+      <tr><th>Mar 24</th><td>12</td><td>8</td><td>4</td><td>122</td><td>25</td><td>169</td><td>8</td><td class="dn">−103%</td></tr>
+      <tr><th>Mar 25</th><td>48</td><td>14</td><td>34</td><td>222</td><td>84</td><td>324</td><td>16</td><td class="dn">−267%</td></tr>
+      <tr><th>Mar 26</th><td>44</td><td>11</td><td>33</td><td>216</td><td class="dn">196</td><td class="dn">375</td><td>29</td><td>12%</td></tr>
+      <tr class="total"><th>Post-swap<sup>d</sup></th><td>44</td><td>11</td><td>33</td><td>≈451</td><td colspan="4">+₹235 cr of equity issued for Neo Semi, 4 Sep 2026. The ₹122 cr cash leg is unfunded</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta"><strong>Receivables are the core problem.</strong> Group receivables rose from ₹25 cr to ₹196 cr in two years, on ₹191 cr of revenue. In the standalone books, receivables were ₹102.7 cr at March 2026, mostly under six months old. That fits the ₹50.8 cr Q4 railway quarter. The remaining ≈₹93 cr<sup>d</sup> sits in the group, mainly the Dubai trading subsidiary.
+    <ul>
+      <li>FY25 operating cash flow of −₹49 cr was funded by an equity raise. Equity capital went from ₹44 cr to ₹48 cr and reserves rose by about ₹96 cr. Some ₹51 cr was invested in SOA Dubai that year.</li>
+      <li>FY26 converted only 12% of EBITDA into cash.</li>
+      <li>The promoter's holding company RRK Enterprise was owed <strong>₹18.7 cr in unsecured advances</strong> at March 2026.</li>
+      <li>Post-swap equity is Mar-26 book plus the ₹235 cr swap, most of it likely goodwill or intangibles. It is not a filed figure.</li>
+    </ul>
+  </div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Sep 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>No mutual fund holds MIC Electronics.</strong> Trendlyne's September 2026 monthly disclosure lists no scheme, index funds included. DII holding has been 0.00% in every quarter shown below. The 20.4% "FII" line at September is not portfolio investors buying in the market. It is mostly the swap allottees, Ebisu (8.65%) and Unico (8.10%), whose shares are locked in until 14 April 2027. <strong>Own holdings overlap: none.</strong></p>
+  </div>
+
+  <!-- ── 7. NEWS ───────────────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">13 Oct 26</span><span><strong>Unico Global Opportunities Fund (Mauritius) discloses 2.36 cr shares, 8.10%</strong>, received in the swap (SAST 29(1)). Same administrator and address as Ebisu.</span></li>
+    <li><span class="date">9 Oct 26</span><span><strong>Ebisu Global Opportunities Fund (Mauritius) discloses 8.65%</strong>: 7.93% from the swap plus an existing 0.72%<sup>d</sup> it already held.</span></li>
+    <li><span class="date">8 Oct 26</span><span><strong>Trading approval for the 5,68,73,418 swap shares.</strong> Issue price ₹41.38, lock-in to 14 Apr 2027. Paid-up capital is now 29,78,84,978 shares.</span></li>
+    <li><span class="date">29 Sep 26</span><span>Trading window closed for the September quarter. No board-meeting date has been filed since.</span></li>
+    <li><span class="date">16 Sep 26</span><span><strong>38th AGM.</strong> Re-appointed Bhavani &amp; Co. as auditors for a second five-year term, at up to ₹6 L a year. Approved related-party limits for FY28 of up to ₹50 cr with RRK Enterprise and ₹20 cr with SOA Dubai.</span></li>
+    <li><span class="date">4–9 Sep 26</span><span><strong>Swap completed: 59% of Neo Semi SG acquired</strong> for 5.69 cr shares. The stock fell 2% to ₹36.74 on the news, below the ₹41.38 issue price.</span></li>
+    <li><span class="date">2 Sep 26</span><span>MIC Defence Systems Pvt Ltd incorporated as a 100% subsidiary for defence electronics and aerospace. Board approval was on 31 Jul. No orders.</span></li>
+    <li><span class="date">26 Aug 26</span><span>In-principle approval from BSE and NSE (dated 25 Aug) for the preferential swap issue.</span></li>
+    <li><span class="date">31 Jul 26</span><span><strong>Q1 FY27:</strong> consolidated revenue ₹43.7 cr (+277% YoY) and PAT ₹2.1 cr. Operating margin fell to 9.7% from 35.4% as trading revenue returned. Standalone revenue was ₹12.3 cr and PBT ₹1.8 cr.</span></li>
+  </ul>
+  <div class="delta">No railway order was announced between August and October 2026, as far as WebSearch and the filing list show. The most recent orders found were in April 2026: Central Railway (Wardha) for ₹1.12 cr and a Southern Railway (Salem) variation for ₹1.09 cr.</div>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>58.01</td><td>55.52</td><td>51.70</td><td>51.58</td><td class="dn">41.73</td></tr>
+      <tr><th>FIIs</th><td>0.16</td><td>0.16</td><td>1.83</td><td>5.58</td><td class="up">20.36</td></tr>
+      <tr><th>DIIs</th><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+      <tr><th>Public</th><td>41.82</td><td>44.32</td><td>46.46</td><td>42.84</td><td>37.93</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>2,40,201</td><td>2,33,068</td><td>2,25,366</td><td>2,19,167</td><td>2,13,560</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Promoter holding was 66.48% in March 2025 and 74.6% in March 2022–24, and has fallen every quarter since. Until June 2026 that came from open-market selling by RRK Enterprise, and in September from the swap dilution. Promoter pledge was 2.17% of promoter holding at Mar-26 and Jun-26. The Sep-26 pledge figure was not checked.</div>
+
+  <h3>Promoter selling, from SAST 29(2) disclosures</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Period</th><th>Shares sold</th><th>RRK holding after</th></tr></thead>
+    <tbody>
+      <tr><th>26 Jun 25</th><td>77.9 L</td><td>56.45%</td></tr>
+      <tr><th>26 Jun – 13 Aug 25</th><td>52.7 L</td><td>54.26%</td></tr>
+      <tr><th>13 Aug – 24 Sep 25</th><td>50.5 L</td><td>52.17%</td></tr>
+      <tr><th>24 Sep – 14 Nov 25</th><td>70.0 L</td><td>49.27%</td></tr>
+      <tr><th>14 Nov 25 – 18 Feb 26</th><td>50.0 L</td><td>47.18%</td></tr>
+      <tr><th>18 Feb – 7 May 26</th><td>55.0 L</td><td>44.90%</td></tr>
+      <tr class="total"><th>Total</th><td>3.56 cr<sup>d</sup></td><td>−11.6 pts</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>History: insolvency, resolution and the new promoter</h3>
+  <ul>
+    <li><strong>1988–2017:</strong> founded in Hyderabad by Dr M V Ramana Rao. It made LED video displays, at one time the domestic leader, with revenue of ₹150–218 cr in FY15–FY17. In 2015–17 it made repeated ₹3-a-share preferential allotments to the founder's family (the Magantis) and Ideamax Consultancy. In 2017 SEBI refused to extend the conversion window on 3 cr warrants.</li>
+    <li><strong>13 Mar 2018:</strong> NCLT Hyderabad admitted it to the insolvency process (CIRP) on the application of SREI Equipment Finance. Revenue collapsed to ₹1–5 cr a year in FY19–FY21.</li>
+    <li><strong>31 Jul 2019:</strong> NCLT approved the resolution plan of the <strong>Cosyn Limited consortium</strong>. Payments to secured creditors slipped twice and were completed by 28 Apr 2021.</li>
+    <li><strong>Jun 2021:</strong> capital was restructured with a record date of 25 Jun 2021. Existing equity was cut to 5.51 cr shares (25%), and <strong>16.52 cr new shares (75%) went to the new promoters, strategic investors and associates</strong>. This is how the current promoter group took control: through the resolution plan, not a market purchase.</li>
+    <li><strong>Today:</strong> the promoter is <strong>RRK Enterprise Pvt Ltd</strong>, which held 44.90% before the swap, and the Kakarala family, who held about 6.7%. Siva Lakshmanarao Kakarala is a non-executive director. How RRK relates to Cosyn Ltd is not stated in the documents read. That is a gap.</li>
+  </ul>
+
+  <h3>Governance flags</h3>
+  <div class="callout warn">
+    <ul style="margin:0">
+      <li><strong>Swap counterparties.</strong> Ebisu and Unico Global Opportunities Funds are both administered c/o SpearFin Ltd, Ebene, Mauritius. They received 2.36 cr shares each, and Tavas Advisory &amp; Consulting FZE (UAE) received 0.96 cr. Neo Semi's financials were not disclosed in any document read.</li>
+      <li><strong>Director conflict.</strong> Deepayan Mohanty was redesignated from independent to non-independent on 30 Mar 2026. He holds 7.5% of RST Fuel Delivery Pvt Ltd, a 55%-owned subsidiary of Neo Semi.</li>
+      <li><strong>Hive-offs.</strong> The lighting and medical divisions are being moved by slump sale to MICK Digital India for ₹8 cr, paid in shares. 40% of MICK Digital is being sold to LED India Pvt Ltd for <strong>₹2 lakh</strong>. LED India's relationship to the promoters is not disclosed in the material read.</li>
+      <li><strong>Related parties.</strong> ₹18.7 cr was owed to promoter entity RRK at March 2026. Standing related-party approvals allow up to ₹50 cr with RRK and ₹20 cr with SOA Dubai a year.</li>
+      <li><strong>Small audit firm.</strong> Bhavani &amp; Co. audits a ₹1,100 cr company with Dubai and Singapore subsidiaries for up to ₹6 L a year. Its reports are unmodified with no emphasis of matter. The key audit matter is revenue cut-off.</li>
+      <li><strong>Pay.</strong> The MD, Kaushik Yalamanchili, is 32, holds no shares and was paid ₹1.50 cr in FY26, about 6% of EBITDA<sup>d</sup>.</li>
+      <li><strong>Regulators.</strong> The FY26 secretarial compliance report records <strong>no SEBI or exchange action and no fines</strong>, but notes that "stock exchanges have sought clarifications". No current SEBI order was found.</li>
+    </ul>
+  </div>
+  <div class="people">
+    <div class="person"><div class="rl">Managing Director</div><div class="nm">Kaushik Yalamanchili</div>B.Tech, joined July 2021 after the resolution. Re-appointed to Sep 2027. Holds nil.</div>
+    <div class="person"><div class="rl">Chief Executive Officer</div><div class="nm">Rakshit Mathur</div>Public face of the Neo Semi deal.</div>
+    <div class="person"><div class="rl">Non-executive director · promoter group</div><div class="nm">Siva Lakshmanarao Kakarala</div>Over 75, continued by special resolution. Gifted 75 L shares in March 2025.</div>
+    <div class="person"><div class="rl">CFO · Company Secretary</div><div class="nm">S. Muralikrishnan Madurai · Lakshmi Sowjanya Alla</div>&nbsp;</div>
+  </div>
+
+  <!-- ── 9. BUSINESS ──────────────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>What it does</h3>
+  <p>MIC Electronics has four reporting segments.</p>
+  <ul>
+    <li><strong>LED products</strong> is the real business. It makes RDSO-approved railway passenger-information displays, coach-guidance boards, GPS platform clocks, at-a-glance train-formation displays and integrated PIS for station upgrades under the Amrit Bharat scheme. It also makes regular commercial LED displays. In FY26 it earned ₹32.9 cr from Railways PIS and ₹33.3 cr from regular displays.</li>
+    <li><strong>Electrical &amp; electronics spare-parts trading</strong> runs through SOA Electronics Trading LLC, Dubai, set up in 2024 with about ₹51 cr of investment. It is the larger segment by revenue and earns almost nothing.</li>
+    <li><strong>Medical appliances</strong> and <strong>automobiles (EVs)</strong> are dormant.</li>
+  </ul>
+  <p>New lines are coming. MIC has prototype approvals for coach emergency lighting units and PAPIS, its first PAPIS order is from RCF Kapurthala, and RMPU (coach air-conditioning) and integrated power supply products are in development. On top of that are Neo Semi (59%, Singapore) and a new defence subsidiary with no orders.</p>
+
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Market cap ₹ cr</th><th>P/E</th><th>P/BV</th><th>ROCE</th><th>ROE</th><th>Latest-qtr OPM</th></tr></thead>
+    <tbody>
+      <tr><th>MIC Electronics</th><td>1,099</td><td>n/m (≈86x normalised<sup>d</sup>)</td><td>4.1x</td><td class="dn">8.7%</td><td class="dn">−5.8%</td><td>9.7%</td></tr>
+      <tr><th>HBL Engineering</th><td>22,431</td><td>28.1x</td><td>10.1x<sup>d</sup></td><td class="up">59.3%</td><td>45.3%</td><td>23%</td></tr>
+      <tr><th>Kernex Microsystems</th><td>2,710</td><td>14.2x</td><td>10.9x<sup>d</sup></td><td class="up">47.8%</td><td>43.5%</td><td>32%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Screener key ratios, fetched 29 Oct 2026. MIC's normalised P/E is market cap over TTM PBT of ₹17 cr taxed at 25%. HBL (Kavach, defence electronics) and Kernex (Kavach) are the listed railway-electronics names. Neither is a pure PIS peer, because the PIS competitors are mostly unlisted. Both earn returns on capital five to seven times MIC's and trade at <strong>lower</strong> earnings multiples. Siemens and other large-cap rail names are a different scale and were not tabulated.</div>
+
+  <h3>Moat</h3>
+  <p>The moat is narrow. RDSO type approvals and zonal-railway vendor registration take years to get and do keep fly-by-night competitors out. But PIS tenders are small, price-bid contracts, often ₹1–5 cr, with many approved vendors. The trading arm has no moat, and nothing disclosed shows one at Neo Semi.</p>
+
+  <h3>Order book</h3>
+  <p><strong>Not disclosed.</strong> The FY26 annual report gives no order-book figure, and no quarterly release does either. Letters of acceptance announced in 2026 add up to about ₹8–10 cr<sup>d</sup>:</p>
+  <ul>
+    <li>RCF Kapurthala PAPIS order (value not stated)</li>
+    <li>Northern Railway, ₹1.46 cr</li>
+    <li>Eastern Railway Howrah, ₹4.45 cr</li>
+    <li>Central Railway Wardha, ₹1.12 cr</li>
+    <li>Southern Railway Salem, ₹1.09 cr</li>
+    <li>a ₹3.78 cr order in May</li>
+  </ul>
+  <p>No Vande Bharat supply contract was found. MIC cites the Vande Bharat and Amrit Bharat rollout only as market context. The annual report puts the domestic PIS market at about ₹550–600 cr, which caps what the core business can become.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn">
+    <p><strong>A ₹1,099 cr valuation on a business that makes about ₹17 cr before tax.</strong> The promoter is selling, new equity is going to offshore funds, and the deal's cash leg is unfunded.</p>
+  </div>
+  <ul>
+    <li><strong>More dilution.</strong> Funding the ₹122 cr Neo Semi cash leg with ₹11 cr in the bank needs the approved ₹250 cr QIP, FCCBs or another preferential issue.</li>
+    <li><strong>Receivables.</strong> ₹196 cr is outstanding, about 375 days of sales. A large share sits in a Dubai trading arm, where any write-off would wipe out several years of profit.</li>
+    <li><strong>Lock-in expiry.</strong> 5.69 cr swap shares, 19% of equity, unlock on 14 Apr 2027. The allottees received them at ₹41.38 and the stock is at ₹36.91.</li>
+    <li><strong>Promoter exit.</strong> The promoter sold 3.56 cr shares in 11 months, and further sales would add supply.</li>
+    <li><strong>Opaque acquisition.</strong> Neo Semi's financials are undisclosed and the swap was priced at ₹41.38 against a ₹30–37 market. It may bring goodwill that later gets impaired.</li>
+    <li><strong>Lumpy core business.</strong> Railway revenue bunches into Q4, as March 2026 showed.</li>
+    <li><strong>Liquidity.</strong> About ₹3.3 cr a day trades on average, and there is no institutional holder base.</li>
+    <li><strong>Insolvency history.</strong> CIRP from 2018 to 2021, plus legacy disputes from the founder era.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ───────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Hold:</strong> audited Neo Semi financials showing real revenue and profit, or the cash leg funded without dilution. Also: receivables back under 150 days with positive operating cash flow for H1 FY27, a disclosed railway order book above ₹100 cr, and promoter selling stopped for two quarters.</li>
+    <li><strong>Upgrade to Buy:</strong> all of the above, plus standalone revenue sustainably above ₹25 cr a quarter, through PAPIS, RMPU or ELU volume orders, at a valuation the earnings support.</li>
+    <li>The <strong>Sell</strong> call is reinforced by any of: a QIP or preferential issue below ₹41, a receivables write-off, further promoter disposals or pledges, or a qualified audit or emphasis of matter.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ───────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul style="font-size:.88rem">
+    <li>Exchange filings, BSE PDFs read directly:
+      <ul>
+        <li>Trading approval for preferential shares, 8 Oct 2026, giving the issue price, lock-in and post-issue capital</li>
+        <li>SAST 29(1) disclosures by Ebisu (9 Oct) and Unico (13 Oct 2026)</li>
+        <li>Record-date intimation for capital restructuring, 16 Jun 2021, covering the NCLT order of 31 Jul 2019, the Cosyn consortium plan and the 25%/75% split</li>
+        <li>Q2 FY21 results, 13 Nov 2020</li>
+      </ul></li>
+    <li>FY26 Annual Report (38th AGM notice, 22 Aug 2026): board's report on the Neo Semi SASSA, allottees, cash leg and the director redesignation; PIS revenue; AOC-2 and the RRK advance; auditors and fees; MD remuneration; secretarial compliance report; receivables ageing. FY24 Annual Report: SOA Dubai subsidiary and related-party approvals.</li>
+    <li>NSE iXBRL integrated filing, Q3 FY26 consolidated results and segment table, 31 Jan 2026.</li>
+    <li>Screener.in consolidated and standalone financials, balance sheet, cash flow, ratios, shareholding through Sep 2026 and announcement list, fetched 29 Oct 2026. Peer ratios for HBLENGINE and KERNEX from the same source.</li>
+    <li>Trendlyne: BSE announcements list (last filing 13 Oct 2026; no board-meeting intimation); insider and SAST table (RRK disposals); monthly MF holdings, Sep 2026 (none); research-report and consensus pages (no coverage). All read 29 Oct 2026.</li>
+    <li>Press: Angel One and DSIJ on the 30 Mar 2026 board meeting and deal terms; Telangana Today, 9 Sep 2026, on completion; MarketsMojo, Univest and Sahi on Q1 FY27; Telangana Today, NBM&amp;CW, EPC World and Arihant on 2026 railway orders. Press figures were checked against filings where possible.</li>
+    <li>Price and liquidity: Yahoo Finance MICEL.NS, 125 sessions to 29 Oct 2026. Intraday price cross-checked with Trendlyne (₹36.90 at 11:59 IST).</li>
+  </ul>
+
+  <div class="foot">Generated 29 Oct 2026 · Price basis ₹36.91 (NSE, 29 Oct 2026, intraday) · Market cap on 29.79 cr post-swap shares · Derived <sup>d</sup>: market cap, EV/EBITDA, cap/PBT, normalised P/E, post-swap book and P/BV, net debt, trading-arm revenue (consolidated less standalone), cumulative CFO, promoter shares sold, group receivables outside standalone, peer P/BV, MD pay as a share of EBITDA, order total. Gaps: Q2 FY27 not declared and no date filed; Neo Semi financials not disclosed; FY25 equity-raise terms not opened; how RRK Enterprise relates to the Cosyn consortium not established; Sep-26 pledge not checked; no aggregate order book; identity of LED India Pvt Ltd. Not investment advice.</div>
+
+</div>
+</body>
+</html>
