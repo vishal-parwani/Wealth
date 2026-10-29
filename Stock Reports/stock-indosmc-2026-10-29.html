@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indo SMC Limited (BSE: INDOSMC) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="INDOSMC">
+<meta name="exchange"  content="BSE">
+<meta name="name"      content="Indo SMC Limited">
+<meta name="sector"    content="Electrical Equipment / SMC Enclosures &amp; CT-PT">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-29">
+<meta name="price"     content="420.00">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · ELECTRICAL EQUIPMENT / SMC ENCLOSURES &amp; CT-PT · 29 Oct 2026</div>
+  <h1>Indo SMC Limited <span class="tik">· BSE SME: INDOSMC (544681)</span></h1>
+  <div class="subline">An Ahmedabad maker of SMC meter boxes, FRP gratings and 11–33 kV current and potential transformers (CT-PT). Revenue went from ₹28 cr to ₹310 cr in two years. But operating cash flow was negative in every year, and the IPO monitoring agency could not confirm how the money raised was spent.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹420</span></div>
+    <div><span class="k">52W range</span><span class="v">₹134 – ₹534</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹960 cr</span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">29.6x</span></div>
+    <div><span class="k">P/BV</span><span class="v">6.23x<sup>d</sup></span></div>
+    <div><span class="k">Net debt</span><span class="v">−₹7 cr (net cash)<sup>d</sup></span></div>
+    <div><span class="k">Debt / equity</span><span class="v">0.30x<sup>d</sup></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">85,153 sh<sup>d</sup></span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹3.18 cr<sup>d</sup></span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>Hold. Don't buy ahead of the H1 FY27 results.</strong> The growth is real and margins have held at about 15%. The trailing P/E is 30x, about double that of the listed meter and switchgear makers. On management's own FY27 guidance the forward P/E is about 19x<sup>d</sup>. What stops this being a Buy is two problems the results have to clear: profit is not turning into cash, and the IPO money has not been independently accounted for.</p>
+  <p><strong>The case for it.</strong> FY26 revenue was ₹309.7 cr, up 123%. Profit was ₹32.4 cr, up 92%. EBITDA margin was 15.4%. The growth came from moving out of SMC meter boxes into CT-PT units, busducts and metering cubicles, which now make up 72% of sales. Receivable days fell from 124 to 42. The order book was ₹237 cr at 31 March, and management said another ₹125 cr had been added by 22 May. It guides to FY27 revenue of ₹450–500 cr. Utility approvals keep arriving: MSEDCL approved its metering cubicles in January and its isolators on 27 October. Ashish Kacholia has raised his stake every quarter since listing, from 2.46% to 3.25%.</p>
+  <p><strong>The case against it.</strong> Over FY24–FY26 the company reported ₹52 cr of profit, but cumulative operating cash flow was −₹52 cr. Inventory went from ₹17 cr to ₹85 cr in FY26, and finished goods within it from ₹4.4 cr to ₹33.9 cr. CRISIL, the IPO monitoring agency, issued a <em>qualified</em> report for the March 2026 quarter marked "Issuer Not Cooperating". The company's auditor separately certified no deviation, so the two accounts conflict. CT-PT, the segment driving growth, earned a 12.2% segment margin, half the 25% on SMC. Every anchor and institution that came in at the IPO has since left. The stock trades on the SME platform in 1,000-share lots.</p>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <p>Trendlyne's research-report page for INDOSMC has no rows, and no published broker target could be found. There is no consensus, so the <code>target</code> meta is omitted.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v" style="color:var(--ink3)">n/a</span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v" style="color:var(--ink3)">n/a</span></div>
+    <div><span class="k">Consensus EPS FY27E</span><span class="v" style="color:var(--ink3)">n/a</span></div>
+  </div>
+  <div class="delta"><strong>Arithmetic on the company's own guidance.</strong> Management guides to FY27 revenue of ₹450–500 cr. At FY26's 10.5% net margin that gives profit of ₹47–52 cr<sup>d</sup>. Spread over 2.29 cr shares, EPS is ₹21–23<sup>d</sup> and the P/E is <strong>18–20x<sup>d</sup></strong>. That is about where Salzer trades and above Genus and HPL. Management also said H1 FY27 would be "₹200 cr plus", cut from ₹250 cr on raw-material disruption. At FY26 margins, a ₹200 cr H1 means profit of about ₹21 cr<sup>d</sup>, roughly double H1 FY26.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual (standalone; the company has no subsidiaries)</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>28.0</td><td>138.7</td><td>309.7</td></tr>
+      <tr><th>Growth</th><td>+284%<sup>d</sup></td><td>+395%</td><td>+123%</td></tr>
+      <tr><th>EBITDA</th><td>5.1</td><td>23.5</td><td>47.6</td></tr>
+      <tr><th>EBITDA margin</th><td>18.1%</td><td>16.9%</td><td>15.4%</td></tr>
+      <tr><th>PAT</th><td>3.0</td><td>16.8</td><td>32.4</td></tr>
+      <tr><th>Growth</th><td>—</td><td>+460%</td><td>+92%</td></tr>
+      <tr><th>EPS (₹, on year-end shares)</th><td>1.96</td><td>10.09</td><td>14.17</td></tr>
+      <tr><th>Cash from operations</th><td>−6</td><td>−11</td><td>−35</td></tr>
+      <tr class="total"><th>Free cash flow</th><td>−8</td><td>−28</td><td>−42</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The figures are from Screener and the FY26 investor presentation. EPS is Screener's, on year-end share counts after two bonus issues and the January 2026 IPO. On the weighted share count, the company's own FY26 EPS is higher, at about ₹18. FY24 revenue growth is computed from ₹7.3 cr of FY23 total income in the RHP<sup>d</sup>.</div>
+
+  <h3>Half-yearly: the SME reporting cycle</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>H1 FY25<br>Sep 24</th><th>H2 FY25<br>Mar 25</th><th>H1 FY26<br>Sep 25</th><th>H2 FY26<br>Mar 26</th><th>H1 FY27<br>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>69.8<sup>d</sup></td><td>68.9</td><td>112.5<sup>d</sup></td><td>197.2</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>YoY growth</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td><td>+61%<sup>d</sup></td><td>+186%</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>EBITDA</th><td>15.7<sup>d</sup></td><td>7.8</td><td>17.8<sup>d</sup></td><td>29.9</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>EBITDA margin</th><td>22.5%<sup>d</sup></td><td>11.3%</td><td>15.8%<sup>d</sup></td><td>15.1%</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>PAT</th><td>12.1<sup>d</sup></td><td>4.7</td><td>11.5<sup>d</sup></td><td>20.9</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr class="total"><th>Net margin</th><td>17.4%<sup>d</sup></td><td>6.8%</td><td>10.2%<sup>d</sup></td><td>10.6%</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The company files only full-year and H2 figures. Each H1 here is the year less its H2<sup>d</sup>. H1 FY26 PAT of ₹11.5 cr matches the RHP's restated ₹11.46 cr. <strong>H1 FY27 (to 30 Sep 2026) has not been declared.</strong> As of 29 Oct no board-meeting intimation was found in the filings this note could see. The SME deadline is 14 November. Margins have swung widely: 22.5% in H1 FY25, then 11.3% in H2 FY25, then about 15% since. A single half-year is not a trend.</div>
+
+  <h3>Working capital and cash conversion</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore, 31 March</th><th>FY24</th><th>FY25</th><th>FY26</th></tr></thead>
+    <tbody>
+      <tr><th>Inventory</th><td>15.4</td><td>17.2</td><td>85.1</td></tr>
+      <tr><th>&nbsp;&nbsp;of which finished goods</th><td><span style="color:var(--ink3)">n/a</span></td><td>4.4</td><td>33.9</td></tr>
+      <tr><th>Trade receivables</th><td>8.6</td><td>47.2</td><td>35.8</td></tr>
+      <tr><th>Loans &amp; advances (mostly supplier advances)</th><td>2.1</td><td>6.6</td><td>18.7</td></tr>
+      <tr><th>Trade payables</th><td>10.9</td><td>20.2</td><td>14.4</td></tr>
+      <tr><th>Debtor / inventory days</th><td>112 / 326</td><td>124 / 62</td><td>42 / 135</td></tr>
+      <tr><th>Cash &amp; bank (incl. FDs)</th><td>0.3</td><td>2.9</td><td>53.6</td></tr>
+      <tr class="total"><th>Total borrowings</th><td>17.7</td><td>35.8</td><td>47.0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta"><strong>Collections improved and stock ballooned.</strong> Receivables are clean: ₹29.5 cr of the ₹35.8 cr is under six months old, and only ₹3.7 cr is one to two years old. But the four working-capital lines together absorbed about ₹74 cr<sup>d</sup> in FY26, more than twice the year's profit. Management said it bought about three months of resin and glass fibre ahead of Gulf supply disruption. That explains the ₹42 cr of raw material. It does not explain ₹34 cr of finished goods sitting at year-end. Borrowings went up to ₹47 cr while ₹52.6 cr sat in fixed deposits. Most of that deposit money is unspent IPO money that was earmarked for working capital.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Sep 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>No mutual fund scheme discloses a position</strong> in the September or August 2026 monthly portfolios. The institutions that came in at the IPO have left. The ₹26.16 cr anchor book was 42% AIFs, 33% NBFCs and 12% FPIs. Its lock-ins ended in February and April. Since then DII holding has fallen from 6.79% to 1.91% and FII holding from 0.82% to 0.04%.</p>
+  </div>
+  <div class="delta">Own holdings overlap: none, because no fund holds it.</div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">28 Oct 26</span><span><strong>MSEDCL vendor approval for 11 kV and 33 kV isolators</strong>, valid to 15 Oct 2028. It qualifies the company to supply Maharashtra's ongoing distribution schemes. No order value is attached, and production will be at Nashik.</span></li>
+    <li><span class="date">5 Oct 26</span><span><strong>₹31.7 cr order for feeder and mini section pillars</strong> (FSP/MSP) with switch-fuse units and FRP fencing, for delivery in 4–5 weeks. The buyer is an unnamed Gujarat power-distribution equipment maker. That makes Indo SMC a sub-supplier, not a direct utility vendor, on this order.</span></li>
+    <li><span class="date">30 Sep 26</span><span><strong>5th AGM.</strong> Shareholders approved Chaitanya Patel, a promoter, as executive director for three years at up to ₹50 lakh a year, by special resolution, and ratified the cost auditor. No dividend was declared.</span></li>
+    <li><span class="date">11 Sep 26</span><span><strong>Stock closed at ₹528, a 3.5x return on the ₹149 IPO price.</strong> No filing accompanied the peak. The stock is down 20% since and sits below its 50-day average of ₹461.</span></li>
+    <li><span class="date">8 Sep 26</span><span><strong>FY26 annual report.</strong> The auditor, A N Ruparel &amp; Co., gave an unqualified opinion. The company says ₹42.4 cr of IPO money was used by 31 March "with no deviation" and ₹49.5 cr sat in FDs.</span></li>
+    <li><span class="date">14 Aug 26</span><span><strong>Monitoring-agency report filed</strong>, presumably for the June quarter. Its contents could not be opened, so it is not known whether CRISIL's qualification still stands. <span style="font-size:.72rem;font-weight:700;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:0 4px">unreconciled</span></span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding: every disclosure since listing</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Pre-IPO<br>(RHP)</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoter</th><td>82.30</td><td>60.25</td><td>60.25</td><td>60.25</td></tr>
+      <tr><th>FII</th><td><span style="color:var(--ink3)">n/a</span></td><td>0.82</td><td>0.13</td><td>0.04</td></tr>
+      <tr><th>DII</th><td><span style="color:var(--ink3)">n/a</span></td><td>6.79</td><td>2.65</td><td>1.91</td></tr>
+      <tr><th>Public / other</th><td>17.70</td><td>32.14</td><td>36.97</td><td>37.81</td></tr>
+      <tr><th>&nbsp;&nbsp;of which Ashish Kacholia</th><td><span style="color:var(--ink3)">n/a</span></td><td>2.46</td><td>3.03</td><td>3.25</td></tr>
+      <tr><th>Shareholders (no.)</th><td><span style="color:var(--ink3)">n/a</span></td><td>944</td><td>1,334</td><td>1,471</td></tr>
+      <tr class="total"><th>Promoter pledge</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta">The stock listed on 21 Jan 2026, so only three disclosures exist. Screener has no pledge field for this SME, and no encumbrance filing was found. <strong>The promoter group is five co-founders, not one family.</strong> Nitin Patel holds 12.03%, Rachit Jain 12.01%, and Neel Shah, Riktabahen Sonawala and Chaitanya Patel 11.94% each. None of them has sold since listing. A group of five equal partners is less common than a single family and can split, which is worth watching. Other named holders are Manish Kumar, Bengal Finance &amp; Investment (1.33% each) and L7 Hitech (cut from 1.53% to 1.01%).</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Shares outstanding</span><span class="v">2.29 cr</span></div>
+    <div><span class="k">Auditor</span><span class="v" style="font-size:.86rem">A N Ruparel &amp; Co.</span></div>
+    <div><span class="k">Audit committee chair</span><span class="v" style="font-size:.86rem">Arpankumar Patel (ID)</span></div>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Promoter · Managing Director</div><div class="nm">Neel Niteshbhai Shah</div>Runs the business and leads the calls. He was MD and CFO as late as May 2026. By the September AGM, Anand Santosh Saraogi was CFO. His pay rose 150% in FY26.</div>
+    <div class="person"><div class="rl">Promoter · Chairman (non-executive)</div><div class="nm">Nitin Jasvantbhai Patel</div>The largest single holder at 12.03%. He chairs the stakeholders' relationship committee.</div>
+    <div class="person"><div class="rl">Promoter · Executive Director</div><div class="nm">Chaitanya Patel</div>Has been with the company since it was incorporated in 2021. Reappointed in September 2026 at up to ₹50 lakh a year. His pay rose 100% in FY26.</div>
+  </div>
+  <h3>Board and governance flags</h3>
+  <ul>
+    <li><strong>CRISIL's qualified monitoring-agency report.</strong> For the quarter to 31 March 2026, CRISIL said it could not verify how the ₹84.6 cr of net IPO proceeds were used, citing the company's failure to provide information. It marked the issuer "Not Cooperating". The auditor's certificate in the annual report says the opposite: ₹42.4 cr used, no deviation. An investor on the May call began to ask about it and was cut off over a bad line, and management never answered. <strong>This is the single biggest flag.</strong> The IPO's main object was ₹52 cr of working capital, which is easy to move around and hard to verify.</li>
+    <li><strong>Equity built up before the IPO.</strong> There was a 6:1 bonus in August 2024, a preferential allotment of 4,44,450 shares at ₹352 in September 2024, and a 2:1 bonus in December 2024. The preferential price adjusts to about ₹117<sup>d</sup> per share today, against the IPO price of ₹149. Equity capital went from ₹0.73 cr to ₹16.7 cr through the bonuses alone.</li>
+    <li><strong>Board.</strong> Six directors: three promoters (Nitin Patel, Neel Shah and Chaitanya Patel), Riktabahen Sonawala as a promoter non-executive, and two independents (Shashwat Shah and Arpankumar Patel). The chairman is a promoter, and a third of the board is independent. SME-listed companies are exempt from the half-independent rule, but the board is thin. Independent director Chintan Bhatt resigned on 6 April 2026, three months after listing, citing lack of time.</li>
+    <li><strong>Related parties.</strong> Directors and their relatives have lent the company ₹3.25 cr unsecured, down from ₹6.78 cr. Directors, relatives and "friends of director" have mortgaged property as collateral for the bank lines. The board report says no transaction needed AOC-2 disclosure. The AS-18 schedule could not be extracted from the annual report, so amounts are <span style="color:var(--ink3)">n/a</span>.</li>
+    <li><strong>Subscription figure.</strong> The company says the IPO was "110+ times" subscribed, while Chittorgarh records 77.4x overall. <span style="font-size:.72rem;font-weight:700;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:0 4px">unreconciled</span> The 110x may be a single category.</li>
+  </ul>
+
+  <h3>IPO details</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><th>Dates</th><td>Anchor book 12 Jan 2026; open 13–16 Jan; allotted 19 Jan; listed on BSE SME 21 Jan, opening at ₹149 (flat)</td></tr>
+      <tr><th>Price / size</th><td>₹141–149 band, priced at ₹149. 61.71 lakh shares, all fresh, ₹91.95 cr. No offer for sale.</td></tr>
+      <tr><th>Use of proceeds</th><td>Plant &amp; machinery ₹25.71 cr · working capital ₹52.00 cr · general corporate ₹6.89 cr · issue expenses ₹7.35 cr</td></tr>
+      <tr><th>Anchors</th><td>17.56 lakh shares, ₹26.16 cr. 50% locked in to about 15 Feb 2026, the rest to about 16 Apr 2026. Both have expired.</td></tr>
+      <tr><th>Intermediaries</th><td>GYR Capital Advisors (lead manager) · KFin (registrar) · Giriraj Stock Broking and Nikunj Stock Brokers (market makers)</td></tr>
+      <tr class="total"><th>Promoter holding</th><td>82.30% before the IPO, 60.25% now. Under SME rules, the promoters' minimum contribution is locked in for three years, to about January 2029<sup>d</sup>.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta">There have been no preferential issues or warrants since listing. Management said on the May call that no fresh equity was needed in FY27 and that any shortfall would be met with debt first. The ₹49.5 cr of unspent IPO money makes a raise unlikely in the near term.</p>
+
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>Indo SMC was incorporated in 2021 and has four plants: two at Pirana in Ahmedabad (SMC and FRP), one at Nashik (CT-PT and electrical components) and one at Gheeloth in Rajasthan (SMC). It works in three segments.</p>
+  <ul>
+    <li><strong>SMC.</strong> Sheet-moulding-compound enclosures for energy meters, plus distribution and junction boxes, sheets and chequered plates. FY26 revenue ₹64.0 cr (21%), segment margin 25.2%.</li>
+    <li><strong>FRP.</strong> Gratings, pultruded profiles and cable trays. ₹23.7 cr (8%), margin 12.7%.</li>
+    <li><strong>CT-PT and electrical.</strong> 11 and 33 kV current and potential transformers, LT/HT distribution boxes, feeder pillars, busducts and metering cubicles. ₹222.0 cr (72%), margin 12.2%.</li>
+  </ul>
+  <p>Segment margins are segment results before interest, from note 31 of the annual report. Glass fibre and resin are the key inputs. CRGO cores for the transformers are imported from Korea, Japan, China and Taiwan. Sales reach 20 states but are concentrated in Gujarat, Maharashtra and Karnataka. An analyst on the May call cited 60–70% from Gujarat at the time of the DRHP.</p>
+  <h3>Customers, and exposure to RDSS and smart meters</h3>
+  <p>Customers are state discoms and utilities, including MSEDCL and BESCOM, and the EPC contractors and switchgear makers who supply them. Private customers named in filings are Asiatic Composite, Elite Techno Solution and an unnamed metals and mining group, which placed a ₹20.9 cr busduct order in March. On the May call an analyst referred to a ₹100 cr low-margin busduct order from Lloyd. Management confirmed the margin but not the counterparty by name. The smart-meter programme under RDSS is the obvious tailwind for SMC meter boxes, and the company names RDSS in its SWOT. <strong>But the exposure is indirect and shrinking as a share of sales.</strong> SMC is only 21% of revenue, and an analyst on the May call noted SMC had come in at ₹64 cr against about ₹90 cr in an earlier segment mix. Management blamed resin shortages in March. The growth is coming from distribution hardware (CT-PT, metering cubicles, pillars), where the demand drivers are RDSS loss-reduction work and new connections rather than smart meters themselves. No customer-concentration figure is disclosed: <span style="color:var(--ink3)">n/a</span>.</p>
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Mkt cap</th><th>TTM P/E</th><th>P/BV</th><th>Latest period sales growth</th><th>ROCE</th></tr></thead>
+    <tbody>
+      <tr><th>Indo SMC</th><td>₹960 cr</td><td>29.6x</td><td>6.2x</td><td>+186% (H2 FY26)</td><td>34%</td></tr>
+      <tr><th>Genus Power (smart meters)</th><td>₹8,315 cr</td><td>12.7x</td><td>3.7x<sup>d</sup></td><td>+45% (Jun 26 qtr)</td><td>25%</td></tr>
+      <tr><th>HPL Electric (meters, switchgear)</th><td>₹1,486 cr</td><td>15.6x</td><td>1.5x<sup>d</sup></td><td>+34%</td><td>14%</td></tr>
+      <tr><th>Salzer Electronics (switchgear)</th><td>₹835 cr</td><td>19.1x</td><td>1.4x<sup>d</sup></td><td>+13%</td><td>11%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Peer data is consolidated, from Screener on 29 Oct 2026. There is no listed pure-play maker of SMC enclosures or CT-PT units. Screener's own peer set is solar and cable majors, which is not comparable. Indo SMC's premium buys far faster growth and higher ROCE. Against that, it has no cash generation, a governance flag and SME liquidity. On FY27 guidance, at 18–20x<sup>d</sup>, it is roughly level with Salzer and still at a premium to Genus.</div>
+  <h3>Moat</h3>
+  <p><strong>Narrow, and mostly made of approvals.</strong> Utility vendor approvals and type tests take months to obtain, and management says few makers hold them at 11 and 33 kV. Those approvals are the barrier, and Indo SMC keeps collecting them. But at 11 and 33 kV the products are standard. Pricing is set by tender and by larger buyers, and ABB, Crompton and dozens of regional makers sit at or above this voltage class. In SMC and FRP the only edges are tooling and the ability to supply quickly.</p>
+  <h3>Order book</h3>
+  <p>Disclosed order book: ₹142.45 cr at 9 Feb 2026 and ₹237 cr at 31 Mar 2026. Management said a further ₹125 cr was added by 22 May. Of that, about ₹120–125 cr is CT-PT and busducts, about ₹80 cr is SMC, and the rest is FRP and tarpaulins. Orders announced since then are ₹23.7 cr (30 Apr, HT busduct and PMCC panels), ₹9.0 cr (18 May, busbar panels) and ₹31.7 cr (5 Oct, FSP/MSP). Most have 1–5 week delivery terms. Management deliberately takes short orders so it can reprice for input inflation. That makes the order book a measure of throughput, not of long-dated visibility. No updated figure has been given since May: <span style="color:var(--ink3)">n/a</span>.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>Profit that does not turn into cash, plus IPO money nobody has independently verified.</strong> Over three years the company reported ₹52 cr of profit, while operating cash flow totalled −₹52 cr and free cash flow −₹78 cr. FY26 closed with ₹85 cr of inventory, ₹34 cr of it finished goods, and with CRISIL unable to confirm the use of ₹84.6 cr of IPO proceeds. If H1 FY27 shows inventory still climbing, or another qualified monitoring report, that is how SME stories fail. The thesis would break.</div>
+  <ul>
+    <li><strong>Liquidity and lot size.</strong> The minimum trade is 1,000 shares (₹4.2 lakh). About ₹3.2 cr trades a day across 1,471 holders, and two market makers provide the quotes. The stock went from ₹149 to ₹528 and back to ₹420 in nine months. Exiting a position at size is not guaranteed.</li>
+    <li><strong>Margin mix.</strong> CT-PT is 72% of sales at a 12% segment margin. Management says it wants above 18% on engineering products, but the reported segment numbers do not show it yet. More busduct work like the low-margin order would dilute margins.</li>
+    <li><strong>Inputs.</strong> Resin and glass fibre are petroleum-linked, and supply was disrupted in March 2026. CRGO cores are imported. Contracts pass through price moves only above 5%, and only on newer orders.</li>
+    <li><strong>Lumpy half-year disclosure.</strong> Only full-year and H2 numbers are filed. H1 FY25 showed a 22.5% margin and H2 FY25 11.3%, so one half-year can mislead.</li>
+    <li><strong>Execution of ambitions.</strong> Management targets ₹1,000 cr of revenue within three years, along with railways (Vande Bharat parts awaiting approval), exports to the Gulf, the US and Germany, and automotive. None of these has produced material revenue yet.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> H1 FY27, due by 14 November, needs to show revenue of ₹200 cr or more at an EBITDA margin of at least 15%, positive operating cash flow for the half, and inventory below ₹85 cr. A clean, unqualified CRISIL monitoring report would also be needed. If all of that holds, about 19x guided earnings is reasonable for this growth. A price nearer ₹330 (about 15x FY27 guidance<sup>d</sup>) would do it on the numbers alone, provided the monitoring report is clean.</li>
+    <li><strong>Downgrade to Sell:</strong> any one of these would do it: a second qualified or non-cooperation monitoring report; a deviation in the use of IPO funds; negative H1 operating cash flow with inventory up again; H1 revenue below ₹160 cr; or a promoter selling or pledging shares.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li>Company filings on BSE (scrip 544681): Annual Report FY2025-26 (8 Sep 2026; notes 7, 14–17, 29, 31 and the IPO-utilisation section); H2 FY26 and FY26 investor presentation (22 May 2026); Q4 FY26 earnings-call transcript (22 May 2026); Q3 FY26 presentation and transcript (10–11 Feb 2026); investor presentation (22 Jun 2026); AGM proceedings (30 Sep 2026) and voting results (2 Oct 2026); order intimation (5 Oct 2026); MSEDCL vendor-approval intimation (28 Oct 2026).</li>
+    <li>Screener.in: standalone annual and half-yearly financials, balance sheet, cash flow, ratios, shareholding and named holders, and daily price and volume (fetched 29 Oct 2026). Peer data for Genus Power, HPL Electric and Salzer. The 6-month average volume and turnover come from Yahoo INDOSMC.BO, 124 sessions<sup>d</sup>.</li>
+    <li>Trendlyne: monthly mutual-fund holdings for the <strong>Sep 2026 and Aug 2026 disclosures</strong> (none), and the research-report page (no coverage).</li>
+    <li>IPO details from Chittorgarh (subscription, anchor allocation, lock-in dates, objects, RHP financials). CRISIL's qualified monitoring-agency report for the March 2026 quarter as reported by Whalesbook (16 May 2026). The CRISIL report itself was not opened.</li>
+  </ul>
+
+  <div class="foot">Generated 29 Oct 2026 · Price basis ₹420.00 (BSE SME, 29 Oct 2026, 12:29 pm) · Derived <sup>d</sup>: H1 figures (year less H2), P/BV, net debt, debt/equity, average volume and turnover, forward arithmetic on management guidance, the bonus-adjusted preferential price, peer P/BV and the working-capital build. ⚠ H1 FY27 results not yet declared. CRISIL's March-quarter report is known only from secondary coverage. The 14 Aug 2026 monitoring filing was not opened. Related-party amounts not extracted. The subscription multiple differs between company and Chittorgarh. App note: Yahoo resolves INDOSMC.BO with full history; set a symbol override if the default .NS lookup returns nothing. Not investment advice.</div>
+</div>
+</body>
+</html>
