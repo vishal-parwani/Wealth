@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prizor Viztech Limited (NSE: PRIZOR) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="PRIZOR">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="Prizor Viztech Limited">
+<meta name="sector"    content="Electronics / CCTV & Surveillance">
+<meta name="rating"    content="Hold">
+<meta name="risk"      content="high">
+<meta name="generated" content="2026-10-30">
+<meta name="price"     content="1323.05">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Electronics / CCTV &amp; Surveillance · 30 Oct 2026</div>
+  <h1>Prizor Viztech Limited <span class="tik">· NSE SME: PRIZOR</span></h1>
+  <div class="subline">H1 FY27 is out: revenue ₹106.5 cr, up 153% on the year but flat on H2 FY26, with PAT of ₹15.3 cr and a 23.6% EBITDA margin. Operating cash flow was negative again (−₹4.6 cr), and cash fell to ₹0.17 cr before the ₹119 cr October raise arrived. At ₹1,323 the stock trades at 53x trailing earnings. Still a Hold.</div>
+  <div class="rating-row">
+    <span class="badge badge-hold">Hold</span>
+    <span class="risk-tag">High risk</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price</span><span class="v">₹1,323.05 <small>NSE SME close, 30 Oct</small></span></div>
+    <div><span class="k">52W range</span><span class="v">₹217 – ₹1,451 <small>intraday</small></span></div>
+    <div><span class="k">Market cap</span><span class="v">₹1,609 cr<sup>d</sup> <small>1.216 cr sh after 24 Oct</small></span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.00%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">53.3x<sup>d</sup> <small>enlarged count; 57.9x fully diluted</small></span></div>
+    <div><span class="k">P/BV</span><span class="v">7.7x<sup>d</sup> <small>Sep-26 book + Oct raise</small></span></div>
+    <div><span class="k">Borrowings (Sep 26)</span><span class="v">₹58.3 cr <small>D/E 0.65x; pro-forma net cash ≈₹61 cr<sup>d</sup> after the raise</small></span></div>
+    <div><span class="k">ROE</span><span class="v">37%<sup>d</sup> <small>H1 FY27 annualised; FY26 38%</small></span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">22,300 sh <small>30 Oct: 1.10 lakh</small></span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹2.1 cr</span></div>
+  </div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>Hold. The rating has not moved. H1 FY27 kept the higher level of business but did not add to it, and cash conversion got worse.</strong> Revenue was ₹106.50 cr, up 153% on H1 FY26 (₹42.01 cr) but only 0.5% above H2 FY26 (₹105.93 cr). PAT was ₹15.34 cr, up 159% on the year and 3.3% on the half. EBITDA margin rose to 23.6%<sup>d</sup> from 22.3%. Gross margin also improved: bought-in finished goods fell to ₹2.1 cr from ₹27.8 cr in H2 FY26, so a real share of the product now comes off the company's own line. That is the good part. The bad part is cash. The half used ₹4.6 cr in operations, as receivables (+₹12.4 cr), inventory (+₹8.7 cr) and short-term loans and advances (+₹7.5 cr) absorbed all ₹25.8 cr of operating profit. Borrowings rose to ₹58.3 cr. Cash at 30 Sep was ₹0.17 cr. The ₹119.45 cr preferential money arrived on 24 Oct, after the half closed, so none of it is in these numbers.</p>
+  <p><strong>Against the 29 Oct triggers.</strong> The Buy test needed four things: revenue of at least ₹120 cr (missed, at ₹106.5 cr), PAT margin of at least 13% (met, at 14.4%), positive half-year operating cash flow (missed, at −₹4.6 cr) and a price at or below about ₹900 (missed, at ₹1,323). The Sell test was not hit either. Revenue held well above ₹85 cr, EBITDA margin stayed well above 17%, and debtor days were about 87<sup>d</sup>, under the 120 limit. So the result is Hold, with valuation lower than before: 53x trailing and about 52x annualised H1, down from 78x trailing, because a ₹15 cr half has replaced a ₹6 cr one in the trailing figure. Risk stays <em>high</em>.</p>
+  <p><strong>Why not Buy.</strong> (1) <em>Growth has paused.</em> It is one flat half, but this is the first since the STQC rules took effect. At 53x, the stock needs H2 FY27 to show sequential growth again. (2) <em>Cash.</em> Operating cash flow was −₹14.1 cr in FY25, ₹0.3 cr in FY26 and −₹4.6 cr in H1 FY27. Loans and advances to undisclosed parties now total ₹21.9 cr (₹13.3 cr long-term, ₹8.7 cr short-term), double the ₹11.2 cr at March. (3) <em>Tax.</em> The cash-flow statement shows ₹0.06 cr of income tax paid in the half, against a ₹5.10 cr current-tax charge. Short-term provisions rose from ₹7.05 cr, which equals FY26's whole current-tax charge, to ₹12.53 cr. Read at face value, FY26 and H1 FY27 tax were largely unpaid at 30 Sep <span style="display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:4px;background:var(--warnbg);color:var(--warn);border:1px solid #edd7b5">unreconciled</span>. (4) <em>Disclosure.</em> The results say nothing about the ₹10 cr advance (now ₹13.3 cr), the buyers of the Prizor Aitech stake, or related parties. (5) <em>Price.</em> The stock is still 51% above the ₹876 the October investors paid, with no broker or fund support.</p>
+  <p><strong>For a buy decision.</strong> The next print is H2 FY27, due around May 2027. Buy only if H2 FY27 revenue is at least ₹125 cr (a return to sequential growth) with positive operating cash flow now that the company is funded, and the price is at or below about ₹900, which is about 36x annualised H1 FY27 EPS<sup>d</sup> and close to the issue price. Until then a holder can stay; a new buyer is paying a full price for a growth rate that has just stalled.</p>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <p>No broker covers PRIZOR. Trendlyne's research-report page for the stock (id 2424197) lists no reports, and its stock page shows "Analyst Price Target: No estimates available" (both checked 30 Oct 2026). There is no target, so the target meta is omitted. The company gives no numeric FY27 guidance, so the table below is run-rate arithmetic, not an estimate.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th></th><th>FY27E</th><th>FY28E</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue (₹ cr) · broker</th><td><span style="color:var(--ink3)">n/a</span></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>Revenue (₹ cr) · H1 FY27 × 2</th><td>213<sup>d</sup></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>PAT (₹ cr) · H1 FY27 × 2</th><td>30.7<sup>d</sup></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>EPS (₹) · 1.216 cr sh / 1.321 cr fully diluted</th><td>25.2 / 23.2<sup>d</sup></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr class="total"><th>P/E at ₹1,323</th><td>52x / 57x<sup>d</sup></td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">H1 FY27 revenue was ₹106.50 cr and PAT ₹15.34 cr (filed results). Doubling it assumes H2 neither grows nor falls back. The ₹119 cr raise should cut interest cost (₹2.5 cr in H1) and fund working capital, but it also adds 12.6% to the share count, so EPS gains less than PAT. The fully diluted count adds the 10.55 lakh warrants outstanding at ₹291, of which 9.55 lakh are held by the promoter group.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · standalone, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY23</th><th>FY24</th><th>FY25</th><th>FY26</th><th>TTM Sep-26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>13.8</td><td>35.7</td><td>71.1</td><td>147.9</td><td>212.4<sup>d</sup></td></tr>
+      <tr><th>Growth</th><td><span style="color:var(--ink3)">n/a</span></td><td class="up">+159%</td><td class="up">+99%</td><td class="up">+108%</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>EBITDA</th><td>0.6</td><td>8.2</td><td>15.0</td><td>33.2</td><td>48.7<sup>d</sup></td></tr>
+      <tr><th>EBITDA margin</th><td>4.3%</td><td>23.0%</td><td>21.1%</td><td>22.5%</td><td>22.9%<sup>d</sup></td></tr>
+      <tr><th>PAT</th><td>0.3</td><td>5.5</td><td>10.1</td><td>20.8</td><td>30.2<sup>d</sup></td></tr>
+      <tr><th>Op. cash flow</th><td><span style="color:var(--ink3)">n/a</span></td><td class="dn">−2</td><td class="dn">−14.1</td><td>0.3</td><td class="dn">−6.2<sup>d</sup></td></tr>
+      <tr><th>Free cash flow</th><td><span style="color:var(--ink3)">n/a</span></td><td class="dn">−4</td><td class="dn">−22</td><td class="dn">−17</td><td><span style="color:var(--ink3)">n/a</span></td></tr>
+      <tr><th>Finished goods bought for resale</th><td>2.9</td><td>11.8</td><td>62.8</td><td>27.8</td><td>29.9<sup>d</sup></td></tr>
+      <tr class="total"><th>EPS (₹, as reported)</th><td>3.45</td><td>7.46</td><td>10.39</td><td>19.41</td><td>28.09<sup>d</sup></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">FY23–FY26 are from the April 2026 investor deck (audited FY26), with cash flow from Screener. TTM is H2 FY26 plus H1 FY27 from the filed half-year statements. TTM operating cash flow is FY26 (₹0.3 cr) less H1 FY26 (₹1.90 cr) plus H1 FY27 (−₹4.57 cr). <strong>Balance sheet at 30 Sep 2026</strong> (unaudited, filed 30 Oct), with March 2026 in brackets: equity ₹89.6 cr (₹74.2 cr), including ₹7.7 cr received against warrants. Borrowings ₹58.3 cr (₹41.7 cr), of which ₹40.8 cr is short-term. Inventory ₹58.7 cr (₹50.0 cr). Receivables ₹51.0 cr (₹38.6 cr). Cash ₹0.17 cr (₹1.11 cr). Long-term loans and advances ₹13.3 cr (₹10.0 cr). Short-term loans and advances ₹8.7 cr (₹1.2 cr). Short-term provisions ₹12.5 cr (₹7.1 cr). Intangibles of ₹8.6 cr (₹0.1 cr) were capitalised out of development work, and intangibles under development fell to ₹10.0 cr (₹12.2 cr). Amortisation now runs through the P&amp;L: depreciation was ₹1.94 cr, against ₹0.29 cr in H1 FY26. Payables due to micro and small enterprises jumped to ₹10.1 cr (₹0.4 cr) while other payables fell to ₹4.0 cr (₹16.2 cr). That looks like a supplier reclassification, not new credit. The auditor is M B Jajodia &amp; Associates, and its limited review is unmodified.</div>
+
+  <h3>Half-yearly — last 4 (SME: half-yearly filer)</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>H2 FY25<br>Mar 25</th><th>H1 FY26<br>Sep 25</th><th>H2 FY26<br>Mar 26</th><th>H1 FY27<br>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>40.06</td><td>42.01</td><td>105.93</td><td>106.50</td></tr>
+      <tr><th>YoY growth</th><td><span style="color:var(--ink3)">n/a</span></td><td class="up">+35%<sup>d</sup></td><td class="up">+164%</td><td class="up">+153%<sup>d</sup></td></tr>
+      <tr><th>vs prior half</th><td><span style="color:var(--ink3)">n/a</span></td><td class="up">+5%<sup>d</sup></td><td class="up">+152%<sup>d</sup></td><td>+0.5%<sup>d</sup></td></tr>
+      <tr><th>Gross margin</th><td><span style="color:var(--ink3)">n/a</span></td><td>30.2%<sup>d</sup></td><td>28.9%<sup>d</sup></td><td class="up">31.7%<sup>d</sup></td></tr>
+      <tr><th>EBITDA</th><td>8.56</td><td>9.56</td><td>23.66</td><td>25.08<sup>d</sup></td></tr>
+      <tr><th>EBITDA margin</th><td>21.4%</td><td>22.8%</td><td>22.3%</td><td class="up">23.6%<sup>d</sup></td></tr>
+      <tr><th>Finance cost</th><td><span style="color:var(--ink3)">n/a</span></td><td>1.35</td><td>2.03</td><td>2.54</td></tr>
+      <tr><th>PAT</th><td>5.87</td><td>5.91</td><td>14.84</td><td>15.34</td></tr>
+      <tr><th>Net margin</th><td>14.7%</td><td>14.1%</td><td>14.0%</td><td>14.4%<sup>d</sup></td></tr>
+      <tr><th>Op. cash flow</th><td><span style="color:var(--ink3)">n/a</span></td><td>1.90</td><td class="dn">−1.6<sup>d</sup></td><td class="dn">−4.57</td></tr>
+      <tr class="total"><th>EPS (₹, basic)</th><td>5.49</td><td>5.53</td><td>13.88</td><td>14.21</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta"><strong>H1 FY27 (Apr–Sep 2026) was declared on 30 Oct 2026</strong>: unaudited standalone results with limited review, filed with NSE at 13:43 IST. EBITDA is PBT plus finance cost and depreciation, less other income<sup>d</sup>. Gross margin is revenue less materials, purchases of finished goods and inventory change<sup>d</sup>. H2 FY26 operating cash flow is FY26 less H1 FY26<sup>d</sup>. <strong>H1 FY27 cash flow:</strong> operating profit before working capital ₹25.76 cr. Working capital absorbed ₹30.3 cr: receivables −₹12.37 cr, inventory −₹8.70 cr, short-term loans and advances −₹7.51 cr, payables −₹2.41 cr, other +₹0.72 cr. Tax paid was ₹0.06 cr, leaving CFO at <strong>−₹4.57 cr</strong>. Capex was ₹7.15 cr and new long-term loans and advances ₹3.27 cr. Funding came from ₹8.96 cr of short-term and ₹7.60 cr of long-term borrowing, less ₹2.54 cr of interest. Net cash fell ₹0.94 cr to ₹0.17 cr. Employee cost was ₹4.80 cr, up 46% on H2 FY26 with new offices and staff. No segment split was given; the company reports one segment, "CCTV cameras and related products". The results carry no note on related parties, the ₹10 cr advance or the ex-subsidiary. Note 9 records the AGM approval of 15,13,600 shares at ₹876. Only 13,63,600 were allotted (24 Oct), and the results do not mention it as a subsequent event.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Sep 2026 disclosure</span></h2>
+  <div class="callout warn">
+    <p><strong>No mutual fund holds it.</strong> Trendlyne's monthly scheme disclosure for Sep 2026 shows no holdings (rechecked 30 Oct). The 24 Oct preferential issue went to non-fund investors. The 1.03% "DII" line in the 24 Oct shareholding is an AIF (Alchemy Long Term Ventures Fund, Series 3). The 1.64% Motilal Oswal Financial Services stake is the broking company's own book, filed as a body corporate, not a scheme. FIIs (2.03%) are FPIs from the same issue, including the LC Pharos funds and Equirus IFSC. All of the new holdings are locked in. With 2,018 shareholders and ₹2.1 cr of daily turnover, there is no institutional floor under the price.</p>
+  </div>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">30 Oct 26</span><span><strong>H1 FY27 results</strong> (board met 11:00–13:30; filed 13:43): revenue ₹106.50 cr (+153% YoY, +0.5% on H2 FY26), PAT ₹15.34 cr, EPS ₹14.21, CFO −₹4.57 cr. Limited review unmodified.</span></li>
+    <li><span class="date">30 Oct 26</span><span><strong>Market reaction:</strong> previous close ₹1,335.10. The stock opened at ₹1,305.10, swung between ₹1,210.05 (−9.4%) and ₹1,389 (+4.0%), and closed at ₹1,323.05 (−0.9%). Volume was 1.10 lakh shares (₹14.4 cr), about 5x the six-month average, with 53% delivery. The data is daily, so it cannot show which extreme came after the 13:43 filing. I found no press coverage of the results by the evening.</span></li>
+    <li><span class="date">30 Oct 26</span><span><strong>Reg 32 statement</strong> (warrant money only): ₹10.73 cr received of ₹33.76 cr by 30 Sep, with no new receipts in the half. All of it is used: R&amp;D ₹2.59 cr, servers ₹3.87 cr, marketing ₹0.52 cr, general corporate purposes ₹3.75 cr, machinery nil. The audit committee reported no deviation. The ₹119 cr October issue is not covered yet.</span></li>
+    <li><span class="date">24 Oct 26</span><span><strong>Preferential allotment:</strong> 13,63,600 shares at ₹876 (₹119.45 cr) to 22 non-promoter allottees, including Ashish Kacholia (2.28 lakh), Motilal Oswal Financial Services (2.00 lakh), Alchemy, LC Pharos, Equirus IFSC and Smart Horizon. About 1.5 lakh of the 15.14 lakh approved shares were not taken up. Shares in issue are now 1,21,59,803.</span></li>
+    <li><span class="date">21–23 Oct 26</span><span>Stock fell 15% in one session (₹1,279 → ₹1,083.70) with no company filing. It touched ₹950 intraday on 23 Oct, then recovered to ₹1,335 by 29 Oct.</span></li>
+    <li><span class="date">8 Oct 26</span><span>Opened a sales-and-service office in Vijayawada. Record close of ₹1,411.85 the same day.</span></li>
+    <li><span class="date">6 Oct 26</span><span><strong>H1 business update</strong> (no financials): 450+ channel partners at four dealer meets (Pune, Chandigarh, Kerala, Bangkok); Noida and Kolkata offices; 12 BIS-ER camera models; BIS applications for video door phones, pocket cameras and dash cams.</span></li>
+    <li><span class="date">3 Oct 26</span><span><strong>Clarification to NSE observations</strong> on the AGM notice for the preferential issue: corrected the Articles/floor-price statement, and said the valuation report was voluntary.</span></li>
+    <li><span class="date">23 Sep 26</span><span><strong>9th AGM:</strong> approved the preferential issue. Mr Dahyalal Prajapati redesignated from Independent to Non-Executive Director. Ms Falguniben Prajapati appointed Independent Director. Executive pay revised; the WTD &amp; CFO's ceiling went from ₹2.5 lakh to ₹6 lakh a month.</span></li>
+    <li><span class="date">9 Sep 26</span><span>BIS-ER registration for 10 more 4MP IP dome and bullet camera models.</span></li>
+    <li><span class="date">27 Aug 26</span><span>Board approved the ₹132.6 cr preferential issue at ₹876 to 24 investors, for working capital and general corporate purposes over 24 months. Brickwork is the monitoring agency.</span></li>
+    <li><span class="date">25 Aug 26</span><span>ET NOW "Excellence in Surveillance Systems Manufacturing" award. Noida branch opened on 24 Aug.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding — last 5 filings</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th><th>24 Oct 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoters</th><td>68.60</td><td class="dn">67.93</td><td>67.93</td><td>67.93</td><td class="dn">60.32</td></tr>
+      <tr><th>FIIs</th><td>1.17</td><td>1.19</td><td>1.19</td><td>0.70</td><td class="up">2.03</td></tr>
+      <tr><th>DIIs</th><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td class="up">1.03</td></tr>
+      <tr><th>Public</th><td>30.23</td><td>30.87</td><td>30.87</td><td>31.36</td><td>36.62</td></tr>
+      <tr class="total"><th>Shareholders (no.)</th><td>1,510</td><td>1,446</td><td>1,851</td><td>1,996</td><td>2,018</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta">There has been no new shareholding filing since 24 Oct (Screener, 30 Oct). Both promoter step-downs are <strong>dilution, not selling</strong>. Promoters held 73,34,389 shares throughout. The Mar-26 step comes from 1.05 lakh warrant conversions by non-promoters. The 24-Oct step comes from the ₹876 issue: 73,34,389 ÷ 1,21,59,803 = 60.32%. If the promoter group's 9.55 lakh warrants convert, it goes back up to <strong>62.73%</strong> fully diluted. <strong>Promoter pledge: nil.</strong> The 24-Oct SHP declares no pledge, NDU or other encumbrance, and the promoters' Reg 31(4) declaration for FY26 says the same. 23.52 lakh promoter shares (32% of promoter holding) are locked in. That is consistent with the SME IPO's three-year minimum-contribution lock-in to about Jul 2027<sup>d</sup>. The rest is free.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Warrants outstanding</span><span class="v">10.55 lakh <small>₹291; balance ₹23 cr due by ~9 Jun 2027<sup>d</sup></small></span></div>
+    <div><span class="k">Public shares locked in</span><span class="v">14.73 lakh <small>Oct pref + warrant conversions</small></span></div>
+    <div><span class="k">Promoter pledge</span><span class="v">nil</span></div>
+  </div>
+  <div class="callout warn">
+    <p><strong>Governance flags. The H1 FY27 filing resolves none of them.</strong> (a) <em>Promoter warrants at ₹291.</em> On 9 Dec 2025, the day the stock hit its 52-week low of ₹229, 11.6 lakh warrants were allotted at ₹291. The CMD and her husband took 4 lakh each and two other promoter-group members 1.55 lakh between them. Public allottees included Kajalben Vairagi, who shares a family name with promoter-group member Govindvan Vairagi, and <em>sitting independent director Dahyalal Prajapati</em>, who took 25,000. Mr Prajapati was redesignated as a non-independent director in Aug–Sep 2026. A new independent director with the same surname, Ms Falguniben Prajapati, was appointed; the filing says Mr Prajapati is not related to the other directors. (b) <em>Ex-subsidiary and advances.</em> Prizor Aitech India (FY26 turnover ₹5.0 cr, assets ₹11.3 cr) went from 51% owned to 5% on 30 Mar 2026. The cause was a preferential issue the company chose not to join. <strong>The buyers are still not named.</strong> The H1 results do not mention it. The ₹10 cr long-term advance that appeared in FY26 has grown to <strong>₹13.27 cr</strong>, and short-term loans and advances rose from ₹1.16 cr to ₹8.68 cr. That is ₹21.9 cr in all, a quarter of the pre-raise net worth<sup>d</sup>, and no counterparty is disclosed. Whether any of it is linked to the ex-subsidiary is <span style="display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:4px;background:var(--warnbg);color:var(--warn);border:1px solid #edd7b5">unverified</span>. These may be supplier or capital advances, but the filing does not say. (c) <em>Related parties.</em> The half-year results have no related-party note, and none was required: SME-listed companies are exempt from the half-yearly Reg 23(9) RPT filing under Reg 15(2), and none appears among the NSE announcements. AOC-2 for FY26 reports nil material related-party contracts. The promoter group includes <em>Om Security Solutions</em>, whose name suggests a security-products trade. Whether it buys from or sells to the company is still not disclosed. (d) <em>Tax and control.</em> Cash tax paid was ₹0.06 cr against ₹5.10 cr charged in the half, and provisions have built up (see verdict). The CFO is the CMD's husband. Executive pay ceilings rose sharply in FY27. NSE sought clarifications on the FY26 results filing and on the AGM notice. None led to a penalty.</p>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Chairman &amp; Managing Director · promoter</div><div class="nm">Dr Mitali D. Gauswami</div>Holds 39.87% (48.48 lakh shares) plus 4 lakh warrants. Background in operations and supply chain in CCTV and IT. Founded the company in 2017. Signed the H1 FY27 results.</div>
+    <div class="person"><div class="rl">Whole-time Director &amp; CFO · promoter</div><div class="nm">Dr Dasharathbharthi G. Gauswami</div>The CMD's husband. Holds 20.45% (24.87 lakh shares) plus 4 lakh warrants. Pay ceiling raised from ₹2.5 lakh to ₹6 lakh a month in FY27.</div>
+    <div class="person"><div class="rl">Non-Executive Director</div><div class="nm">Dahyalal Prajapati</div>An independent director from Feb 2024 until Aug 2026, during which he subscribed to 25,000 promoter-round warrants. Redesignated non-independent on 23 Sep 2026.</div>
+    <div class="person"><div class="rl">Independent directors</div><div class="nm">Falguniben K. Prajapati · others</div>Ms Prajapati was appointed 27 Aug 2026. Ms Preety Priya Ghosh resigned as independent director on 11 May 2026.</div>
+  </div>
+
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>Prizor sells analog and IP CCTV cameras, 4G and solar standalone cameras, PTZ cameras and NVRs/DVRs under the Prizor brand. It also sells LED TVs, monitors and touch panels made by third parties. Sales go through about 11,000 dealers and installers in 21 states, strongest in Gujarat, Maharashtra, Tamil Nadu, Delhi, J&amp;K and the Andamans. <strong>What it actually makes:</strong> the Gandhinagar plant has an SMT line (50 lakh PCBs a year), three assembly lines (24 lakh cameras a year since Jul 2026) and housing moulds. The company itself describes its history as "import and assemble". In FY25, 92% of purchases by value were finished goods for resale<sup>d</sup> (₹62.8 cr of ₹68.4 cr). <strong>H1 FY27 shows the mix moving:</strong> finished goods bought for resale were ₹2.1 cr against ₹72.3 cr of materials consumed, and gross margin improved to 31.7%<sup>d</sup>. The SoC (the vision chip) is still bought in; a Dec 2025 MoU with IndieSemic aims to co-develop an Indian one, but nothing has been delivered yet. So the honest description is: PCB assembly and final assembly of cameras built from bought-in chips, sensors and lenses, with BIS-ER/STQC compliance as the key credential. Compliance is a real barrier now that the rules exclude many Chinese designs.</p>
+  <h3>Peers &amp; valuation</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th></th><th>Mcap ₹ cr</th><th>Revenue ₹ cr</th><th>OPM</th><th>ROE</th><th>P/E</th></tr></thead>
+    <tbody>
+      <tr><th>Prizor Viztech</th><td>1,609<sup>d</sup></td><td>212 <small>TTM</small></td><td>23%</td><td>36%</td><td>53x<sup>d</sup></td></tr>
+      <tr><th>Aditya Infotech (CP Plus)</th><td>48,480</td><td>4,221</td><td>15%</td><td>25%</td><td>102x</td></tr>
+      <tr><th>Zen Technologies</th><td>14,683</td><td>688</td><td>33%</td><td>11%</td><td>81x</td></tr>
+      <tr><th>ideaForge (drones)</th><td>3,380</td><td>226</td><td>9%</td><td>−3%</td><td>n/m</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta">Prizor's row uses the 30 Oct close, TTM to Sep 2026. Peer rows are Screener figures from 29 Oct 2026 (FY26 revenue) and were not refreshed. CP Plus is the true comparable: India's largest CCTV brand and a beneficiary of the same STQC rules. It has about 20x Prizor's TTM revenue and a mainboard listing. Zen and ideaForge are defence simulation and drone companies; Prizor has no drone business. Prizor's 23% EBITDA margin is well above CP Plus's 15%, which is unusual for a smaller, dealer-led assembler. H1 FY27 widened the gap rather than narrowing it. That suggests the margin comes from in-house assembly and not only from a scarcity premium, but one half does not prove it.</p>
+  <h3>Moat</h3>
+  <p>Thin but real for now. BIS-ER/STQC registration is model by model and takes months, and Prizor has 12+ registered models plus GeM OEM status. That matters while compliant capacity is scarce. Against that: CP Plus, Hikvision's Indian-assembled lines, Sparsh, Matrix, Godrej and others are all certifying too. The product is a commodity once supply normalises, and Prizor does not own the chip. Revenue flattening in H1 FY27, with 24 lakh-camera capacity in place since July, is the first sign the easy share gains may be over.</p>
+  <h3>Order book</h3>
+  <p><strong>None disclosed.</strong> This is a channel-sales business with no order-book disclosure and no announced government or defence tender wins. GeM OEM registration (22 Apr 2026) makes public procurement possible but has produced no disclosed orders. Revenue visibility rests on dealer sell-through.</p>
+  <h3>IPO &amp; use of funds</h3>
+  <p>The NSE Emerge IPO ran from 12 to 16 Jul 2024: 28.91 lakh fresh shares at ₹87 (₹25.15 cr). It was reported as about 205x subscribed and listed on 22 Jul 2024 at ₹165.30. Proceeds were for a display centre and inventory storage point in Ahmedabad, plus working capital. <strong>Dec-2025 warrants at ₹291</strong> (₹33.76 cr if fully paid): ₹10.73 cr received, all of it by Mar 2026, and all used by 30 Sep 2026 per the 30 Oct Reg 32 statement. The split was R&amp;D ₹2.59 cr, servers ₹3.87 cr, marketing ₹0.52 cr and general corporate purposes ₹3.75 cr; nothing has yet gone to the ₹5 cr machinery and mould object. <strong>Oct-2026 issue at ₹876</strong> (₹119.45 cr, allotted 24 Oct, for working capital and general corporate purposes over 24 months, with Brickwork as monitoring agency): received after the half closed, so <strong>no utilisation has been reported</strong>. The first monitoring report should cover the Dec-2026 quarter<sup>d</sup>. The obvious first uses are repaying the ₹58 cr of borrowings and funding receivables. Total equity raised is ₹178 cr in about 27 months<sup>d</sup>, against ₹52 cr of cumulative PAT from FY24 to H1 FY27<sup>d</sup>.</p>
+
+  <!-- ── 10. RISKS ────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <ul>
+    <li><strong>Growth stall.</strong> H1 FY27 revenue was flat on H2 FY26. At 53x trailing, a second flat half, or a fall, would re-rate the stock sharply.</li>
+    <li><strong>The tailwind fades.</strong> The growth spike coincides with the 2025 STQC rules. As CP Plus and others add compliant capacity, the scarcity premium in pricing and margin can reverse.</li>
+    <li><strong>Working capital and cash.</strong> Operating cash flow was negative again in H1 FY27 (−₹4.6 cr). Cash was ₹0.17 cr at 30 Sep, and ₹21.9 cr sits in loans and advances to undisclosed parties. Growth is funded by equity and debt.</li>
+    <li><strong>Tax provisions.</strong> ₹0.06 cr of tax was paid against ₹5.10 cr charged in H1, and short-term provisions reached ₹12.5 cr. If the tax is genuinely unpaid, interest under s.234B/C follows. The provisions breakdown is not filed.</li>
+    <li><strong>Governance.</strong> Promoter warrants priced at the low, an independent director in the warrant round, an ex-subsidiary diluted to undisclosed parties, growing undisclosed advances, and a related CFO.</li>
+    <li><strong>Supply.</strong> 13.6 lakh October shares sit 51% in profit at ₹876. Non-promoter preferential shares unlock about six months after trading approval (≈ Apr–May 2027<sup>d</sup>). The ₹291 warrants (4.5x in profit) convert by about Jun 2027.</li>
+    <li><strong>Thin market.</strong> SME board, ₹2.1 cr of daily turnover, no mutual fund holder, circuit-driven price moves, a 15% one-day fall on no news, and a 13% intraday range on results day.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <ul>
+    <li><strong>Upgrade to Buy:</strong> H2 FY27 revenue of at least ₹125 cr with PAT margin of at least 13% <em>and</em> positive half-year operating cash flow, <em>and</em> a price at or below about ₹900 (≈36x annualised H1 FY27 EPS<sup>d</sup>). Also wanted: the counterparties to the ₹21.9 cr of loans and advances, who now owns Prizor Aitech, and the tax provisions settled in cash, with nothing adverse found.</li>
+    <li><strong>Downgrade to Sell:</strong> H2 FY27 revenue below ₹85 cr (a 20% fall from the ₹106 cr run-rate, implying the STQC spike was one-off), or EBITDA margin below 17%. Also: operating cash flow negative again in H2 FY27 even after the ₹119 cr raise, debtor days above 120, any deviation reported on the October issue proceeds, any promoter selling or pledge, or a related-party transaction surfacing with the ex-subsidiary or Om Security Solutions.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li><strong>H1 FY27 results filing</strong>, NSE SME, 30 Oct 2026 13:43 (PRIZOR_30102026134154): board outcome, limited review report (M B Jajodia &amp; Associates), statement of assets and liabilities at 30 Sep 2026, half-year P&amp;L with H2 FY26 and H1 FY26 comparatives, cash-flow statement, notes 1–9. The PDF is a scan; figures were read off the page images.</li>
+    <li><strong>Reg 32 statement of deviation</strong>, NSE SME, 30 Oct 2026 16:35 (PRIZOR_30102026163334): warrant-proceeds utilisation to 30 Sep 2026.</li>
+    <li>NSE SME daily price and volume for PRIZOR, 1–30 Oct 2026 (NSE historical-data API, fetched 30 Oct 2026 evening): results-day reaction, price basis.</li>
+    <li>NSE SME corporate filings for PRIZOR: preferential allotment of 24 Oct 2026 (allottees, share count); board outcome of 27 Aug 2026; NSE-observation clarification of 3 Oct; press releases of 6 Oct 2026 and 3 Feb 2026; BIS-ER of 9 Sep; designation change of 23 Sep; warrant allotment of 9 Dec 2025; subsidiary cessation of 30 Mar 2026; audited FY26 results; GeM OEM intimation; promoters' Reg 31(4) declaration; board-meeting intimation for 30 Oct 2026.</li>
+    <li>NSE shareholding-pattern XBRL for 24 Oct 2026 and 30 Sep 2026: named holders, warrants, lock-ins, encumbrance.</li>
+    <li>Annual Report FY2025-26 (board's report, AOC-1, AOC-2, MD&amp;A, secretarial audit, AGM notice) and the April 2026 investor presentation (FY23–FY26 P&amp;L, H2 FY26, segments, "import &amp; assemble" history).</li>
+    <li>Screener.in standalone page (30 Oct 2026): H1 FY27 already loaded and matching the filing, annual cash flow, ratios, shareholding series. Peers (CPPLUS, ZENTEC, IDEAFORGE) from Screener, 29 Oct 2026. Yahoo PRIZOR.NS for 6-month liquidity.</li>
+    <li>Trendlyne (30 Oct 2026): monthly MF disclosure for Sep-2026 (no holdings), research-report page (no reports) and stock page ("No estimates available").</li>
+    <li>IPO terms: 5paisa, Upstox and Trendlyne IPO pages (secondary).</li>
+  </ul>
+
+  <div class="foot">Generated 30 Oct 2026, after the H1 FY27 results (filed 13:43 IST, 30 Oct) · Price basis ₹1,323.05, the NSE SME close on 30 Oct 2026 from NSE daily data (Yahoo PRIZOR.NS still showed ₹1,335.10, the 29 Oct close, at the time of writing) · Derived <sup>d</sup>: market cap, EPS and P/E on the post-allotment and fully diluted counts, P/BV, pro-forma net cash after the raise, ROE annualised, EBITDA and gross margin from the filed line items, half-on-half and YoY growth, TTM figures, H2 FY26 cash flow, debtor days, warrant and lock-in dates, trigger prices. ⚠ verify: counterparties to the ₹21.9 cr loans and advances and the holders of Prizor Aitech are undisclosed; whether tax provisions are unpaid tax (unreconciled); no related-party note (exempt for SME); intraday timing of the results-day low and high not available; peer figures as of 29 Oct. No broker coverage, so no target. Was Hold / high risk at ₹1,335.10 on 29 Oct; unchanged. Not investment advice.</div>
+</div>
+</body>
+</html>
