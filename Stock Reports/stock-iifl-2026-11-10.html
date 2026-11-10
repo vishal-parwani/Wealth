@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IIFL Finance Limited (NSE: IIFL) | Stock Research</title>
+
+<!-- ── Machine-readable meta (template v2) ─────────────────────────────
+     Required: ticker, name, generated, price
+     rating   : Buy | Hold | Sell   — nothing else
+     risk     : high               — omit entirely for ordinary risk
+     hasgaps  : true               — omit/false when fully primary-sourced
+------------------------------------------------------------------------->
+<meta name="type"      content="stock">
+<meta name="ticker"    content="IIFL">
+<meta name="exchange"  content="NSE">
+<meta name="name"      content="IIFL Finance Limited">
+<meta name="sector"    content="Financial Services / NBFC">
+<meta name="rating"    content="Buy">
+<meta name="generated" content="2026-11-10">
+<meta name="price"     content="627.00">
+<meta name="target"    content="754">
+<meta name="targetsrc" content="consensus · 6 brokers">
+<meta name="hasgaps"   content="true">
+
+<style>
+  /* ── Type scale & palette ─────────────────────────────────────────────
+     Serif display for headings, system UI sans for body, tabular numerals
+     for every figure. All system fonts — no network, no CSP issues, and
+     instant render inside the app's sandboxed iframe.                    */
+  :root{
+    --paper:#fcfcfa;      /* page                */
+    --card:#ffffff;       /* raised surfaces     */
+    --ink:#1a1f28;        /* primary text        */
+    --ink2:#4a5462;       /* secondary text      */
+    --ink3:#7b8694;       /* labels, captions    */
+    --line:#e6e4de;       /* hairlines           */
+    --line2:#f0efea;      /* inner table rules   */
+    --accent:#0f6e62;     /* teal — links, rules */
+    --soft:#f1f7f6;       /* accent tint         */
+    --warn:#a35a09;       /* amber — cautions    */
+    --warnbg:#fdf7ee;
+    --up:#12734f;
+    --dn:#b3261e;
+    --serif:"Iowan Old Style","Charter","Bitstream Charter","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 var(--sans);
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 72px}
+
+  /* ── Masthead ─────────────────────────────────────────────────────── */
+  .kicker{color:var(--ink3);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+  h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:.28em 0 .12em;letter-spacing:-.01em;font-weight:600}
+  h1 .tik{color:var(--ink3);font-weight:400;font-size:1.15rem;font-family:var(--sans);letter-spacing:0}
+  .subline{color:var(--ink2);font-size:.9rem;margin:.2em 0 1.1em}
+  .rating-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:1.6em}
+  .badge{display:inline-block;border-radius:5px;padding:5px 13px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .badge-buy{background:#e6f2ec;color:#0d5c40;box-shadow:inset 0 0 0 1px #bfdccf}
+  .badge-hold{background:#fbf2e3;color:#8a5a10;box-shadow:inset 0 0 0 1px #eddcbd}
+  .badge-sell{background:#fbeae9;color:#9c211b;box-shadow:inset 0 0 0 1px #f0cbc8}
+  .risk-tag{display:inline-block;border-radius:5px;padding:5px 11px;font-size:.72rem;font-weight:700;
+            letter-spacing:.05em;text-transform:uppercase;background:#f4f1fb;color:#5b4a94;box-shadow:inset 0 0 0 1px #ded6f2}
+
+  /* ── Headings ─────────────────────────────────────────────────────── */
+  h2{font-family:var(--serif);font-size:1.22rem;font-weight:600;margin:2.4em 0 .7em;padding-bottom:.34em;
+     border-bottom:2px solid var(--accent);letter-spacing:-.005em}
+  h2:first-of-type{margin-top:1.6em}
+  h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:1.7em 0 .5em}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+
+  /* ── Key-data grid (the top table) ────────────────────────────────── */
+  .kd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 1.5em}
+  .kd div{background:var(--card);padding:11px 13px}
+  .kd .k{display:block;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+  .kd .v{font-size:1.02rem;font-weight:600;line-height:1.25}
+  .kd .v small{font-weight:500;color:var(--ink2);font-size:.8rem}
+  .up{color:var(--up)}.dn{color:var(--dn)}
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;font-size:.9rem;margin:0 0 1.2em}
+  thead th{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;
+           text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+  thead th:first-child{text-align:left}
+  tbody th{text-align:left;font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line2);color:var(--ink)}
+  tbody td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+  tbody tr.total th,tbody tr.total td{border-top:1.5px solid var(--line);font-weight:700}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:4px 10px;margin-bottom:1.4em}
+
+  /* ── Callouts ─────────────────────────────────────────────────────── */
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:14px 17px;border-radius:0 9px 9px 0;margin:1.3em 0;font-size:.94rem}
+  .callout.warn{border-left-color:var(--warn);background:var(--warnbg)}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ── Collapsible full fund-holdings list ──────────────────────────── */
+  .fundlist{margin:-.6em 0 1.4em}
+  .fundlist>summary{cursor:pointer;display:inline-block;list-style:none;font-size:.8rem;font-weight:700;
+                    letter-spacing:.04em;color:var(--accent);padding:6px 12px;border:1px solid var(--line);
+                    border-radius:20px;background:var(--card);user-select:none}
+  .fundlist>summary::-webkit-details-marker{display:none}
+  .fundlist>summary::before{content:'+ ';font-weight:800}
+  .fundlist[open]>summary::before{content:'– ';font-weight:800}
+  .fundlist>summary:hover{background:var(--soft)}
+  .fundlist[open]>summary{margin-bottom:.9em}
+
+  /* ── News / governance ────────────────────────────────────────────── */
+  .news{list-style:none;padding:0;margin:0 0 1.2em}
+  .news li{padding:11px 0;border-bottom:1px solid var(--line2);display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline}
+  .news li:last-child{border-bottom:none}
+  .news .date{font-size:.74rem;color:var(--ink3);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .people{display:grid;gap:10px;margin-bottom:1.2em}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .person .nm{font-weight:700}
+  .person .rl{font-size:.76rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px}
+
+  .delta{font-size:.83rem;color:var(--ink3);margin:-.6em 0 1.3em}
+  ul{padding-left:1.15em;margin:0 0 1.1em}
+  li{margin:.4em 0}
+  .foot{margin-top:3em;padding-top:1.1em;border-top:1px solid var(--line);color:var(--ink3);font-size:.79rem;line-height:1.55}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 16px 56px}
+    h1{font-size:1.55rem}
+    .kd{grid-template-columns:repeat(2,1fr)}
+    .news li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="kicker">Stock Research · Financial Services / NBFC · 10 Nov 2026</div>
+  <h1>IIFL Finance Limited <span class="tik">· NSE: IIFL</span></h1>
+  <div class="subline">A gold-and-retail lender that beat its Q2 bar on every line, and is now raising ₹6,414 cr from Blackstone and its own promoters at ₹602 a share, 1.66x book. The deal costs about a fifth of EPS until the money is lent out, but adds 13% to book value and lifts standalone CRAR from about 17% to about 30%.</div>
+  <div class="rating-row">
+    <span class="badge badge-buy">Buy</span>
+  </div>
+
+  <!-- ── 1. KEY DATA ──────────────────────────────────────────────── -->
+  <div class="kd">
+    <div><span class="k">Share price <small>· 9 Nov</small></span><span class="v">₹627.00</span></div>
+    <div><span class="k">52W range</span><span class="v">₹409 – ₹705</span></div>
+    <div><span class="k">Market cap</span><span class="v">₹26,761 cr<sup>d</sup></span></div>
+    <div><span class="k">Dividend yield</span><span class="v">0.64%</span></div>
+    <div><span class="k">TTM P/E</span><span class="v">10.7x</span></div>
+    <div><span class="k">P/BV <small>· Sep 26</small></span><span class="v">1.73x<sup>d</sup></span></div>
+    <div><span class="k">Borrowings <small>· Sep 26</small></span><span class="v">₹84,360 cr</span></div>
+    <div><span class="k">Debt / equity <small>· Sep 26</small></span><span class="v">5.47x<sup>d</sup></span></div>
+    <div><span class="k">AUM <small>· Sep 26</small></span><span class="v">₹1,24,268 cr</span></div>
+    <div><span class="k">ROE <small>· Q2 FY27 ann.</small></span><span class="v">20.8%</span></div>
+    <div><span class="k">Avg daily volume <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">26.9 L sh</span></div>
+    <div><span class="k">Avg daily turnover <span style="font-weight:400;color:var(--ink3)">· 6M</span></span><span class="v">₹151.5 cr</span></div>
+  </div>
+  <div class="delta">Price is the NSE close on 9 Nov 2026. 10 Nov was an exchange holiday (Diwali Balipratipada), so the issue announced that afternoon has <strong>not yet been traded</strong>. Market cap uses 42.68 cr pre-issue shares (Sep-26 shareholding pattern). P/BV uses ₹362 book value per share (Screener: ₹15,432 cr equity). The company's own figure is ₹351.5, and the basis of the difference is not disclosed. Net debt does not mean much for a lender, so leverage is shown as borrowings to net worth. The company's own net-gearing figure is 4.1x.</div>
+
+  <!-- ── 2. VERDICT ───────────────────────────────────────────────── -->
+  <h2>Verdict</h2>
+  <p><strong>Buy, maintained. Q2 cleared every bar the 13 Oct note set, and the capital raise answers the question that capped the stock: how a standalone NBFC with 12.5% Tier I funds 25% growth. Blackstone pays ₹602, about what the market paid before the news. Book value per share rises 13% and leverage falls from 5.5x to 3.9x. EPS is diluted by 12–20% until the money is lent out. At ₹627 the stock is 1.53x pro-forma book and about 8.7x diluted FY28 earnings, which is cheap for a lender guiding to an 18–20% ROE.</strong></p>
+  <div class="callout">
+    <p><strong>What changed since 12 Oct 2026.</strong> The price rose from ₹606.65 to ₹627.00 (+3.4%). In between it fell to ₹527.55 on 27 Oct in a sector-wide slide (Muthoot −8%, Manappuram −11% over the same days) and then recovered. Four things are new:</p>
+    <ol style="margin:0 0 .6em 1.1em;padding:0">
+      <li><strong>Q2 FY27 beat.</strong> PAT before minority interest was ₹805 cr against the ₹720 cr bar. GNPA was 1.48%, gold AUM grew 13% QoQ with tonnage up 8%, and ROE was 20.8%.</li>
+      <li><strong>Targets rose.</strong> Motilal Oswal went from ₹700 to ₹760. The Trendlyne consensus went from ₹730 to ₹754 (range ₹650–₹815) and FY27 EPS from ₹63.2 to ₹68.7.</li>
+      <li><strong>The September shareholding steadied the FII line</strong> (23.86% to 25.63%).</li>
+      <li><strong>The ₹6,414.2 cr preferential issue</strong> (detailed below).</li>
+    </ol>
+    <p>The rating stays <strong>Buy</strong>. The 12 Oct "Add more aggressively" trigger was met on 15 Oct (see triggers). One correction to the earlier notes: the Q2 deck puts FY27 guidance at <strong>~25% AUM growth and 16–20% ROE</strong> ("equity raise amount will have impact"), not ~25% ROE and 16–20% AUM growth as carried before.</p>
+  </div>
+  <p><strong>The evidence.</strong> PAT has now risen five quarters running: ₹418 cr, ₹501 cr, ₹623 cr, ₹713 cr, ₹805 cr. Spread held at 7.4% (yield 16.50%, cost of borrowing 9.08%). Credit cost fell to ₹281 cr, about 0.94% of average AUM annualised<sup>d</sup>. The street's FY27 EPS of ₹68.7 is roughly H1 EPS of ₹33.9 doubled, so it still assumes no further improvement. The raise is priced at the SEBI floor, not at a discount to it. It comes with a large global sponsor on the board and promoters adding ₹1,264 cr of their own money. Both matter at a lender that was banned from new gold loans in 2024.</p>
+  <p><strong>The counter-argument.</strong> Gold is now 53% of AUM, and stress is visible inside it. Gold GNPA rose from 0.61% to 0.90%. On the call an analyst said about 7% of the gold book is 1–30 days past due. Loans already in NPA carry LTV near 85%. Nirmal Jain said a sudden gold fall could push gold NPAs to 1–3%, though losses should stay small. The raise also means two to four quarters of mechanically lower ROE (about 14–16%<sup>d</sup> on the enlarged equity) while the money is lent out. A market expecting a premium-to-market strategic deal may read ₹602 as "at the floor". <strong>For a holder: keep holding. Adding near the ₹602 issue price is reasonable on any weakness when trading reopens on 11 Nov. Do not chase it above about ₹650 (1.6x pro-forma book) before the EGM on 4 Dec.</strong></p>
+
+  <!-- ── 2a. PREFERENTIAL ISSUE (new, 10 Nov 2026) ─────────────────── -->
+  <h2>The ₹6,414 cr preferential issue <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· board approval 10 Nov 2026</span></h2>
+  <p>The board met on 10 Nov from 11:15 to 14:00, after a 5 Nov intimation. It approved a ₹6,414.2 cr primary raise on a private-placement basis. The money comes in two instruments: <strong>compulsorily convertible preference shares (CCPS)</strong> for the outside investors and <strong>warrants</strong> for the promoters, both at ₹602. The outcome was filed at 15:59 IST and the press release at 16:33, on an exchange holiday.</p>
+  <h3>Deal summary</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Allottee</th><th>Type</th><th>Instrument</th><th>Securities</th><th>₹ cr</th><th>Post-issue %<br><small>fully diluted</small></th></tr></thead>
+    <tbody>
+      <tr><th>Ingot SG Pte (Blackstone PE funds)</th><td>Private equity, foreign</td><td>CCPS, FV ₹602, 1:1</td><td>8,30,56,478</td><td>5,000.0</td><td>15.57%</td></tr>
+      <tr><th>Anchorage Capital Schemes II &amp; III</th><td>Cat II AIF, domestic</td><td>CCPS, FV ₹602, 1:1</td><td>24,91,695</td><td>150.0</td><td>0.47%</td></tr>
+      <tr><th>Nirmal Jain</th><td>Promoter</td><td>Warrants, ₹602</td><td>1,50,00,000</td><td>903.0</td><td>12.83%</td></tr>
+      <tr><th>R. Venkataraman</th><td>Promoter</td><td>Warrants, ₹602</td><td>45,00,000</td><td>270.9</td><td>3.15%</td></tr>
+      <tr><th>Ardent Impex Pvt Ltd</th><td>Promoter group</td><td>Warrants, ₹602</td><td>15,00,000</td><td>90.3</td><td>0.96%</td></tr>
+      <tr class="total"><th>Total</th><td colspan="2">CCPS ₹5,150 cr · warrants ₹1,264.2 cr</td><td>10,65,48,173</td><td>6,414.2</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Term</th><th style="text-align:left">Detail</th></tr></thead>
+    <tbody>
+      <tr><th>Who is the investor</th><td style="text-align:left"><strong>Blackstone private equity</strong>: a financial investor, not a strategic one. It is not a promoter and <strong>not Fairfax</strong>. FIH Mauritius (Fairfax) held 13.64% at Sep-26, takes no part in the issue, and is diluted to 10.91%<sup>d</sup>. The investors are classified as public shareholders and are unrelated to the promoters.</td></tr>
+      <tr><th>Price</th><td style="text-align:left">₹602 per share, a <strong>4.0% discount</strong> to the ₹627 close on 9 Nov and 0.8% below the ₹606.65 price in the 12 Oct note. That is <strong>1.66x</strong> Sep-26 book of ₹362 (1.71x the company's ₹351.5).</td></tr>
+      <tr><th>SEBI floor</th><td style="text-align:left">The filing says the price is "not lower than the floor" under ICDR Reg 164(1), read with Reg 166A. Reg 166A applies because Blackstone takes more than 5%, so an independent valuer's report is also required. The press release calls ₹602 "in line with the regulatory price". The floor figure itself is not disclosed. On Yahoo daily data, with 4 Nov as the relevant date (30 days before the EGM), the 90-day VWAP is ≈₹600<sup>d</sup> and the 10-day VWAP ≈₹554<sup>d</sup>. ₹602 therefore sits <strong>at the floor</strong>: no premium, but no discount below it either.</td></tr>
+      <tr><th>Conversion</th><td style="text-align:left">CCPS convert 1:1 into equity by agreement, and mandatorily at <strong>17 months 15 days</strong> from allotment. They carry a preferential dividend on terms set in the agreements, which are not disclosed. Promoter warrants are exercisable in tranches within <strong>18 months</strong>. 25% is paid upfront (₹316 cr) and 75% on exercise (₹948 cr). An unexercised warrant lapses and the upfront money is forfeited.</td></tr>
+      <tr><th>Cash timing</th><td style="text-align:left">₹5,466 cr<sup>d</sup> arrives at allotment (all of the CCPS money plus 25% of the warrants). The remaining ₹948 cr arrives only if the promoters exercise.</td></tr>
+      <tr><th>Dilution</th><td style="text-align:left">10.65 cr new shares on 42.68 cr pre-issue shares: <strong>+25.0%</strong> to the share count, or <strong>20.0% of the post-issue fully diluted base</strong> of 53.34 cr<sup>d</sup>. That is at the top of the "10–20% dilution" Nirmal Jain signalled on the 15 Oct call.</td></tr>
+      <tr><th>Control / open offer</th><td style="text-align:left">The company states there is <strong>no change in control</strong>. Promoters remain promoters, at 23.75%<sup>d</sup> fully diluted (from 24.76%). Blackstone at 15.57% is below the 25% open-offer threshold in SAST Reg 3(1), so <strong>no open offer</strong> is triggered on the fully diluted numbers. <span class="chip" style="font-size:.75rem;border:1px solid var(--line);border-radius:10px;padding:1px 6px">unresolved</span> Sequencing matters: if the promoters exercised all their warrants <em>before</em> the CCPS converted, the promoter group would briefly hold 28.3%<sup>d</sup> of voting equity, above 25%. The filing does not address this. In practice it is managed by timing the conversion first, but it is worth checking in the EGM notice.</td></tr>
+      <tr><th>Blackstone's rights</th><td style="text-align:left">With about 10% or more, it can nominate 2 board directors. With about 7.5% or more, it can nominate 1 director plus 1 on IIFL Home Finance and 2 on IIFL Samasta. It also gets customary reserved-matter vetoes and a pre-emptive right on future issues. These require a Reg 31B special resolution. The company describes them as "customary protective rights".</td></tr>
+      <tr><th>Use of proceeds</th><td style="text-align:left">Primary capital into the standalone NBFC (the gold book sits there). The stated aims are capital adequacy, a lower cost of funds (possible rating upgrades) and faster gold-loan growth. A detailed objects clause will be in the EGM notice, which is not yet filed.</td></tr>
+      <tr><th>Lock-in</th><td style="text-align:left">Not stated in the filing. The ICDR Reg 167 defaults: promoter warrants and the shares from them are locked in for <strong>18 months</strong>; non-promoter CCPS and the conversion shares for <strong>6 months</strong>, both from trading approval. The promoters' existing holdings are locked from the relevant date until 90 days after trading approval. Longer contractual lock-ins in the Blackstone agreement, if any, are not disclosed.</td></tr>
+      <tr><th>Approvals</th><td style="text-align:left">A special resolution at the <strong>EGM on 4 Dec 2026</strong> (11:00 IST, by video conference) covering the capital increase, the MoA and AoA changes, Blackstone's special rights and the issue itself. Also required: <strong>CCI approval</strong> (named for Blackstone) and in-principle approvals from BSE and NSE. The <strong>RBI</strong> is not named. The press release says "customary regulatory approvals". RBI prior approval for NBFC ownership changes is normally triggered at 26% or more, so 15.6% should not need it, but this is not confirmed in the filing.</td></tr>
+      <tr><th>Also at the EGM</th><td style="text-align:left">Co-promoter R. Venkataraman is re-designated from Joint MD to Non-Executive Non-Independent Director.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Timeline</h3>
+  <ul class="news">
+    <li><span class="date">5 Nov 26</span><span>Board meeting intimated. The stock rose 4.5% that day and 3.5% the next, on 1.7–1.9x average volume. Peers rose as much (Muthoot +4.8%, Nifty +2.4% on 5 Nov), so the move does not read as a leak.</span></li>
+    <li><span class="date">4 Nov 26</span><span>Relevant date for the SEBI floor (30 days before the EGM)<sup>d</sup>.</span></li>
+    <li><span class="date">10 Nov 26</span><span>Board approves the issue, signs the subscription agreements and files the outcome after hours on an exchange holiday.</span></li>
+    <li><span class="date">11 Nov 26</span><span>First trading session after the news. <strong>No reaction yet</strong>; it is due after this note.</span></li>
+    <li><span class="date">4 Dec 26</span><span>EGM. Allotment is due within 15 days of the later of shareholder and regulatory approval (ICDR Reg 170), so it likely depends on CCI timing. Late Dec 2026 to Q4 FY27 is plausible but not confirmed.</span></li>
+    <li><span class="date">~mid-2028</span><span>Mandatory CCPS conversion (17.5 months after allotment). The warrant window closes about 18 months after allotment.</span></li>
+  </ul>
+
+  <h3>Shareholding before and after <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· fully diluted, all securities converted</span></h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Holder</th><th>Pre-issue shares</th><th>Pre %</th><th>New shares</th><th>Post shares</th><th>Post %</th></tr></thead>
+    <tbody>
+      <tr><th>Promoter group</th><td>10,56,74,667</td><td>24.76</td><td>2,10,00,000</td><td>12,66,74,667</td><td class="dn">23.75<sup>d</sup></td></tr>
+      <tr><th>&nbsp;&nbsp;of which Nirmal Jain</th><td>5,34,40,570</td><td>12.52</td><td>1,50,00,000</td><td>6,84,40,570</td><td>12.83</td></tr>
+      <tr><th>Blackstone (Ingot SG)</th><td>—</td><td>—</td><td>8,30,56,478</td><td>8,30,56,478</td><td>15.57</td></tr>
+      <tr><th>Anchorage AIFs</th><td>—</td><td>—</td><td>24,91,695</td><td>24,91,695</td><td>0.47</td></tr>
+      <tr><th>FIH Mauritius (Fairfax)</th><td>5,82,13,166</td><td>13.64</td><td>—</td><td>5,82,13,166</td><td class="dn">10.91<sup>d</sup></td></tr>
+      <tr><th>All other public</th><td>26,29,24,057<sup>d</sup></td><td>61.60<sup>d</sup></td><td>—</td><td>26,29,24,057</td><td class="dn">49.30<sup>d</sup></td></tr>
+      <tr class="total"><th>Total</th><td>42,68,11,890</td><td>100</td><td>10,65,48,173</td><td>53,33,60,063</td><td>100</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Pre-issue figures are from the Sep-26 shareholding pattern (via Trendlyne). Allottee figures are from the 10 Nov filing, whose fully diluted percentages (15.57%, 12.83%, 3.15%, 0.96%) this table reproduces. ESOPs are excluded, as in the filing. After the deal, Blackstone becomes the largest single shareholder outside the promoter family, and Fairfax becomes the third-largest block.</div>
+
+  <h3>Dilution and book-value maths <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· pro forma on Sep-26</span></h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Item</th><th>Pre-issue</th><th>At allotment<br><small>CCPS + 25% warrants</small></th><th>Fully paid &amp; converted</th></tr></thead>
+    <tbody>
+      <tr><th>Shareholders' equity (₹ cr)</th><td>15,432</td><td>20,898<sup>d</sup></td><td>21,846<sup>d</sup></td></tr>
+      <tr><th>Shares (cr, CCPS counted)</th><td>42.68</td><td>51.24<sup>d</sup></td><td>53.34<sup>d</sup></td></tr>
+      <tr><th>Book value / share (₹)</th><td>362</td><td class="up">408<sup>d</sup> (+12.8%)</td><td class="up">410<sup>d</sup> (+13.3%)</td></tr>
+      <tr><th>Borrowings / equity</th><td>5.47x</td><td>4.04x<sup>d</sup></td><td>3.86x<sup>d</sup></td></tr>
+      <tr><th>Company net gearing</th><td>4.1x</td><td>—</td><td>≈2.9x<sup>d</sup></td></tr>
+      <tr><th>Standalone CRAR</th><td>17.0% <small>(Tier I 12.5%)</small></td><td colspan="2" style="text-align:center">~30% (company pro forma, Sep-26)</td></tr>
+      <tr><th>Consolidated CRAR (computed)</th><td>23.5%</td><td colspan="2" style="text-align:center;color:var(--ink3)">n/a: no pro forma given</td></tr>
+      <tr><th>P/BV at ₹627</th><td>1.73x</td><td>1.54x<sup>d</sup></td><td>1.53x<sup>d</sup></td></tr>
+      <tr class="total"><th>ROE on H1 run-rate PAT</th><td>20.1%</td><td colspan="2" style="text-align:center">13.9%<sup>d</sup> with no return on the new money · 15.4%<sup>d</sup> with the money in treasury at 7%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>FY28E EPS, fully diluted</th><th>EPS (₹)</th><th>vs pre-deal ₹82.3</th><th>P/E at ₹627</th></tr></thead>
+    <tbody>
+      <tr><th>Pre-deal consensus (42.68 cr shares)</th><td>82.3</td><td>—</td><td>7.6x</td></tr>
+      <tr><th>New capital earns nothing</th><td>65.8<sup>d</sup></td><td class="dn">−20.0%</td><td>9.5x</td></tr>
+      <tr><th>New capital in treasury at 7% pre-tax</th><td>72.2<sup>d</sup></td><td class="dn">−12.3%</td><td>8.7x</td></tr>
+      <tr><th>New capital fully lent out at 18% ROE</th><td>87.5<sup>d</sup></td><td class="up">+6.3%</td><td>7.2x</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">All figures are <sup>d</sup>derived. Base: Sep-26 shareholders' equity ₹15,432 cr (excluding ₹1,782 cr minority interest); FY28 PAT implied by the pre-deal consensus EPS × 42.68 cr = ₹3,512 cr; 25% tax. <strong>Why the issue adds to book:</strong> it is priced at 1.66x book, so each new share brings in ₹602 against ₹362 of existing book per share. <strong>Why EPS falls:</strong> 20% more shares, and the earnings on ₹6,414 cr arrive only as it is lent out. The leverage drop alone (borrowings/equity 5.5x to 3.9x) explains why ROE falls before it recovers. Management's medium-term plan (FY28–30: ROE 18–20%, ROA 3.6–3.8%, AUM CAGR ~20%) assumes the money is lent out within about two years. The consensus may not yet reflect the dilution: Trendlyne's FY27/FY28 EPS was set before 10 Nov.</div>
+
+  <h3>Market reaction</h3>
+  <p><strong>None yet.</strong> 10 Nov was a holiday, and 11 Nov trades after this note. Before the news, the stock had already risen 18.8% from ₹527.65 (30 Oct) to ₹627 (9 Nov). The whole sector rose with it (Muthoot +21%, Manappuram +12%, Nifty +10.8% from its 23 Oct low), so none of that is a deal premium. On 9 Nov, ₹627 sits 4% above the issue price. A move back toward ₹602 on 11 Nov would mean the market reads "at the floor" as a disappointment. A move above ₹650 would mean it values the governance and funding-cost upside more. Neither is known yet. <strong>No broker note on the issue was found as of 10 Nov evening.</strong></p>
+
+
+  <!-- ── 2b. DEEP DIVE (added 13 Oct 2026, updated 10 Nov) ─────────── -->
+  <h2>Deep dive <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· added 13 Oct 2026 at ₹603 · updated 10 Nov 2026 at ₹627</span></h2>
+  <p><strong>The 13 Oct call was "keep holding, don't add before 15 Oct". The print then cleared all three add conditions.</strong> On 13 Oct, expected upside of 20–25% against about 20% downside looked fair rather than compelling. The capital raise changes that balance in two ways. It lifts the bear-case book value per share by about 13%, which raises the floor under the price. It also lowers the upside multiple for the next year, because ROE dips while the money is lent out.</p>
+
+  <h3>1 · Q2 FY27: preview vs actual <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· results 15 Oct 2026</span></h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Metric</th><th>Q1 FY27</th><th>13 Oct bar (good / warning)</th><th>Q2 FY27 actual</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><th>PAT (pre-minority)</th><td>₹713 cr</td><td>≥ ₹720 cr / &lt; ₹650 cr</td><td>₹805 cr (+13% QoQ, +93% YoY)</td><td class="up">Beat</td></tr>
+      <tr><th>Gold-loan AUM</th><td>₹58,406 cr</td><td>+6–10% QoQ with tonnage up</td><td>₹65,729 cr, +12.5% QoQ; tonnage 64 → 69.3 MT (+8%)</td><td class="up">Beat</td></tr>
+      <tr><th>Gold LTV</th><td>70%</td><td>≤ 72%</td><td>70%</td><td class="up">Met</td></tr>
+      <tr><th>GNPA (consolidated)</th><td>1.55%</td><td>Back under 1.5% / &gt; 1.7%</td><td>1.48%. Gold GNPA up 0.61% → 0.90%; NNPA 0.82% → 0.87%</td><td class="up">Met, barely</td></tr>
+      <tr><th>Credit cost</th><td>₹294 cr</td><td>Held or lower / &gt; 1.8%</td><td>₹281 cr (−5% QoQ, −44% YoY); ≈0.94% of avg AUM ann.<sup>d</sup></td><td class="up">Met</td></tr>
+      <tr><th>Samasta (microfinance)</th><td>Growing 3–4% a quarter</td><td>Stable collections</td><td>AUM flat at ₹10,816 cr; GNPA 3.28% → 2.82%; PAT +13% QoQ</td><td class="up">Met</td></tr>
+      <tr><th>NII / margin</th><td>₹1,311 cr</td><td>Margin holds</td><td>₹1,481 cr (+13% QoQ); spread 7.42% flat; NII ÷ on-book loans ≈7.0% ann.<sup>d</sup></td><td class="up">Met</td></tr>
+      <tr><th>ROA / ROE (ann.)</th><td>3.1% / 19.5%</td><td>ROE ≥ 20%</td><td>3.2% / 20.8% (H1: 3.1% / 20.1%)</td><td class="up">Met</td></tr>
+      <tr class="total"><th>AUM (consolidated)</th><td>₹1,15,523 cr</td><td>Inside the guide</td><td>₹1,24,268 cr: +8% QoQ, +38% YoY, +14.9% in H1</td><td>Above the guide</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">The company does not publish a NIM. The figures disclosed are yield (16.50%), cost of borrowing (9.08%) and spread (7.42%). The NII ratio above is <sup>d</sup>derived on Sep-26 on-book loan assets of ₹84,173 cr. Credit cost is <sup>d</sup>derived on average consolidated AUM including off-book loans, so it is not like-for-like with the 1.5–1.7% guide, whose base is not stated. On on-book loans it would be about 1.3%<sup>d</sup>, still inside the guide. Liquidity is ₹13,805 cr. Fitch upgraded IIFL to BB- (stable), and Crisil reaffirmed AA/Stable on 6 Nov.</div>
+
+  <h3>2 · Asset quality and the gold book</h3>
+  <ul>
+    <li><strong>Mix.</strong> Gold is 52.9% of AUM (₹65,729 cr), up from 51%. Home loans are 27.2%, MSME 9.6% and microfinance 7.6%. The secured share is 90%. Off-book loans (assignment plus co-lending) are ₹42,796 cr, about 34% of AUM, with 18 bank partners.</li>
+    <li><strong>The gold book is still clean, but less so.</strong> Gold GNPA rose from 0.61% to 0.90% after gold fell late in the quarter. Loans already in NPA carry LTV near 85%. Management expects losses to stay small because the collateral covers them. Non-gold quality improved: MSME GNPA fell from 3.67% to 3.03% and microfinance from 3.39% to 2.90%. Run-off of the discontinued unsecured book continued (₹2,507 cr to ₹2,008 cr).</li>
+    <li><strong>Rules are uniform.</strong> The RBI gold-loan directions have applied to all lenders since 1 Apr 2026, with LTV caps of 85%, 80% and 75% by ticket size. Management also flagged a draft consultation on insurance cross-selling norms as an industry fee-income risk.</li>
+    <li><strong>Track record.</strong> The RBI stopped new gold loans from March to September 2024. A Blackstone nominee board and reserved-matter rights add outside oversight. That is a modest but real offset to the regulatory tail.</li>
+  </ul>
+
+  <h3>3 · Valuation against peers <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Screener / Yahoo, 9–10 Nov 2026</span></h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Lender</th><th>TTM P/E</th><th>P/BV</th><th>RoE</th></tr></thead>
+    <tbody>
+      <tr class="total"><th>IIFL Finance</th><td>10.7x <small>(9.1x FY27E pre-deal)</small></td><td>1.73x<sup>d</sup> · 1.53x pro forma<sup>d</sup></td><td>12.6% FY26 · 20.1% H1 ann.</td></tr>
+      <tr><th>Muthoot Finance</th><td>9.6x</td><td>2.67x<sup>d</sup></td><td>30.9%</td></tr>
+      <tr><th>Manappuram Finance</th><td>21.0x</td><td>1.89x<sup>d</sup></td><td>7.0%</td></tr>
+      <tr><th>Shriram Finance</th><td>17.9x</td><td>2.04x<sup>d</sup></td><td>16.4%</td></tr>
+      <tr><th>Cholamandalam Finance</th><td>23.6x</td><td>4.45x<sup>d</sup></td><td>19.4%</td></tr>
+      <tr><th>Bajaj Finance</th><td>29.3x</td><td>5.25x<sup>d</sup></td><td>18.2%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">IIFL, Muthoot, Manappuram and Shriram are re-fetched from Screener on 10 Nov. Chola and Bajaj Finance are carried from the 13 Oct note. Blackstone's entry price of 1.66x book is below every peer here except IIFL's own trading multiple. It is a financial investor's price, not a strategic premium.</div>
+
+  <h3>4 · Hold, add or exit <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· re-based on pro-forma book</span></h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scenario</th><th>What happens</th><th>P/BV <small>(pro-forma BV ₹410)</small></th><th>Price</th><th>vs ₹627</th></tr></thead>
+    <tbody>
+      <tr><th>Bull</th><td>New capital lent out by FY28; ROE back to 20%; rating upgrade cuts funding cost</td><td>2.0x</td><td>~₹820</td><td class="up">+31%</td></tr>
+      <tr><th>Base</th><td>On track for the 18–20% medium-term ROE; gold steady</td><td>1.75–1.9x</td><td>₹715–780</td><td class="up">+14% to +24%</td></tr>
+      <tr><th>Bear</th><td>Gold falls; gold GNPA 2–3%; capital sits idle and ROE stuck at 14–15%</td><td>1.3x</td><td>~₹530</td><td class="dn">−15%</td></tr>
+      <tr><th>Tail</th><td>Another RBI action on gold loans, or the deal is blocked</td><td>~1.0x on pre-deal BV ₹362</td><td>~₹360–400</td><td class="dn">−38%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Prices are <sup>d</sup>derived. The bear case is milder than on 13 Oct (−15% against −20%) because pro-forma book is 13% higher and leverage is lower. The bull multiple is lower (2.0x against 2.3x) because ROE dips first. The base range brackets the ₹754 consensus. The tail is priced on pre-deal book, assuming the issue does not complete.</div>
+  <div class="callout">
+    <p><strong>Add</strong> on weakness toward the ₹602 issue price after trading reopens. That buys at Blackstone's entry multiple with the Q2 conditions already met. Watch the EGM notice (objects, CCPS dividend rate, lock-ins, sequencing) and CCI timing.<br>
+    <strong>Trim or exit</strong> on any RBI or supervisory action on gold lending (exit, given 2024). Trim toward a starter position if gold GNPA exceeds 2% and credit cost runs above the 1.7% guide for two straight quarters. If the EGM vote or CCI blocks the deal, re-rate on the pre-deal capital constraint: Tier I is 12.5% at 53% gold.</p>
+  </div>
+
+  <!-- ── 3. BROKER ESTIMATES & FORWARD MULTIPLE ───────────────────── -->
+  <h2>Broker estimates</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Broker</th><th>Rating</th><th>Target</th><th>vs spot ₹627</th><th>Dated</th></tr></thead>
+    <tbody>
+      <tr><th>Motilal Oswal</th><td>Buy</td><td>₹760 <small>(from ₹700)</small></td><td class="up">+21.2%</td><td>15 Oct 26</td></tr>
+      <tr><th>Highest of 6</th><td>—</td><td>₹815 <small>(from ₹770)</small></td><td class="up">+30.0%</td><td>—</td></tr>
+      <tr><th>Median of 6</th><td>—</td><td>₹765 <small>(from ₹750)</small></td><td class="up">+22.0%</td><td>—</td></tr>
+      <tr><th>Lowest of 6</th><td>—</td><td>₹650 <small>(from ₹610)</small></td><td class="up">+3.7%</td><td>—</td></tr>
+      <tr class="total"><th>Consensus (n=6)</th><td>Buy</td><td>₹754 <small>(from ₹730)</small></td><td class="up">+20.3%</td><td>10 Nov 26</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Forward P/E (FY27E)</span><span class="v">9.1x<sup>d</sup> <small>pre-deal</small></span></div>
+    <div><span class="k">Forward P/E (FY28E)</span><span class="v">7.6x<sup>d</sup> <small>· 8.7x diluted<sup>d</sup></small></span></div>
+    <div><span class="k">Consensus EPS FY27E / FY28E</span><span class="v">₹68.7 / ₹82.3</span></div>
+  </div>
+  <div class="delta"><strong>Since the results:</strong> Motilal Oswal raised its target from ₹700 to ₹760 on 15 Oct ("Strong quarter driven by healthy growth and profitability"; NII +50% YoY). Trendlyne's consensus moved from ₹730 to ₹754: the low rose from ₹610 to ₹650 and the high from ₹770 to ₹815. FY27 EPS rose from ₹63.2 to ₹68.7 and FY28 from ₹80.0 to ₹82.3. The other five houses are not named on Trendlyne. No dated note from Jefferies, Emkay or others was found. <strong>Since the issue (10 Nov evening): no broker revisions yet.</strong> Expect EPS cuts for dilution, partly offset by higher book. The ₹754 meta target is pre-deal and likely to move.</div>
+
+  <!-- ── 5. FINANCIALS ────────────────────────────────────────────── -->
+  <h2>Financials</h2>
+  <h3>Annual · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>FY24</th><th>FY25</th><th>FY26</th><th>TTM Sep-26</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>10,472</td><td>10,233</td><td>13,366</td><td>15,286</td></tr>
+      <tr><th>Growth</th><td>+24.0%</td><td class="dn">−2.3%</td><td>+30.6%</td><td>+35%</td></tr>
+      <tr><th>Financing profit</th><td>2,734</td><td>1,478</td><td>2,612</td><td>3,723</td></tr>
+      <tr><th>Financing margin</th><td>26%</td><td>14%</td><td>20%</td><td>24%</td></tr>
+      <tr><th>PAT</th><td>1,974</td><td>578</td><td>1,817</td><td>2,643</td></tr>
+      <tr><th>Growth</th><td>+22.8%</td><td class="dn">−70.7%</td><td>+214%</td><td>—</td></tr>
+      <tr><th>Net worth</th><td>10,637</td><td>12,412</td><td>13,920</td><td>15,432 <small>(Sep 26)</small></td></tr>
+      <tr><th>Borrowings</th><td>47,136</td><td>51,068</td><td>69,176</td><td>84,360 <small>(Sep 26)</small></td></tr>
+      <tr class="total"><th>EPS (₹)</th><td>44.90</td><td>8.92</td><td>39.05</td><td>58.55</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">FY25 is the year of the RBI gold-loan embargo. TTM PAT of ₹2,643 cr is now 34% above the FY24 peak. Screener now shows FY24 EPS as ₹44.90; the 12 Oct note carried ₹41.60. Borrowings rose 22% in six months to fund growth. That is the leverage the issue resets.</div>
+
+  <h3>Quarterly · last 4 · consolidated, ₹ cr</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>₹ crore</th><th>Q3 FY26</th><th>Q4 FY26</th><th>Q1 FY27</th><th>Q2 FY27</th></tr></thead>
+    <tbody>
+      <tr><th>Revenue</th><td>3,427</td><td>3,692</td><td>3,919</td><td>4,246</td></tr>
+      <tr><th>YoY growth</th><td>+40.3%</td><td>+42.5%</td><td>+32.7%</td><td>+28.5%</td></tr>
+      <tr><th>Financing profit</th><td>710</td><td>889</td><td>989</td><td>1,135</td></tr>
+      <tr><th>Financing margin</th><td>21%</td><td>24%</td><td>25%</td><td>27%</td></tr>
+      <tr><th>PAT (pre-minority)</th><td>501</td><td>623</td><td>713</td><td>805</td></tr>
+      <tr><th>YoY growth</th><td>+511%</td><td>+148%</td><td>+160%</td><td>+93%</td></tr>
+      <tr><th>AUM</th><td>98,336</td><td>1,08,180</td><td>1,15,523</td><td>1,24,268</td></tr>
+      <tr><th>Gold share of AUM</th><td>44%</td><td>49%</td><td>51%</td><td>53%</td></tr>
+      <tr><th>Gross NPA</th><td>1.60%</td><td>1.46%</td><td>1.55%</td><td class="up">1.48%</td></tr>
+      <tr><th>Net NPA</th><td>0.75%</td><td>0.73%</td><td>0.82%</td><td class="dn">0.87%</td></tr>
+      <tr><th>ROA (ann.)</th><td>2.5%</td><td>3.0%</td><td>3.1%</td><td>3.2%</td></tr>
+      <tr><th>ROE (ann.)</th><td style="color:var(--ink3)">n/a</td><td style="color:var(--ink3)">n/a</td><td>19.5%</td><td>20.8%</td></tr>
+      <tr class="total"><th>Net margin</th><td>14.6%</td><td>16.9%</td><td>18.2%</td><td>19.0%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Q2 FY27 is the first quarter compared against a post-embargo base (Q2 FY26 PAT ₹418 cr), so +93% YoY is a real comparison. Q2 GNPA and NNPA are from the company deck; Screener had not yet filled them. ROA is from the deck chart. ROE for Q3 and Q4 FY26 was not labelled in the sources opened. Minority interest takes about ₹38 cr a quarter: Q2 PAT after it was ₹766 cr.</div>
+
+  <!-- ── 6. MUTUAL FUND HOLDINGS ──────────────────────────────────── -->
+  <h2>Mutual fund holdings <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· Sep 2026 disclosure</span></h2>
+  <div class="callout">
+    <p><strong>81 schemes</strong>, index funds and SIFs included, hold 1.56 cr shares worth <strong>₹980 cr</strong><sup>d</sup> at ₹627, 3.66% of equity. In September 27 schemes bought and 37 sold, for a net <strong>+11.6 lakh shares</strong>, reversing August's −17 lakh. Abakkus Flexi Cap (+4 lakh) and Abakkus Small Cap (+2.5 lakh) led the buying, and six schemes opened new positions, including ITI Mid Cap, Axis ESG and Bandhan Financial Services. Mahindra Manulife Large &amp; Mid Cap cut 2.2 lakh, and the index funds trimmed slightly. The October disclosure was not yet published at fetch.</p>
+  </div>
+  <h3>Top 5 holders by value held</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Scheme</th><th>Category</th><th>Shares</th><th>Value held<br>₹ cr<sup>d</sup></th><th>% of scheme</th><th>Scheme AUM<br>₹ cr<sup>d</sup></th><th>Chg Sep</th></tr></thead>
+    <tbody>
+      <tr><th>HSBC Small Cap Fund Reg Gr</th><td>Small Cap</td><td>30,46,147</td><td>191</td><td>0.99%</td><td>19,292</td><td>unch</td></tr>
+      <tr><th>Abakkus Flexi Cap Reg Gr</th><td>Flexi Cap</td><td>24,00,000</td><td>150</td><td>1.84%</td><td>8,178</td><td class="up">+4,00,000</td></tr>
+      <tr><th>Franklin India Opportunities Reg Gr</th><td>Thematic</td><td>11,57,548</td><td>73</td><td>0.73%</td><td>9,942</td><td>unch</td></tr>
+      <tr><th>Abakkus Small Cap Reg Gr</th><td>Small Cap</td><td>9,50,000</td><td>60</td><td>1.76%</td><td>3,384</td><td class="up">+2,50,000</td></tr>
+      <tr><th>360 ONE Flexicap Reg Gr</th><td>Flexi Cap</td><td>8,01,570</td><td>50</td><td>2.14%</td><td>2,349</td><td>unch</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Value held is at ₹627. Scheme AUM is <sup>d</sup>derived as value ÷ weight. By conviction (weight in the scheme), the largest holders are DynaSIF Ex-Top 100 Long-Short at 3.08% (new), WhiteOak Banking &amp; Financial Services at 2.55%, ITI ELSS at 2.20%, DynaSIF Long-Short at 2.21% and 360 ONE Flexicap at 2.14%. <strong>Own holdings overlap: none found.</strong> Motilal Oswal Large &amp; Midcap is not a holder; the only Motilal Oswal holders are passive index funds and ETFs. Domestic institutions remain a thin layer: total DII was 7.85% at Sep-26. Blackstone's 15.6% will be about twice the holding of all domestic institutions combined.</div>
+  <details class="fundlist">
+    <summary>Show all 81 schemes holding this stock, plus 4 exits (Sep 2026)</summary>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Scheme</th><th>Shares</th><th>% of scheme</th><th>Chg Sep 2026</th></tr></thead>
+      <tbody>
+        <tr><th>HSBC Small Cap Fund Reg Gr</th><td>30,46,147</td><td>0.99%</td><td>unch</td></tr>
+        <tr><th>Abakkus Flexi Cap Reg Gr</th><td>24,00,000</td><td>1.84%</td><td class="up">+4,00,000</td></tr>
+        <tr><th>Franklin India Opportunities Reg Gr</th><td>11,57,548</td><td>0.73%</td><td>unch</td></tr>
+        <tr><th>Abakkus Small Cap Reg Gr</th><td>9,50,000</td><td>1.76%</td><td class="up">+2,50,000</td></tr>
+        <tr><th>360 ONE Flexicap Reg Gr</th><td>8,01,570</td><td>2.14%</td><td>unch</td></tr>
+        <tr><th>HDFC Large &amp; Mid Cap Reg Gr</th><td>7,07,385</td><td>0.15%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Special Opps Reg Gr</th><td>6,32,546</td><td>1.94%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Flexi Cap Reg Gr</th><td>6,00,599</td><td>0.39%</td><td>unch</td></tr>
+        <tr><th>WhiteOak Capital Mid Cap Reg Gr</th><td>4,81,654</td><td>0.38%</td><td>unch</td></tr>
+        <tr><th>Nippon India Nifty Smallcap 250 I Reg Gr</th><td>3,60,868</td><td>0.63%</td><td class="dn">−9,819</td></tr>
+        <tr><th>WhiteOak Capital Multi Cap Reg Gr</th><td>3,38,770</td><td>0.47%</td><td>unch</td></tr>
+        <tr><th>HDFC Nifty Smallcap 250 ETF</th><td>2,83,174</td><td>0.63%</td><td class="dn">−260</td></tr>
+        <tr><th>WhiteOak Capital Bkg &amp; Fincl Svcs Reg Gr</th><td>2,65,042</td><td>2.55%</td><td>unch</td></tr>
+        <tr><th>Mahindra Manulife Lrg &amp; Md cap Reg Gr</th><td>2,47,563</td><td>0.54%</td><td class="dn">−2,20,000</td></tr>
+        <tr><th>ITI Mid Cap Reg Gr</th><td>2,43,514</td><td>1.01%</td><td class="up">new</td></tr>
+        <tr><th>Axis Nifty Smallcap 50 Index Reg Gr</th><td>2,13,254</td><td>1.65%</td><td class="dn">−7,665</td></tr>
+        <tr><th>Kotak Nifty Alpha 50 ETF</th><td>2,00,848</td><td>1.35%</td><td class="up">+91,728</td></tr>
+        <tr><th>SBI Nifty Smallcap 250 Index Reg Gr</th><td>1,83,316</td><td>0.63%</td><td class="dn">−5,072</td></tr>
+        <tr><th>DynaSIF Equity Ex-Top 100 L-S Reg Gr</th><td>1,76,191</td><td>3.08%</td><td class="up">new</td></tr>
+        <tr><th>Axis ESG Integration Strategy Reg Gr</th><td>1,70,631</td><td>1.03%</td><td class="up">new</td></tr>
+        <tr><th>ITI ELSS Tax Saver Reg Gr</th><td>1,62,764</td><td>2.20%</td><td>unch</td></tr>
+        <tr><th>ITI Large &amp; Mid Cap Reg Gr</th><td>1,61,416</td><td>1.40%</td><td class="dn">−16,614</td></tr>
+        <tr><th>Mahindra Manulife Value Reg Gr</th><td>1,50,000</td><td>0.89%</td><td>unch</td></tr>
+        <tr><th>DynaSIF Equity Long - Short Reg Gr</th><td>1,48,568</td><td>2.21%</td><td class="dn">−7,605</td></tr>
+        <tr><th>Bandhan Nifty Alpha 50 Index Reg Gr</th><td>1,33,924</td><td>1.35%</td><td class="up">+60,265</td></tr>
+        <tr><th>Motilal Oswal Nifty Smcp 250 Idx Reg Gr</th><td>1,30,033</td><td>0.63%</td><td class="dn">−6,531</td></tr>
+        <tr><th>ITI Banking and Fin Svcs Reg Gr</th><td>1,16,474</td><td>1.94%</td><td>unch</td></tr>
+        <tr><th>ITI Large Cap Reg Gr</th><td>1,10,955</td><td>1.89%</td><td>unch</td></tr>
+        <tr><th>Aditya BSL Nifty SmCp 50 Idx Reg Gr</th><td>1,00,002</td><td>1.65%</td><td class="dn">−3,397</td></tr>
+        <tr><th>Bandhan Financial Services Reg Gr</th><td>84,504</td><td>0.49%</td><td class="up">new</td></tr>
+        <tr><th>ICICI Pru Nifty SmCp 250 Idx Reg Gr</th><td>82,197</td><td>0.63%</td><td class="dn">−908</td></tr>
+        <tr><th>HDFC Nifty Smallcap 250 Index Reg Gr</th><td>78,830</td><td>0.63%</td><td class="dn">−2,848</td></tr>
+        <tr><th>Kotak Nifty Smallcap 50 Reg Gr</th><td>71,672</td><td>1.66%</td><td class="up">+945</td></tr>
+        <tr><th>ITI Value Reg Gr</th><td>70,407</td><td>1.22%</td><td>unch</td></tr>
+        <tr><th>ITI Balanced Advantage Reg Gr</th><td>67,149</td><td>1.26%</td><td>unch</td></tr>
+        <tr><th>Sundaram Fin Services Opp Reg Gr</th><td>54,645</td><td>0.20%</td><td class="up">new</td></tr>
+        <tr><th>JioBlackRock Nifty SmCp 250 Idx Dir Gr</th><td>41,135</td><td>0.63%</td><td class="dn">−1,507</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 Reg Gr</th><td>37,529</td><td>0.07%</td><td class="up">+449</td></tr>
+        <tr><th>WhiteOak Capital ELSS Tax Saver RegGr</th><td>33,441</td><td>0.42%</td><td>unch</td></tr>
+        <tr><th>Franklin India Multi-Factor Reg Gr</th><td>33,353</td><td>0.34%</td><td class="up">new</td></tr>
+        <tr><th>Edelweiss Nifty SmCp 250 Idx Reg Gr</th><td>29,044</td><td>0.63%</td><td class="dn">−955</td></tr>
+        <tr><th>WhiteOak Capital Agrsv Hyb Reg Gr</th><td>26,981</td><td>0.27%</td><td class="up">+8,656</td></tr>
+        <tr><th>Motilal Oswal Nifty Smallcap 250 ETF</th><td>26,204</td><td>0.63%</td><td class="dn">−483</td></tr>
+        <tr><th>ITI Multi Asset Allocation Reg Gr</th><td>23,684</td><td>0.99%</td><td class="up">new</td></tr>
+        <tr><th>360 ONE Balanced Hybrid Reg Gr</th><td>20,381</td><td>0.18%</td><td>unch</td></tr>
+        <tr><th>Zerodha Nifty Smallcap 100 ETF</th><td>18,980</td><td>1.13%</td><td class="dn">−354</td></tr>
+        <tr><th>ITI Business Cycle Reg Gr</th><td>18,459</td><td>0.95%</td><td>unch</td></tr>
+        <tr><th>Nippon Ind Nifty 500 Eql Wtd Idx Rg Gr</th><td>14,941</td><td>0.20%</td><td class="dn">−4,478</td></tr>
+        <tr><th>Groww Nifty Smallcap 250 Idx Reg Gr</th><td>14,167</td><td>0.63%</td><td class="dn">−519</td></tr>
+        <tr><th>Kotak Nifty Alpha 50 Index Reg Gr</th><td>12,436</td><td>1.35%</td><td class="up">+6,614</td></tr>
+        <tr><th>Bandhan Nifty SmCp 250 Idx Reg Gr</th><td>11,097</td><td>0.63%</td><td class="up">+623</td></tr>
+        <tr><th>Kotak Nifty Smallcap 250 Idx Reg Gr</th><td>9,062</td><td>0.63%</td><td class="up">+101</td></tr>
+        <tr><th>SBI Nifty 500 Index Reg Gr</th><td>8,919</td><td>0.07%</td><td class="dn">−118</td></tr>
+        <tr><th>Sapphire Equity Long-Short SIF Reg Gr</th><td>8,876</td><td>0.25%</td><td class="up">new</td></tr>
+        <tr><th>Mirae Asset Nifty Smallcap 250 ETF</th><td>8,566</td><td>0.63%</td><td class="dn">−236</td></tr>
+        <tr><th>ICICI Prudential BSE 500 ETF</th><td>4,616</td><td>0.08%</td><td class="dn">−37</td></tr>
+        <tr><th>HDFC BSE 500 Index Reg Gr</th><td>4,145</td><td>0.08%</td><td class="dn">−4</td></tr>
+        <tr><th>Groww Nifty Total Market Idx Reg Gr</th><td>4,128</td><td>0.07%</td><td class="dn">−13</td></tr>
+        <tr><th>Axis Nifty 500 Index Reg Gr</th><td>3,817</td><td>0.07%</td><td class="up">+82</td></tr>
+        <tr><th>Motilal Oswal Nifty 500 ETF</th><td>3,632</td><td>0.07%</td><td class="up">+171</td></tr>
+        <tr><th>HDFC BSE 500 ETF</th><td>2,580</td><td>0.08%</td><td class="up">+630</td></tr>
+        <tr><th>Mirae Asset Nifty500 Mltcp 50:25:25 ETF</th><td>2,316</td><td>0.16%</td><td class="dn">−34</td></tr>
+        <tr><th>JioBlackRock Sector Rotation Dir Gr</th><td>1,865</td><td>0.07%</td><td>unch</td></tr>
+        <tr><th>DSP Nifty SmallCap 250 Index Reg Gr</th><td>1,817</td><td>0.62%</td><td class="dn">−25</td></tr>
+        <tr><th>Groww Nifty Smallcap 250 ETF</th><td>1,771</td><td>0.63%</td><td class="dn">−70</td></tr>
+        <tr><th>ICICI Prudential Nifty 500 Idx Reg Gr</th><td>1,242</td><td>0.07%</td><td class="up">+29</td></tr>
+        <tr><th>UTI Nifty 500 Index Reg Gr</th><td>1,234</td><td>0.07%</td><td class="dn">−39</td></tr>
+        <tr><th>Zerodha Nifty MidSmCp400 50:50 Idx DirGr</th><td>1,003</td><td>0.32%</td><td class="up">+80</td></tr>
+        <tr><th>ICICI Prudential Nifty Smallcap 250 ETF</th><td>986</td><td>0.63%</td><td class="up">new</td></tr>
+        <tr><th>SBI Nifty Smallcap 250 ETF</th><td>887</td><td>0.63%</td><td class="up">+2</td></tr>
+        <tr><th>DSP Nifty Smallcap 250 ETF</th><td>862</td><td>0.63%</td><td class="dn">−22</td></tr>
+        <tr><th>Motilal Oswal Nifty Alpha 50 ETF</th><td>759</td><td>1.35%</td><td class="up">+338</td></tr>
+        <tr><th>Motilal Oswal BSE 1000 Index Reg Gr</th><td>739</td><td>0.07%</td><td class="dn">−5</td></tr>
+        <tr><th>Navi Nifty 500 Multicap 50 25 25IdxRegGr</th><td>735</td><td>0.16%</td><td class="dn">−2</td></tr>
+        <tr><th>Angel One Nifty Total Market Idx Reg Gr</th><td>688</td><td>0.07%</td><td class="dn">−5</td></tr>
+        <tr><th>Mirae Asset Nifty Total Mkt Idx Reg Gr</th><td>567</td><td>0.07%</td><td class="dn">−4</td></tr>
+        <tr><th>Bandhan Nifty Total Market Index Reg Gr</th><td>491</td><td>0.07%</td><td class="dn">−11</td></tr>
+        <tr><th>Angel One Nifty Total Market ETF</th><td>480</td><td>0.07%</td><td class="dn">−5</td></tr>
+        <tr><th>Navi Nifty MidSmallcap 400 Index Reg Gr</th><td>458</td><td>0.22%</td><td class="dn">−22</td></tr>
+        <tr><th>DSP Nifty 500 Index Reg Gr</th><td>201</td><td>0.07%</td><td class="up">+13</td></tr>
+        <tr><th>UTI Nifty 500 Exchange Traded Fund</th><td>83</td><td>0.07%</td><td class="dn">−22</td></tr>
+        <tr><th>Franklin India Small Cap Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+        <tr><th>Mahindra Manulife Bal Advtg Reg Gr</th><td>exited</td><td>—</td><td class="dn">−75,675</td></tr>
+        <tr><th>Bandhan Business Cycle Reg Gr</th><td>exited</td><td>—</td><td class="dn">−8</td></tr>
+        <tr><th>Bandhan Balanced Advantage Reg Gr</th><td>exited</td><td>—</td><td>unch</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- ── 7. LATEST NEWS ───────────────────────────────────────────── -->
+  <h2>Latest news <span style="font-weight:400;color:var(--ink3);font-size:.85rem">· last 3 months</span></h2>
+  <ul class="news">
+    <li><span class="date">10 Nov 26</span><span><strong>Board approves the ₹6,414.2 cr preferential issue:</strong> Blackstone ₹5,000 cr and Anchorage ₹150 cr in CCPS, promoters ₹1,264 cr in warrants, all at ₹602. EGM on 4 Dec. R. Venkataraman moves from Joint MD to non-executive director. See the section above.</span></li>
+    <li><span class="date">6 Nov 26</span><span><strong>Crisil reaffirms AA/Stable and A1+</strong> and enhances bank lines to ₹15,000 cr. Its Sep-26 figures: standalone CAR 17.0% (Tier I 12.5%), gearing 6.0x; consolidated adjusted gearing 6.4x.</span></li>
+    <li><span class="date">5 Nov 26</span><span><strong>Board meeting intimated</strong> for 10 Nov. The stock rose 8.2% over 5–6 Nov, in line with the sector.</span></li>
+    <li><span class="date">21–27 Oct 26</span><span><strong>Sector sell-off.</strong> IIFL fell 14% from ₹612.5 to ₹527.6, alongside Muthoot (−8%) and Manappuram (−11%). No company-specific cause was found.</span></li>
+    <li><span class="date">15 Oct 26</span><span><strong>Q2 FY27: PAT ₹805 cr (+93% YoY), AUM ₹1,24,268 cr (+38%), GNPA 1.48%, ROE 20.8%.</strong> Gold AUM +90% YoY. Fitch upgraded the rating to BB- (stable). On the call Jain said dilution would be "10–20%" and that he hoped to close the raise "this quarter". Motilal Oswal raised its target to ₹760.</span></li>
+    <li><span class="date">Q2 FY27</span><span>$300 mn social-bond tap (about 2.3x subscribed), taking H1 offshore bond issuance to $800 mn. India's first non-PSU NBFC tokenised bond (₹25 cr).</span></li>
+    <li><span class="date">11 Sep 26</span><span><strong>The head of legal and the LAP business head resign on the same day.</strong> Neither is a control function. Nothing further has been disclosed.</span></li>
+    <li><span class="date">20–25 Aug 26</span><span>Crisil reaffirms; Infomerics assigns and reaffirms.</span></li>
+  </ul>
+
+  <!-- ── 8. CORPORATE GOVERNANCE ──────────────────────────────────── -->
+  <h2>Corporate governance</h2>
+  <h3>Shareholding · last 5 quarters</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>%</th><th>Sep 25</th><th>Dec 25</th><th>Mar 26</th><th>Jun 26</th><th>Sep 26</th></tr></thead>
+    <tbody>
+      <tr><th>Promoter</th><td>24.86</td><td>24.85</td><td>24.84</td><td>24.84</td><td>24.76</td></tr>
+      <tr><th>FII</th><td>26.77</td><td>27.77</td><td>28.16</td><td>23.86</td><td class="up">25.63</td></tr>
+      <tr><th>DII</th><td>9.13</td><td>9.16</td><td>7.09</td><td>7.50</td><td>7.85</td></tr>
+      <tr><th>Public / other</th><td>39.23</td><td>38.20</td><td>39.92</td><td>43.80</td><td>41.75</td></tr>
+      <tr><th>&nbsp;&nbsp;of which FIH Mauritius (Fairfax)</th><td colspan="4" style="color:var(--ink3);text-align:center">≈15.2% at Mar-25 (Trendlyne); later quarters not opened</td><td>13.64</td></tr>
+      <tr><th>Shareholders (no.)</th><td>1,42,808</td><td>1,34,274</td><td>1,24,543</td><td>1,27,688</td><td>1,22,889</td></tr>
+      <tr class="total"><th>Promoter pledge</th><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta">FIIs recovered 1.77 points in September after June's 4.3-point cut, which meets the "stabilising FII line" condition. Promoter shares were unchanged at 10.57 cr. The slip from 24.84% to 24.76% is dilution from ESOP allotments, not selling. Fairfax's FIH Mauritius sits within "public" as a foreign company, at 13.64%; a 1.49% block sale has also been reported (date unconfirmed). Pledge is nil in every quarter (Trendlyne), which closes the gap the 12 Oct note left open.</p>
+  <div class="kd" style="grid-template-columns:repeat(3,1fr)">
+    <div><span class="k">Shares outstanding</span><span class="v">42.68 cr <small>→ 53.34 cr diluted</small></span></div>
+    <div><span class="k">Promoter stake</span><span class="v">24.76% <small>→ 23.75%<sup>d</sup></small></span></div>
+    <div><span class="k">Largest outside holders</span><span class="v">Blackstone 15.6% · Fairfax 10.9%<sup>d</sup></span></div>
+  </div>
+  <h3>Promoter &amp; management</h3>
+  <div class="people">
+    <div class="person"><div class="rl">Promoter · Founder &amp; MD</div><div class="nm">Nirmal Jain</div>
+      Founder of the IIFL group, which was later split into IIFL Finance, IIFL Capital and 360 ONE. He led the company through the 2024 RBI embargo. He is putting ₹903 cr of his own money into warrants at ₹602 (₹226 cr upfront), taking his stake to 12.83% fully diluted. That is the strongest insider signal since the embargo.</div>
+    <div class="person"><div class="rl">Co-promoter · Joint MD → Non-Executive Director (proposed)</div><div class="nm">R. Venkataraman</div>
+      Co-founder. He is subscribing ₹271 cr of warrants (to 3.15%), and the EGM will move him to a non-executive role. Succession for his executive responsibilities has not been disclosed.</div>
+    <div class="person"><div class="rl">Incoming · Board nominees</div><div class="nm">Blackstone (2 seats)</div>
+      Two board nominees while Blackstone holds about 10% or more, plus seats on the IIFL Home Finance and Samasta boards, and reserved-matter consent rights. Blackstone's India PE head is Mukesh Mehta.</div>
+  </div>
+  <ul>
+    <li><strong>Regulatory record.</strong> The RBI barred new gold loans in March 2024 over assaying, LTV, cash-disbursal and auction lapses, and lifted the bar on 19 September 2024 after a special audit.</li>
+    <li><strong>Fairfax.</strong> It has sold steadily, from 20.9% in 2023 to about 15.2% and then 13.64%, while increasing its stake in sister company IIFL Capital to a majority. It is not part of this deal. Its stake at 10.9% after the issue is a potential future block sale (an overhang), not a seller into this issue.</li>
+  </ul>
+
+  <!-- ── 9. BUSINESS SUMMARY ──────────────────────────────────────── -->
+  <h2>Business</h2>
+  <h3>Nature of business</h3>
+  <p>A diversified retail NBFC with ₹1,24,268 cr of AUM across 5,091 branches. The mix is gold loans 53% (₹65,729 cr, 69.3 tonnes, average ticket ₹1.2 lakh), home loans 27% (IIFL Home Finance, CRAR 39%), secured MSME 9.6%, microfinance 7.6% (IIFL Samasta) and a ₹2,008 cr unsecured book in run-off. The gold business sits in the standalone parent, whose 17% CRAR and 12.5% Tier I were the binding constraint, which is why the new equity goes there. About 34% of AUM is off balance sheet. Funding includes $800 mn of offshore bonds raised in H1.</p>
+  <h3>Peers</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Company</th><th>Mkt cap</th><th>TTM P/E</th><th>P/BV</th><th>RoE</th></tr></thead>
+    <tbody>
+      <tr><th>IIFL Finance</th><td>₹26,761 cr<sup>d</sup></td><td>10.7x</td><td>1.73x<sup>d</sup></td><td>12.6% <small>(FY26; 20.1% H1 ann.)</small></td></tr>
+      <tr><th>Muthoot Finance</th><td>₹1,17,132 cr</td><td>9.6x</td><td>2.67x<sup>d</sup></td><td>30.9%</td></tr>
+      <tr><th>Manappuram Finance</th><td>₹30,411 cr</td><td>21.0x</td><td>1.89x<sup>d</sup></td><td>7.0%</td></tr>
+      <tr><th>Shriram Finance</th><td>₹2,27,073 cr</td><td>17.9x</td><td>2.04x<sup>d</sup></td><td>16.4%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="delta">Muthoot, the pure gold lender, earns 31% ROE at 2.7x book. IIFL is still priced below Manappuram on book while earning nearly three times its ROE. After the issue, IIFL's market value at ₹627 rises to about ₹33,400 cr<sup>d</sup> fully diluted, above Manappuram.</div>
+  <h3>Moat</h3>
+  <p>Narrow. The gold-loan branch network, appraisal and vaulting take years and regulatory trust to build, which is a real barrier. Muthoot and Manappuram are larger in gold, though, and banks compete hard for secured gold credit. The other lines are commoditised retail lending. The edge is execution and cost of funds. The Blackstone capital and a possible rating upgrade bear directly on cost of funds, the one lever IIFL had least of.</p>
+  <p class="delta">Confirmed order book: not applicable to a lender. The forward-visibility equivalents are AUM guidance (~25% FY27) and ₹13,805 cr of liquidity.</p>
+
+  <!-- ── 10. RISKS ─────────────────────────────────────────────────── -->
+  <h2>Risks</h2>
+  <div class="callout warn"><strong>A regulatory repeat on gold loans still breaks the thesis.</strong> Gold is now 53% of AUM (₹65,700 cr). A second RBI action would hit most of the earnings, and the stock would de-rate below book, deal or no deal.</div>
+  <ul>
+    <li><strong>Gold-book stress is building.</strong> Gold GNPA rose 29 bps to 0.90%. About 7% of the gold book is 1–30 days past due (per an analyst on the call), and loans in NPA carry LTV near 85%. A 10% gold fall could take gold NPAs to 1–3% (management's own range).</li>
+    <li><strong>Dilution before deployment.</strong> EPS falls 12–20% and ROE drops to about 14–16%<sup>d</sup> until the ₹6,414 cr is lent out. The consensus has not yet adjusted.</li>
+    <li><strong>Deal execution.</strong> The deal needs a special resolution, CCI approval and exchange approvals. The CCPS dividend terms and lock-ins are undisclosed. The SAST sequencing of warrants versus CCPS is unaddressed. The promoter warrants (₹948 cr) are optional: 75% of that money arrives only if the promoters exercise.</li>
+    <li><strong>Overhangs.</strong> Fairfax's remaining 10.9%, and Blackstone's own exit in 4–6 years, are future supply.</li>
+    <li><strong>Growth above guidance.</strong> AUM grew 14.9% in H1 alone, with gold +90% YoY on a high gold price. Growth at this speed is how 2024 started.</li>
+  </ul>
+
+  <!-- ── 11. RATING TRIGGERS ──────────────────────────────────────── -->
+  <h2>What would change the rating</h2>
+  <h3>The 12 Oct triggers, tested</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Trigger (12 Oct)</th><th style="text-align:left">Test</th><th>Outcome</th></tr></thead>
+    <tbody>
+      <tr><th>Add more aggressively: GNPA &lt; 1.5%</th><td style="text-align:left">1.48% in Q2</td><td class="up">Met</td></tr>
+      <tr><th>… quarterly ROE ≥ 20%</th><td style="text-align:left">20.8% annualised in Q2</td><td class="up">Met</td></tr>
+      <tr><th>… AUM growth inside the 16–20% guide</th><td style="text-align:left">+38% YoY, +14.9% in H1. The guide is actually ~25% (deck). Growth is above the range, not below it</td><td>Exceeded</td></tr>
+      <tr><th>… stabilising FII line (Sep shareholding)</th><td style="text-align:left">23.86% → 25.63%</td><td class="up">Met</td></tr>
+      <tr><th>Downgrade to Hold: GNPA &gt; 2%</th><td style="text-align:left">1.48%</td><td>Not triggered</td></tr>
+      <tr><th>… annualised ROE &lt; 15%</th><td style="text-align:left">20.8% reported. Pro forma post-issue 13.9–15.4%<sup>d</sup>, which is mechanical dilution, not lost earnings power. The trigger was written for an earnings shortfall</td><td>Not triggered (re-based below)</td></tr>
+      <tr><th>… price reaches ₹730 without upgrades</th><td style="text-align:left">₹627, and EPS was upgraded (₹63.2 → ₹68.7)</td><td>Not triggered</td></tr>
+      <tr><th>Downgrade to Sell: RBI action / credit cost ≫ 1.7%</th><td style="text-align:left">None; credit cost fell</td><td>Not triggered</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="delta"><strong>Outcome: Buy maintained.</strong> The upgrade-side trigger fired on 15 Oct. No downgrade trigger fired. The ROE trigger is re-based below so that dilution alone cannot set it off.</p>
+  <h3>Triggers from here</h3>
+  <ul>
+    <li><strong>Add more aggressively:</strong> the EGM passes on 4 Dec and CCI clears, with no adverse CCPS terms. The stock trades at or below ₹602 (Blackstone's 1.66x entry). Gold GNPA holds under 1.2% in Q3 FY27.</li>
+    <li><strong>Downgrade to Hold:</strong> gold GNPA above 2%, or consolidated GNPA above 2%. ROA below 2.5% annualised: ROA is unaffected by the new equity, so it replaces the old ROE-below-15% test until the money is lent out, and ROE below 15% applies again from Q2 FY28. The deal is voted down or blocked. Or the price reaches the consensus target (₹754 today) with no upgrades after the deal.</li>
+    <li><strong>Downgrade to Sell:</strong> any fresh RBI supervisory action on the gold-loan book, or credit cost well beyond the guided 1.7%.</li>
+  </ul>
+
+  <!-- ── 12. SOURCES ──────────────────────────────────────────────── -->
+  <h2>Sources</h2>
+  <ul>
+    <li><strong>Preferential issue (primary):</strong> BSE filings of 10 Nov 2026: board-meeting outcome with Annexures I–III (allottees, instruments, prices, pre/post holdings, special rights, conversion terms, control statement) and the press release "IIFL Finance to Raise ₹6,414 Crores … Led by Blackstone and the Promoters". Both were fetched from bseindia.com AttachLive.</li>
+    <li><strong>Q2 FY27 (primary):</strong> results press release and investor presentation, 15 Oct 2026 (AUM, mix, yields, asset quality, CRAR, ROA/ROE, FY27 and FY28–30 targets). Earnings-call transcript, 15 Oct (filed 22 Oct).</li>
+    <li>Crisil rating rationale, 6 Nov 2026 (standalone CAR and Tier I, gearing).</li>
+    <li>Screener.in (consolidated): quarterly and annual results, balance sheet to Sep-26, shareholding to Sep-26, key data and peer key data (Muthoot, Manappuram, Shriram), fetched 10 Nov 2026. Chola and Bajaj Finance are carried from the 13 Oct note.</li>
+    <li>Trendlyne: consensus estimates (6 analysts, ₹754; EPS FY27/FY28), the research-report list (Motilal Oswal ₹760, 15 Oct), and the Sep-26 shareholding pattern with named holders (FIH Mauritius 13.64%, pledge), fetched 10 Nov 2026.</li>
+    <li>Trendlyne monthly mutual-fund disclosure, <strong>Sep 2026</strong> (81 schemes), via tools/mf-holdings.py. Oct-2026 not yet published.</li>
+    <li>Yahoo Finance chart API (IIFL.NS, MUTHOOTFIN.NS, MANAPPURAM.NS, ^NSEI): daily prices to 9 Nov 2026, the VWAP approximations for the floor price, and six-month liquidity.</li>
+    <li>Web search: NSE holiday list (10 Nov 2026 Diwali Balipratipada); Fairfax/FIH stake history; Motilal Oswal Q2 note coverage.</li>
+    <li><strong>Carried from the 13 Oct deep dive:</strong> RBI gold-loan directions (Crisil, Business Standard); the 2024 RBI order and its lifting.</li>
+  </ul>
+
+  <div class="foot">Generated 10 Nov 2026 (refresh of the 12 Oct 2026 note and 13 Oct deep dive; Buy maintained) · Price basis ₹627.00 (NSE close 9 Nov 2026, Yahoo IIFL.NS; 10 Nov exchange holiday) · Consensus target ₹754 (Trendlyne, 6 analysts, pre-deal) · ⚠ verify: market reaction to the issue (first session 11 Nov); SEBI floor figure not disclosed (VWAPs derived); CCPS dividend rate, lock-ins and the RBI approval need are not in the filing; SAST sequencing of warrants vs CCPS unaddressed; five of six brokers not named; ROE for Q3/Q4 FY26 not sourced; pro-forma, market-cap, P/BV and P/E figures derived <sup>d</sup>. Not investment advice.</div>
+</div>
+</body>
+</html>
